@@ -8,3 +8,7 @@ Homestead.json
 .phpintel
 *.sublime-*
 _ide_helper.php
+config/log-viewer.php
+config/ide-helper.php
+resources/lang/vendor/log-viewer
+resources/views/vendor/log-viewer
