@@ -7,3 +7,4 @@ Homestead.json
 .env.example
 .phpintel
 *.sublime-*
+_ide_helper.php
