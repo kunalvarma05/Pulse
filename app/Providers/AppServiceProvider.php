@@ -27,12 +27,14 @@ class AppServiceProvider extends ServiceProvider
             //Service Providers
             $this->app->register('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider');
             $this->app->register('Laracasts\Generators\GeneratorsServiceProvider');
+            $this->app->register('GrahamCampbell\Dropbox\DropboxServiceProvider');
             $this->app->register('Arcanedev\LogViewer\LogViewerServiceProvider');
             $this->app->register('Barryvdh\Debugbar\ServiceProvider');
 
             //Aliases
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
             $loader->alias('Debugbar', "Barryvdh\Debugbar\Facade");
+            $loader->alias('Dropbox', 'GrahamCampbell\Dropbox\Facades\Dropbox');
         }
     }
 }
