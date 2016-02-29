@@ -11,6 +11,7 @@
 */
 
 Route::group(['middleware' => ['web']], function () {
+    Route::get('api', array('uses' => "HomeController@api"));
     Route::get('connect', array('uses' => "HomeController@connect"));
     Route::get('auth/callback/dropbox', array('uses' => "HomeController@auth"));
 });
