@@ -12,10 +12,13 @@ use \App\Utils\DropboxSessionStore;
 use \App\Http\Controllers\Controller;
 use \GrahamCampbell\Dropbox\DropboxFactory;
 
-class HomeController extends Controller
+class DropboxController extends Controller
 {
 
     public function connect(){
+        if(\Cache::has('dbx-access-token')){
+            return redirect('api/dropbox');
+        }
         $user = (!\Auth::check()) ? \Auth::login(\App\User::first()) : \Auth::user();
         Session::forget('Dropbox-oauth-key');
         $sessionStore = new DropboxSessionStore(\App::make('Illuminate\Session\Store'), "Dropbox-oauth-key");
@@ -35,7 +38,6 @@ class HomeController extends Controller
         $webAuth = new \Dropbox\WebAuth($appInfo, "pulseapp", url("/auth/callback/dropbox", [], true), $sessionStore, "en");
         $authorizeUrl = urldecode($webAuth->start());
         return redirect($authorizeUrl);
-        //return view('welcome');
     }
 
     public function auth(Request $request){
@@ -68,15 +70,18 @@ class HomeController extends Controller
 
         \Cache::put('dbx-access-token', $accessToken, 1000);
 
-        return \Redirect::to('api');
+        return \Redirect::to('api/dropbox');
 
     }
 
     public function api(Request $request){
+        if(!\Cache::has('dbx-access-token')){
+            return redirect('connect/dropbox');
+        }
         $accessToken = \Cache::get('dbx-access-token');
         $factory = \App::make('GrahamCampbell\Dropbox\DropboxFactory');
         $client = $factory->make(['token' => $accessToken, 'app' => config('dropbox.connections.main.app')]);
-        var_dump($client->getMetadataWithChildren('/MetaQuiz'));
+        var_dump($client->getMetadataWithChildren('/'));
     }
 
 }
