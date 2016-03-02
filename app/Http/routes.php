@@ -11,7 +11,13 @@
 */
 
 Route::group(['middleware' => ['web']], function () {
-    Route::get('api', array('uses' => "HomeController@api"));
-    Route::get('connect', array('uses' => "HomeController@connect"));
-    Route::get('auth/callback/dropbox', array('uses' => "HomeController@auth"));
+    //Entry Point
+    Route::get('api/dropbox', array('uses' => "DropboxController@api"));
+    Route::get('connect/dropbox', array('uses' => "DropboxController@connect"));
+    Route::get('auth/callback/dropbox', array('uses' => "DropboxController@auth"));
+
+    //Entry Point
+    Route::get('api/drive', array('uses' => "DriveController@api"));
+    Route::get('connect/drive', array('uses' => "DriveController@connect"));
+    Route::get('auth/callback/drive', array('uses' => "DriveController@auth"));
 });
