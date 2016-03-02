@@ -1,14 +1,13 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "kunalvarma05/pulse",
+    "description": "Multiple Clouds. One Platform.",
+    "keywords": ["cloud", "manager"],
     "license": "MIT",
     "type": "project",
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "guzzlehttp/guzzle": "~5.3|~6.0",
-        "graham-campbell/dropbox": "^3.2",
         "predis/predis": "^1.0"
     },
     "require-dev": {
