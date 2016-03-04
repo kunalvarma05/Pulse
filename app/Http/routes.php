@@ -20,4 +20,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('api/drive', array('uses' => "DriveController@api"));
     Route::get('connect/drive', array('uses' => "DriveController@connect"));
     Route::get('auth/callback/drive', array('uses' => "DriveController@auth"));
+
+    //Entry Point
+    Route::get('api/onedrive', array('uses' => "OneDriveController@api"));
+    Route::get('connect/onedrive', array('uses' => "OneDriveController@connect"));
+    Route::get('auth/callback/onedrive', array('uses' => "OneDriveController@auth"));
 });
