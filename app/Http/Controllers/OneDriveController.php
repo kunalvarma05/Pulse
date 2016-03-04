@@ -85,7 +85,7 @@ class OneDriveController extends Controller
             $user->setImageurl("https://apis.live.net/v5.0/{$user->getId()}/picture?type=large");
 
             // Use these details to create a new profile
-            dd($user);
+            dd($access_token, $user);
 
         } catch (Exception $e) {
             // Failed to get user details
