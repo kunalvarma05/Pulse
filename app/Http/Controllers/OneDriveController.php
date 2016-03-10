@@ -7,7 +7,10 @@ use \Session;
 use App\User;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client as Guzzle;
+use League\Flysystem\Filesystem;
 use Stevenmaguire\OAuth2\Client\Provider\Microsoft;
+use Kunnu\OneDrive\Client;
 
 class OneDriveController extends Controller
 {
@@ -15,6 +18,7 @@ class OneDriveController extends Controller
     private $user;
     private $client;
     private $provider;
+    private $guzzleClient;
 
     public function __construct(){
         if(!Auth::check()){
@@ -28,6 +32,8 @@ class OneDriveController extends Controller
             'clientSecret'      => env('MICROSOFT_CLIENT_SECRET'),
             'redirectUri'       => url('auth/callback/onedrive')
             ]);
+
+        $this->guzzleClient = new Guzzle;
     }
 
     public function connect(Request $request){
@@ -81,11 +87,14 @@ class OneDriveController extends Controller
         try {
 
             // Get the user's details
-            $user = $this->provider->getResourceOwner($access_token);
-            $user->setImageurl("https://apis.live.net/v5.0/{$user->getId()}/picture?type=large");
+            //$user = $this->provider->getResourceOwner($access_token);
+            //$user->setImageurl("https://apis.live.net/v5.0/{$user->getId()}/picture?type=large");
 
+            $oneDriveClient = new Client($access_token->getToken(), $this->guzzleClient);
+
+            $drives = $oneDriveClient->listChildren();
             // Use these details to create a new profile
-            dd($access_token, $user);
+            dd($access_token, $drives);
 
         } catch (Exception $e) {
             // Failed to get user details
