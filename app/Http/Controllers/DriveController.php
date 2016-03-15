@@ -24,14 +24,14 @@ class DriveController extends Controller
 
         $this->user = Auth::user();
 
-        $client_id = '169405978221-u0iq66r28ghsq2uvsihndd9hla83fc4m.apps.googleusercontent.com';
-        $client_secret = 'D29wNZSRX739S0ChizGC5ekg';
-        $redirect_uri = 'http://pulseapp.io/auth/callback/drive';
+        $client_id = config("drive.client_id");
+        $client_secret = config("drive.client_secret");
+        $callback_url = config("drive.callback_url");
 
         $this->client = new Google_Client();
         $this->client->setClientId($client_id);
         $this->client->setClientSecret($client_secret);
-        $this->client->setRedirectUri($redirect_uri);
+        $this->client->setRedirectUri($callback_url);
         $this->client->setAccessType('offline');
         $this->client->setScopes(Google_Service_Drive::DRIVE);
     }
