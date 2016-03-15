@@ -2,79 +2,110 @@
 
 namespace App\Http\Controllers;
 
+use Session;
+use Redirect;
 use \App\Http\Requests;
 use Illuminate\Http\Request;
+use \App\Utils\DropboxSessionStore;
 use \App\Http\Controllers\Controller;
+//Dropbox
+use \Dropbox\AppInfo;
+use \Dropbox\WebAuth;
+use \Dropbox\Exception;
+use \Dropbox\AppInfoLoadException;
+use \Dropbox\WebAuthException_Csrf;
+use \Dropbox\Client as DropboxClient;
+use \Dropbox\WebAuthException_BadState;
+use \Dropbox\WebAuthException_Provider;
+use \Dropbox\WebAuthException_BadRequest;
+use \Dropbox\WebAuthException_NotApproved;
 
 class DropboxController extends Controller
 {
 
+    private $user;
+    private $webAuth;
+    private $sessionStore;
+
+    public function __construct(){
+        //Auth User
+        $this->user = (!\Auth::check()) ? \Auth::login(\App\User::first()) : \Auth::user();
+        //Dropbox Session Store
+        $this->sessionStore = new DropboxSessionStore(\App::make('Illuminate\Session\Store'), "Dropbox-oauth-key");
+        //Web Auth
+        $this->webAuth = new WebAuth($this->getAppInfo(), "pulseapp", url("/auth/callback/dropbox", [], true), $this->sessionStore, "en");
+    }
+
     public function connect(){
-        if(\Cache::has('dbx-access-token')){
+        if(Session::has('dbx-access-token')){
             return redirect('api/dropbox');
         }
-        $user = (!\Auth::check()) ? \Auth::login(\App\User::first()) : \Auth::user();
-        Session::forget('Dropbox-oauth-key');
-        $sessionStore = new DropboxSessionStore(\App::make('Illuminate\Session\Store'), "Dropbox-oauth-key");
-        try {
-            $appInfo = \Dropbox\AppInfo::loadFromJson(
-                array(
-                    "key" => config("dropbox.connections.main.app"),
-                    "secret" => config("dropbox.connections.main.secret")
-                    )
-                );
-        }
-        catch (\Dropbox\AppInfoLoadException $ex) {
-            fwrite(STDERR, "Error loading <app-info-file>: ".$ex->getMessage()."\n");
-            die;
-        }
-
-        $webAuth = new \Dropbox\WebAuth($appInfo, "pulseapp", url("/auth/callback/dropbox", [], true), $sessionStore, "en");
-        $authorizeUrl = urldecode($webAuth->start());
-        return redirect($authorizeUrl);
+        return redirect(urldecode($this->webAuth->start()));
     }
 
     public function auth(Request $request){
-        $sessionStore = new DropboxSessionStore(\App::make('Illuminate\Session\Store'), "Dropbox-oauth-key");
-        Session::set('dbx-token', $sessionStore->get());
-
-        try {
-            $appInfo = \Dropbox\AppInfo::loadFromJson(
-                array(
-                    "key" => config("dropbox.connections.main.app"),
-                    "secret" => config("dropbox.connections.main.secret")
-                    )
-                );
-        }
-        catch (\Dropbox\AppInfoLoadException $ex) {
-            fwrite(STDERR, "Error loading <app-info-file>: ".$ex->getMessage()."\n");
-            die;
-        }
-
-        $webAuth = new \Dropbox\WebAuth($appInfo, "pulseapp", url("/auth/callback/dropbox"), $sessionStore, "en");
-
         $input = $request->all();
         $code = $input['code'];
         $state = $input['state'];
-        $authCode = array('state' => $state, 'code' => $code);
 
-        list($accessToken, $userId, $urlState) = $webAuth->finish($authCode);
+        $accessToken = $this->getAccessToken($code, $state);
 
-        var_dump([$accessToken, $userId, Session::get('dbx-token'), Session::all()]);
-
-        \Cache::put('dbx-access-token', $accessToken, 1000);
-
-        return \Redirect::to('api/dropbox');
+        Session::put('dbx-access-token', $accessToken, 1000);
+        return Redirect::to('api/dropbox');
 
     }
 
     public function api(Request $request){
-        if(!\Cache::has('dbx-access-token')){
+        if(!Session::has('dbx-access-token')){
             return redirect('connect/dropbox');
         }
-        $accessToken = \Cache::get('dbx-access-token');
-        $factory = \App::make('GrahamCampbell\Dropbox\DropboxFactory');
-        $client = $factory->make(['token' => $accessToken, 'app' => config('dropbox.connections.main.app')]);
+
+        $accessToken = \Session::get('dbx-access-token');
+        $client = new DropboxClient($accessToken, config('dropbox.app'));
         var_dump($client->getMetadataWithChildren('/'));
+    }
+
+    protected function getAppInfo(){
+        try {
+            $appInfo = AppInfo::loadFromJson(
+                array(
+                    "key" => config("dropbox.app"),
+                    "secret" => config("dropbox.secret")
+                    )
+                );
+
+            return $appInfo;
+        }
+        catch (AppInfoLoadException $ex) {
+            fwrite(STDERR, "Error loading <app-info-file>: ".$ex->getMessage()."\n");
+            die;
+        }
+    }
+
+    protected function getAccessToken($code, $state){
+        try{
+            $authCode = array('state' => $state, 'code' => $code);
+            list($accessToken, $userId, $urlState) = $this->webAuth->finish($authCode);
+            return $accessToken;
+        }
+        catch (WebAuthException_BadRequest $ex) {
+            abort(404, "Something went wrong!");
+        }
+        catch (WebAuthException_BadState $ex) {
+            // Auth session expired.  Restart the auth process.
+            redirect("connect/dropbox");
+        }
+        catch (WebAuthException_Csrf $ex) {
+            abort(403, "Invalid Request!");
+        }
+        catch (WebAuthException_NotApproved $ex) {
+            abort(200, "Ya, right. Thanks for not approving!");
+        }
+        catch (WebAuthException_Provider $ex) {
+            abort(500, $ex->getMessage());
+        }
+        catch (Exception $ex) {
+            abort(500, $ex->getMessage());
+        }
     }
 }
