@@ -28,9 +28,9 @@ class OneDriveController extends Controller
         $this->user = Auth::user();
 
         $this->provider = new Microsoft([
-            'clientId'          => env('MICROSOFT_CLIENT_ID'),
-            'clientSecret'      => env('MICROSOFT_CLIENT_SECRET'),
-            'redirectUri'       => url('auth/callback/onedrive')
+            'clientId'          => config('onedrive.client_id'),
+            'clientSecret'      => config('onedrive.client_secret'),
+            'redirectUri'       => config('onedrive.callback_url')
             ]);
 
         $this->guzzleClient = new Guzzle;
