@@ -33,7 +33,7 @@ class DropboxController extends Controller
         //Dropbox Session Store
         $this->sessionStore = new DropboxSessionStore(\App::make('Illuminate\Session\Store'), "Dropbox-oauth-key");
         //Web Auth
-        $this->webAuth = new WebAuth($this->getAppInfo(), "pulseapp", url("/auth/callback/dropbox", [], true), $this->sessionStore, "en");
+        $this->webAuth = new WebAuth($this->getAppInfo(), "pulseapp", config("dropbox.callback_url"), $this->sessionStore, "en");
     }
 
     public function connect(){
