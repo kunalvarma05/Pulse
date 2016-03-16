@@ -68,13 +68,8 @@ class DriveController extends Controller
 
         $optParams = array();
 
-        $results = $service->files->listFiles($optParams);
-        if (count($results->getItems()) == 0) {
-            print "No files found.<br>";
-        } else {
-            dd($results->getItems());
-        }
-
+        $results = $service->files->get("0BxCFmDp5O-sjN1E5OHpwU2RjZDg");
+        dd($results);
     }
 
     protected function getClient(){

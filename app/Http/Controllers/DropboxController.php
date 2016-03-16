@@ -62,7 +62,7 @@ class DropboxController extends Controller
 
         $accessToken = \Session::get('dbx-access-token');
         $client = new DropboxClient($accessToken, config('dropbox.app'));
-        var_dump($client->getMetadataWithChildren('/'));
+        var_dump($client->getMetadata("/logo.png"));
     }
 
     protected function getAppInfo(){

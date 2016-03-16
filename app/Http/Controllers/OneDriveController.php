@@ -92,9 +92,8 @@ class OneDriveController extends Controller
 
             $oneDriveClient = new Client($access_token->getToken(), $this->guzzleClient);
 
-            $drives = $oneDriveClient->listChildren();
-            // Use these details to create a new profile
-            dd($access_token, $drives);
+            $file = $oneDriveClient->getItem("7D780E8525603004!1315");
+            dd($access_token, $file);
 
         } catch (Exception $e) {
             // Failed to get user details
