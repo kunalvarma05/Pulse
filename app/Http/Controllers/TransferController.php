@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Pulse\Http\Controllers;
 
 use Session;
-use App\Http\Requests;
+use Pulse\Http\Requests;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client as Guzzle;
 use \Dropbox\Client as DropboxClient;

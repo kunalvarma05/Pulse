@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Pulse\Http\Controllers;
 
 use Session;
 use Redirect;
-use \App\Http\Requests;
+use \Pulse\Http\Requests;
 use Illuminate\Http\Request;
-use \App\Utils\DropboxSessionStore;
-use \App\Http\Controllers\Controller;
+use \Pulse\Utils\DropboxSessionStore;
+use \Pulse\Http\Controllers\Controller;
 //Dropbox
 use \Dropbox\AppInfo;
 use \Dropbox\WebAuth;
@@ -29,7 +29,7 @@ class DropboxController extends Controller
 
     public function __construct(){
         //Auth User
-        $this->user = (!\Auth::check()) ? \Auth::login(\App\User::first()) : \Auth::user();
+        $this->user = (!\Auth::check()) ? \Auth::login(\Pulse\User::first()) : \Auth::user();
         //Dropbox Session Store
         $this->sessionStore = new DropboxSessionStore(\App::make('Illuminate\Session\Store'), "Dropbox-oauth-key");
         //Web Auth

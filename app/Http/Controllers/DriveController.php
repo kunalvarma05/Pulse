@@ -1,13 +1,13 @@
 <?php
-namespace App\Http\Controllers;
+namespace Pulse\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
+use Pulse\Http\Requests;
 
 use \Google_Client;
 use \Google_Service_Drive;
 use \Auth;
-use App\User;
+use Pulse\User;
 use \Session;
 
 class DriveController extends Controller

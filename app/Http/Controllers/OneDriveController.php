@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Pulse\Http\Controllers;
 
 use \Auth;
 use \Session;
-use App\User;
-use App\Http\Requests;
+use Pulse\User;
+use Pulse\Http\Requests;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client as Guzzle;
 use League\Flysystem\Filesystem;

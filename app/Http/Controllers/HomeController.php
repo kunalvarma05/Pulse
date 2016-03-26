@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Pulse\Http\Controllers;
 
-use \App\Http\Requests;
+use \Pulse\Http\Requests;
 use Illuminate\Http\Request;
-use \App\Http\Controllers\Controller;
+use \Pulse\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {

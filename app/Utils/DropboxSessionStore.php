@@ -1,5 +1,5 @@
 <?php
-namespace App\Utils;
+namespace Pulse\Utils;
 
 use \Dropbox\ArrayEntryStore;
 use \Illuminate\Session\Store;
