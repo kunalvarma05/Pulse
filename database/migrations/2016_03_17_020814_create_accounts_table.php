@@ -20,6 +20,8 @@ class CreateAccountsTable extends Migration
             $table->string('picture')->nullable();
             $table->integer('provider_id')->unsigned();
             $table->foreign('provider_id')->references('id')->on('providers');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
