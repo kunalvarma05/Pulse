@@ -12,6 +12,7 @@
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', array('uses' => "HomeController@index"));
+    Route::get('transfer', array('uses' => "TransferController@index"));
     //Entry Point
     Route::get('api/dropbox', array('uses' => "DropboxController@api"));
     Route::get('connect/dropbox', array('uses' => "DropboxController@connect"));
