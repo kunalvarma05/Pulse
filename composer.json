@@ -12,7 +12,8 @@
         "google/apiclient": "1.*",
         "stevenmaguire/oauth2-microsoft": "^0.2.1",
         "kunalvarma05/onedrive-client" : "^1.0",
-        "dropbox/dropbox-sdk": "^1.1"
+        "dropbox/dropbox-sdk": "^1.1",
+        "dingo/api": "1.0.*@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
