@@ -28,3 +28,13 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('connect/onedrive', array('uses' => "OneDriveController@connect"));
     Route::get('auth/callback/onedrive', array('uses' => "OneDriveController@auth"));
 });
+
+/**
+ * *****************************************************
+ * Include all the Routes
+ * *****************************************************
+ * Includes all the routes from the app/routes directory
+ */
+foreach (\File::allFiles(app_path('routes')) as $partial) {
+    require_once $partial->getPathname();
+}
