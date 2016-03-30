@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Pulse\User::class,
+            'model' => Pulse\Models\User::class,
         ],
 
         // 'users' => [

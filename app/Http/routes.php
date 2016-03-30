@@ -35,6 +35,6 @@ Route::group(['middleware' => ['web']], function () {
  * *****************************************************
  * Includes all the routes from the app/routes directory
  */
-foreach (\File::allFiles(app_path('routes')) as $partial) {
+foreach (\File::allFiles(app_path('Http/Routes')) as $partial) {
     require_once $partial->getPathname();
 }
