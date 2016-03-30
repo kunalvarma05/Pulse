@@ -1,6 +1,6 @@
 <?php
 
-namespace Pulse;
+namespace Pulse\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
