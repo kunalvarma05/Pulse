@@ -1,0 +1,11 @@
+require('../../../node_modules/bootstrap/dist/js/umd/util.js');
+require('../../../node_modules/bootstrap/dist/js/umd/alert.js');
+require('../../../node_modules/bootstrap/dist/js/umd/button.js');
+require('../../../node_modules/bootstrap/dist/js/umd/carousel.js');
+require('../../../node_modules/bootstrap/dist/js/umd/collapse.js');
+require('../../../node_modules/bootstrap/dist/js/umd/dropdown.js');
+require('../../../node_modules/bootstrap/dist/js/umd/modal.js');
+require('../../../node_modules/bootstrap/dist/js/umd/scrollspy.js');
+require('../../../node_modules/bootstrap/dist/js/umd/tab.js');
+require('../../../node_modules/bootstrap/dist/js/umd/tooltip.js');
+require('../../../node_modules/bootstrap/dist/js/umd/popover.js');

@@ -1,16 +1,23 @@
+//Disable Notifier
+process.env.DISABLE_NOTIFIER = true;
+
+//Require Laravel Elixir
 var elixir = require('laravel-elixir');
+//Laravel Elixir Vueify
+require('laravel-elixir-vueify');
 
-/*
- |--------------------------------------------------------------------------
- | Elixir Asset Management
- |--------------------------------------------------------------------------
- |
- | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Sass
- | file for our application, as well as publishing vendor resources.
- |
- */
+//No Sourcemaps required
+elixir.config.sourcemaps = false;
 
+//Start Elixir
 elixir(function(mix) {
+    //Compile Sass File
     mix.sass('app.scss');
+    mix.version('css/app.css');
+
+    //Concatenate JS Files
+    //mix.scripts(['jquery.js', 'bootstrap.js'], 'public/js/app.js');
+
+    //Browserify
+    mix.browserify('main.js');
 });
