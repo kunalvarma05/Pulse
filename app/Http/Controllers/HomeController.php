@@ -9,6 +9,6 @@ use \Pulse\Http\Controllers\Controller;
 class HomeController extends Controller
 {
     public function index(){
-        return "Welcome to Pulseapp";
+        return view('splash');
     }
 }
