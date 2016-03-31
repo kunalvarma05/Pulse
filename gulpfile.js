@@ -13,11 +13,8 @@ require('laravel-elixir-vueify');
 elixir(function(mix) {
     //Compile Sass File
     mix.sass('app.scss');
-    mix.version('css/app.css');
-
-    //Concatenate JS Files
-    //mix.scripts(['jquery.js', 'bootstrap.js'], 'public/js/app.js');
-
     //Browserify
     mix.browserify('main.js');
+    //Version
+    //mix.version(['css/app.css', 'js/main.js']);
 });
