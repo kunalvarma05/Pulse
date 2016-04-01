@@ -2077,26 +2077,32 @@
  *
  * Copyright (c) 2016 Daniel Eden
  */
-.animated, .open > .dropdown-menu {
+.animated, .sidemenu-user-account, .sidemenu-add-button, .open > .dropdown-menu {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both; }
 
-.animated.infinite, .open > .infinite.dropdown-menu {
+.animated.infinite, .infinite.sidemenu-user-account, .infinite.sidemenu-add-button, .open > .infinite.dropdown-menu {
   -webkit-animation-iteration-count: infinite;
   animation-iteration-count: infinite; }
 
-.animated.hinge, .open > .hinge.dropdown-menu {
+.animated.hinge, .hinge.sidemenu-user-account, .hinge.sidemenu-add-button, .open > .hinge.dropdown-menu {
   -webkit-animation-duration: 2s;
   animation-duration: 2s; }
 
-.animated.flipOutX, .open > .flipOutX.dropdown-menu,
+.animated.flipOutX, .flipOutX.sidemenu-user-account, .flipOutX.sidemenu-add-button, .open > .flipOutX.dropdown-menu,
 .animated.flipOutY,
+.flipOutY.sidemenu-user-account,
+.flipOutY.sidemenu-add-button,
 .open > .flipOutY.dropdown-menu,
 .animated.bounceIn,
+.bounceIn.sidemenu-user-account,
+.bounceIn.sidemenu-add-button,
 .open > .bounceIn.dropdown-menu,
 .animated.bounceOut,
+.bounceOut.sidemenu-user-account,
+.bounceOut.sidemenu-add-button,
 .open > .bounceOut.dropdown-menu {
   -webkit-animation-duration: .75s;
   animation-duration: .75s; }
@@ -2325,7 +2331,7 @@
   50% {
     opacity: 1; } }
 
-.zoomIn, .open > .dropdown-menu {
+.zoomIn, .sidemenu-add-button, .open > .dropdown-menu {
   -webkit-animation-name: zoomIn;
   animation-name: zoomIn; }
 
@@ -2497,7 +2503,7 @@
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0); } }
 
-.slideInLeft {
+.slideInLeft, .sidemenu-user-account {
   -webkit-animation-name: slideInLeft;
   animation-name: slideInLeft; }
 
@@ -5156,7 +5162,7 @@ input[type="button"].btn-block {
 
 .navbar {
   position: relative;
-  padding: 0.5rem 0.5rem; }
+  padding: 0.5rem 1rem; }
   .navbar::after {
     content: "";
     display: table;
@@ -5214,8 +5220,8 @@ input[type="button"].btn-block {
   width: 1px;
   padding-top: .425rem;
   padding-bottom: .425rem;
-  margin-right: 0.5rem;
-  margin-left: 0.5rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
   overflow: hidden; }
   .navbar-divider::before {
     content: "\00a0"; }
@@ -6743,15 +6749,10 @@ a.bg-danger:focus, a.bg-danger:hover {
     display: none !important; } }
 
 .navbar-main {
+  left: 60px;
   background: #fff;
-  border-bottom: solid 1px #e6e6e6;
-  box-shadow: 0px 1px 2px #f2f2f2; }
-
-.navbar-logo {
-  padding: 0; }
-  .navbar-logo img {
-    width: 38px;
-    height: 38px; }
+  border-bottom: solid 1px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 1px 2px rgba(13, 13, 13, 0.08); }
 
 .navbar-search-form {
   float: left;
@@ -6762,9 +6763,12 @@ a.bg-danger:focus, a.bg-danger:hover {
   border: none;
   border-radius: 0;
   border-bottom: solid 1px #e6e6e6;
-  padding-left: 0; }
+  padding-left: 0;
+  width: 70%;
+  transition: width 0.5s ease-in-out; }
   .navbar-search-input:focus, .navbar-search-input:active {
-    border-bottom: solid 1px #cccccc; }
+    border-bottom: solid 1px #cccccc;
+    width: 100%; }
 
 .navbar-main .dropdown-menu {
   top: 100%;
@@ -6781,6 +6785,61 @@ a.bg-danger:focus, a.bg-danger:hover {
   left: -15px;
   -webkit-animation-delay: 1.5s;
   animation-delay: 1.5s; }
+
+.navbar-account-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: block;
+  float: left;
+  margin-top: 4px;
+  margin-left: 1rem;
+  margin-right: 0.3rem; }
+
+.sidemenu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  background: #282c37;
+  z-index: 1020; }
+
+.sidemenu-logo {
+  display: block;
+  padding: 12px 15px;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.2); }
+  .sidemenu-logo img {
+    width: 30px;
+    height: 30px; }
+
+.sidemenu-user-accounts {
+  margin-top: 15px; }
+
+.sidemenu-user-account {
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  -webkit-animation-delay: .5s;
+  animation-delay: .5s; }
+  .sidemenu-user-account:hover, .sidemenu-user-account:focus, .sidemenu-user-account:active, .sidemenu-user-account.active {
+    background: #2b90d9; }
+  .sidemenu-user-account img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; }
+
+.sidemenu-add-button {
+  color: #fff;
+  text-align: center;
+  display: block;
+  padding: 10px 15px;
+  font-size: 1.1em;
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s; }
+  .sidemenu-add-button:hover, .sidemenu-add-button:focus, .sidemenu-add-button:active, .sidemenu-add-button.active {
+    background: #2b90d9;
+    color: #fff; }
 
 .open > .dropdown-menu {
   -webkit-animation-duration: 0.1s;

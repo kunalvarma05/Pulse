@@ -1,0 +1,5 @@
+.open > .dropdown-menu {
+    @extend .animated;
+    @extend .zoomIn;
+    animation-duration: 0.1s;
+}

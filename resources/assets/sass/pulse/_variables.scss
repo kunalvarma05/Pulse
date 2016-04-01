@@ -4,4 +4,9 @@ $secondary: #282c37;
 
 //Navbar Main
 $navbar-main-background: #fff;
-$navbar-main-border-color: darken($navbar-main-background, 10%);
+$navbar-main-border-color: rgba(0, 0, 0, .08);
+
+//Sidemenu
+$sidemenu-width: 60px;
+$sidemenu-background: $secondary;
+$zindex-sidemenu: $zindex-navbar-fixed - 10;

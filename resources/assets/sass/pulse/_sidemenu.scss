@@ -1,0 +1,55 @@
+.sidemenu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    background: $sidemenu-background;
+    z-index: $zindex-sidemenu;
+}
+
+.sidemenu-logo {
+    display: block;
+    padding: 12px 15px;
+    border-bottom: solid 1px rgba(0,0,0,0.2);
+    img{
+        width: 30px;
+        height: 30px;
+    }
+}
+
+.sidemenu-user-accounts {
+    margin-top: 15px;
+}
+
+.sidemenu-user-account {
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    @extend .animated;
+    @extend .slideInLeft;
+    animation-delay: .5s;
+    &:hover, &:focus, &:active, &.active {
+        background: $primary;
+    }
+    img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+}
+
+.sidemenu-add-button {
+    color: #fff;
+    text-align: center;
+    display: block;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    @extend .animated;
+    @extend .zoomIn;
+    animation-delay: 1s;
+    &:hover, &:focus, &:active, &.active {
+        background: $primary;
+        color: #fff;
+    }
+}
