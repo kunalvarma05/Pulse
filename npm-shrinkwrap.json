@@ -46,6 +46,11 @@
       "from": "amdefine@>=0.0.4",
       "resolved": "https://registry.npmjs.org/amdefine/-/amdefine-1.0.0.tgz"
     },
+    "animate.css": {
+      "version": "3.5.1",
+      "from": "animate.css@latest",
+      "resolved": "https://registry.npmjs.org/animate.css/-/animate.css-3.5.1.tgz"
+    },
     "ansi": {
       "version": "0.3.1",
       "from": "ansi@>=0.3.1 <0.4.0",
@@ -1658,6 +1663,11 @@
         }
       }
     },
+    "font-awesome": {
+      "version": "4.5.0",
+      "from": "font-awesome@latest",
+      "resolved": "https://registry.npmjs.org/font-awesome/-/font-awesome-4.5.0.tgz"
+    },
     "for-in": {
       "version": "0.1.5",
       "from": "for-in@>=0.1.5 <0.2.0",
@@ -2517,6 +2527,11 @@
       "version": "0.1.2",
       "from": "isstream@>=0.1.2 <0.2.0",
       "resolved": "https://registry.npmjs.org/isstream/-/isstream-0.1.2.tgz"
+    },
+    "jquery": {
+      "version": "2.2.2",
+      "from": "jquery@latest",
+      "resolved": "https://registry.npmjs.org/jquery/-/jquery-2.2.2.tgz"
     },
     "js-base64": {
       "version": "2.1.9",
@@ -4564,6 +4579,11 @@
           "resolved": "https://registry.npmjs.org/through2/-/through2-0.6.5.tgz"
         }
       }
+    },
+    "tether": {
+      "version": "1.2.0",
+      "from": "tether@latest",
+      "resolved": "https://registry.npmjs.org/tether/-/tether-1.2.0.tgz"
     },
     "tfunk": {
       "version": "3.0.2",

@@ -4,7 +4,11 @@
     "gulp": "^3.9.1"
   },
   "dependencies": {
+    "bootstrap": "^4.0.0-alpha.2",
+    "font-awesome": "^4.5.0",
+    "jquery": "^2.2.2",
     "laravel-elixir": "^5.0.0",
-    "laravel-elixir-vueify": "^1.0.3"
+    "laravel-elixir-vueify": "^1.0.3",
+    "tether": "^1.2.0"
   }
 }
