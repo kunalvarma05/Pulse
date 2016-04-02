@@ -1,6 +1,7 @@
 //Color Scheme
 $primary: #2b90d9;
 $secondary: #282c37;
+$bgTint: #f9fafb;
 
 //Navbar Main
 $navbar-main-background: #fff;
@@ -9,4 +10,15 @@ $navbar-main-border-color: rgba(0, 0, 0, .08);
 //Sidemenu
 $sidemenu-width: 60px;
 $sidemenu-background: $secondary;
-$zindex-sidemenu: $zindex-navbar-fixed - 10;
+$zindex-sidemenu: $zindex-navbar-fixed;
+
+//Sidebar
+$sidebar-width: 300px;
+$sidebar-background: $bgTint;
+$zindex-sidebar: $zindex-navbar-fixed - 10;
+$sidebar-border-color: darken($sidebar-background, 10%);
+
+$sidebar-header-color: darken($sidebar-background, 50%);
+$sidebar-header-border-color: lighten($sidebar-border-color, 5%);
+
+$sidebar-item-border-color: $sidebar-header-border-color;
