@@ -6763,7 +6763,6 @@ a.bg-danger:focus, a.bg-danger:hover {
   border: none;
   border-radius: 0;
   border-bottom: solid 1px #e6e6e6;
-  padding-left: 0;
   width: 70%;
   transition: width 0.5s ease-in-out; }
   .navbar-search-input:focus, .navbar-search-input:active {
@@ -6788,7 +6787,7 @@ a.bg-danger:focus, a.bg-danger:hover {
   min-height: 18px;
   position: absolute;
   top: 3px;
-  left: -15px;
+  left: -17px;
   -webkit-animation-delay: 1.5s;
   animation-delay: 1.5s; }
 

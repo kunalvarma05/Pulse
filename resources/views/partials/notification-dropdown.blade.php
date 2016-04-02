@@ -2,7 +2,7 @@
     <div class="dropdown-header">
         Notifications
         <div class="pull-right">
-            <a href="#" class="label ">View All</a>
+            <a href="#">View All</a>
         </div>
     </div>
     <div class="notification-items">

@@ -15,7 +15,6 @@
     border: none;
     border-radius: 0;
     border-bottom: solid 1px darken($navbar-main-background, 10%);
-    padding-left: 0;
     width: 70%;
     transition: width 0.5s ease-in-out;
     &:focus, &:active {
@@ -48,7 +47,7 @@
         min-height: 18px;
         position: absolute;
         top: 3px;
-        left: -15px;
+        left: -17px;
         animation-delay: 1.5s;
     }
 }

@@ -3,7 +3,7 @@
         <input class="form-control navbar-search-input" type="text" placeholder="Search">
     </form>
     <ul class="nav navbar-nav pull-right">
-        <li class="nav-item dropdown notifications-menu">
+        <li class="nav-item dropdown notifications-menu unread">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                 <span class="label label-primary notification-count animated zoomIn">3</span>
                 <i class="fa fa-bell"></i>
