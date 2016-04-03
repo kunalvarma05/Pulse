@@ -7,7 +7,6 @@ use Pulse\Http\Requests;
 use \Google_Client;
 use \Google_Service_Drive;
 use \Auth;
-use Pulse\User;
 use \Session;
 
 class DriveController extends Controller
@@ -18,11 +17,7 @@ class DriveController extends Controller
 
     public function __construct(){
 
-        if(!Auth::check()){
-            Auth::login(User::first());
-        }
-
-        $this->user = Auth::user();
+        $this->user = (!\Auth::check()) ? \Auth::login(\Pulse\Models\User::first()) : \Auth::user();
 
         $client_id = config("drive.client_id");
         $client_secret = config("drive.client_secret");
@@ -67,6 +62,7 @@ class DriveController extends Controller
         $service = new Google_Service_Drive($client);
 
         $optParams = array();
+        dd($service->about->get());
 
         $results = $service->files->get("0BxCFmDp5O-sjN1E5OHpwU2RjZDg");
         dd($results);

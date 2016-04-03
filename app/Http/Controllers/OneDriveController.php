@@ -4,7 +4,6 @@ namespace Pulse\Http\Controllers;
 
 use \Auth;
 use \Session;
-use Pulse\User;
 use Pulse\Http\Requests;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client as Guzzle;
@@ -21,11 +20,7 @@ class OneDriveController extends Controller
     private $guzzleClient;
 
     public function __construct(){
-        if(!Auth::check()){
-            Auth::login(User::first());
-        }
-
-        $this->user = Auth::user();
+        $this->user = (!\Auth::check()) ? \Auth::login(\Pulse\Models\User::first()) : \Auth::user();
 
         $this->provider = new Microsoft([
             'clientId'          => config('onedrive.client_id'),
@@ -91,6 +86,8 @@ class OneDriveController extends Controller
             //$user->setImageurl("https://apis.live.net/v5.0/{$user->getId()}/picture?type=large");
 
             $oneDriveClient = new Client($access_token->getToken(), $this->guzzleClient);
+
+            dd($oneDriveClient->getDefaultDrive());
 
             $file = $oneDriveClient->getItem("7D780E8525603004!1315");
             dd($access_token, $file);

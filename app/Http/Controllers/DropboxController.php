@@ -29,7 +29,7 @@ class DropboxController extends Controller
 
     public function __construct(){
         //Auth User
-        $this->user = (!\Auth::check()) ? \Auth::login(\Pulse\User::first()) : \Auth::user();
+        $this->user = (!\Auth::check()) ? \Auth::login(\Pulse\Models\User::first()) : \Auth::user();
         //Dropbox Session Store
         $this->sessionStore = new DropboxSessionStore(\App::make('Illuminate\Session\Store'), "Dropbox-oauth-key");
         //Web Auth
@@ -62,7 +62,9 @@ class DropboxController extends Controller
 
         $accessToken = \Session::get('dbx-access-token');
         $client = new DropboxClient($accessToken, config('dropbox.app'));
-        var_dump($client->getMetadata("/logo.png"));
+        var_dump($client->getAccountInfo());
+        var_dump($client->getMetadataWithChildren("/"));
+        var_dump($client->getThumbnail("/pulse-logo.png", 'png', 'm'));
     }
 
     protected function getAppInfo(){
