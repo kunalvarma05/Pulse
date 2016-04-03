@@ -5,6 +5,7 @@
 <div class="site">
     @include('partials.navbar')
     @include('partials.sidemenu')
+    @include('partials.explorer')
     @include('partials.sidebar')
 </div>
 @endsection

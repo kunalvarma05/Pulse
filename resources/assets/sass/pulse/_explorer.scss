@@ -1,0 +1,66 @@
+.explorer {
+    margin-top: 55px;
+    margin-left: $sidemenu-width;
+    margin-right: 0;
+    &.has-sidebar {
+        margin-right: $sidebar-width;
+    }
+}
+
+.explorer-header {
+    border-bottom: solid 1px $explorer-header-border-color;
+    padding: 10px 18px;
+    margin-bottom: 10px;
+}
+
+.explorer-header-title {
+    color: $gray-light;
+    font-weight: bold;
+    float: left;
+}
+
+.explorer-header-links {
+    float: right;
+    & > a {
+        padding: 0 10px;
+        font-size: 0.8em;
+    }
+}
+
+.explorer-items {
+    padding: 20px;
+}
+
+.explorer-item {
+    cursor: pointer;
+    margin-bottom: 1.75em;
+    &.selected {
+        background: $primary;
+        border-color: $primary;
+        color: #fff;
+    }
+}
+
+.explorer-item-thumbnail {
+    width: 100%;
+    height: auto;
+}
+
+.explorer-item-body {
+    padding: 0.5rem 0.75rem;
+    //text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.explorer-item-icon {
+    margin-right: 0.25rem;
+}
+
+.explorer-item-title {
+    text-overflow: ellipsis;
+    display: block;
+    margin-bottom: 0;
+    overflow: hidden;
+    font-size: 0.9rem;
+}
