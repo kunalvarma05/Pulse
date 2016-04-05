@@ -36,8 +36,12 @@
     margin-bottom: 1.75em;
     &.selected {
         background: $primary;
-        border-color: $primary;
+        border-color: darken($primary, 7%);
         color: #fff;
+        .explorer-item-icon {
+            color: #fff;
+            border-bottom: solid 1px darken($primary, 7%);
+        }
     }
 }
 
@@ -54,8 +58,15 @@
 }
 
 .explorer-item-icon {
-    margin-right: 0.25rem;
+    display: block;
+    font-size: 40px;
+    text-align: center;
+    padding: 20px;
+    border-bottom: solid 1px #e5e5e5;
+    color: #ddd;
 }
+
+
 
 .explorer-item-title {
     text-overflow: ellipsis;

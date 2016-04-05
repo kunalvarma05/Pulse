@@ -1,4 +1,4 @@
-<div class="explorer has-sidebar">
+<div class="explorer has-sidebar" id="explorer">
     <div class="explorer-header clearfix">
         <div class="explorer-header-title">Dropbox</div>
 
@@ -15,168 +15,187 @@
     <div class="explorer-content">
         <div class="container-fluid">
             <div class="row explorer-items">
-                <div class="col-md-3 col-sm-6">
-                    <div class="card explorer-item">
-                        <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=202" alt="thumbnail">
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="Documents">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-folder explorer-item-icon"></i>
+                        </div>
                         <div class="card-block explorer-item-body">
                             <div class="card-title explorer-item-title">
-                                <i class="fa fa-folder explorer-item-icon"></i>
-                                Documents</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="card explorer-item">
-                            <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=203" alt="thumbnail">
-                            <div class="card-block explorer-item-body">
-                                <div class="card-title explorer-item-title">
-                                    <i class="fa fa-folder explorer-item-icon"></i>
-                                    Pictures</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="card explorer-item">
-                                <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=209" alt="thumbnail">
-                                <div class="card-block explorer-item-body">
-                                    <div class="card-title explorer-item-title">
-                                        <i class="fa fa-folder explorer-item-icon"></i>
-                                        Videos</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="card explorer-item">
-                                    <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=250" alt="thumbnail">
-                                    <div class="card-block explorer-item-body">
-                                        <div class="card-title explorer-item-title">
-                                            <i class="fa fa-folder explorer-item-icon"></i>
-                                            Private</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="card explorer-item">
-                                        <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=206" alt="thumbnail">
-                                        <div class="card-block explorer-item-body">
-                                            <div class="card-title explorer-item-title">
-                                                <i class="fa fa-file-image-o explorer-item-icon"></i>
-                                                logo.png
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="card explorer-item">
-                                        <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=207" alt="thumbnail">
-                                        <div class="card-block explorer-item-body">
-                                            <div class="card-title explorer-item-title">
-                                                <i class="fa fa-file-pdf-o explorer-item-icon"></i>
-                                                resume.pdf
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="card explorer-item">
-                                        <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=202" alt="thumbnail">
-                                        <div class="card-block explorer-item-body">
-                                            <div class="card-title explorer-item-title">
-                                                <i class="fa fa-file-zip-o explorer-item-icon"></i>
-                                                backup.zip
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="card explorer-item selected">
-                                        <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=222" alt="thumbnail">
-                                        <div class="card-block explorer-item-body">
-                                            <div class="card-title explorer-item-title">
-                                                <i class="fa fa-file-text-o explorer-item-icon"></i>
-                                                hello.txt
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="card explorer-item">
-                                        <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=242" alt="thumbnail">
-                                        <div class="card-block explorer-item-body">
-                                            <div class="card-title explorer-item-title">
-                                                <i class="fa fa-file-image-o explorer-item-icon"></i>
-                                                pulse-logo.png
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="card explorer-item">
-                                        <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=252" alt="thumbnail">
-                                        <div class="card-block explorer-item-body">
-                                            <div class="card-title explorer-item-title">
-                                                <i class="fa fa-file-word-o explorer-item-icon"></i>
-                                                proposal.docx
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="card explorer-item">
-                                        <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=229" alt="thumbnail">
-                                        <div class="card-block explorer-item-body">
-                                            <div class="card-title explorer-item-title">
-                                                <i class="fa fa-file-sound-o explorer-item-icon"></i>
-                                                deadmau5-some chords.mp3
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="card explorer-item">
-                                        <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=298" alt="thumbnail">
-                                        <div class="card-block explorer-item-body">
-                                            <div class="card-title explorer-item-title">
-                                                <i class="fa fa-file-video-o explorer-item-icon"></i>
-                                                got_trailer.mp4
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="card explorer-item">
-                                        <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=282" alt="thumbnail">
-                                        <div class="card-block explorer-item-body">
-                                            <div class="card-title explorer-item-title">
-                                                <i class="fa fa-file-powerpoint-o explorer-item-icon"></i>
-                                                pulse-final.ppt
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="card explorer-item">
-                                        <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=264" alt="thumbnail">
-                                        <div class="card-block explorer-item-body">
-                                            <div class="card-title explorer-item-title">
-                                                <i class="fa fa-file-image-o explorer-item-icon"></i>
-                                                profile_picture.jpg
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="card explorer-item">
-                                        <img class="card-img-top explorer-item-thumbnail" src="https://unsplash.it/200/100?image=235" alt="thumbnail">
-                                        <div class="card-block explorer-item-body">
-                                            <div class="card-title explorer-item-title">
-                                                <i class="fa fa-file-image-o explorer-item-icon"></i>
-                                                1735def_profile_crop.jpg
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                Documents
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="Pictures">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-folder explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                Pictures
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="Videos">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-folder explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                Videos
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="Private">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-folder explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                Private
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="logo.png">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-file-image-o explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                logo.png
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="resume.pdf">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-file-pdf-o explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                resume.pdf
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="backup.zip">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-file-zip-o explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                backup.zip
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item selected" data-toggle-tooltip="tooltip" title="hello.txt">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-file-text-o explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                hello.txt
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="pulse-logo.png">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-file-image-o explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                pulse-logo.png
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="proposal.docx">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-file-word-o explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                proposal.docx
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="deadmau5-some chords.mp3">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-file-sound-o explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                deadmau5-some chords.mp3
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="got_trailer.mp4">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-file-video-o explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                got_trailer.mp4
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="pulse-final.ppt">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-file-powerpoint-o explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                pulse-final.ppt
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="profile_picture.jpg">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-file-image-o explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                profile_picture.jpg
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="1735def_profile_crop.jpg">
+                        <div class="explorer-item-thumbnail card-img-top">
+                            <i class="fa fa-file-image-o explorer-item-icon"></i>
+                        </div>
+                        <div class="card-block explorer-item-body">
+                            <div class="card-title explorer-item-title">
+                                1735def_profile_crop.jpg
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

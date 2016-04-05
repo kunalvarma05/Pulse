@@ -14085,8 +14085,25 @@ require('../../../node_modules/bootstrap/dist/js/umd/tooltip.js');
 global.jQuery = require('jquery');
 global.Tether = require('tether');
 require('./bootstrap.js');
+require('./pulse/pulse.js');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bootstrap.js":10,"jquery":8,"tether":9}]},{},[11]);
+},{"./bootstrap.js":10,"./pulse/pulse.js":12,"jquery":8,"tether":9}],12:[function(require,module,exports){
+"use strict";
+
+jQuery(document).ready(function ($) {
+
+    //Sidemenu Tooltips
+    $("#sidemenu").find("[data-toggle-tooltip='tooltip']").tooltip({
+        placement: 'right'
+    });
+
+    //Explorer Tooltips
+    $("#explorer").find("[data-toggle-tooltip='tooltip']").tooltip({
+        placement: 'bottom'
+    });
+});
+
+},{}]},{},[11]);
 
 //# sourceMappingURL=main.js.map

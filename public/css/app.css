@@ -6809,8 +6809,11 @@ a.bg-danger:focus, a.bg-danger:hover {
   margin-bottom: 1.75em; }
   .explorer-item.selected {
     background: #2b90d9;
-    border-color: #2b90d9;
+    border-color: #227dbe;
     color: #fff; }
+    .explorer-item.selected .explorer-item-icon {
+      color: #fff;
+      border-bottom: solid 1px #227dbe; }
 
 .explorer-item-thumbnail {
   width: 100%;
@@ -6822,7 +6825,12 @@ a.bg-danger:focus, a.bg-danger:hover {
   white-space: nowrap; }
 
 .explorer-item-icon {
-  margin-right: 0.25rem; }
+  display: block;
+  font-size: 40px;
+  text-align: center;
+  padding: 20px;
+  border-bottom: solid 1px #e5e5e5;
+  color: #ddd; }
 
 .explorer-item-title {
   text-overflow: ellipsis;
