@@ -7,5 +7,6 @@
     @include('partials.sidemenu')
     @include('partials.explorer')
     @include('partials.sidebar')
+    @include('partials.modals.connect-account')
 </div>
 @endsection

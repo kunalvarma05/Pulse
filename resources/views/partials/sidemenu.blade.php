@@ -25,7 +25,7 @@
             </a>
         </li>
         <li>
-            <a class="sidemenu-add-button" href="#">
+            <a class="sidemenu-add-button" href="#" data-toggle="modal" data-target="#connect-account-modal">
                 <span class="fa fa-plus"></span>
             </a>
         </li>

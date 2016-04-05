@@ -29,4 +29,4 @@ require('../../../node_modules/bootstrap/dist/js/umd/modal.js');
 require('../../../node_modules/bootstrap/dist/js/umd/tooltip.js');
 
 //Popover
-require('../../../node_modules/bootstrap/dist/js/umd/popover.js');
+//require('../../../node_modules/bootstrap/dist/js/umd/popover.js');
