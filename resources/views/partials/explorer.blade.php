@@ -16,7 +16,7 @@
         <div class="container-fluid">
             <div class="row explorer-items">
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="Documents">
+                    <div style="animation-delay: 0.5s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="Documents">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-folder explorer-item-icon"></i>
                         </div>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="Pictures">
+                    <div style="animation-delay: 0.55s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="Pictures">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-folder explorer-item-icon"></i>
                         </div>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="Videos">
+                    <div style="animation-delay: 0.6s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="Videos">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-folder explorer-item-icon"></i>
                         </div>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="Private">
+                    <div style="animation-delay: 0.65s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="Private">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-folder explorer-item-icon"></i>
                         </div>
@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="logo.png">
+                    <div style="animation-delay: 0.7s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="logo.png">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-file-image-o explorer-item-icon"></i>
                         </div>
@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="resume.pdf">
+                    <div style="animation-delay: 0.75s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="resume.pdf">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-file-pdf-o explorer-item-icon"></i>
                         </div>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="backup.zip">
+                    <div style="animation-delay: 0.8s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="backup.zip">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-file-zip-o explorer-item-icon"></i>
                         </div>
@@ -100,7 +100,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item selected" data-toggle-tooltip="tooltip" title="hello.txt">
+                    <div style="animation-delay: 0.85s;" class="card explorer-item selected" data-toggle-tooltip="tooltip" title="hello.txt">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-file-text-o explorer-item-icon"></i>
                         </div>
@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="pulse-logo.png">
+                    <div style="animation-delay: 0.9s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="pulse-logo.png">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-file-image-o explorer-item-icon"></i>
                         </div>
@@ -124,7 +124,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="proposal.docx">
+                    <div style="animation-delay: 0.95s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="proposal.docx">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-file-word-o explorer-item-icon"></i>
                         </div>
@@ -136,7 +136,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="deadmau5-some chords.mp3">
+                    <div style="animation-delay: 1s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="deadmau5-some chords.mp3">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-file-sound-o explorer-item-icon"></i>
                         </div>
@@ -148,7 +148,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="got_trailer.mp4">
+                    <div style="animation-delay: 1.05s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="got_trailer.mp4">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-file-video-o explorer-item-icon"></i>
                         </div>
@@ -160,7 +160,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="pulse-final.ppt">
+                    <div style="animation-delay: 1.1s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="pulse-final.ppt">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-file-powerpoint-o explorer-item-icon"></i>
                         </div>
@@ -172,7 +172,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="profile_picture.jpg">
+                    <div style="animation-delay: 1.15s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="profile_picture.jpg">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-file-image-o explorer-item-icon"></i>
                         </div>
@@ -184,7 +184,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4">
-                <div class="card explorer-item" data-toggle-tooltip="tooltip" title="1735def_profile_crop.jpg">
+                    <div style="animation-delay: 1.2s;" class="card explorer-item" data-toggle-tooltip="tooltip" title="1735def_profile_crop.jpg">
                         <div class="explorer-item-thumbnail card-img-top">
                             <i class="fa fa-file-image-o explorer-item-icon"></i>
                         </div>

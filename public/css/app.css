@@ -2077,35 +2077,38 @@
  *
  * Copyright (c) 2016 Daniel Eden
  */
-.animated, .sidemenu-user-account, .sidemenu-add-button, .sidebar-item, .open > .dropdown-menu {
+.animated, .sidemenu-user-account, .sidemenu-add-button, .sidebar-item, .explorer-item, .open > .dropdown-menu {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both; }
 
-.animated.infinite, .infinite.sidemenu-user-account, .infinite.sidemenu-add-button, .infinite.sidebar-item, .open > .infinite.dropdown-menu {
+.animated.infinite, .infinite.sidemenu-user-account, .infinite.sidemenu-add-button, .infinite.sidebar-item, .infinite.explorer-item, .open > .infinite.dropdown-menu {
   -webkit-animation-iteration-count: infinite;
   animation-iteration-count: infinite; }
 
-.animated.hinge, .hinge.sidemenu-user-account, .hinge.sidemenu-add-button, .hinge.sidebar-item, .open > .hinge.dropdown-menu {
+.animated.hinge, .hinge.sidemenu-user-account, .hinge.sidemenu-add-button, .hinge.sidebar-item, .hinge.explorer-item, .open > .hinge.dropdown-menu {
   -webkit-animation-duration: 2s;
   animation-duration: 2s; }
 
-.animated.flipOutX, .flipOutX.sidemenu-user-account, .flipOutX.sidemenu-add-button, .flipOutX.sidebar-item, .open > .flipOutX.dropdown-menu,
+.animated.flipOutX, .flipOutX.sidemenu-user-account, .flipOutX.sidemenu-add-button, .flipOutX.sidebar-item, .flipOutX.explorer-item, .open > .flipOutX.dropdown-menu,
 .animated.flipOutY,
 .flipOutY.sidemenu-user-account,
 .flipOutY.sidemenu-add-button,
 .flipOutY.sidebar-item,
+.flipOutY.explorer-item,
 .open > .flipOutY.dropdown-menu,
 .animated.bounceIn,
 .bounceIn.sidemenu-user-account,
 .bounceIn.sidemenu-add-button,
 .bounceIn.sidebar-item,
+.bounceIn.explorer-item,
 .open > .bounceIn.dropdown-menu,
 .animated.bounceOut,
 .bounceOut.sidemenu-user-account,
 .bounceOut.sidemenu-add-button,
 .bounceOut.sidebar-item,
+.bounceOut.explorer-item,
 .open > .bounceOut.dropdown-menu {
   -webkit-animation-duration: .75s;
   animation-duration: .75s; }
@@ -2334,7 +2337,7 @@
   50% {
     opacity: 1; } }
 
-.zoomIn, .sidemenu-add-button, .open > .dropdown-menu {
+.zoomIn, .sidemenu-add-button, .explorer-item, .open > .dropdown-menu {
   -webkit-animation-name: zoomIn;
   animation-name: zoomIn; }
 
