@@ -72,4 +72,14 @@ class Account extends Model
         return $this->hasMany('Transfer', 'to_account_id');
     }
 
+    /**
+     * The Actions performed in this Account
+     *
+     * @return Pulse\Models\Action
+     */
+    public function actions()
+    {
+        return $this->hasMany('Action');
+    }
+
 }

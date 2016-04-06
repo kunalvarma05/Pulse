@@ -28,4 +28,14 @@ class File extends Model
         return $this->belongsTo('Account', 'account_id');
     }
 
+    /**
+     * The Actions performed on the file
+     *
+     * @return Pulse\Models\Action
+     */
+    public function actions()
+    {
+        return $this->hasMany('Action');
+    }
+
 }
