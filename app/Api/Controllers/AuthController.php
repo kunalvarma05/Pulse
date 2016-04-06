@@ -26,11 +26,11 @@ class AuthController extends BaseController
         try{
             //Try to Verify Credentials and Create a Token
             if(! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
+                return response()->json(['error' => 'invalid_credentials', 'message' => "Invalid Credentials!"], 401);
             }
         } catch (JWTException $e) {
             //Something went wrong!
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            return response()->json(['error' => 'could_not_create_token', 'message' => "Something went wrong!"], 500);
         }
 
         //Return the generated token
@@ -57,7 +57,7 @@ class AuthController extends BaseController
 
         //Something went wrong
         if(!$user){
-            return $this->response->errorInternal("Something went wrong! Please try again!");
+            return response()->json(['error' => 'could_not_create_user', 'message' => "Something went wrong!"], 500);
         }
 
         //Create JWT Token for the create user

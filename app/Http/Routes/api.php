@@ -17,13 +17,13 @@ $api->version('v1', function ($api) {
 
             //Create
             $api->post('create', ['as' => 'api.user.create', 'uses' => 'AuthController@createUser']);
-        });
 
-        //Requires Authentication
-        $api->group(['prefix' => 'user', 'middleware' => 'jwt.refresh'], function ($api) {
-            //Show User
-            $api->get('show/{id?}', ['as' => 'api.user.show', 'uses' => 'UsersController@show']);
-        });
+            //Requires Authentication
+            $api->group(['middleware' => 'jwt.refresh'], function ($api) {
+                //Show User
+                $api->get('show/{id?}', ['as' => 'api.user.show', 'uses' => 'UsersController@show']);
+            });
 
+        });
     });
 });

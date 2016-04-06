@@ -9,11 +9,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class UsersController extends BaseController
 {
 
-    public function __construct()
-    {
-        $this->middleware('jwt.auth');
-    }
-
     /**
      * Show User
      * @param  Request $request
@@ -23,22 +18,23 @@ class UsersController extends BaseController
     public function show(Request $request, $id = null)
     {
         $user = false;
+
         //No ID Provided
         if(is_null($id)){
             //Current User
             $user = JWTAuth::parseToken()->authenticate();
-        } else{
+        } else {
             //Find User by ID
             $user = User::find($id);
         }
 
         //User not found
         if(!$user) {
-            return $this->response->errorNotFound("User not found!");
+            return response()->json(['error' => 'user_not_found', 'message' => "User not found!"], 400);
         }
 
         //Response
-        return $this->response->json(compact('user'));
+        return response()->json(compact('user'));
     }
 
 }
