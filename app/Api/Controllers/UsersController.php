@@ -37,4 +37,21 @@ class UsersController extends BaseController
         return response()->json(compact('user'));
     }
 
+    /**
+     * Delete User
+     * @param  Request $request
+     * @param  User ID  $id      ID of the user to delete
+     * @return Response
+     */
+    public function delete(Request $request, $id = null)
+    {
+        //Delete the user
+        if(!User::destroy($id)) {
+            return response()->json(['error' => 'could_not_delete_user', 'message' => "Cannot delete user!"], 500);
+        }
+
+        //Response
+        return response()->json(['message' => "User Deleted"]);
+    }
+
 }

@@ -22,6 +22,9 @@ $api->version('v1', function ($api) {
             $api->group(['middleware' => 'jwt.refresh'], function ($api) {
                 //Show User
                 $api->get('show/{id?}', ['as' => 'api.user.show', 'uses' => 'UsersController@show']);
+
+                //Delete User
+                $api->delete('delete/{id}', ['as' => 'api.user.delete', 'uses' => 'UsersController@delete']);
             });
 
         });
