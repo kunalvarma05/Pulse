@@ -48,4 +48,14 @@ class Transfer extends Model
         return $this->belongsTo('Account', 'to_account_id');
     }
 
+    /**
+     * The Scheduled Transfer
+     *
+     * @return Pulse\Models\ScheduledTransfer
+     */
+    public function scheduledTransfer()
+    {
+        return $this->hasOne('ScheduledTransfer', 'transfer_id');
+    }
+
 }

@@ -33,4 +33,16 @@ class User extends Authenticatable
     {
         return $this->hasMany('Account');
     }
+
+    /**
+     * The ScheduledTransfers owned by the User
+     *
+     * @return Pulse\Models\ScheduledTransfer
+     */
+    public function scheduledTransfers()
+    {
+        return $this->hasMany('ScheduledTransfer');
+    }
+
+
 }
