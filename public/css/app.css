@@ -2645,6 +2645,120 @@
   -webkit-animation-name: slideOutUp;
   animation-name: slideOutUp; }
 
+/* perfect-scrollbar v0.6.10 */
+.ps-container {
+  -ms-touch-action: none;
+  touch-action: none;
+  overflow: hidden !important;
+  -ms-overflow-style: none; }
+
+@supports (-ms-overflow-style: none) {
+  .ps-container {
+    overflow: auto !important; } }
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .ps-container {
+    overflow: auto !important; } }
+
+.ps-container.ps-active-x > .ps-scrollbar-x-rail,
+.ps-container.ps-active-y > .ps-scrollbar-y-rail {
+  display: block;
+  background-color: transparent; }
+
+.ps-container.ps-in-scrolling {
+  pointer-events: none; }
+
+.ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {
+  background-color: #eee;
+  opacity: 0.9; }
+
+.ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  background-color: #999; }
+
+.ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
+  background-color: #eee;
+  opacity: 0.9; }
+
+.ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: #999; }
+
+.ps-container > .ps-scrollbar-x-rail {
+  display: none;
+  position: absolute;
+  /* please don't change 'position' */
+  border-radius: 4px;
+  opacity: 0;
+  transition: background-color .2s linear, opacity .2s linear;
+  bottom: 3px;
+  /* there must be 'bottom' for ps-scrollbar-x-rail */
+  height: 8px; }
+
+.ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  position: absolute;
+  /* please don't change 'position' */
+  background-color: #aaa;
+  border-radius: 4px;
+  transition: background-color .2s linear;
+  bottom: 0;
+  /* there must be 'bottom' for ps-scrollbar-x */
+  height: 8px; }
+
+.ps-container > .ps-scrollbar-y-rail {
+  display: none;
+  position: absolute;
+  /* please don't change 'position' */
+  border-radius: 4px;
+  opacity: 0;
+  transition: background-color .2s linear, opacity .2s linear;
+  right: 3px;
+  /* there must be 'right' for ps-scrollbar-y-rail */
+  width: 8px; }
+
+.ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  position: absolute;
+  /* please don't change 'position' */
+  background-color: #aaa;
+  border-radius: 4px;
+  transition: background-color .2s linear;
+  right: 0;
+  /* there must be 'right' for ps-scrollbar-y */
+  width: 8px; }
+
+.ps-container:hover.ps-in-scrolling {
+  pointer-events: none; }
+
+.ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {
+  background-color: #eee;
+  opacity: 0.9; }
+
+.ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  background-color: #999; }
+
+.ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
+  background-color: #eee;
+  opacity: 0.9; }
+
+.ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: #999; }
+
+.ps-container:hover > .ps-scrollbar-x-rail,
+.ps-container:hover > .ps-scrollbar-y-rail {
+  opacity: 0.6; }
+
+.ps-container:hover > .ps-scrollbar-x-rail:hover {
+  background-color: #eee;
+  opacity: 0.9; }
+
+.ps-container:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x {
+  background-color: #999; }
+
+.ps-container:hover > .ps-scrollbar-y-rail:hover {
+  background-color: #eee;
+  opacity: 0.9; }
+
+.ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
+  background-color: #999; }
+
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -6598,15 +6712,15 @@ a.bg-danger:focus, a.bg-danger:hover {
     display: none !important; } }
 
 .navbar-main {
+  min-height: 55px;
   left: 60px;
   background: #fff;
   border-bottom: solid 1px rgba(0, 0, 0, 0.08);
   box-shadow: 0px 1px 2px rgba(13, 13, 13, 0.08); }
 
 .navbar-search-form {
-  float: left;
-  max-width: 500px;
-  width: 100%; }
+  padding-right: 0;
+  padding-left: 0; }
 
 .navbar-search-input {
   border: none;
@@ -6617,6 +6731,9 @@ a.bg-danger:focus, a.bg-danger:hover {
   .navbar-search-input:focus, .navbar-search-input:active {
     border-bottom: solid 1px #cccccc;
     width: 100%; }
+
+.navbar-info-nav {
+  float: right; }
 
 .navbar-main .dropdown-menu {
   top: 100%;
@@ -6727,7 +6844,7 @@ a.bg-danger:focus, a.bg-danger:hover {
   padding: 15px;
   background: #f9fafb;
   border-left: solid 1px #dae1e7;
-  overflow: auto; }
+  overflow: hidden; }
 
 .sidebar-header {
   font-size: 0.9em;
@@ -6780,6 +6897,10 @@ a.bg-danger:focus, a.bg-danger:hover {
   .sidebar-item-actions .cancel {
     float: right;
     color: #55595c; }
+
+@media (max-width: 767px) {
+  .sidebar {
+    display: none; } }
 
 .explorer {
   margin-top: 55px;
@@ -6841,6 +6962,13 @@ a.bg-danger:focus, a.bg-danger:hover {
   margin-bottom: 0;
   overflow: hidden;
   font-size: 0.9rem; }
+
+@media (max-width: 767px) {
+  .explorer {
+    margin-right: 0 !important; } }
+
+body {
+  overflow: hidden; }
 
 .open > .dropdown-menu {
   -webkit-animation-duration: 0.1s;

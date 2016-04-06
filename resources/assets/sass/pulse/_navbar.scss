@@ -1,4 +1,5 @@
 .navbar-main {
+    min-height: $navbar-height;
     left: $sidemenu-width;
     background: $navbar-main-background;
     border-bottom: solid 1px $navbar-main-border-color;
@@ -6,9 +7,8 @@
 }
 
 .navbar-search-form {
-    float: left;
-    max-width: 500px;
-    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
 }
 
 .navbar-search-input {
@@ -21,6 +21,10 @@
         border-bottom: solid 1px darken($navbar-main-background, 20%);
         width: 100%;
     }
+}
+
+.navbar-info-nav {
+    float: right;
 }
 
 .navbar-main {

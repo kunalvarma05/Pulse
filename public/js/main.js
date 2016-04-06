@@ -15611,7 +15611,7 @@ require('../../../node_modules/bootstrap/dist/js/umd/tooltip.js');
 
 global.jQuery = require('jquery');
 global.Tether = require('tether');
-var Ps = require('perfect-scrollbar');
+global.Ps = require('perfect-scrollbar');
 require('./bootstrap.js');
 require('./pulse/pulse.js');
 
@@ -15622,13 +15622,17 @@ require('./pulse/pulse.js');
 jQuery(document).ready(function ($) {
 
     //Sidemenu Tooltips
-    $("#sidemenu").find("[data-toggle-tooltip='tooltip']").tooltip({
+    $("#sidemenu").find("[data-toggle-tooltip=tooltip]").tooltip({
         placement: 'right'
     });
 
     //Explorer Tooltips
-    $("#explorer").find("[data-toggle-tooltip='tooltip']").tooltip({
+    $("#explorer").find("[data-toggle-tooltip=tooltip]").tooltip({
         placement: 'bottom'
+    });
+
+    $("[data-scrollbar=true]").each(function (index, el) {
+        Ps.initialize(el);
     });
 });
 

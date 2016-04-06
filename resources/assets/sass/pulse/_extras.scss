@@ -1,3 +1,7 @@
+body {
+    overflow: hidden;
+}
+
 .open > .dropdown-menu {
     @extend .animated;
     @extend .zoomIn;

@@ -7,7 +7,7 @@
     padding: 15px;
     background: $sidebar-background;
     border-left: solid 1px $sidebar-border-color;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .sidebar-header {
@@ -74,5 +74,11 @@
     .cancel {
         float: right;
         color: $gray;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .sidebar {
+        display: none;
     }
 }

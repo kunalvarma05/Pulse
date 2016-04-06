@@ -1,5 +1,5 @@
 .explorer {
-    margin-top: 55px;
+    margin-top: $navbar-height;
     margin-left: $sidemenu-width;
     margin-right: 0;
     &.has-sidebar {
@@ -76,4 +76,10 @@
     margin-bottom: 0;
     overflow: hidden;
     font-size: 0.9rem;
+}
+
+@include media-breakpoint-down(sm) {
+    .explorer {
+        margin-right: 0 !important;
+    }
 }
