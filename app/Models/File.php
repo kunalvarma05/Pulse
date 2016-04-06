@@ -38,4 +38,14 @@ class File extends Model
         return $this->hasMany('Action');
     }
 
+    /**
+     * The Transfers performed on the file
+     *
+     * @return Pulse\Models\Transfer
+     */
+    public function transfers()
+    {
+        return $this->hasMany('Transfer');
+    }
+
 }
