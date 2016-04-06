@@ -58,4 +58,13 @@ class Transfer extends Model
         return $this->hasOne('ScheduledTransfer', 'transfer_id');
     }
 
+    /**
+     * The Activities, the Transfer is a part of
+     * @return Pulse\Models\Activity
+     */
+    public function activities()
+    {
+        return $this->morphMany('Pulse\Models\Activity', 'transaction');
+    }
+
 }

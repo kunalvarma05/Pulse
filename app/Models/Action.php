@@ -38,4 +38,13 @@ class Action extends Model
         return $this->belongsTo('Account', 'account_id');
     }
 
+    /**
+     * The Activities, the Action is a part of
+     * @return Pulse\Models\Activity
+     */
+    public function activities()
+    {
+        return $this->morphMany('Pulse\Models\Activity', 'transaction');
+    }
+
 }
