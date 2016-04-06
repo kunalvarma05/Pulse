@@ -1,11 +1,12 @@
 <?php
 
-namespace Pulse;
+namespace Pulse\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Provider extends Model
 {
+
     /**
      * Table
      */
