@@ -40,4 +40,14 @@ class Account extends Model
         return $this->belongsTo('Provider', 'provider_id');
     }
 
+    /**
+     * The Files owned by the Account
+     *
+     * @return Pulse\Models\File
+     */
+    public function files()
+    {
+        return $this->hasMany('File');
+    }
+
 }
