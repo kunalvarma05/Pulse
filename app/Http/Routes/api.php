@@ -11,12 +11,12 @@ $api->version('v1', function ($api) {
         //API Index Page
         $api->get('/', ['as' => 'api.index', 'uses' => 'HomeController@index']);
 
-        $api->group(['prefix' => 'auth'], function ($api) {
-            //Login
-            $api->post('login', ['as' => 'api.login', 'uses' => 'AuthController@login']);
+        $api->group(['prefix' => 'user'], function ($api) {
+            //Authorize
+            $api->post('authorize', ['as' => 'api.user.authorize', 'uses' => 'AuthController@authorizeUser']);
 
-            //Signup
-            $api->post('signup', ['as' => 'api.signup', 'uses' => 'AuthController@signup']);
+            //Create
+            $api->post('create', ['as' => 'api.user.create', 'uses' => 'AuthController@createUser']);
         });
 
         //Require Authentication
