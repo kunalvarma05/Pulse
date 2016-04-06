@@ -50,4 +50,26 @@ class Account extends Model
         return $this->hasMany('File');
     }
 
+    /**
+     * The Transfer, in which the Account is the account,
+     * where a file is being transferred from
+     *
+     * @return Pulse\Models\Transfer
+     */
+    public function fromTransfer()
+    {
+        return $this->hasMany('Transfer', 'from_account_id');
+    }
+
+    /**
+     * The Transfer, in which the Account is the account,
+     * where a file is being transferred to
+     *
+     * @return Pulse\Models\Transfer
+     */
+    public function toTransfer()
+    {
+        return $this->hasMany('Transfer', 'to_account_id');
+    }
+
 }
