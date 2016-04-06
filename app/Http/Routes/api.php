@@ -19,9 +19,10 @@ $api->version('v1', function ($api) {
             $api->post('create', ['as' => 'api.user.create', 'uses' => 'AuthController@createUser']);
         });
 
-        //Require Authentication
+        //Requires Authentication
         $api->group(['prefix' => 'user', 'middleware' => 'jwt.refresh'], function ($api) {
-            $api->get('/profile', ['as' => 'api.user.profile', 'uses' => 'UsersController@profile']);
+            //Show User
+            $api->get('show/{id?}', ['as' => 'api.user.show', 'uses' => 'UsersController@show']);
         });
 
     });
