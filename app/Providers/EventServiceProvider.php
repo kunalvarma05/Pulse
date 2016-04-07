@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'Pulse\Events\SomeEvent' => [
-            'Pulse\Listeners\EventListener',
+        'Pulse\Events\User\UserWasCreatedEvent' => [
+            'Pulse\Listeners\User\SendWelcomeEmailListener',
         ],
     ];
 
