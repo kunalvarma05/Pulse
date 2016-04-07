@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'Pulse\Events\User\UserWasCreatedEvent' => [
             'Pulse\Listeners\User\SendWelcomeEmailListener',
         ],
+        'Pulse\Events\User\UserWasDeletedEvent' => [
+            //
+        ],
     ];
 
     /**
