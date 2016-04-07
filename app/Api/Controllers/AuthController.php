@@ -5,7 +5,7 @@ use Pulse\Models\User;
 use Dingo\Api\Facade\API;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Pulse\Api\Requests\SignupRequest;
+use Pulse\Api\Requests\User\SignupRequest;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Pulse\Bus\Commands\User\CreateUserCommand;
 

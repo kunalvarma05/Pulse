@@ -1,5 +1,5 @@
 <?php
-namespace Pulse\Api\Requests;
+namespace Pulse\Api\Requests\User;
 
 use Dingo\Api\Http\FormRequest;
 
