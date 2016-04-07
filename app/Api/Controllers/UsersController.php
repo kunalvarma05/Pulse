@@ -5,6 +5,7 @@ use Pulse\Models\User;
 use Dingo\Api\Facade\API;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Pulse\Bus\Commands\User\DeleteUserCommand;
 
 class UsersController extends BaseController
 {
@@ -45,10 +46,16 @@ class UsersController extends BaseController
      */
     public function delete(Request $request, $id = null)
     {
-        //Delete the user
-        if(!User::destroy($id)) {
-            return response()->json(['error' => 'could_not_delete_user', 'message' => "Cannot delete user!"], 500);
+        //Find the User
+        $user = User::find($id);
+
+        //User not found
+        if(!$user) {
+            return response()->json(['error' => 'user_not_found', 'message' => "User not found!"], 400);
         }
+
+        //Delete the user
+        dispatch(new DeleteUserCommand($user));
 
         //Response
         return response()->json(['message' => "User Deleted"]);
