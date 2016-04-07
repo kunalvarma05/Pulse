@@ -7,6 +7,7 @@ use Dingo\Api\Facade\API;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Pulse\Api\Requests\SignupRequest;
+use Pulse\Events\User\UserWasCreatedEvent;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends BaseController
@@ -59,6 +60,9 @@ class AuthController extends BaseController
         if(!$user){
             return response()->json(['error' => 'could_not_create_user', 'message' => "Something went wrong!"], 500);
         }
+
+        //Fire the UserWasCreatedEvent
+        event(new UserWasCreatedEvent($user));
 
         //Create JWT Token for the create user
         $token = JWTAuth::fromUser($user);
