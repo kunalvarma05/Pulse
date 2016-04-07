@@ -2,6 +2,7 @@
 
 namespace Pulse\Models;
 
+use Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -23,6 +24,19 @@ class User extends Authenticatable
     protected $hidden = [
     'password', 'remember_token',
     ];
+
+    /**
+     * Hash any password being inserted by default.
+     *
+     * @param string $password
+     *
+     * @return Pulse\Models\User
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+        return $this;
+    }
 
     /**
      * The Accounts owned by the User
