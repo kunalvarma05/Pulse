@@ -14,7 +14,8 @@
         "kunalvarma05/onedrive-client" : "^1.0",
         "dropbox/dropbox-sdk": "^1.1",
         "dingo/api": "1.0.*@dev",
-        "tymon/jwt-auth": "0.5.*"
+        "tymon/jwt-auth": "0.5.*",
+        "alt-three/bus": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

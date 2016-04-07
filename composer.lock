@@ -4,9 +4,78 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c1ff9055c51e7e4c71804d1ac0f3f3be",
-    "content-hash": "f430a53fb90650665e0f2231cbe222eb",
+    "hash": "96e30c70526f3faf74387562d6c6c02a",
+    "content-hash": "a5f3d3fe5ebee1406559cc4f3e228ede",
     "packages": [
+        {
+            "name": "alt-three/bus",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AltThree/Bus.git",
+                "reference": "a7a3bc76c66643624b072d551ca0fe31008d3f80"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AltThree/Bus/zipball/a7a3bc76c66643624b072d551ca0fe31008d3f80",
+                "reference": "a7a3bc76c66643624b072d551ca0fe31008d3f80",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "5.2.*",
+                "illuminate/contracts": "5.2.*",
+                "illuminate/pipeline": "5.2.*",
+                "illuminate/support": "5.2.*",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "graham-campbell/testbench-core": "^1.1",
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "^4.8|^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AltThree\\Bus\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                },
+                {
+                    "name": "James Brooks",
+                    "email": "james@alt-three.com"
+                },
+                {
+                    "name": "Graham Campbell",
+                    "email": "graham@alt-three.com"
+                },
+                {
+                    "name": "Joseph Cohen",
+                    "email": "joe@alt-three.com"
+                }
+            ],
+            "description": "An improved command bus for Laravel 5.2",
+            "keywords": [
+                "Alt Three",
+                "bus",
+                "command",
+                "command bus",
+                "job"
+            ],
+            "time": "2016-01-24 10:52:16"
+        },
         {
             "name": "classpreloader/classpreloader",
             "version": "3.0.0",
@@ -71,7 +140,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dingo/api/zipball/9f6978184ca2a8e759696b16ce8ccd36a34eae8d",
+                "url": "https://api.github.com/repos/dingo/api/zipball/f2726db0675e6a8cd9b68024bdc181d36672d4ce",
                 "reference": "9f6978184ca2a8e759696b16ce8ccd36a34eae8d",
                 "shasum": ""
             },
