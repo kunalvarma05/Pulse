@@ -2,6 +2,7 @@
 
 namespace Pulse\Providers;
 
+use AltThree\Bus\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -9,11 +10,15 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
+     * @param AltThree\Bus\Dispatcher $dispatcher
      * @return void
      */
-    public function boot()
+    public function boot(Dispatcher $dispatcher)
     {
-        //
+        //Map Commands and Handlers
+        $dispatcher->mapUsing(function ($command) {
+            return Dispatcher::simpleMapping($command, 'Pulse\Bus', 'Pulse\Bus\Handlers');
+        });
     }
 
     /**
