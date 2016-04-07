@@ -1,14 +1,13 @@
 <?php
 namespace Pulse\Api\Controllers;
 
-use Hash;
 use Pulse\Models\User;
 use Dingo\Api\Facade\API;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Pulse\Api\Requests\SignupRequest;
-use Pulse\Events\User\UserWasCreatedEvent;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Pulse\Bus\Commands\User\CreateUserCommand;
 
 class AuthController extends BaseController
 {
@@ -45,24 +44,19 @@ class AuthController extends BaseController
      */
     public function createUser(SignupRequest $request)
     {
-        //Fetch User Data
-        $userData = [
-        'name' => $request->get('name'),
-        'email' => $request->get('email'),
-        'password' => Hash::make($request->get('password')),
-        'username' => $request->get('username')
-        ];
 
-        //Create User
-        $user = User::create($userData);
+        //Dispatch CreateUserCommand
+        $user = dispatch(new CreateUserCommand(
+            $request->get('name'),
+            $request->get('username'),
+            $request->get('email'),
+            $request->get('password')
+            ));
 
         //Something went wrong
-        if(!$user){
+        if(!$user) {
             return response()->json(['error' => 'could_not_create_user', 'message' => "Something went wrong!"], 500);
         }
-
-        //Fire the UserWasCreatedEvent
-        event(new UserWasCreatedEvent($user));
 
         //Create JWT Token for the create user
         $token = JWTAuth::fromUser($user);
