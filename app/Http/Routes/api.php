@@ -11,15 +11,20 @@ $api->version('v1', function ($api) {
         //API Index Page
         $api->get('/', ['as' => 'api.index', 'uses' => 'HomeController@index']);
 
+        /**
+         * ********************************
+         * User Endpoint
+         * ********************************
+         */
         $api->group(['prefix' => 'user'], function ($api) {
-            //Authorize
+            //Authorize User
             $api->post('authorize', ['as' => 'api.user.authorize', 'uses' => 'AuthController@authorizeUser']);
 
-            //Create
+            //Create User
             $api->post('create', ['as' => 'api.user.create', 'uses' => 'AuthController@createUser']);
 
             //Requires Authentication
-            $api->group(['middleware' => 'jwt.refresh'], function ($api) {
+            $api->group(['middleware' => ['jwt.refresh', 'jwt.auth']], function ($api) {
                 //Show User
                 $api->get('show/{id?}', ['as' => 'api.user.show', 'uses' => 'UsersController@show']);
 
