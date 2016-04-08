@@ -19,6 +19,12 @@ class EventServiceProvider extends ServiceProvider
         'Pulse\Events\User\UserWasDeletedEvent' => [
             //
         ],
+        'Pulse\Events\Account\AccountWasCreatedEvent' => [
+            //
+        ],
+        'Pulse\Events\Account\AccountWasDeletedEvent' => [
+            //
+        ],
     ];
 
     /**
