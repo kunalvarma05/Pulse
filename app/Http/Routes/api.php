@@ -31,7 +31,16 @@ $api->version('v1', function ($api) {
                 //Delete User
                 $api->delete('delete/{id}', ['as' => 'api.user.delete', 'uses' => 'UsersController@delete']);
             });
+        });
 
+        /**
+         * ********************************
+         * Account Endpoint
+         * ********************************
+         */
+        $api->group(['prefix' => 'account', 'middleware' => ['jwt.refresh', 'jwt.auth']], function ($api) {
+            //Create Account
+            $api->post('create', ['as' => 'api.account.create', 'uses' => 'AccountsController@create']);
         });
     });
 });
