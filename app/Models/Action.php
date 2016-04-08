@@ -25,7 +25,7 @@ class Action extends Model
      */
     public function file()
     {
-        return $this->belongsTo('File', 'file_id');
+        return $this->belongsTo('Pulse\Models\File', 'file_id');
     }
 
     /**
@@ -35,7 +35,7 @@ class Action extends Model
      */
     public function account()
     {
-        return $this->belongsTo('Account', 'account_id');
+        return $this->belongsTo('Pulse\Models\Account', 'account_id');
     }
 
     /**

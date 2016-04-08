@@ -25,7 +25,7 @@ class File extends Model
      */
     public function account()
     {
-        return $this->belongsTo('Account', 'account_id');
+        return $this->belongsTo('Pulse\Models\Account', 'account_id');
     }
 
     /**
@@ -35,7 +35,7 @@ class File extends Model
      */
     public function actions()
     {
-        return $this->hasMany('Action');
+        return $this->hasMany('Pulse\Models\Action');
     }
 
     /**
@@ -45,7 +45,7 @@ class File extends Model
      */
     public function transfers()
     {
-        return $this->hasMany('Transfer');
+        return $this->hasMany('Pulse\Models\Transfer');
     }
 
 }

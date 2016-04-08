@@ -45,7 +45,7 @@ class User extends Authenticatable
      */
     public function accounts()
     {
-        return $this->hasMany('Account');
+        return $this->hasMany('Pulse\Models\Account');
     }
 
     /**
@@ -55,7 +55,7 @@ class User extends Authenticatable
      */
     public function scheduledTransfers()
     {
-        return $this->hasMany('ScheduledTransfer');
+        return $this->hasMany('Pulse\Models\ScheduledTransfer');
     }
 
 

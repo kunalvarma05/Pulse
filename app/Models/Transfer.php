@@ -25,7 +25,7 @@ class Transfer extends Model
      */
     public function file()
     {
-        return $this->belongsTo('File', 'file_id');
+        return $this->belongsTo('Pulse\Models\File', 'file_id');
     }
 
     /**
@@ -35,7 +35,7 @@ class Transfer extends Model
      */
     public function fromAccount()
     {
-        return $this->belongsTo('Account', 'from_account_id');
+        return $this->belongsTo('Pulse\Models\Account', 'from_account_id');
     }
 
     /**
@@ -45,7 +45,7 @@ class Transfer extends Model
      */
     public function toAccount()
     {
-        return $this->belongsTo('Account', 'to_account_id');
+        return $this->belongsTo('Pulse\Models\Account', 'to_account_id');
     }
 
     /**
@@ -55,7 +55,7 @@ class Transfer extends Model
      */
     public function scheduledTransfer()
     {
-        return $this->hasOne('ScheduledTransfer', 'transfer_id');
+        return $this->hasOne('Pulse\Models\ScheduledTransfer', 'transfer_id');
     }
 
     /**
@@ -64,7 +64,7 @@ class Transfer extends Model
      */
     public function activities()
     {
-        return $this->morphMany('Pulse\Models\Activity', 'transaction');
+        return $this->morphMany('Pulse\Models\Pulse\Models\Activity', 'transaction');
     }
 
 }

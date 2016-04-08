@@ -27,7 +27,7 @@ class Account extends Model
      */
     public function user()
     {
-        return $this->belongsTo('User', 'user_id');
+        return $this->belongsTo('Pulse\Models\User', 'user_id');
     }
 
     /**
@@ -37,7 +37,7 @@ class Account extends Model
      */
     public function provider()
     {
-        return $this->belongsTo('Provider', 'provider_id');
+        return $this->belongsTo('Pulse\Models\Provider', 'provider_id');
     }
 
     /**
@@ -47,7 +47,7 @@ class Account extends Model
      */
     public function files()
     {
-        return $this->hasMany('File');
+        return $this->hasMany('Pulse\Models\File');
     }
 
     /**
@@ -58,7 +58,7 @@ class Account extends Model
      */
     public function fromTransfer()
     {
-        return $this->hasMany('Transfer', 'from_account_id');
+        return $this->hasMany('Pulse\Models\Transfer', 'from_account_id');
     }
 
     /**
@@ -69,7 +69,7 @@ class Account extends Model
      */
     public function toTransfer()
     {
-        return $this->hasMany('Transfer', 'to_account_id');
+        return $this->hasMany('Pulse\Models\Transfer', 'to_account_id');
     }
 
     /**
@@ -79,7 +79,7 @@ class Account extends Model
      */
     public function actions()
     {
-        return $this->hasMany('Action');
+        return $this->hasMany('Pulse\Models\Action');
     }
 
 }

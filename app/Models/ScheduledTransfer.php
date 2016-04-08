@@ -25,7 +25,7 @@ class ScheduledTransfer extends Model
      */
     public function user()
     {
-        return $this->belongsTo('User', 'user_id');
+        return $this->belongsTo('Pulse\Models\User', 'user_id');
     }
 
     /**
@@ -35,7 +35,7 @@ class ScheduledTransfer extends Model
      */
     public function transfer()
     {
-        return $this->belongsTo('Transfer', 'transfer_id');
+        return $this->belongsTo('Pulse\Models\Transfer', 'transfer_id');
     }
 
 }
