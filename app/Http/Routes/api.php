@@ -24,7 +24,7 @@ $api->version('v1', function ($api) {
             $api->post('create', ['as' => 'api.user.create', 'uses' => 'AuthController@createUser']);
 
             //Requires Authentication
-            $api->group(['middleware' => ['jwt.refresh', 'jwt.auth']], function ($api) {
+            $api->group(['middleware' => ['jwt.auth']], function ($api) {
                 //Show User
                 $api->get('show/{id?}', ['as' => 'api.user.show', 'uses' => 'UsersController@show']);
 
@@ -38,7 +38,7 @@ $api->version('v1', function ($api) {
          * Account Endpoint
          * ********************************
          */
-        $api->group(['prefix' => 'account', 'middleware' => ['jwt.refresh', 'jwt.auth']], function ($api) {
+        $api->group(['prefix' => 'account', 'middleware' => ['jwt.auth']], function ($api) {
             //Create Account
             $api->post('create', ['as' => 'api.account.create', 'uses' => 'AccountsController@create']);
         });
