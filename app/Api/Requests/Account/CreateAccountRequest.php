@@ -25,6 +25,7 @@ class CreateAccountRequest extends FormRequest
         return [
         'name' => 'bail|required|string|max:255',
         'code' => 'bail|required|string',
+        'state' => 'bail|required|string',
         'provider' => 'bail|required|exists:providers,id',
         ];
     }
