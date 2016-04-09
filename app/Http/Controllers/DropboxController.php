@@ -6,7 +6,6 @@ use Session;
 use Redirect;
 use \Pulse\Http\Requests;
 use Illuminate\Http\Request;
-use \Pulse\Utils\DropboxSessionStore;
 use \Pulse\Http\Controllers\Controller;
 //Dropbox
 use \Dropbox\AppInfo;
@@ -31,7 +30,7 @@ class DropboxController extends Controller
         //Auth User
         $this->user = (!\Auth::check()) ? \Auth::login(\Pulse\Models\User::first()) : \Auth::user();
         //Dropbox Session Store
-        $this->sessionStore = new DropboxSessionStore(\App::make('Illuminate\Session\Store'), "Dropbox-oauth-key");
+        $this->sessionStore = app('Pulse\Services\Authorization\Dropbox\DropboxCsrfTokenStore');
         //Web Auth
         $this->webAuth = new WebAuth($this->getAppInfo(), "pulseapp", config("dropbox.callback_url"), $this->sessionStore, "en");
     }
