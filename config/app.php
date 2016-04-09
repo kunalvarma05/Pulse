@@ -160,6 +160,8 @@ return [
         Pulse\Providers\AuthServiceProvider::class,
         Pulse\Providers\EventServiceProvider::class,
         Pulse\Providers\RouteServiceProvider::class,
+        Pulse\Providers\AuthorizationResolverProvider::class,
+
 
     ],
 
