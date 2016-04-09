@@ -35,12 +35,22 @@ $api->version('v1', function ($api) {
 
         /**
          * ********************************
+         * Provider Endpoint
+         * ********************************
+         */
+        $api->group(['prefix' => 'provider', 'middleware' => ['jwt.auth']], function ($api) {
+            //Get Auth Redirect URL
+            $api->post('auth-url', ['as' => 'api.provider.auth-url', 'middleware' => ['session'], 'uses' => 'ProvidersController@getAuthUrl']);
+        });
+
+        /**
+         * ********************************
          * Account Endpoint
          * ********************************
          */
         $api->group(['prefix' => 'account', 'middleware' => ['jwt.auth']], function ($api) {
             //Create Account
-            $api->post('create', ['as' => 'api.account.create', 'uses' => 'AccountsController@create']);
+            $api->post('create', ['as' => 'api.account.create', 'middleware' => ['session'], 'uses' => 'AccountsController@create']);
         });
     });
 });
