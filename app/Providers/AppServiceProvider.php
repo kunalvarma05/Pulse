@@ -4,6 +4,7 @@ namespace Pulse\Providers;
 
 use AltThree\Bus\Dispatcher;
 use Illuminate\Support\ServiceProvider;
+use Pulse\Services\Authorization\Dropbox\DropboxCsrfTokenStore;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,5 +40,9 @@ class AppServiceProvider extends ServiceProvider
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
             $loader->alias('Debugbar', "Barryvdh\Debugbar\Facade");
         }
+
+        $this->app->singleton('Pulse\Services\Authorization\Dropbox\DropboxCsrfTokenStore', function ($app) {
+            return new DropboxCsrfTokenStore($app->make('Illuminate\Session\Store'));
+        });
     }
 }
