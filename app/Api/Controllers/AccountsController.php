@@ -8,6 +8,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Pulse\Services\Authorization\ResolverInterface;
 use Pulse\Api\Requests\Account\CreateAccountRequest;
 use Pulse\Bus\Commands\Account\CreateAccountCommand;
+use Pulse\Bus\Commands\Provider\GenerateAccessTokenCommand;
 
 class AccountsController extends BaseController
 {
@@ -15,23 +16,23 @@ class AccountsController extends BaseController
     /**
      * Create new Account
      * @param  CreateAccountRequest $request
-     * @param  ResolverInterface    $resolver
      * @return Response
      */
-    public function create(CreateAccountRequest $request, ResolverInterface $resolver)
+    public function create(CreateAccountRequest $request)
     {
         //Current User
         $user = Auth::user();
         //Provider
         $provider = Provider::find($request->get('provider'));
 
-        //Resolve Auth Provider
-        $authProvider = $resolver->resolve(strtolower($provider->alias));
+        //Dispatch GenerateAccessTokenCommand
+        $access_token = $account = dispatch(new GenerateAccessTokenCommand(
+            $request->get('code'),
+            $request->get('state'),
+            $provider
+            ));
 
-        //@todo Dispatch CreateAccessTokenCommand
-        $access_token = $authProvider->getAccessToken($request->get('code'), $request->get('state'));
-
-        //@todo
+        //@todo Cloud Account User ID
         $uid = mt_rand();
 
         //Dispatch CreateAccountCommand
