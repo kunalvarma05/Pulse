@@ -13,7 +13,8 @@ class AccountTransformer extends TransformerAbstract
      * @var array
      */
     protected $availableIncludes = [
-        'provider'
+        'provider',
+        'user'
     ];
 
     public function transform(Account $account)
@@ -22,7 +23,7 @@ class AccountTransformer extends TransformerAbstract
             "id" => (int) $account->id,
             "uid" => (int) $account->uid,
             "name" => $account->name,
-            "picture" => is_null($account->picture) ? Helpers::defaultAccountPicture($account->provider->alias) : $account->picture,
+            "picture" => is_null($account->picture) ? Helpers::defaultAccountPicture() : $account->picture,
             "provider_id" => (int) $account->provider_id,
             "user_id" => (int) $account->user_id,
             "created_at" => $account->created_at ? $account->created_at->diffForHumans() : "",
@@ -33,10 +34,21 @@ class AccountTransformer extends TransformerAbstract
     /**
      * Include Provider
      *
-     * @return League\Fractal\ItemResource
+     * @return League\Fractal\Resource\Item
      */
     public function includeProvider(Account $account)
     {
         return $this->item($account->provider, new ProviderTransformer);
     }
+
+    /**
+     * Include User
+     *
+     * @return League\Fractal\Resource\Item
+     */
+    public function includeUser(Account $account)
+    {
+        return $this->item($account->user, new UserTransformer);
+    }
+
 }
