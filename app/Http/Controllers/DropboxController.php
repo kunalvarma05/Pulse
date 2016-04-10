@@ -43,7 +43,7 @@ class DropboxController extends Controller
     }
 
     public function auth(Request $request){
-        $input = $request->all();
+        return $request->all();
         $code = $input['code'];
         $state = $input['state'];
 
