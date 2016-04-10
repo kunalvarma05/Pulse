@@ -16,20 +16,20 @@ $api->version('v1', function ($api) {
          * User Endpoint
          * ********************************
          */
-        $api->group(['prefix' => 'user'], function ($api) {
+        $api->group(['prefix' => 'users'], function ($api) {
             //Authorize User
-            $api->post('authorize', ['as' => 'api.user.authorize', 'uses' => 'AuthController@authorizeUser']);
+            $api->post('authorize', ['as' => 'api.users.authorize', 'uses' => 'AuthController@authorizeUser']);
 
             //Create User
-            $api->post('create', ['as' => 'api.user.create', 'uses' => 'AuthController@createUser']);
+            $api->post('create', ['as' => 'api.users.create', 'uses' => 'AuthController@createUser']);
 
             //Requires Authentication
             $api->group(['middleware' => ['jwt.auth']], function ($api) {
                 //Show User
-                $api->get('show/{id?}', ['as' => 'api.user.show', 'uses' => 'UsersController@show']);
+                $api->get('show/{id?}', ['as' => 'api.users.show', 'uses' => 'UsersController@show']);
 
                 //Delete User
-                $api->delete('delete/{id}', ['as' => 'api.user.delete', 'uses' => 'UsersController@delete']);
+                $api->delete('delete/{id}', ['as' => 'api.users.delete', 'uses' => 'UsersController@delete']);
             });
         });
 
@@ -38,9 +38,9 @@ $api->version('v1', function ($api) {
          * Provider Endpoint
          * ********************************
          */
-        $api->group(['prefix' => 'provider', 'middleware' => ['jwt.auth']], function ($api) {
+        $api->group(['prefix' => 'providers', 'middleware' => ['jwt.auth']], function ($api) {
             //Get Auth Redirect URL
-            $api->get('auth-url', ['as' => 'api.provider.auth-url', 'middleware' => ['session'], 'uses' => 'ProvidersController@getAuthUrl']);
+            $api->get('auth-url', ['as' => 'api.providers.auth-url', 'middleware' => ['session'], 'uses' => 'ProvidersController@getAuthUrl']);
         });
 
         /**
@@ -48,9 +48,9 @@ $api->version('v1', function ($api) {
          * Account Endpoint
          * ********************************
          */
-        $api->group(['prefix' => 'account', 'middleware' => ['jwt.auth']], function ($api) {
+        $api->group(['prefix' => 'accounts', 'middleware' => ['jwt.auth']], function ($api) {
             //Create Account
-            $api->post('create', ['as' => 'api.account.create', 'middleware' => ['session'], 'uses' => 'AccountsController@create']);
+            $api->post('create', ['as' => 'api.accounts.create', 'middleware' => ['session'], 'uses' => 'AccountsController@create']);
         });
     });
 });
