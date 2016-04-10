@@ -5,6 +5,7 @@ use Auth;
 use Pulse\Models\Account;
 use Pulse\Models\Provider;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Pulse\Api\Transformers\AccountTransformer;
 use Pulse\Services\Authorization\ResolverInterface;
 use Pulse\Api\Requests\Account\CreateAccountRequest;
 use Pulse\Bus\Commands\Account\CreateAccountCommand;
@@ -12,6 +13,17 @@ use Pulse\Bus\Commands\Provider\GenerateAccessTokenCommand;
 
 class AccountsController extends BaseController
 {
+
+    /**
+     * List Accounts
+     * @return Response
+     */
+    public function index()
+    {
+        $accounts = Account::all();
+
+        return $this->response->collection($accounts, new AccountTransformer);
+    }
 
     /**
      * Create new Account
@@ -26,7 +38,7 @@ class AccountsController extends BaseController
         $provider = Provider::find($request->get('provider'));
 
         //Dispatch GenerateAccessTokenCommand
-        $access_token = $account = dispatch(new GenerateAccessTokenCommand(
+        $access_token = dispatch(new GenerateAccessTokenCommand(
             $request->get('code'),
             $request->get('state'),
             $provider
