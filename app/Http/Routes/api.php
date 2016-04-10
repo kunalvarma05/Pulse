@@ -49,6 +49,8 @@ $api->version('v1', function ($api) {
          * ********************************
          */
         $api->group(['prefix' => 'accounts', 'middleware' => ['jwt.auth']], function ($api) {
+            //List Accounts
+            $api->get('/', ['as' => 'api.accounts.list', 'uses' => 'AccountsController@index']);
             //Create Account
             $api->post('create', ['as' => 'api.accounts.create', 'middleware' => ['session'], 'uses' => 'AccountsController@create']);
         });
