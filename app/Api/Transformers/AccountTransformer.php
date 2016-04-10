@@ -19,14 +19,14 @@ class AccountTransformer extends TransformerAbstract
     public function transform(Account $account)
     {
         return [
-        "id" => (int) $account->id,
-        "uid" => (int) $account->uid,
-        "name" => $account->name,
-        "picture" => is_null($account->picture) ? Helpers::defaultAccountPicture($account->provider_id) : $account->picture,
-        "provider_id" => (int) $account->provider_id,
-        "user_id" => (int) $account->user_id,
-        "created_at" => $account->created_at->diffForHumans(),
-        "updated_at" => $account->updated_at->diffForHumans()
+            "id" => (int) $account->id,
+            "uid" => (int) $account->uid,
+            "name" => $account->name,
+            "picture" => is_null($account->picture) ? Helpers::defaultAccountPicture($account->provider->alias) : $account->picture,
+            "provider_id" => (int) $account->provider_id,
+            "user_id" => (int) $account->user_id,
+            "created_at" => $account->created_at ? $account->created_at->diffForHumans() : "",
+            "updated_at" => $account->updated_at ? $account->updated_at->diffForHumans() : ""
         ];
     }
 
@@ -37,11 +37,6 @@ class AccountTransformer extends TransformerAbstract
      */
     public function includeProvider(Account $account)
     {
-        return $this->item($account->provider, function($provider){
-            return [
-            'id' => $provider->id,
-            'title' => $provider->title
-            ];
-        });
+        return $this->item($account->provider, new ProviderTransformer);
     }
 }
