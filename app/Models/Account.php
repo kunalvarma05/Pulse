@@ -21,6 +21,15 @@ class Account extends Model
     ];
 
     /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+    'access_token',
+    ];
+
+    /**
      * The User the account belongs to
      *
      * @return Pulse\Models\User
