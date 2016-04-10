@@ -40,7 +40,7 @@ $api->version('v1', function ($api) {
          */
         $api->group(['prefix' => 'provider', 'middleware' => ['jwt.auth']], function ($api) {
             //Get Auth Redirect URL
-            $api->post('auth-url', ['as' => 'api.provider.auth-url', 'middleware' => ['session'], 'uses' => 'ProvidersController@getAuthUrl']);
+            $api->get('auth-url', ['as' => 'api.provider.auth-url', 'middleware' => ['session'], 'uses' => 'ProvidersController@getAuthUrl']);
         });
 
         /**
