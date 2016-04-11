@@ -41,11 +41,11 @@ class UserTransformer extends TransformerAbstract
     }
 
     /**
-     * Include Activites
+     * Include Activities
      *
      * @return League\Fractal\Resource\Collection
      */
-    public function includeActivites(User $user)
+    public function includeActivities(User $user)
     {
         return $this->collection($user->activities, new ActivityTransformer);
     }

@@ -55,7 +55,7 @@ class User extends Authenticatable
      */
     public function activities()
     {
-        return $this->hasMany('Pulse\Models\Activities');
+        return $this->hasMany('Pulse\Models\Activity');
     }
 
     /**
