@@ -42,6 +42,7 @@ class DriveController extends Controller
     }
 
     public function auth(Request $request){
+        return $request->all();
         if($request->has('code')){
             $code = $request->input('code');
             $this->client->authenticate($code);

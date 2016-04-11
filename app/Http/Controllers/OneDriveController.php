@@ -48,6 +48,7 @@ class OneDriveController extends Controller
 
 
     public function auth(Request $request){
+        return $request->all();
         //No code or state, accessed directly.
         if (!$request->has('code') || !$request->has('state')) {
             return redirect('connect/onedrive');
