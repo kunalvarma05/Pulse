@@ -13,7 +13,9 @@ class UserTransformer extends TransformerAbstract
      * @var array
      */
     protected $availableIncludes = [
-        'accounts'
+        'accounts',
+        'activities',
+        'scheduled_transfers'
     ];
 
     public function transform(User $user)
@@ -29,7 +31,7 @@ class UserTransformer extends TransformerAbstract
     }
 
     /**
-     * Include Provider
+     * Include Accounts
      *
      * @return League\Fractal\Resource\Collection
      */
@@ -37,4 +39,25 @@ class UserTransformer extends TransformerAbstract
     {
         return $this->collection($user->accounts, new AccountTransformer);
     }
+
+    /**
+     * Include Activites
+     *
+     * @return League\Fractal\Resource\Collection
+     */
+    public function includeActivites(User $user)
+    {
+        return $this->collection($user->activities, new ActivityTransformer);
+    }
+
+    /**
+     * Include Scheduled Transfer
+     *
+     * @return League\Fractal\Resource\Collection
+     */
+    public function includeScheduledTransfers(User $user)
+    {
+        return $this->collection($user->scheduledTransfers, new ScheduledTransferTransformer);
+    }
+
 }
