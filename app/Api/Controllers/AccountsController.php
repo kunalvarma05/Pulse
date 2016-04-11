@@ -62,6 +62,6 @@ class AccountsController extends BaseController
         }
 
         //Return the Response
-        return response()->json(compact('account'));
+        return $this->response->item($account, new AccountTransformer);
     }
 }
