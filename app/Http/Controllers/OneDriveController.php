@@ -41,7 +41,7 @@ class OneDriveController extends Controller
             'scope' => ['wl.basic', 'wl.signin', 'wl.offline_access', 'onedrive.readwrite']
             );
 
-        $authUrl = $this->provider->getAuthorizationUrl();
+        $authUrl = $this->provider->getAuthorizationUrl($options);
         Session::put('oauth2state', $this->provider->getState());
         return redirect($authUrl);
     }
