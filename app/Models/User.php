@@ -49,6 +49,16 @@ class User extends Authenticatable
     }
 
     /**
+     * The Activities of the User
+     *
+     * @return Pulse\Models\Activity
+     */
+    public function activities()
+    {
+        return $this->hasMany('Pulse\Models\Activities');
+    }
+
+    /**
      * The ScheduledTransfers owned by the User
      *
      * @return Pulse\Models\ScheduledTransfer
