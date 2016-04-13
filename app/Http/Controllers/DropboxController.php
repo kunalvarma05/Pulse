@@ -30,7 +30,7 @@ class DropboxController extends Controller
         //Auth User
         $this->user = (!\Auth::check()) ? \Auth::login(\Pulse\Models\User::first()) : \Auth::user();
         //Dropbox Session Store
-        $this->sessionStore = app('Pulse\Services\Authorization\Dropbox\DropboxCsrfTokenStore');
+        $this->sessionStore = app('Pulse\Services\Authorization\Adapters\Dropbox\DropboxCsrfTokenStoreInterface');
         //Web Auth
         $this->webAuth = new WebAuth($this->getAppInfo(), "pulseapp", config("dropbox.callback_url"), $this->sessionStore, "en");
     }
