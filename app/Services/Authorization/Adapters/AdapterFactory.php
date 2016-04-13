@@ -87,11 +87,9 @@ class AdapterFactory implements AdapterFactoryInterface
             'redirectUri'       => config('onedrive.callback_url')
             ]);
 
-        $guzzleClient = new Guzzle;
-
         $sessionStore = app('Illuminate\Session\Store');
 
-        return new OneDriveAdapter($provider, $guzzleClient, $sessionStore);
+        return new OneDriveAdapter($provider, $sessionStore);
     }
 
 }

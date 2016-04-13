@@ -1,7 +1,6 @@
 <?php
 namespace Pulse\Services\Authorization\Adapters\OneDrive;
 
-use GuzzleHttp\Client as Guzzle;
 use Illuminate\Session\SessionInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Stevenmaguire\OAuth2\Client\Provider\Microsoft;
@@ -15,12 +14,6 @@ class AuthAdapter implements AdapterInterface
      * @var Stevenmaguire\OAuth2\Client\Provider\Microsoft
      */
     protected $provider;
-
-    /**
-     * Guzzle Client
-     * @var GuzzleHttp\Client
-     */
-    protected $guzzleClient;
 
     /**
      * Session Store
@@ -38,14 +31,11 @@ class AuthAdapter implements AdapterInterface
     /**
      * Constructor
      * @param Stevenmaguire\OAuth2\Client\Provider\Microsoft        $provider
-     * @param GuzzleHttp\Client                                      $guzzleClient
      * @param Illuminate\Session\SessionInterface                    $sessionStore
      */
-    public function __construct(Microsoft $provider, Guzzle $guzzleClient, SessionInterface $sessionStore)
+    public function __construct(Microsoft $provider, SessionInterface $sessionStore)
     {
         $this->provider = $provider;
-
-        $this->guzzleClient = $guzzleClient;
 
         $this->sessionStore = $sessionStore;
     }
