@@ -36,7 +36,7 @@ class Authorization implements AuthorizationInterface
         $this->client->setClientSecret(config("drive.client_secret"));
         $this->client->setRedirectUri(config("drive.callback_url"));
         $this->client->setAccessType('offline');
-        $this->client->setScopes(Google_Service_Drive::DRIVE);
+        $this->client->setScopes([Google_Service_Drive::DRIVE, 'profile', 'email']);
 
         $this->sessionStore = app('Illuminate\Session\Store');
     }
@@ -88,19 +88,22 @@ class Authorization implements AuthorizationInterface
 
     /**
      * Refresh Access Token
-     * @param  League\OAuth2\Client\Token\AccessToken $access_token
-     * @return League\OAuth2\Client\Token
+     * @param  string $access_token JSON Encoded Access Token
+     * @return string JSON Encoded Access Token
      */
     public function refreshAccessToken($access_token)
     {
-        //If the access token has expired, refresh it
-        if ($access_token->hasExpired()) {
-            $access_token = $this->provider->getAccessToken('refresh_token', [
-                'refresh_token' => $access_token->getRefreshToken()
-                ]);
+        //No Access Token Set
+        if(!$this->client->getAccessToken()) {
+            $this->client->setAccessToken($access_token);
         }
 
-        return $access_token;
+        //If the access token has expired, refresh it
+        if ($this->client->isAccessTokenExpired()) {
+            $new_access_token = $this->client->refreshToken($this->client->getRefreshToken());
+        }
+
+        return $new_access_token;
     }
 
 }
