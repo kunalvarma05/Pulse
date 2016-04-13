@@ -43,14 +43,15 @@ class DropboxController extends Controller
     }
 
     public function auth(Request $request){
-        return $request->all();
+        $input = $request->all();
+        return $input;
         $code = $input['code'];
         $state = $input['state'];
 
         $accessToken = $this->getAccessToken($code, $state);
 
         Session::put('dbx-access-token', $accessToken, 1000);
-        return Redirect::to('api/dropbox');
+        return Redirect::to('devapi/dropbox');
 
     }
 
@@ -62,8 +63,8 @@ class DropboxController extends Controller
         $accessToken = \Session::get('dbx-access-token');
         $client = new DropboxClient($accessToken, config('dropbox.app'));
         var_dump($client->getAccountInfo());
-        var_dump($client->getMetadataWithChildren("/"));
-        var_dump($client->getThumbnail("/pulse-logo.png", 'png', 'm'));
+        //var_dump($client->getMetadataWithChildren("/"));
+        //var_dump($client->getThumbnail("/pulse-logo.png", 'png', 'm'));
     }
 
     protected function getAppInfo(){

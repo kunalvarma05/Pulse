@@ -67,7 +67,7 @@ class OneDriveController extends Controller
             //Put the obtained access token in the session
             Session::put('onedrive-access-token', $access_token);
 
-            return redirect('api/onedrive');
+            return redirect('devapi/onedrive');
         }
     }
 
@@ -80,11 +80,12 @@ class OneDriveController extends Controller
         //Get the Access Token
         $access_token = $this->getAccessToken();
 
-        try {
+        // Get the user's details
+        $user = $this->provider->getResourceOwner($access_token);
+        $user->setImageurl("https://apis.live.net/v5.0/{$user->getId()}/picture?type=large");
+        dd($user);
 
-            // Get the user's details
-            //$user = $this->provider->getResourceOwner($access_token);
-            //$user->setImageurl("https://apis.live.net/v5.0/{$user->getId()}/picture?type=large");
+        try {
 
             $oneDriveClient = new Client($access_token->getToken(), $this->guzzleClient);
 
@@ -93,7 +94,7 @@ class OneDriveController extends Controller
             $file = $oneDriveClient->getItem("7D780E8525603004!1315");
             dd($access_token, $file);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Failed to get user details
             abort(500, 'Oh dear...');
         }

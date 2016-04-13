@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Pulse\Http\Requests;
 
 use \Google_Client;
+use \Google_Service_Plus;
 use \Google_Service_Drive;
 use \Auth;
 use \Session;
@@ -28,7 +29,7 @@ class DriveController extends Controller
         $this->client->setClientSecret($client_secret);
         $this->client->setRedirectUri($callback_url);
         $this->client->setAccessType('offline');
-        $this->client->setScopes(Google_Service_Drive::DRIVE);
+        $this->client->setScopes([Google_Service_Drive::DRIVE, 'profile', 'email']);
     }
 
     public function connect(){
@@ -47,9 +48,10 @@ class DriveController extends Controller
             $code = $request->input('code');
             $this->client->authenticate($code);
             $access_token = $this->client->getAccessToken();
+            $this->client->setAccessToken($access_token);
             Session::set('google-access-token', $access_token);
 
-            return redirect('api/drive');
+            return redirect('devapi/drive');
         }
     }
 
@@ -59,6 +61,12 @@ class DriveController extends Controller
         if(!$client){
             return redirect('/connect/drive');
         }
+
+        $googlePlus = new Google_Service_Plus($client);
+        $user = $googlePlus->people->get("me");
+        dd($user);
+
+        dd([$client->getAccessToken(), $client->verifyIdToken()->getAttributes()]);
 
         $service = new Google_Service_Drive($client);
 
