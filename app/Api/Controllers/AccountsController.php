@@ -6,7 +6,6 @@ use Pulse\Models\Account;
 use Pulse\Models\Provider;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Pulse\Api\Transformers\AccountTransformer;
-use Pulse\Services\Authorization\ResolverInterface;
 use Pulse\Api\Requests\Account\CreateAccountRequest;
 use Pulse\Bus\Commands\Account\CreateAccountCommand;
 use Pulse\Bus\Commands\Provider\GenerateAccessTokenCommand;
