@@ -21,4 +21,11 @@ interface AuthorizationInterface
      */
     public function getAccessToken($code, $state, array $data = array());
 
+    /**
+     * Refresh Access Token
+     * @param  string $access_token
+     * @return string
+     */
+    public function refreshAccessToken($access_token);
+
 }
