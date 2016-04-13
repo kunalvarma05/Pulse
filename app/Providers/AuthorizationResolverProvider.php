@@ -19,8 +19,9 @@ class AuthorizationResolverProvider extends ServiceProvider
      * @var array
      */
     protected $authProviders = [
-    'dropbox' => 'Pulse\Services\Authorization\Dropbox\Authorization',
-    'onedrive' => 'Pulse\Services\Authorization\OneDrive\Authorization',
+        'drive' => 'Pulse\Services\Authorization\Drive\Authorization',
+        'dropbox' => 'Pulse\Services\Authorization\Dropbox\Authorization',
+        'onedrive' => 'Pulse\Services\Authorization\OneDrive\Authorization',
     ];
 
     /**
