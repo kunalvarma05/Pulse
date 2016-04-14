@@ -44,5 +44,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('Pulse\Services\Authorization\Adapters\Dropbox\DropboxCsrfTokenStoreInterface', function ($app) {
             return new DropboxCsrfTokenStore($app->make('Illuminate\Session\Store'));
         });
+
+        $this->app->bind('Pulse\Services\Identity\Account\AccountInterface', 'Pulse\Services\Identity\Account\Account');
     }
 }
