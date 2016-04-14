@@ -7,8 +7,7 @@ use Pulse\Models\Provider;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Pulse\Api\Transformers\AccountTransformer;
 use Pulse\Api\Requests\Account\CreateAccountRequest;
-use Pulse\Bus\Commands\Account\CreateAccountCommand;
-use Pulse\Bus\Commands\Provider\GenerateAccessTokenCommand;
+use Pulse\Bus\Commands\Account\ConnectAccountCommand;
 
 class AccountsController extends BaseController
 {
@@ -36,31 +35,23 @@ class AccountsController extends BaseController
         //Provider
         $provider = Provider::find($request->get('provider'));
 
-        //Dispatch GenerateAccessTokenCommand
-        $access_token = dispatch(new GenerateAccessTokenCommand(
+        //Dispatch ConnectAccountCommand
+        $account = dispatch(new ConnectAccountCommand(
             $request->get('code'),
             $request->get('state'),
+            $request->get('name'),
+            $user,
             $provider
             ));
 
-        //@todo Cloud Account User ID
-        $uid = mt_rand();
-
-        //Dispatch CreateAccountCommand
-        $account = dispatch(new CreateAccountCommand(
-            $user,
-            $provider,
-            $request->get('name'),
-            $uid,
-            $access_token
-            ));
-
         //Something went wrong
-        if(!$account) {
-            return response()->json(['error' => 'could_not_create_account', 'message' => "Something went wrong!"], 500);
+        if($account['error'])
+        {
+            $message = $account['message'] ? $account['message'] : "Something went wrong!";
+            return response()->json(['error' => 'could_not_create_account', 'message' => $message], 500);
         }
 
         //Return the Response
-        return $this->response->item($account, new AccountTransformer);
+        return $this->response->item($account['data'], new AccountTransformer);
     }
 }
