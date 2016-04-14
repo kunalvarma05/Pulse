@@ -21,7 +21,7 @@ class AccountTransformer extends TransformerAbstract
     {
         return [
             "id" => (int) $account->id,
-            "uid" => (int) $account->uid,
+            "uid" => (string) $account->uid,
             "name" => $account->name,
             "picture" => is_null($account->picture) ? Helpers::defaultAccountPicture() : $account->picture,
             "provider_id" => (int) $account->provider_id,
