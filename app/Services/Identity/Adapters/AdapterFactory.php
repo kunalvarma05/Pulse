@@ -5,9 +5,10 @@ use Google_Client;
 use Google_Service_Plus;
 use Dropbox\Client as DropboxClient;
 use Pulse\Services\Identity\Account\Account;
+use Stevenmaguire\OAuth2\Client\Provider\Microsoft;
 use Pulse\Services\Identity\Adapters\Drive\DriveAdapter;
-use Pulse\Services\Identity\Adapters\Dropbox;
 use Pulse\Services\Identity\Adapters\Dropbox\DropboxAdapter;
+use Pulse\Services\Identity\Adapters\OneDrive\OneDriveAdapter;
 
 class AdapterFactory implements AdapterFactoryInterface
 {
@@ -21,15 +22,18 @@ class AdapterFactory implements AdapterFactoryInterface
     {
         switch ($adapter) {
             case 'dropbox':
-            return self::createDropboxAdapter($access_token);
-            break;
+                return self::createDropboxAdapter($access_token);
+                break;
             case 'drive':
-            return self::createDriveAdapter($access_token);
-            break;
+                return self::createDriveAdapter($access_token);
+                break;
+            case 'onedrive':
+                return self::createOneDriveAdapter($access_token);
+                break;
 
             default:
-            throw new \Exception("Please specify a valid adapter!");
-            break;
+                throw new \Exception("Please specify a valid adapter!");
+                break;
         }
     }
 
@@ -52,11 +56,24 @@ class AdapterFactory implements AdapterFactoryInterface
      * @param  string $access_token
      * @return DropboxAdapter
      */
-    public static function createDropboxAdapter($access_token)
+    protected static function createDropboxAdapter($access_token)
     {
         $service = new DropboxClient($access_token, config('dropbox.app'));
         $accountInfo = app('Pulse\Services\Identity\Account\AccountInterface');
 
         return new DropboxAdapter($service, $accountInfo);
+    }
+
+    /**
+     * Create OneDrive Adapter
+     * @param  string $access_token
+     * @return OneDriveAdapter
+     */
+    protected static function createOneDriveAdapter($access_token)
+    {
+        $service = new Microsoft;
+        $accountInfo = app('Pulse\Services\Identity\Account\AccountInterface');
+
+        return new OneDriveAdapter($service, $access_token, $accountInfo);
     }
 }
