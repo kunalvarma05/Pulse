@@ -48,7 +48,7 @@ class OneDriveController extends Controller
 
 
     public function auth(Request $request){
-        return $request->all();
+        //return $request->all();
         //No code or state, accessed directly.
         if (!$request->has('code') || !$request->has('state')) {
             return redirect('connect/onedrive');
@@ -81,9 +81,9 @@ class OneDriveController extends Controller
         $access_token = $this->getAccessToken();
 
         // Get the user's details
-        $user = $this->provider->getResourceOwner($access_token);
-        $user->setImageurl("https://apis.live.net/v5.0/{$user->getId()}/picture?type=large");
-        dd($user);
+        // $user = $this->provider->getResourceOwner($access_token);
+        // $user->setImageurl("https://apis.live.net/v5.0/{$user->getId()}/picture?type=large");
+        // dd($user);
 
         try {
 

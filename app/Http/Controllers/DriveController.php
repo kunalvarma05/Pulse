@@ -33,8 +33,8 @@ class DriveController extends Controller
     }
 
     public function connect(){
-        if(Session::has('google-access-token')){
-            return redirect('api/drive');
+        if($this->getClient()){
+            return redirect('devapi/drive');
         }
 
         $authUrl = $this->client->createAuthUrl();
@@ -43,7 +43,7 @@ class DriveController extends Controller
     }
 
     public function auth(Request $request){
-        return $request->all();
+        //return $request->all();
         if($request->has('code')){
             $code = $request->input('code');
             $this->client->authenticate($code);
@@ -62,28 +62,63 @@ class DriveController extends Controller
             return redirect('/connect/drive');
         }
 
-        $googlePlus = new Google_Service_Plus($client);
-        $user = $googlePlus->people->get("me");
-        dd($user);
+        // $googlePlus = new Google_Service_Plus($client);
+        // $user = $googlePlus->people->get("me");
+        // dd($user);
 
-        dd([$client->getAccessToken(), $client->verifyIdToken()->getAttributes()]);
+        // dd([$client->getAccessToken(), $client->verifyIdToken()->getAttributes()]);
 
         $service = new Google_Service_Drive($client);
-
-        $optParams = array();
         dd($service->about->get());
 
-        $results = $service->files->get("0BxCFmDp5O-sjN1E5OHpwU2RjZDg");
-        dd($results);
+        $results = $this->listChildren($service, null, ['owners' => ['kunalvarma05@gmail.com', 'danialharis@pikpo.com']]);
+        return $results;
+
+        foreach ($results as $key => $value) {
+            echo "Title:" . $value['title'] . " <br>id: " . $value['id'] . "<hr>";
+        }
     }
 
     protected function getClient(){
         if(Session::has('google-access-token')){
             $this->client->setAccessToken(Session::get('google-access-token'));
 
+            if($this->client->isAccessTokenExpired()) {
+                return false;
+            }
+
             return $this->client;
         }
 
         return false;
+    }
+
+    public function listChildren($service, $location = null, $optParams = array())
+    {
+        if(is_null($location))
+        {
+            $location = $service->about->get()->getRootFolderId();
+        }
+        $maxResults = isset($optParams['maxResults']) ? $optParams['maxResults'] : 24;
+        $orderBy = "folder asc,title asc";
+        $trashed = isset($optParams['trashed']) ? 'true' : 'false';
+        $owners = (isset($optParams['owners']) && !empty($optParams['owners'])) ? $optParams['owners'] : [];
+        $locationSearch = "'{$location}' in parents";
+        $ownerSearch = [];
+
+        foreach ($owners as $owner) {
+            $ownerSearch[] = "'{$owner}' in owners";
+        }
+
+        $ownerSearch = implode(" or ", $ownerSearch);
+        $searchQuery = "{$locationSearch} and trashed = {$trashed}";
+
+        if($ownerSearch) {
+            $searchQuery .= " and " . $ownerSearch;
+        }
+
+        $optParams = array('maxResults' => $maxResults, 'orderBy' => $orderBy, 'q' => $searchQuery);
+
+        return $service->files->listFiles($optParams)->getItems();
     }
 }

@@ -44,7 +44,7 @@ class DropboxController extends Controller
 
     public function auth(Request $request){
         $input = $request->all();
-        return $input;
+        //return $input;
         $code = $input['code'];
         $state = $input['state'];
 
@@ -62,9 +62,11 @@ class DropboxController extends Controller
 
         $accessToken = \Session::get('dbx-access-token');
         $client = new DropboxClient($accessToken, config('dropbox.app'));
-        var_dump($client->getAccountInfo());
-        //var_dump($client->getMetadataWithChildren("/"));
+        dd($client->getAccountInfo());
+        //dd(base64_encode($d));
         //var_dump($client->getThumbnail("/pulse-logo.png", 'png', 'm'));
+        //list($md, $d) = $client->getThumbnail('/pulse-logo.png', 'png', 's');
+        //echo "<img src='data:image/png;base64,".base64_encode($d)."'>";
     }
 
     protected function getAppInfo(){
