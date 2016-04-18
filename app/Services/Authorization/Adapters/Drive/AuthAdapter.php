@@ -107,9 +107,12 @@ class AuthAdapter implements AdapterInterface
         if ($this->client->isAccessTokenExpired()) {
             $this->client->refreshToken($this->client->getRefreshToken());
             $new_access_token = $this->client->getRefreshToken();
+
+            return $new_access_token;
         }
 
-        return $new_access_token;
+        return $access_token;
+
     }
 
 }
