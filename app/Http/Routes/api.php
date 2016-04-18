@@ -53,6 +53,13 @@ $api->version('v1', function ($api) {
             $api->get('/', ['as' => 'api.accounts.list', 'uses' => 'AccountsController@index']);
             //Create Account
             $api->post('create', ['as' => 'api.accounts.create', 'middleware' => ['session'], 'uses' => 'AccountsController@create']);
+
+            //Account Manager
+            $api->group(['prefix' => '{account_id}/manager'], function ($api) {
+                //Get Quota
+                $api->get('quota', ['as' => 'api.accounts.manager.quota', 'uses' => 'ManagerController@quota']);
+            });
+
         });
     });
 });
