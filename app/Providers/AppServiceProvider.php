@@ -45,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
             return new DropboxCsrfTokenStore($app->make('Illuminate\Session\Store'));
         });
 
+        $this->app->bind('Pulse\Services\Manager\Quota\QuotaInterface', 'Pulse\Services\Manager\Quota\Quota');
         $this->app->bind('Pulse\Services\Identity\Account\AccountInterface', 'Pulse\Services\Identity\Account\Account');
     }
 }
