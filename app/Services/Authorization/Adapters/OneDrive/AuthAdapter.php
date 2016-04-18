@@ -99,7 +99,7 @@ class AuthAdapter implements AdapterInterface
      */
     public function refreshAccessToken($access_token)
     {
-        $access_token = new AccessToken(json_decode($access_token));
+        $access_token = new AccessToken(json_decode($access_token, true));
 
         //If the access token has expired, refresh it
         if ($access_token->hasExpired()) {
@@ -108,7 +108,7 @@ class AuthAdapter implements AdapterInterface
                 ]);
         }
 
-        return (string) $access_token;
+        return json_encode($access_token->jsonSerialize());
     }
 
 }
