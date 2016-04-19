@@ -3,13 +3,19 @@ namespace Pulse\Services\Manager\Adapters\Drive;
 
 use Google_Client;
 use Google_Exception;
+use Pulse\Utils\Helpers;
 use Google_Service_Drive;
 use Google_Service_Drive_About;
+use Google_Service_Drive_FileList;
+use Google_Service_Drive_DriveFile;
+use Pulse\Services\Manager\File\FileInterface;
 use Pulse\Services\Manager\Quota\QuotaInterface;
 use Pulse\Services\Manager\Adapters\AdapterInterface;
 
 class DriveAdapter implements AdapterInterface
 {
+
+    const DRIVE_FOLDER_MIME = "application/vnd.google-apps.folder";
 
     /**
      * Google Plus Service
@@ -22,6 +28,7 @@ class DriveAdapter implements AdapterInterface
      * @var Pulse\Services\Manager\Quota\QuotaInterface;
      */
     private $quotaInfo;
+
 
     /**
      * Constructor
@@ -65,15 +72,17 @@ class DriveAdapter implements AdapterInterface
      * List Children of a given folder path or id
      * @param  string $path Folder path or ID
      * @param  array  $data Additional Data
-     * @return Pulse\Services\Manager\File\FileInterface
+     * @return Array (Pulse\Services\Manager\File\FileInterface)
      */
     public function listChildren($path = null, array $data = array())
     {
-        if(is_null($path))
+        //Drive Root
+        if(is_null($path) || $path === "/")
         {
             $path = $this->getService()->about->get()->getRootFolderId();
         }
-        $maxResults = isset($data['maxResults']) ? $data['maxResults'] : 24;
+
+        $maxResults = isset($data['maxResults']) ? $data['maxResults'] : 48;
         $orderBy = isset($data['orderBy']) ? $data['orderBy'] : "folder asc,title asc";
         $trashed = isset($data['trashed']) ? 'true' : 'false';
         $owners = (isset($data['owners']) && !empty($data['owners'])) ? $data['owners'] : [];
@@ -91,9 +100,23 @@ class DriveAdapter implements AdapterInterface
             $searchQuery .= " and " . $ownerSearch;
         }
 
-        $data = array('maxResults' => $maxResults, 'orderBy' => $orderBy, 'q' => $searchQuery);
+        $params = array('maxResults' => $maxResults, 'orderBy' => $orderBy, 'q' => $searchQuery);
 
-        return $this->getService()->files->listFiles($data)->getItems();
+        if(isset($data['pageToken'])) {
+            $params['pageToken'] = $data['pageToken'];
+        }
+
+        //File List
+        $items = $this->getService()->files->listFiles($params);
+
+        //File Not Found
+        if(empty($items->getItems())) {
+            return false;
+        }
+
+        $files = $this->makeFileList($items);
+
+        return $files;
     }
 
     /**
@@ -108,4 +131,60 @@ class DriveAdapter implements AdapterInterface
         $remaining = $about->getQuotaBytesTotal() - $about->getQuotaBytesUsed();
         $this->quotaInfo->setSpaceRemaining($remaining);
     }
+
+    /**
+     * Make File List
+     * @param  Google_Service_Drive_FileList $list
+     * @return Array (Pulse\Services\Manager\File\FileInterface)
+     */
+    protected function makeFileList(Google_Service_Drive_FileList $list)
+    {
+        $items = $list->getItems();
+        $files = [];
+        foreach ($items as $file) {
+            $files[] = $this->makeFile($file);
+        }
+
+        return $files;
+    }
+
+    /**
+     * Make File Object
+     * @param  Google_Service_Drive_DriveFile $file
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    protected function makeFile(Google_Service_Drive_DriveFile $file)
+    {
+        $fileInfo = app('Pulse\Services\Manager\File\FileInterface');
+
+        $fileInfo->setId($file->getId());
+
+        $title = $file->getTitle() ? $file->getTitle() : $file->getOriginalFilename();
+        $fileInfo->setTitle($title);
+
+        $fileInfo->setPath($file->getId());
+        $fileInfo->setModified($file->getModifiedDate());
+        $fileInfo->setSize($file->getFileSize());
+
+        $isFolder = (strtolower($file->getMimeType()) === self::DRIVE_FOLDER_MIME) ? true : false;
+        $fileInfo->setIsFolder($isFolder);
+
+        $fileInfo->setMimeType($file->getMimeType());
+        $fileInfo->setThumbnailURL($file->getThumbnailLink());
+
+        $downloadUrl = $file->getDownloadUrl();
+        if(!$downloadUrl) {
+            $exportLinks = $file->getExportLinks();
+            $downloadUrl = empty($exportLinks) ? $file->getSelfLink() : end($exportLinks);
+        }
+        $fileInfo->setDownloadURL($downloadUrl);
+
+        $fileInfo->setURL($file->getSelfLink());
+        $fileInfo->setIcon(Helpers::getFileIcon($file->getMimeType()));
+
+        $fileInfo->setOwners($file->getOwnerNames());
+
+        return $fileInfo;
+    }
+
 }

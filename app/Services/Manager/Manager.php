@@ -54,7 +54,7 @@ class Manager implements ManagerInterface
      * List Children of a given folder path or id
      * @param  string $path Folder path or ID
      * @param  array  $data Additional Data
-     * @return Pulse\Services\Manager\File\FileInterface
+     * @return Array (Pulse\Services\Manager\File\FileInterface)
      */
     public function listChildren($path = null, array $data = array())
     {
