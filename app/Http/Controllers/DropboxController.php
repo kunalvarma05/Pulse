@@ -62,7 +62,8 @@ class DropboxController extends Controller
 
         $accessToken = \Session::get('dbx-access-token');
         $client = new DropboxClient($accessToken, config('dropbox.app'));
-        dd($client->getAccountInfo());
+        dd($client->getMetadataWithChildren("/"));
+        //dd($client->getAccountInfo());
         //dd(base64_encode($d));
         //var_dump($client->getThumbnail("/pulse-logo.png", 'png', 'm'));
         //list($md, $d) = $client->getThumbnail('/pulse-logo.png', 'png', 's');

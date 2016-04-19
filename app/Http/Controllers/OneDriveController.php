@@ -89,9 +89,10 @@ class OneDriveController extends Controller
 
             $oneDriveClient = new Client($access_token->getToken(), $this->guzzleClient);
 
-            dd($oneDriveClient->getDefaultDrive());
+            //dd($oneDriveClient->getDefaultDrive());
+            dd($oneDriveClient->listChildren(null, ['top' => 20]));
 
-            $file = $oneDriveClient->getItem("7D780E8525603004!1315");
+            //$file = $oneDriveClient->getItem("7D780E8525603004!1315");
             dd($access_token, $file);
 
         } catch (\Exception $e) {

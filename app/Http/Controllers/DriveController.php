@@ -69,10 +69,10 @@ class DriveController extends Controller
         // dd([$client->getAccessToken(), $client->verifyIdToken()->getAttributes()]);
 
         $service = new Google_Service_Drive($client);
-        dd($service->about->get());
+        //dd($service->about->get());
 
-        $results = $this->listChildren($service, null, ['owners' => ['kunalvarma05@gmail.com', 'danialharis@pikpo.com']]);
-        return $results;
+        $results = $this->listChildren($service)->getItems();
+        $file = $results[5];
 
         foreach ($results as $key => $value) {
             echo "Title:" . $value['title'] . " <br>id: " . $value['id'] . "<hr>";
@@ -99,7 +99,7 @@ class DriveController extends Controller
         {
             $location = $service->about->get()->getRootFolderId();
         }
-        $maxResults = isset($optParams['maxResults']) ? $optParams['maxResults'] : 24;
+        $maxResults = isset($optParams['maxResults']) ? $optParams['maxResults'] : 18;
         $orderBy = "folder asc,title asc";
         $trashed = isset($optParams['trashed']) ? 'true' : 'false';
         $owners = (isset($optParams['owners']) && !empty($optParams['owners'])) ? $optParams['owners'] : [];
@@ -117,8 +117,9 @@ class DriveController extends Controller
             $searchQuery .= " and " . $ownerSearch;
         }
 
-        $optParams = array('maxResults' => $maxResults, 'orderBy' => $orderBy, 'q' => $searchQuery);
+        $params = array('maxResults' => $maxResults, 'orderBy' => $orderBy, 'q' => $searchQuery);
+        $newParams = array_merge($optParams, $params);
 
-        return $service->files->listFiles($optParams)->getItems();
+        return $service->files->listFiles($newParams);
     }
 }
