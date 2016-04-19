@@ -71,6 +71,15 @@ return [
         //Powerpoint
         'application/mspowerpoint' => 'fa-file-powerpoint-o',
         'application/vnd.ms-powerpoint' => 'fa-file-powerpoint-o',
+        'application/vnd.sun.xml.impress' => 'fa-file-powerpoint-o',
+        'application/vnd.sun.xml.impress.template' => 'fa-file-powerpoint-o',
+        'application/vnd.oasis.opendocument.presentation' => 'fa-file-powerpoint-o',
+        'application/vnd.oasis.opendocument.presentation-template' => 'fa-file-powerpoint-o',
+        'application/vnd.ms-powerpoint.presentation.macroenabled.12' => 'fa-file-powerpoint-o',
+        'application/vnd.openxmlformats-officedocument.presentationml.slide' => 'fa-file-powerpoint-o',
+        'application/vnd.openxmlformats-officedocument.presentationml.template' => 'fa-file-powerpoint-o',
+        'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'fa-file-powerpoint-o',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'fa-file-powerpoint-o',
 
         //Excel, Spreadsheet
         'application/vnd.sun.xml.calc' => 'fa-file-excel-o',
