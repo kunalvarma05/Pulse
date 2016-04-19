@@ -58,6 +58,8 @@ $api->version('v1', function ($api) {
             $api->group(['prefix' => '{account_id}/manager'], function ($api) {
                 //Get Quota
                 $api->get('quota', ['as' => 'api.accounts.manager.quota', 'uses' => 'ManagerController@quota']);
+                //Browse Files
+                $api->get('browse ', ['as' => 'api.accounts.manager.browse', 'uses' => 'ManagerController@browse']);
             });
 
         });

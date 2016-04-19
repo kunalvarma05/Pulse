@@ -62,6 +62,41 @@ class DriveAdapter implements AdapterInterface
     }
 
     /**
+     * List Children of a given folder path or id
+     * @param  string $path Folder path or ID
+     * @param  array  $data Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function listChildren($path = null, array $data = array())
+    {
+        if(is_null($path))
+        {
+            $path = $this->getService()->about->get()->getRootFolderId();
+        }
+        $maxResults = isset($data['maxResults']) ? $data['maxResults'] : 24;
+        $orderBy = isset($data['orderBy']) ? $data['orderBy'] : "folder asc,title asc";
+        $trashed = isset($data['trashed']) ? 'true' : 'false';
+        $owners = (isset($data['owners']) && !empty($data['owners'])) ? $data['owners'] : [];
+        $pathSearch = "'{$path}' in parents";
+        $ownerSearch = [];
+
+        foreach ($owners as $owner) {
+            $ownerSearch[] = "'{$owner}' in owners";
+        }
+
+        $ownerSearch = implode(" or ", $ownerSearch);
+        $searchQuery = "{$pathSearch} and trashed = {$trashed}";
+
+        if($ownerSearch) {
+            $searchQuery .= " and " . $ownerSearch;
+        }
+
+        $data = array('maxResults' => $maxResults, 'orderBy' => $orderBy, 'q' => $searchQuery);
+
+        return $this->getService()->files->listFiles($data)->getItems();
+    }
+
+    /**
      * Make Quota Info
      * @param  Google_Service_Drive_About $about
      */
