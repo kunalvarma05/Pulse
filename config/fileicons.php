@@ -10,6 +10,7 @@ return [
         'application/vnd.google-apps.unknown' => 'fa-file',
 
         //Folder
+        'folder' => 'fa-folder',
         'application/vnd.google-apps.folder' => 'fa-folder',
 
         //Text

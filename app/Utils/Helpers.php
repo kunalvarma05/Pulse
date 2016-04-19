@@ -33,6 +33,7 @@ class Helpers {
      */
     public static function formatBytes($bytes, $precision = 2)
     {
+        $bytes = $bytes ? $bytes : 0;
         $units = array('B', 'KB', 'MB', 'GB', 'TB');
 
         $bytes = max($bytes, 0);
