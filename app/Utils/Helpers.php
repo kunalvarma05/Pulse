@@ -18,4 +18,11 @@ class Helpers {
         return asset("images/user.png");
     }
 
+    public static function getFileIcon($mime)
+    {
+        $list = config('fileicons.list');
+        $icon = array_key_exists($mime, $list) ? $list[$mime] : $list['default'];
+        return $icon;
+    }
+
 }
