@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Pulse\Services\Manager\ManagerFactory;
 use Pulse\Api\Transformers\QuotaTransformer;
 use Pulse\Services\Authorization\AuthFactory;
+use Pulse\Api\Transformers\FileListTransformer;
 
 class ManagerController extends BaseController
 {
@@ -71,12 +72,21 @@ class ManagerController extends BaseController
         //Manager
         $manager = ManagerFactory::create($provider->alias, $access_token);
 
+        //Path
+        $path = $request->has('path') ? $request->get('path') : null;
+
         //Fetch the Quota
-        $files = $manager->listChildren();
+        $files = $manager->listChildren($path);
 
-        return $files;
+        //Files not found
+        if(!$files) {
+            return response()->json(['error' => 'no_files_found', 'message' => "No files found!"], 200);
+        }
 
-        return $this->response->item($files, new QuotaTransformer);
+        //Array to Collection
+        $fileCollection = collect($files);
+
+        return $this->response->collection($fileCollection, new FileListTransformer);
     }
 
 }
