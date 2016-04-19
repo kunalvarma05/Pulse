@@ -2,7 +2,9 @@
 namespace Pulse\Services\Manager\Adapters\Dropbox;
 
 use Exception;
+use Pulse\Utils\Helpers;
 use Dropbox\Client as DropboxClient;
+use Pulse\Services\Manager\File\FileInterface;
 use Pulse\Services\Manager\Quota\QuotaInterface;
 use Pulse\Services\Manager\Adapters\AdapterInterface;
 
@@ -57,6 +59,37 @@ class DropboxAdapter implements AdapterInterface
     }
 
     /**
+     * List Children of a given folder path or id
+     * @param  string $path Folder path or ID
+     * @param  array  $data Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function listChildren($path = null, array $data = array())
+    {
+        //Root
+        if(is_null($path))
+        {
+            $path = "/";
+        }
+
+        $maxResults = isset($data['maxResults']) ? $data['maxResults'] : 48;
+        $metadata = $this->getService()->getMetadataWithChildren($path);
+        $items = $metadata['contents'];
+
+        //Files not found
+        if(empty($items))
+        {
+            return false;
+        }
+
+        //Make the file list
+        $files = $this->makeFileList($items);
+
+        return $files;
+
+    }
+
+    /**
      * Make Quota Info
      * @param  array $account
      */
@@ -67,6 +100,55 @@ class DropboxAdapter implements AdapterInterface
 
         $remaining = $account['quota_info']['quota'] - $account['quota_info']['normal'];
         $this->quotaInfo->setSpaceRemaining($remaining);
+    }
+
+
+    /**
+     * Make File List
+     * @param  array $list
+     * @return Array (Pulse\Services\Manager\File\FileInterface)
+     */
+    protected function makeFileList(array $list)
+    {
+        $files = [];
+        foreach ($list as $file) {
+            $files[] = $this->makeFile($file);
+        }
+
+        return $files;
+    }
+
+    /**
+     * Make File Object
+     * @param  array $file
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    protected function makeFile(array $file)
+    {
+        $fileInfo = app('Pulse\Services\Manager\File\FileInterface');
+
+        $fileInfo->setId($file['path']);
+
+        $title = basename($file['path']);
+        $fileInfo->setTitle($title);
+
+        $fileInfo->setPath($file['path']);
+        $fileInfo->setModified($file['modified']);
+        $fileInfo->setSize($file['bytes']);
+
+        $isFolder = isset($file['is_dir']) ? true : false;
+        $fileInfo->setIsFolder($isFolder);
+
+        $mime = isset($file['mime_type']) ? $file['mime_type'] : "";
+        $fileInfo->setMimeType($mime);
+
+        $icon = $fileInfo->isFolder() ? "folder" : $mime;
+
+        $fileInfo->setIcon(Helpers::getFileIcon($icon));
+
+        $fileInfo->setOwners("");
+
+        return $fileInfo;
     }
 
 }

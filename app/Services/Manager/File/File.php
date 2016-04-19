@@ -123,7 +123,13 @@ class File implements FileInterface
      */
     public function getOwners()
     {
-        $owners = $this->owners;
+       $owners = $this->owners;
+
+        if(!$owners || empty($owners))
+        {
+            return "";
+        }
+
         return implode(", ", $owners);
     }
 
