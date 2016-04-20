@@ -144,6 +144,28 @@ class OneDriveAdapter implements AdapterInterface
     }
 
     /**
+     * Move File
+     * @param  string $file          File to move
+     * @param  string|null $location Location to move the file to
+     * @param  array       $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function move($file, $location, array $data = array())
+    {
+        try {
+            //Move the file
+            $movedFile = $this->getService()->move($file, $location);
+            //Make File, FileInterface compatible
+            return $this->makeFile($movedFile);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
      * Make File List
      * @param  array $list
      * @return Array (Pulse\Services\Manager\File\FileInterface)
