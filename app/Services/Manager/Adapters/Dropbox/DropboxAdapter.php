@@ -90,6 +90,44 @@ class DropboxAdapter implements AdapterInterface
     }
 
     /**
+     * Copy File
+     * @param  string $file          File to copy
+     * @param  string|null $location Location to copy the file to
+     * @param  array       $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function copy($file, $location = null, array $data = array())
+    {
+        $name = pathinfo($file, PATHINFO_FILENAME);
+        $ext = pathinfo($file, PATHINFO_EXTENSION);
+
+        if(is_null($location)) {
+            $path = pathinfo($file, PATHINFO_DIRNAME);
+            $location = $path === "/" ? "" : $path;
+        }
+
+        $random = str_random(6);
+        $copy = isset($data['title']) ? $data['title'] : "({$random}) Copy of {$name}.{$ext}";
+
+        //If the title misses an extension,
+        //we'll use the original file's extension
+        $copy = (!pathinfo($copy, PATHINFO_EXTENSION)) ? "{$copy}.{$ext}" : $copy;
+
+        $newLocation = "{$location}/{$copy}";
+
+        try {
+            //Copy the file
+            $copiedFile = $this->getService()->copy($file, $newLocation);
+            //Make File, FileInterface compatible
+            return $this->makeFile($copiedFile);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+
+    }
+
+    /**
      * Make Quota Info
      * @param  array $account
      */
@@ -136,7 +174,7 @@ class DropboxAdapter implements AdapterInterface
         $fileInfo->setModified($file['modified']);
         $fileInfo->setSize($file['bytes']);
 
-        $isFolder = isset($file['is_dir']) ? true : false;
+        $isFolder = $file['is_dir'] ? true : false;
         $fileInfo->setIsFolder($isFolder);
 
         $mime = isset($file['mime_type']) ? $file['mime_type'] : "";
