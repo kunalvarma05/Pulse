@@ -62,21 +62,34 @@ class DriveController extends Controller
             return redirect('/connect/drive');
         }
 
-        // $googlePlus = new Google_Service_Plus($client);
-        // $user = $googlePlus->people->get("me");
-        // dd($user);
-
-        // dd([$client->getAccessToken(), $client->verifyIdToken()->getAttributes()]);
-
         $service = new Google_Service_Drive($client);
-        //dd($service->about->get());
 
         $results = $this->listChildren($service)->getItems();
-        $file = $results[5];
 
         foreach ($results as $key => $value) {
             echo "Title:" . $value['title'] . " <br>id: " . $value['id'] . "<hr>";
         }
+
+        // $file = $results[2];
+
+        // $fileCopy = new \Google_Service_Drive_DriveFile();
+
+        // $title = "Copy of " . $file->getTitle();
+        // $fileCopy->setTitle($title);
+
+        // if(isset($data['parent'])) {
+        //     $parent = new \Google_Service_Drive_ParentReference();
+        //     $parent->setId("0BxCFmDp5O-sjV2FZeHFsXzBzV28");
+        //     $fileCopy->setParents([$parent]);
+        // }
+
+        // try {
+        //     dd($service->files->copy($file->getId(), $fileCopy));
+        // } catch (Exception $e) {
+        //     print "An error occurred: " . $e->getMessage();
+        // }
+
+        // return false;
     }
 
     protected function getClient(){

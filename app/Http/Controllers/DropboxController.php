@@ -62,7 +62,26 @@ class DropboxController extends Controller
 
         $accessToken = \Session::get('dbx-access-token');
         $client = new DropboxClient($accessToken, config('dropbox.app'));
-        dd($client->getMetadataWithChildren("/"));
+        try{
+            $file = "/pulse-logo.png";
+            $name = pathinfo($file, PATHINFO_FILENAME); //pulse-logo
+            $ext = pathinfo($file, PATHINFO_EXTENSION); //.png
+            if($ext) {
+                dd($name, $ext);
+            }
+            dd($name);
+            $random = str_random(6);
+            $copy = "({$random}) Copy of {$name}.{$ext}";
+
+            $dir = pathinfo($file, PATHINFO_DIRNAME); // /
+
+            $location = "{$dir}/{$copy}";
+            dd($client->copy($file, $location));
+        } catch(\Exception $e) {
+            return $e->getMessage();
+            //return "Unable to copy file. Maybe a file with same name already exists!";
+        }
+        //dd($client->getMetadataWithChildren("/"));
         //dd($client->getAccountInfo());
         //dd(base64_encode($d));
         //var_dump($client->getThumbnail("/pulse-logo.png", 'png', 'm'));

@@ -79,6 +79,7 @@ class OneDriveController extends Controller
 
         //Get the Access Token
         $access_token = $this->getAccessToken();
+        dd($access_token);
 
         // Get the user's details
         // $user = $this->provider->getResourceOwner($access_token);
