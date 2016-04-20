@@ -10,6 +10,7 @@ use Pulse\Bus\Commands\Manager\MoveCommand;
 use Pulse\Api\Transformers\QuotaTransformer;
 use Pulse\Bus\Commands\Manager\DeleteCommand;
 use Pulse\Services\Authorization\AuthFactory;
+use Pulse\Bus\Commands\Manager\GetQuotaCommand;
 use Pulse\Api\Transformers\FileListTransformer;
 
 class ManagerController extends BaseController
@@ -32,18 +33,8 @@ class ManagerController extends BaseController
             return response()->json(['error' => 'account_not_found', 'message' => "Account not found!"], 404);
         }
 
-        //Provider
-        $provider = $account->provider;
-
-        //Authorization
-        $authFactory = AuthFactory::create($provider->alias);
-        $access_token = $authFactory->refreshAccessToken($account->access_token);
-
-        //Manager
-        $manager = ManagerFactory::create($provider->alias, $access_token);
-
-        //Fetch the Quota
-        $quota = $manager->getQuota();
+        //Get Quota
+        $quota = dispatch(new GetQuotaCommand($account));
 
         return $this->response->item($quota, new QuotaTransformer);
     }
