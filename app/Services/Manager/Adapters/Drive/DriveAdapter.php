@@ -1,6 +1,7 @@
 <?php
 namespace Pulse\Services\Manager\Adapters\Drive;
 
+use Exception;
 use Google_Client;
 use Google_Exception;
 use Pulse\Utils\Helpers;
@@ -8,6 +9,7 @@ use Google_Service_Drive;
 use Google_Service_Drive_About;
 use Google_Service_Drive_FileList;
 use Google_Service_Drive_DriveFile;
+use Google_Service_Drive_ParentReference;
 use Pulse\Services\Manager\File\FileInterface;
 use Pulse\Services\Manager\Quota\QuotaInterface;
 use Pulse\Services\Manager\Adapters\AdapterInterface;
@@ -120,6 +122,41 @@ class DriveAdapter implements AdapterInterface
     }
 
     /**
+     * Copy File
+     * @param  string $file     File ID
+     * @param  string|null $location Location to copy the file to
+     * @param  array  $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function copy($file, $location = null, array $data = array())
+    {
+        $file = $this->getFile($file);
+        $fileCopy = new Google_Service_Drive_DriveFile();
+
+        $title = isset($data['title']) ? $data['title'] : $file->getTitle() . " - copy";
+        $fileCopy->setTitle($title);
+
+        //If the Parent is set
+        if(!is_null($location)) {
+            $parent = new Google_Service_Drive_ParentReference();
+            $parent->setId($location);
+            $fileCopy->setParents([$parent]);
+        }
+
+        try {
+            //Copy the file
+            $copiedFile = $this->getService()->files->copy($file->getId(), $fileCopy);
+            //Make File, FileInterface compatible
+            return $this->makeFile($copiedFile);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
      * Make Quota Info
      * @param  Google_Service_Drive_About $about
      */
@@ -185,6 +222,26 @@ class DriveAdapter implements AdapterInterface
         $fileInfo->setOwners($file->getOwnerNames());
 
         return $fileInfo;
+    }
+
+    /**
+     * Get File
+     * @param  string $fileId File ID
+     * @return Pulse\Service\Manager\File\FileInterface
+     */
+    protected function getFile($fileId)
+    {
+        try {
+            $file = $this->getService()->files->get($fileId);
+
+            if($file)
+                return $this->makeFile($file);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+
+        return false;
     }
 
 }

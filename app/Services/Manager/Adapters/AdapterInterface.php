@@ -17,4 +17,13 @@ interface AdapterInterface
      * @return Pulse\Services\Manager\File\FileInterface
      */
     public function listChildren($path = null, array $data = array());
+
+    /**
+     * Copy File
+     * @param  string $file          File to copy
+     * @param  string|null $location Location to copy the file to
+     * @param  array       $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function copy($file, $location = null, array $data = array());
 }
