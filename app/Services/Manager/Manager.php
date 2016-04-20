@@ -131,5 +131,17 @@ class Manager implements ManagerInterface
         ->createFolder($name, $location, $data);
     }
 
+    /**
+     * Get Download Link
+     * @param  string $file File
+     * @param  array  $data Additional Data
+     * @return string       Download Link
+     */
+    public function getDownloadLink($file, array $data = array())
+    {
+        return $this
+        ->getAdapter()
+        ->getDownloadLink($file, $data);
+    }
 
 }

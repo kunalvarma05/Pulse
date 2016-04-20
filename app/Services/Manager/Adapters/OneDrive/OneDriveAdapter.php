@@ -226,6 +226,21 @@ class OneDriveAdapter implements AdapterInterface
     }
 
     /**
+     * Get Download Link
+     * @param  string $file File
+     * @param  array  $data Additional Data
+     * @return string       Download Link
+     */
+    public function getDownloadLink($file, array $data = array())
+    {
+        //Get File Info
+        $file = $this->getFileInfo($file, $data);
+
+        //Fetch the download url
+        return $file->getDownloadURL();
+    }
+
+    /**
      * Make File List
      * @param  array $list
      * @return Array (Pulse\Services\Manager\File\FileInterface)
@@ -258,7 +273,7 @@ class OneDriveAdapter implements AdapterInterface
         $fileInfo->setSize($file->size);
 
         $fileInfo->setURL($file->webUrl);
-        $downloadUrl = isset($file->{'@content.downloadUrl'}) ? $file->{'@content.downloadUrl'} : "";
+        $downloadUrl = isset($file->{'@content.downloadUrl'}) ? $file->{'@content.downloadUrl'} : $fileInfo->getURL();
         $fileInfo->setDownloadURL($downloadUrl);
 
         $isFolder = isset($file->folder) ? true : false;

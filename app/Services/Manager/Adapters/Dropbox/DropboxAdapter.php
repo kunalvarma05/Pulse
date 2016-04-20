@@ -218,6 +218,29 @@ class DropboxAdapter implements AdapterInterface
     }
 
     /**
+     * Get Download Link
+     * @param  string $file File
+     * @param  array  $data Additional Data
+     * @return string       Download Link
+     */
+    public function getDownloadLink($file, array $data = array())
+    {
+        try {
+            //Get Download Link
+            $downloadLink = $this->getService()->createTemporaryDirectLink($file);
+
+            if(isset($downloadLink[0]))
+                return $downloadLink[0] . "?dl=1";
+
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
      * Make Quota Info
      * @param  array $account
      */

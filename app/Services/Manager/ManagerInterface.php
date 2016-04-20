@@ -60,4 +60,12 @@ interface ManagerInterface
      * @return Pulse\Services\Manager\File\FileInterface
      */
     public function createFolder($name, $location = null, array $data = array());
+
+    /**
+     * Get Download Link
+     * @param  string $file File
+     * @param  array  $data Additional Data
+     * @return string       Download Link
+     */
+    public function getDownloadLink($file, array $data = array());
 }

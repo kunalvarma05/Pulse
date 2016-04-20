@@ -154,7 +154,7 @@ class DriveAdapter implements AdapterInterface
         $file = $this->getFileInfo($file, 'id, title, parents');
         $fileCopy = new Google_Service_Drive_DriveFile();
 
-        $title = isset($data['title']) ? $data['title'] : $file->getTitle() . " - copy";
+        $title = isset($data['title']) ? $data['title'] : "Copy of " . $file->getTitle();
         $fileCopy->setTitle($title);
 
         //If the Parent is set
@@ -276,6 +276,21 @@ class DriveAdapter implements AdapterInterface
     }
 
     /**
+     * Get Download Link
+     * @param  string $file File
+     * @param  array  $data Additional Data
+     * @return string       Download Link
+     */
+    public function getDownloadLink($file, array $data = array())
+    {
+        //Get File Info
+        $file = $this->getFileInfo($file, $data);
+
+        //Fetch the download url
+        return $file->getDownloadURL();
+    }
+
+    /**
      * Make Quota Info
      * @param  Google_Service_Drive_About $about
      */
@@ -328,14 +343,14 @@ class DriveAdapter implements AdapterInterface
         $fileInfo->setMimeType($file->getMimeType());
         $fileInfo->setThumbnailURL($file->getThumbnailLink());
 
-        $downloadUrl = $file->getDownloadUrl();
+        $downloadUrl = $file->getWebContentLink();
         if(!$downloadUrl) {
             $exportLinks = $file->getExportLinks();
-            $downloadUrl = empty($exportLinks) ? $file->getSelfLink() : end($exportLinks);
+            $downloadUrl = empty($exportLinks) ? $file->getAlternateLink() : end($exportLinks);
         }
         $fileInfo->setDownloadURL($downloadUrl);
 
-        $fileInfo->setURL($file->getSelfLink());
+        $fileInfo->setURL($file->getAlternateLink());
         $fileInfo->setIcon(Helpers::getFileIcon($file->getMimeType()));
 
         $fileInfo->setOwners($file->getOwnerNames());

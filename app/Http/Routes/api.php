@@ -70,6 +70,8 @@ $api->version('v1', function ($api) {
                 $api->delete('delete', ['as' => 'api.accounts.manager.delete', 'uses' => 'ManagerController@performDelete']);
                 //Perform Create Folder Action
                 $api->post('create-folder', ['as' => 'api.accounts.manager.create-folder', 'uses' => 'ManagerController@createFolder']);
+                //Get Download Link
+                $api->get('download ', ['as' => 'api.accounts.manager.download', 'uses' => 'ManagerController@getDownloadLink']);
             });
 
         });

@@ -15,6 +15,7 @@ use Pulse\Api\Transformers\FileListTransformer;
 use Pulse\Bus\Commands\Manager\ListFilesCommand;
 use Pulse\Bus\Commands\Manager\GetFileInfoCommand;
 use Pulse\Bus\Commands\Manager\CreateFolderCommand;
+use Pulse\Bus\Commands\Manager\GetDownloadLinkCommand;
 
 class ManagerController extends BaseController
 {
@@ -232,6 +233,38 @@ class ManagerController extends BaseController
 
         //Return Response
         return $this->response->item($folder, new FileListTransformer);
+    }
+
+    /**
+     * Get Download Link
+     * @param  Request $request
+     * @param  int  $account_id Account ID
+     * @return Response
+     */
+    public function getDownloadLink(Request $request, $account_id)
+    {
+        if(!$request->has('file')) {
+            return response()->json(['error' => 'no_file_specified', 'message' => "No file was specified!"], 200);
+        }
+
+        //Current User
+        $user = Auth::user();
+        //Account
+        $account = $user->accounts()->findOrFail($account_id);
+
+        //Get Download Link
+        $downloadLink = dispatch(new GetDownloadLinkCommand(
+            $account,
+            $request->get('file')
+            ));
+
+        //Download link unavailable
+        if(!$downloadLink) {
+            return response()->json(['error' => 'download_link_unavailable', 'message' => "Download link unavailable!"], 200);
+        }
+
+        //Return Response
+        return $this->response->array(['link' => $downloadLink]);
     }
 
 }
