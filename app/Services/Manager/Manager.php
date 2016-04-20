@@ -77,5 +77,19 @@ class Manager implements ManagerInterface
         ->copy($file, $location, $data);
     }
 
+    /**
+     * Move File
+     * @param  string $file          File to move
+     * @param  string $location      Location to move the file to
+     * @param  array       $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function move($file, $location, array $data = array())
+    {
+        return $this
+        ->getAdapter()
+        ->move($file, $location, $data);
+    }
+
 
 }

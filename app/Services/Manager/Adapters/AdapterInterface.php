@@ -26,4 +26,13 @@ interface AdapterInterface
      * @return Pulse\Services\Manager\File\FileInterface
      */
     public function copy($file, $location = null, array $data = array());
+
+    /**
+     * Move File
+     * @param  string $file          File to move
+     * @param  string $location      Location to move the file to
+     * @param  array       $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function move($file, $location, array $data = array());
 }
