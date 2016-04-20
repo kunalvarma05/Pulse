@@ -174,7 +174,7 @@ class DropboxAdapter implements AdapterInterface
         $fileInfo->setModified($file['modified']);
         $fileInfo->setSize($file['bytes']);
 
-        $isFolder = $file['is_dir'] ? true : false;
+        $isFolder = (isset($file['is_dir']) && $file['is_dir']) ? true : false;
         $fileInfo->setIsFolder($isFolder);
 
         $mime = isset($file['mime_type']) ? $file['mime_type'] : "";
