@@ -66,6 +66,8 @@ $api->version('v1', function ($api) {
                 $api->patch('move', ['as' => 'api.accounts.manager.move', 'uses' => 'ManagerController@performMove']);
                 //Perform Delete Action
                 $api->delete('delete', ['as' => 'api.accounts.manager.delete', 'uses' => 'ManagerController@performDelete']);
+                //Perform Create Folder Action
+                $api->post('create-folder', ['as' => 'api.accounts.manager.create-folder', 'uses' => 'ManagerController@createFolder']);
             });
 
         });

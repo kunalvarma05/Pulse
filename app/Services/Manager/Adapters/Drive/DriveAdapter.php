@@ -211,6 +211,50 @@ class DriveAdapter implements AdapterInterface
     }
 
     /**
+     * Create Folder
+     * @param  string $name     Folder Name
+     * @param  string $location Folder Location
+     * @param  array  $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function createFolder($name, $location = null, array $data = array())
+    {
+        //Folder MimeType
+        $mimeType = self::DRIVE_FOLDER_MIME;
+
+        //Drive Root
+        if(is_null($location) || $location === "/")
+        {
+            $location = $this->getService()->about->get()->getRootFolderId();
+        }
+
+        //Folder MetaData
+        $metadata = array('title' => $name, 'mimeType' => $mimeType);
+
+        //Folder
+        $folder = new Google_Service_Drive_DriveFile($metadata);
+
+        //If the Parent is set
+        if(!is_null($location)) {
+            $parent = new Google_Service_Drive_ParentReference();
+            $parent->setId($location);
+            $folder->setParents([$parent]);
+        }
+
+        try{
+            //Create Folder
+            $createdFolder = $this->getService()->files->insert($folder);
+            //Make File, FileInterface compatible
+            return $this->makeFile($createdFolder);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
      * Make Quota Info
      * @param  Google_Service_Drive_About $about
      */

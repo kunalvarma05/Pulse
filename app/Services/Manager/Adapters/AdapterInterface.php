@@ -43,4 +43,13 @@ interface AdapterInterface
      * @return array
      */
     public function delete($file, array $data = array());
+
+    /**
+     * Create Folder
+     * @param  string $name     Folder Name
+     * @param  string $location Folder Location
+     * @param  array  $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function createFolder($name, $location = null, array $data = array());
 }

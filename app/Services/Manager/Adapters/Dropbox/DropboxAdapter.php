@@ -170,6 +170,33 @@ class DropboxAdapter implements AdapterInterface
     }
 
     /**
+     * Create Folder
+     * @param  string $name     Folder Name
+     * @param  string $location Folder Location
+     * @param  array  $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function createFolder($name, $location = null, array $data = array())
+    {
+        if($location === "/") {
+            $location = "";
+        }
+
+        $folder = "{$location}/{$name}";
+
+        try{
+            //Create Folder
+            $createdFolder = $this->getService()->createFolder($folder);
+            //Make File, FileInterface compatible
+            return $this->makeFile($createdFolder);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+        return false;
+    }
+
+    /**
      * Make Quota Info
      * @param  array $account
      */

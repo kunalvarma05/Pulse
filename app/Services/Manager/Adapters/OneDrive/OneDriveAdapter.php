@@ -178,11 +178,30 @@ class OneDriveAdapter implements AdapterInterface
             return ['file' => $file];
         } catch (Exception $e) {
             // @todo
-            dd($e->getMessage());
             return false;
         }
 
         return false;
+    }
+
+    /**
+     * Create Folder
+     * @param  string $name     Folder Name
+     * @param  string $location Folder Location
+     * @param  array  $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function createFolder($name, $location = null, array $data = array())
+    {
+        try{
+            //Create Folder
+            $folder = $this->getService()->createFolder($name, $location, "rename");
+            //Make File, FileInterface compatible
+            return $this->makeFile($folder);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
     }
 
     /**

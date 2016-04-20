@@ -104,5 +104,19 @@ class Manager implements ManagerInterface
         ->delete($file, $data);
     }
 
+    /**
+     * Create Folder
+     * @param  string $name     Folder Name
+     * @param  string $location Folder Location
+     * @param  array  $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function createFolder($name, $location = null, array $data = array())
+    {
+        return $this
+        ->getAdapter()
+        ->createFolder($name, $location, $data);
+    }
+
 
 }

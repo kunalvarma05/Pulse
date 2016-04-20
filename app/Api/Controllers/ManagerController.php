@@ -13,6 +13,7 @@ use Pulse\Services\Authorization\AuthFactory;
 use Pulse\Bus\Commands\Manager\GetQuotaCommand;
 use Pulse\Api\Transformers\FileListTransformer;
 use Pulse\Bus\Commands\Manager\ListFilesCommand;
+use Pulse\Bus\Commands\Manager\CreateFolderCommand;
 
 class ManagerController extends BaseController
 {
@@ -163,6 +164,40 @@ class ManagerController extends BaseController
 
         //Return Response
         return $this->response->array(['message' => "File Deleted!", "file" => $file]);
+    }
+
+    /**
+     * Create Folder
+     * @param  Request $request
+     * @param  int  $account_id Account ID
+     * @return Response
+     */
+    public function createFolder(Request $request, $account_id)
+    {
+        if(!$request->has('title')) {
+            return response()->json(['error' => 'no_title_specified', 'message' => "No title was specified!"], 200);
+        }
+
+        //Current User
+        $user = Auth::user();
+        //Account
+        $account = $user->accounts()->findOrFail($account_id);
+
+        //Copy File
+        $folder = dispatch(new CreateFolderCommand(
+            $user,
+            $account,
+            $request->get('title'),
+            $request->get('location')
+            ));
+
+        //Files not copied
+        if(!$folder) {
+            return response()->json(['error' => 'folder_not_created', 'message' => "Cannot create folder!"], 200);
+        }
+
+        //Return Response
+        return $this->response->item($folder, new FileListTransformer);
     }
 
 }
