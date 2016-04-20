@@ -130,7 +130,7 @@ class DriveAdapter implements AdapterInterface
      */
     public function copy($file, $location = null, array $data = array())
     {
-        $file = $this->getFile($file);
+        $file = $this->getFile($file, 'id, title, parents');
         $fileCopy = new Google_Service_Drive_DriveFile();
 
         $title = isset($data['title']) ? $data['title'] : $file->getTitle() . " - copy";
@@ -154,6 +154,43 @@ class DriveAdapter implements AdapterInterface
         }
 
         return false;
+    }
+
+    /**
+     * Move File
+     * @param  string $file          File to move
+     * @param  string|null $location Location to move the file to
+     * @param  array       $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function move($file, $location, array $data = array())
+    {
+        // File
+        $file = $this->getService()->files->get($file, ['fields' => 'id, parents']);
+
+        $emptyFileMetadata = new \Google_Service_Drive_DriveFile();
+
+        //Extract IDs of Previous Parents
+        $parents = [];
+        foreach ($file->getParents() as $parent) {
+            $parents[] = $parent->getId();
+        }
+
+        //Convert to comma-separated string
+        $previousParents = join(',', $parents);
+
+        try {
+            //Move the file to the new folder
+            $movedFile = $this->getService()->files->patch($file->getId(), $emptyFileMetadata, array(
+              'addParents' => $location,
+              'removeParents' => $previousParents,
+              ));
+            //Make File, FileInterface compatible
+            return $this->makeFile($movedFile);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
     }
 
     /**
@@ -229,10 +266,15 @@ class DriveAdapter implements AdapterInterface
      * @param  string $fileId File ID
      * @return Pulse\Service\Manager\File\FileInterface
      */
-    protected function getFile($fileId)
+    protected function getFile($fileId, $fields = null)
     {
         try {
-            $file = $this->getService()->files->get($fileId);
+            $data = [];
+
+            if($fields)
+                $data['fields'] = $fields;
+
+            $file = $this->getService()->files->get($fileId, $data);
 
             if($file)
                 return $this->makeFile($file);
