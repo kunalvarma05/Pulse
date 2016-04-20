@@ -10,12 +10,15 @@ class CopyCommandHandler
 
     public function handle(CopyCommand $command)
     {
+        //Provider
+        $provider = $command->account->provider;
+
         //Authorization
-        $authFactory = AuthFactory::create($command->provider->alias);
+        $authFactory = AuthFactory::create($provider->alias);
         $access_token = $authFactory->refreshAccessToken($command->account->access_token);
 
         //Manager
-        $manager = ManagerFactory::create($command->provider->alias, $access_token);
+        $manager = ManagerFactory::create($provider->alias, $access_token);
 
         //File
         $file = $command->file;

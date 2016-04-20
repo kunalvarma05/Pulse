@@ -76,14 +76,10 @@ class ManagerController extends BaseController
         //Account
         $account = $user->accounts()->findOrFail($account_id);
 
-        //Provider
-        $provider = $account->provider;
-
         //Copy File
         $fileCopy = dispatch(new CopyCommand(
             $user,
             $account,
-            $provider,
             $request->get('file'),
             $request->get('location'),
             $request->get('title')
