@@ -8,6 +8,7 @@ use Pulse\Services\Manager\ManagerFactory;
 use Pulse\Bus\Commands\Manager\CopyCommand;
 use Pulse\Bus\Commands\Manager\MoveCommand;
 use Pulse\Api\Transformers\QuotaTransformer;
+use Pulse\Bus\Commands\Manager\DeleteCommand;
 use Pulse\Services\Authorization\AuthFactory;
 use Pulse\Api\Transformers\FileListTransformer;
 
@@ -180,6 +181,51 @@ class ManagerController extends BaseController
         //Return Response
         return $this->response->item($fileMove, new FileListTransformer);
 
+    }
+
+    /**
+     * Delete File
+     * @param  Request $request
+     * @param  int  $account_id Account ID
+     * @return Response
+     */
+    public function performDelete(Request $request, $account_id)
+    {
+        if(!$request->has('file')) {
+            return response()->json(['error' => 'no_file_specified', 'message' => "No file was specified!"], 200);
+        }
+
+        //Current User
+        $user = Auth::user();
+        //Account
+        $account = $user->accounts->find($account_id);
+
+        //Account not found
+        if(!$account)
+        {
+            return response()->json(['error' => 'account_not_found', 'message' => "Account not found!"], 404);
+        }
+
+        //Provider
+        $provider = $account->provider;
+
+        $file = $request->get('file');
+
+        //Delete File
+        $fileDelete = dispatch(new DeleteCommand(
+            $user,
+            $account,
+            $provider,
+            $file
+            ));
+
+        //Files not deleted
+        if(!$fileDelete) {
+            return response()->json(['error' => 'file_not_deleted', 'message' => "Cannot delete file!"], 200);
+        }
+
+        //Return Response
+        return $this->response->array(['message' => "File Deleted!", "file" => $file]);
     }
 
 }

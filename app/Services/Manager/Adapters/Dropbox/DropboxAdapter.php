@@ -157,6 +157,19 @@ class DropboxAdapter implements AdapterInterface
     }
 
     /**
+     * Delete File
+     * @param  string $file          File to delete
+     * @param  array       $data     Additional Data
+     * @return array ['file' => $file]
+     */
+    public function delete($file, array $data = array())
+    {
+        //Delete the file
+        $deleteFile = $this->getService()->delete($file);
+        return ['file' => $file];
+    }
+
+    /**
      * Make Quota Info
      * @param  array $account
      */

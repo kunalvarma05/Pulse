@@ -166,6 +166,26 @@ class OneDriveAdapter implements AdapterInterface
     }
 
     /**
+     * Delete File
+     * @param  string $file          File to delete
+     * @param  array       $data     Additional Data
+     * @return array ['file' => $file]
+     */
+    public function delete($file, array $data = array())
+    {
+        try {
+            $deleteFile = $this->getService()->delete($file);
+            return ['file' => $file];
+        } catch (Exception $e) {
+            // @todo
+            dd($e->getMessage());
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
      * Make File List
      * @param  array $list
      * @return Array (Pulse\Services\Manager\File\FileInterface)

@@ -91,5 +91,18 @@ class Manager implements ManagerInterface
         ->move($file, $location, $data);
     }
 
+    /**
+     * Delete File
+     * @param  string $file          File to delete
+     * @param  array       $data     Additional Data
+     * @return array
+     */
+    public function delete($file, array $data = array())
+    {
+        return $this
+        ->getAdapter()
+        ->delete($file, $data);
+    }
+
 
 }

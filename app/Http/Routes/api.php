@@ -64,6 +64,8 @@ $api->version('v1', function ($api) {
                 $api->get('copy', ['as' => 'api.accounts.manager.copy', 'uses' => 'ManagerController@performCopy']);
                 //Perform Move Action
                 $api->get('move', ['as' => 'api.accounts.manager.move', 'uses' => 'ManagerController@performMove']);
+                //Perform Delete Action
+                $api->get('delete', ['as' => 'api.accounts.manager.delete', 'uses' => 'ManagerController@performDelete']);
             });
 
         });

@@ -35,4 +35,12 @@ interface AdapterInterface
      * @return Pulse\Services\Manager\File\FileInterface
      */
     public function move($file, $location, array $data = array());
+
+    /**
+     * Delete File
+     * @param  string $file          File to delete
+     * @param  array       $data     Additional Data
+     * @return array
+     */
+    public function delete($file, array $data = array());
 }

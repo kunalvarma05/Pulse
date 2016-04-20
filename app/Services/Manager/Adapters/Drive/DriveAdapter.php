@@ -194,6 +194,23 @@ class DriveAdapter implements AdapterInterface
     }
 
     /**
+     * Delete File
+     * @param  string $file          File to delete
+     * @param  array       $data     Additional Data
+     * @return array ['file' => $file]
+     */
+    public function delete($file, array $data = array())
+    {
+        try {
+            $deleteFile = $this->getService()->files->delete($file);
+            return ['file' => $file];
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+    }
+
+    /**
      * Make Quota Info
      * @param  Google_Service_Drive_About $about
      */
