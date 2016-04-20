@@ -64,6 +64,29 @@ class DriveController extends Controller
 
         $service = new Google_Service_Drive($client);
 
+        // $fileId = '1gVBEqiAdhH2TfF37BaokjY2hrpc3utrndChUzY23SGE';
+        // $folderId = '0BxCFmDp5O-sjV2FZeHFsXzBzV28';
+        // $emptyFileMetadata = new \Google_Service_Drive_DriveFile();
+        // // Retrieve the existing parents to remove
+        // $file = $service->files->get($fileId, array('fields' => 'id, parents'));
+        // //dd($file);
+        // $parents = [];
+
+        // //Extract IDs of Previous Parents
+        // foreach ($file->parents as $parent) {
+        //     $parents[] = $parent->getId();
+        // }
+
+        // //Convert to comma-separated string
+        // $previousParents = join(',', $parents);
+
+        // // Move the file to the new folder
+        // $file = $service->files->patch($fileId, $emptyFileMetadata, array(
+        //   'addParents' => $folderId,
+        //   'removeParents' => $previousParents
+        //   ));
+        // dd($file);
+
         $results = $this->listChildren($service)->getItems();
 
         foreach ($results as $key => $value) {

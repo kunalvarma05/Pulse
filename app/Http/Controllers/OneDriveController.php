@@ -79,7 +79,7 @@ class OneDriveController extends Controller
 
         //Get the Access Token
         $access_token = $this->getAccessToken();
-        dd($access_token);
+        //dd($access_token);
 
         // Get the user's details
         // $user = $this->provider->getResourceOwner($access_token);
@@ -89,9 +89,11 @@ class OneDriveController extends Controller
         try {
 
             $oneDriveClient = new Client($access_token->getToken(), $this->guzzleClient);
+            dd($oneDriveClient->move("7D780E8525603004!1363", "7D780E8525603004!1377"));
+
 
             //dd($oneDriveClient->getDefaultDrive());
-            dd($oneDriveClient->listChildren(null, ['top' => 20]));
+            //dd($oneDriveClient->listChildren(null, ['top' => 20]));
 
             //$file = $oneDriveClient->getItem("7D780E8525603004!1315");
             dd($access_token, $file);
