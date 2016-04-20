@@ -25,13 +25,7 @@ class ManagerController extends BaseController
         //Current User
         $user = Auth::user();
         //Account
-        $account = $user->accounts->find($account_id);
-
-        //Account not found
-        if(!$account)
-        {
-            return response()->json(['error' => 'account_not_found', 'message' => "Account not found!"], 404);
-        }
+        $account = $user->accounts()->findOrFail($account_id);
 
         //Get Quota
         $quota = dispatch(new GetQuotaCommand($account));
@@ -48,13 +42,7 @@ class ManagerController extends BaseController
         //Current User
         $user = Auth::user();
         //Account
-        $account = $user->accounts->find($account_id);
-
-        //Account not found
-        if(!$account)
-        {
-            return response()->json(['error' => 'account_not_found', 'message' => "Account not found!"], 404);
-        }
+        $account = $user->accounts()->findOrFail($account_id);
 
         //Provider
         $provider = $account->provider;
@@ -98,13 +86,7 @@ class ManagerController extends BaseController
         //Current User
         $user = Auth::user();
         //Account
-        $account = $user->accounts->find($account_id);
-
-        //Account not found
-        if(!$account)
-        {
-            return response()->json(['error' => 'account_not_found', 'message' => "Account not found!"], 404);
-        }
+        $account = $user->accounts()->findOrFail($account_id);
 
         //Provider
         $provider = $account->provider;
@@ -144,13 +126,7 @@ class ManagerController extends BaseController
         //Current User
         $user = Auth::user();
         //Account
-        $account = $user->accounts->find($account_id);
-
-        //Account not found
-        if(!$account)
-        {
-            return response()->json(['error' => 'account_not_found', 'message' => "Account not found!"], 404);
-        }
+        $account = $user->accounts()->findOrFail($account_id);
 
         //Provider
         $provider = $account->provider;
@@ -189,13 +165,7 @@ class ManagerController extends BaseController
         //Current User
         $user = Auth::user();
         //Account
-        $account = $user->accounts->find($account_id);
-
-        //Account not found
-        if(!$account)
-        {
-            return response()->json(['error' => 'account_not_found', 'message' => "Account not found!"], 404);
-        }
+        $account = $user->accounts()->findOrFail($account_id);
 
         //Provider
         $provider = $account->provider;
