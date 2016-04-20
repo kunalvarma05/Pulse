@@ -112,14 +112,10 @@ class ManagerController extends BaseController
         //Account
         $account = $user->accounts()->findOrFail($account_id);
 
-        //Provider
-        $provider = $account->provider;
-
         //Move File
         $fileMove = dispatch(new MoveCommand(
             $user,
             $account,
-            $provider,
             $request->get('file'),
             $request->get('location')
             ));
