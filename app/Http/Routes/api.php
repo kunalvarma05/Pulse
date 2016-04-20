@@ -61,7 +61,7 @@ $api->version('v1', function ($api) {
                 //Browse Files
                 $api->get('browse ', ['as' => 'api.accounts.manager.browse', 'uses' => 'ManagerController@browse']);
                 //Perform Action
-                $api->get('action/{action}', ['as' => 'api.accounts.manager.action', 'uses' => 'ManagerController@performAction']);
+                $api->get('copy', ['as' => 'api.accounts.manager.copy', 'uses' => 'ManagerController@performCopy']);
             });
 
         });

@@ -13,8 +13,6 @@ use Pulse\Api\Transformers\FileListTransformer;
 class ManagerController extends BaseController
 {
 
-    protected $availableActions = ['copy', 'move', 'rename', 'delete'];
-
     /**
      * Fetch Account Quota
      * @return Response
@@ -92,14 +90,16 @@ class ManagerController extends BaseController
         return $this->response->collection($fileCollection, new FileListTransformer);
     }
 
-    public function performAction(Request $request, $account_id, $action)
+    /**
+     * Perform Copy Action
+     * @param  Request $request
+     * @param  int  $account_id Account ID
+     * @return Response
+     */
+    public function performCopy(Request $request, $account_id)
     {
         if(!$request->has('file')) {
             return response()->json(['error' => 'no_file_specified', 'message' => "No file was specified!"], 200);
-        }
-
-        if(!in_array($action, $this->availableActions)) {
-            return response()->json(['error' => 'invalid_action', 'message' => "Invalid action specified!"], 200);
         }
 
         //Current User
