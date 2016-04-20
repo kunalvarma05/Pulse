@@ -97,6 +97,53 @@ class OneDriveAdapter implements AdapterInterface
     }
 
     /**
+     * Copy File
+     * @param  string $file          File to copy
+     * @param  string|null $location Location to copy the file to
+     * @param  array       $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function copy($file, $location = null, array $data = array())
+    {
+        //File
+        $file = $this->getService()->getItem($file);
+
+        //Copy Location not specified
+        if($location === "/" || is_null($location)) {
+            //Use the original file's parent folder
+            if(isset($file->parentReference)) {
+                $location = $file->parentReference->id;
+            }
+            else {
+                //Use the drive root
+                $driveRoot = $this->getService()->getDriveRoot();
+                $location = $driveRoot->id;
+            }
+        }
+
+        //File Copy Name
+        $random = str_random(6);
+        $ext = pathinfo($file->name, PATHINFO_EXTENSION);
+        $name = isset($data['title']) ? $data['title'] : "({$random}) Copy of {$file->name}";
+
+        //If the title misses an extension,
+        //we'll use the original file's extension
+        $name = (!pathinfo($name, PATHINFO_EXTENSION)) ? "{$name}.{$ext}" : $name;
+
+        try {
+            //Copy the File
+            $copiedFile = $this->getService()->copy($file->id, $location, $name);
+            //Make File, FileInterface compatible
+            return $this->makeFile($copiedFile);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
      * Make File List
      * @param  array $list
      * @return Array (Pulse\Services\Manager\File\FileInterface)
@@ -142,9 +189,11 @@ class OneDriveAdapter implements AdapterInterface
 
         $fileInfo->setIcon(Helpers::getFileIcon($icon));
 
-        $thumbnails = $file->thumbnails;
-        $thumbnail = (isset($thumbnails[0]) && isset($thumbnails[0]->medium)) ? $thumbnails[0]->medium->url : "";
-        $fileInfo->setThumbnailURL($thumbnail);
+        if(isset($file->thumbnails)) {
+            $thumbnails = $file->thumbnails;
+            $thumbnail = (isset($thumbnails[0]) && isset($thumbnails[0]->medium)) ? $thumbnails[0]->medium->url : "";
+            $fileInfo->setThumbnailURL($thumbnail);
+        }
 
         $owner = (isset($file->createdBy) && isset($file->createdBy->user)) ? $file->createdBy->user->displayName : "";
         $fileInfo->setOwners([$owner]);
