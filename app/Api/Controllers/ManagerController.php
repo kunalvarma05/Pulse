@@ -147,16 +147,12 @@ class ManagerController extends BaseController
         //Account
         $account = $user->accounts()->findOrFail($account_id);
 
-        //Provider
-        $provider = $account->provider;
-
         $file = $request->get('file');
 
         //Delete File
         $fileDelete = dispatch(new DeleteCommand(
             $user,
             $account,
-            $provider,
             $file
             ));
 
