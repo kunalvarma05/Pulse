@@ -12,6 +12,7 @@ use Pulse\Bus\Commands\Manager\DeleteCommand;
 use Pulse\Services\Authorization\AuthFactory;
 use Pulse\Bus\Commands\Manager\GetQuotaCommand;
 use Pulse\Api\Transformers\FileListTransformer;
+use Pulse\Bus\Commands\Manager\ListFilesCommand;
 
 class ManagerController extends BaseController
 {
@@ -44,21 +45,8 @@ class ManagerController extends BaseController
         //Account
         $account = $user->accounts()->findOrFail($account_id);
 
-        //Provider
-        $provider = $account->provider;
-
-        //Authorization
-        $authFactory = AuthFactory::create($provider->alias);
-        $access_token = $authFactory->refreshAccessToken($account->access_token);
-
-        //Manager
-        $manager = ManagerFactory::create($provider->alias, $access_token);
-
-        //Path
-        $path = $request->has('path') ? $request->get('path') : null;
-
-        //Fetch the Quota
-        $files = $manager->listChildren($path);
+        //Get Files
+        $files = dispatch(new ListFilesCommand($account, $request->get('path')));
 
         //Files not found
         if(!$files) {
