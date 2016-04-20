@@ -60,6 +60,8 @@ $api->version('v1', function ($api) {
                 $api->get('quota', ['as' => 'api.accounts.manager.quota', 'uses' => 'ManagerController@quota']);
                 //Browse Files
                 $api->get('browse ', ['as' => 'api.accounts.manager.browse', 'uses' => 'ManagerController@browse']);
+                //Perform Action
+                $api->get('action/{action}', ['as' => 'api.accounts.manager.action', 'uses' => 'ManagerController@performAction']);
             });
 
         });
