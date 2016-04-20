@@ -61,11 +61,11 @@ $api->version('v1', function ($api) {
                 //Browse Files
                 $api->get('browse ', ['as' => 'api.accounts.manager.browse', 'uses' => 'ManagerController@browse']);
                 //Perform Copy Action
-                $api->get('copy', ['as' => 'api.accounts.manager.copy', 'uses' => 'ManagerController@performCopy']);
+                $api->post('copy', ['as' => 'api.accounts.manager.copy', 'uses' => 'ManagerController@performCopy']);
                 //Perform Move Action
-                $api->get('move', ['as' => 'api.accounts.manager.move', 'uses' => 'ManagerController@performMove']);
+                $api->patch('move', ['as' => 'api.accounts.manager.move', 'uses' => 'ManagerController@performMove']);
                 //Perform Delete Action
-                $api->get('delete', ['as' => 'api.accounts.manager.delete', 'uses' => 'ManagerController@performDelete']);
+                $api->delete('delete', ['as' => 'api.accounts.manager.delete', 'uses' => 'ManagerController@performDelete']);
             });
 
         });
