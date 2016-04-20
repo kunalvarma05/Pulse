@@ -13,6 +13,7 @@ use Pulse\Services\Authorization\AuthFactory;
 use Pulse\Bus\Commands\Manager\GetQuotaCommand;
 use Pulse\Api\Transformers\FileListTransformer;
 use Pulse\Bus\Commands\Manager\ListFilesCommand;
+use Pulse\Bus\Commands\Manager\GetFileInfoCommand;
 use Pulse\Bus\Commands\Manager\CreateFolderCommand;
 
 class ManagerController extends BaseController
@@ -33,6 +34,39 @@ class ManagerController extends BaseController
         $quota = dispatch(new GetQuotaCommand($account));
 
         return $this->response->item($quota, new QuotaTransformer);
+    }
+
+    /**
+     * Get File Info
+     * @param  Request $request
+     * @param  int  $account_id Account ID
+     * @return Response
+     */
+    public function getFileInfo(Request $request, $account_id)
+    {
+        if(!$request->has('file')) {
+            return response()->json(['error' => 'no_file_specified', 'message' => "No file was specified!"], 200);
+        }
+
+        //Current User
+        $user = Auth::user();
+        //Account
+        $account = $user->accounts()->findOrFail($account_id);
+
+        //Get File Info
+        $fileInfo = dispatch(new GetFileInfoCommand(
+            $user,
+            $account,
+            $request->get('file')
+            ));
+
+        //File not found
+        if(!$fileInfo) {
+            return response()->json(['error' => 'file_not_found', 'message' => "File not found!"], 200);
+        }
+
+        //Return Response
+        return $this->response->item($fileInfo, new FileListTransformer);
     }
 
     /**

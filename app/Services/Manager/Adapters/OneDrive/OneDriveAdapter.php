@@ -66,6 +66,27 @@ class OneDriveAdapter implements AdapterInterface
     }
 
     /**
+     * Get File
+     * @param  string $file   File
+     * @param  array  $data   Additional Data
+     * @return Pulse\Service\Manager\File\FileInterface
+     */
+    public function getFileInfo($file, array $data = array())
+    {
+        try {
+            //Get the File
+            $fileInfo = $this->getService()->getItem($file, false, $data);
+            //Make File, FileInterface compatible
+            return $this->makeFile($fileInfo);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
      * List Children of a given folder path or id
      * @param  string $path Folder path or ID
      * @param  array  $data Additional Data

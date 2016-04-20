@@ -51,6 +51,19 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Get File
+     * @param  string $file   File
+     * @param  array  $data   Additional Data
+     * @return Pulse\Service\Manager\File\FileInterface
+     */
+    public function getFileInfo($file, array $data = array())
+    {
+        return $this
+        ->getAdapter()
+        ->getFileInfo($file, $data);
+    }
+
+    /**
      * List Children of a given folder path or id
      * @param  string $path Folder path or ID
      * @param  array  $data Additional Data

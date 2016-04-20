@@ -71,6 +71,27 @@ class DriveAdapter implements AdapterInterface
     }
 
     /**
+     * Get File
+     * @param  string $file   File
+     * @param  array  $data   Additional Data
+     * @return Pulse\Service\Manager\File\FileInterface
+     */
+    public function getFileInfo($file, array $data = array())
+    {
+        try {
+            //Get the File
+            $fileInfo = $this->getService()->files->get($file, $data);
+            //Make File, FileInterface compatible
+            return $this->makeFile($fileInfo);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
      * List Children of a given folder path or id
      * @param  string $path Folder path or ID
      * @param  array  $data Additional Data
@@ -130,7 +151,7 @@ class DriveAdapter implements AdapterInterface
      */
     public function copy($file, $location = null, array $data = array())
     {
-        $file = $this->getFile($file, 'id, title, parents');
+        $file = $this->getFileInfo($file, 'id, title, parents');
         $fileCopy = new Google_Service_Drive_DriveFile();
 
         $title = isset($data['title']) ? $data['title'] : $file->getTitle() . " - copy";
@@ -321,30 +342,4 @@ class DriveAdapter implements AdapterInterface
 
         return $fileInfo;
     }
-
-    /**
-     * Get File
-     * @param  string $fileId File ID
-     * @return Pulse\Service\Manager\File\FileInterface
-     */
-    protected function getFile($fileId, $fields = null)
-    {
-        try {
-            $data = [];
-
-            if($fields)
-                $data['fields'] = $fields;
-
-            $file = $this->getService()->files->get($fileId, $data);
-
-            if($file)
-                return $this->makeFile($file);
-        } catch (Exception $e) {
-            // @todo
-            return false;
-        }
-
-        return false;
-    }
-
 }
