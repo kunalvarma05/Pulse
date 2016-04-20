@@ -128,6 +128,35 @@ class DropboxAdapter implements AdapterInterface
     }
 
     /**
+     * Move File
+     * @param  string $file          File to move
+     * @param  string|null $location Location to move the file to
+     * @param  array       $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function move($file, $location, array $data = array())
+    {
+        $newFile = basename($file);
+
+        if($location === "/") {
+            $location = "";
+        }
+
+        $newLocation = "{$location}/{$newFile}";
+
+        try {
+            //Move the file
+            $movedFile = $this->getService()->move($file, $newLocation);
+            //Make File, FileInterface compatible
+            return $this->makeFile($movedFile);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+
+    }
+
+    /**
      * Make Quota Info
      * @param  array $account
      */
