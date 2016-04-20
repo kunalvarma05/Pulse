@@ -5,6 +5,7 @@ use Auth;
 use Pulse\Models\Account;
 use Illuminate\Http\Request;
 use Pulse\Services\Manager\ManagerFactory;
+use Pulse\Bus\Commands\Manager\CopyCommand;
 use Pulse\Api\Transformers\QuotaTransformer;
 use Pulse\Services\Authorization\AuthFactory;
 use Pulse\Api\Transformers\FileListTransformer;
@@ -115,27 +116,15 @@ class ManagerController extends BaseController
         //Provider
         $provider = $account->provider;
 
-        //Authorization
-        $authFactory = AuthFactory::create($provider->alias);
-        $access_token = $authFactory->refreshAccessToken($account->access_token);
-
-        //Manager
-        $manager = ManagerFactory::create($provider->alias, $access_token);
-
-        //File
-        $file = $request->get('file');
-        //Location
-        $location = $request->has('location') ? $request->get('location') : null;
-
-        //Additional Data
-        $data = [];
-
-        //Title
-        if($request->has('title'))
-            $data['title'] = $request->get('title');
-
         //Copy File
-        $fileCopy = $manager->copy($file, $location, $data);
+        $fileCopy = dispatch(new CopyCommand(
+            $user,
+            $account,
+            $provider,
+            $request->get('file'),
+            $request->get('location'),
+            $request->get('title')
+            ));
 
         //Files not copied
         if(!$fileCopy) {
