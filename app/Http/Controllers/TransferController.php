@@ -20,8 +20,6 @@ class TransferController extends Controller
         $oneDriveClient = $this->getOneDriveClient();
         $driveClient = $this->getDriveClient();
         $service = new Google_Service_Drive($driveClient);
-        //Get the download link of pulse-logo.png
-        $link = $dropboxClient->createTemporaryDirectLink("/pulse-logo.png");
 
         //Download the pulse-logo.png file's content
         $stream = fopen('php://temp', 'w+');
@@ -29,8 +27,10 @@ class TransferController extends Controller
         rewind($stream);
         $contents = stream_get_contents($stream);
 
-        $encrypted =
+        //$encrypted =
 
+        //Get the download link of pulse-logo.png
+        $link = $dropboxClient->createTemporaryDirectLink("/pulse-logo.png");
         $name = basename($fileToTransfer['path']);
         $file = $oneDriveClient->uploadFromUrl($link[0], $name);
         $file = new \Google_Service_Drive_DriveFile();
