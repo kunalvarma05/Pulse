@@ -87,4 +87,15 @@ interface AdapterInterface
      * @return Pulse\Services\Manager\File\FileInterface
      */
     public function rename($file, $title, array $data = array());
+
+    /**
+     * Transfer File to Another Provider
+     * @param  string $file     File Path
+     * @param  Pulse\Services\Manager\Adapters\AdapterInterface $provider Adapter of the Provider to Transfer the File To
+     * @param  string $location File's new Location on the Provider
+     * @param  string $title    New Title of the Transfered File
+     * @param  array  $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function transfer($file, AdapterInterface $provider, $location = null, $title = null, array $data = array());
 }
