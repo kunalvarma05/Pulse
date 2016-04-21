@@ -62,7 +62,20 @@ class DriveController extends Controller
             return redirect('/connect/drive');
         }
 
-        $service = new Google_Service_Drive($client);
+        $service = new \Google_Service_Drive($client);
+
+
+        $results = $this->listChildren($service)->getItems();
+
+        foreach ($results as $key => $value) {
+            echo "Title:" . $value['title'] . " <br>id: " . $value['id'] . "<hr>";
+        }
+
+        //return $this->uploadFile($client, $service);
+
+
+
+
 
         // $fileId = '1gVBEqiAdhH2TfF37BaokjY2hrpc3utrndChUzY23SGE';
         // $folderId = '0BxCFmDp5O-sjV2FZeHFsXzBzV28';
@@ -87,12 +100,6 @@ class DriveController extends Controller
         //   ));
         // dd($file);
 
-        $results = $this->listChildren($service)->getItems();
-
-        foreach ($results as $key => $value) {
-            echo "Title:" . $value['title'] . " <br>id: " . $value['id'] . "<hr>";
-        }
-
         // $file = $results[2];
 
         // $fileCopy = new \Google_Service_Drive_DriveFile();
@@ -113,6 +120,64 @@ class DriveController extends Controller
         // }
 
         // return false;
+    }
+
+    protected function uploadFile($client, $service)
+    {
+        $originalFile = storage_path("app/original/nginx.txt");
+        $mimeType = mime_content_type($originalFile);
+        $fileSize = filesize($originalFile);
+        $parentId = null;
+
+        $file = new \Google_Service_Drive_DriveFile();
+        $file->setTitle(str_random(5) . "-" . basename($originalFile));
+        $file->setMimeType($mimeType);
+
+        //Chunk size, ~1 MB
+        $chunkSizeBytes = 1 * 1024 * 1024;
+
+        // Call the API with the media upload, defer so it doesn't immediately return.
+        $client->setDefer(true);
+        $request = $service->files->insert($file);
+
+        // Create a media file upload to represent our upload process.
+        $media = new \Google_Http_MediaFileUpload(
+            $client,
+            $request,
+            $mimeType,
+            null,
+            true,
+            $chunkSizeBytes
+            );
+
+        $media->setFileSize($fileSize);
+
+        // Upload the various chunks. $status will be false until the process is
+        // complete.
+        $status = false;
+        //Progress
+        $progress = 0;
+        //Handle
+        $handle = fopen($originalFile, "rb");
+
+        while (!$status && !feof($handle)) {
+            $chunk = fread($handle, $chunkSizeBytes);
+            $status = $media->nextChunk($chunk);
+
+            if(!$status) {
+                //nextChunk() returns 'false' whenever the upload is still in progress
+                $progress = ($media->getProgress() / $fileSize) * 100;
+            }
+        }
+
+        // The final value of $status will be the data from the API for the object
+        // that has been uploaded.
+        $result = false;
+        if ($status != false) {
+            $result = $status;
+        }
+        fclose($handle);
+        dd($result);
     }
 
     protected function getClient(){
