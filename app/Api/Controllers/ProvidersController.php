@@ -31,5 +31,4 @@ class ProvidersController extends BaseController
         //Return the Response
         return response()->json(['url' => $url]);
     }
-
 }

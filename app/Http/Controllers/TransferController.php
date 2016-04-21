@@ -45,8 +45,7 @@ class TransferController extends Controller
 
     protected function getDropboxClient()
     {
-        if(!Session::has('dbx-access-token'))
-        {
+        if (!Session::has('dbx-access-token')) {
             return redirect('connect/dropbox');
         }
 
@@ -57,8 +56,7 @@ class TransferController extends Controller
     protected function getOneDriveClient()
     {
         //Session doesn't have an access token
-        if(!Session::has('onedrive-access-token'))
-        {
+        if (!Session::has('onedrive-access-token')) {
             return redirect('connect/onedrive');
         }
 
@@ -85,7 +83,7 @@ class TransferController extends Controller
         $client->setClientId($client_id);
         $client->setClientSecret($client_secret);
 
-        if(Session::has('google-access-token')){
+        if (Session::has('google-access-token')) {
             $client->setAccessToken(Session::get('google-access-token'));
 
             return $client;

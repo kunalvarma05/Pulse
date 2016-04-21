@@ -27,5 +27,4 @@ interface AuthorizationInterface
      * @return string
      */
     public function refreshAccessToken($access_token);
-
 }

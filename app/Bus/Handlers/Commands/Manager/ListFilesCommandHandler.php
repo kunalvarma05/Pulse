@@ -34,5 +34,4 @@ class ListFilesCommandHandler
         //Fetch the Children
         return $manager->listChildren($path);
     }
-
 }

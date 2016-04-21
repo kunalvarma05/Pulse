@@ -73,5 +73,4 @@ class DriveAdapter implements AdapterInterface
         $this->accountInfo->setImage($account->getImage()->getUrl());
         $this->accountInfo->setEmail($account->getEmails()[0]->getValue());
     }
-
 }

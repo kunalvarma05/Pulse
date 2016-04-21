@@ -29,10 +29,11 @@ class Quota implements QuotaInterface
      */
     public function getSpaceAlloted($format = false)
     {
-        if($format)
+        if ($format) {
             return $this->formatBytes($this->spaceAlloted);
-        else
+        } else {
             return $this->spaceAlloted;
+        }
     }
 
     /**
@@ -41,10 +42,11 @@ class Quota implements QuotaInterface
      */
     public function getSpaceUsed($format = false)
     {
-        if($format)
+        if ($format) {
             return $this->formatBytes($this->spaceUsed);
-        else
+        } else {
             return $this->spaceUsed;
+        }
     }
 
     /**
@@ -53,10 +55,11 @@ class Quota implements QuotaInterface
      */
     public function getSpaceRemaining($format = false)
     {
-        if($format)
+        if ($format) {
             return $this->formatBytes($this->spaceRemaining);
-        else
+        } else {
             return $this->spaceRemaining;
+        }
     }
 
     /**

@@ -25,5 +25,4 @@ class GetDownloadLinkCommand
         $this->file = $file;
         $this->data = $data;
     }
-
 }

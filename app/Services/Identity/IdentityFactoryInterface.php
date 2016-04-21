@@ -12,5 +12,4 @@ interface IdentityFactoryInterface
      * @return Pulse\Services\Identity\IdentityInterface
      */
     public static function create($provider, $access_token);
-
 }

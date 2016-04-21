@@ -38,5 +38,4 @@ class UploadFileCommand
         $this->title = $title;
         $this->data = $data;
     }
-
 }

@@ -48,5 +48,4 @@ class TransferFileCommandHandler
         //Manager
         return ManagerFactory::create($provider->alias, $access_token);
     }
-
 }

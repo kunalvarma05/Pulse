@@ -5,5 +5,4 @@ use Dropbox\ValueStore;
 
 interface DropboxCsrfTokenStoreInterface extends ValueStore
 {
-
 }

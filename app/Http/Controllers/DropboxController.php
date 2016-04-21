@@ -26,7 +26,8 @@ class DropboxController extends Controller
     private $webAuth;
     private $sessionStore;
 
-    public function __construct(){
+    public function __construct()
+    {
         //Auth User
         $this->user = (!\Auth::check()) ? \Auth::login(\Pulse\Models\User::first()) : \Auth::user();
         //Dropbox Session Store
@@ -35,14 +36,16 @@ class DropboxController extends Controller
         $this->webAuth = new WebAuth($this->getAppInfo(), "pulseapp", config("dropbox.callback_url"), $this->sessionStore, "en");
     }
 
-    public function connect(){
-        if(Session::has('dbx-access-token')){
+    public function connect()
+    {
+        if (Session::has('dbx-access-token')) {
             return redirect('api/dropbox');
         }
         return redirect(urldecode($this->webAuth->start()));
     }
 
-    public function auth(Request $request){
+    public function auth(Request $request)
+    {
         $input = $request->all();
         //return $input;
         $code = $input['code'];
@@ -52,21 +55,21 @@ class DropboxController extends Controller
 
         Session::put('dbx-access-token', $accessToken, 1000);
         return Redirect::to('devapi/dropbox');
-
     }
 
-    public function api(Request $request){
-        if(!Session::has('dbx-access-token')){
+    public function api(Request $request)
+    {
+        if (!Session::has('dbx-access-token')) {
             return redirect('connect/dropbox');
         }
 
         $accessToken = \Session::get('dbx-access-token');
         $client = new DropboxClient($accessToken, config('dropbox.app'));
-        try{
+        try {
             $file = "/pulse-logo.png";
             $name = pathinfo($file, PATHINFO_FILENAME); //pulse-logo
             $ext = pathinfo($file, PATHINFO_EXTENSION); //.png
-            if($ext) {
+            if ($ext) {
                 dd($name, $ext);
             }
             dd($name);
@@ -77,7 +80,7 @@ class DropboxController extends Controller
 
             $location = "{$dir}/{$copy}";
             dd($client->copy($file, $location));
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return $e->getMessage();
             //return "Unable to copy file. Maybe a file with same name already exists!";
         }
@@ -89,7 +92,8 @@ class DropboxController extends Controller
         //echo "<img src='data:image/png;base64,".base64_encode($d)."'>";
     }
 
-    protected function getAppInfo(){
+    protected function getAppInfo()
+    {
         try {
             $appInfo = AppInfo::loadFromJson(
                 array(
@@ -99,36 +103,30 @@ class DropboxController extends Controller
                 );
 
             return $appInfo;
-        }
-        catch (AppInfoLoadException $ex) {
+        } catch (AppInfoLoadException $ex) {
             fwrite(STDERR, "Error loading <app-info-file>: ".$ex->getMessage()."\n");
             die;
         }
     }
 
-    protected function getAccessToken($code, $state){
-        try{
+    protected function getAccessToken($code, $state)
+    {
+        try {
             $authCode = array('state' => $state, 'code' => $code);
             list($accessToken, $userId, $urlState) = $this->webAuth->finish($authCode);
             return $accessToken;
-        }
-        catch (WebAuthException_BadRequest $ex) {
+        } catch (WebAuthException_BadRequest $ex) {
             abort(404, "Something went wrong!");
-        }
-        catch (WebAuthException_BadState $ex) {
+        } catch (WebAuthException_BadState $ex) {
             // Auth session expired.  Restart the auth process.
             redirect("connect/dropbox");
-        }
-        catch (WebAuthException_Csrf $ex) {
+        } catch (WebAuthException_Csrf $ex) {
             abort(403, "Invalid Request!");
-        }
-        catch (WebAuthException_NotApproved $ex) {
+        } catch (WebAuthException_NotApproved $ex) {
             abort(200, "Ya, right. Thanks for not approving!");
-        }
-        catch (WebAuthException_Provider $ex) {
+        } catch (WebAuthException_Provider $ex) {
             abort(500, $ex->getMessage());
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             abort(500, $ex->getMessage());
         }
     }

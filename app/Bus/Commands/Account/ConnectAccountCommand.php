@@ -56,5 +56,4 @@ class ConnectAccountCommand
         $this->state = $state;
         $this->provider = $provider;
     }
-
 }

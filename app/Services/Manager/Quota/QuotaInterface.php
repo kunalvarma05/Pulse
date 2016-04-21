@@ -36,5 +36,4 @@ interface QuotaInterface
      * Set Remaining Space
      */
     public function setSpaceRemaining($size);
-
 }

@@ -123,10 +123,9 @@ class File implements FileInterface
      */
     public function getOwners()
     {
-       $owners = $this->owners;
+        $owners = $this->owners;
 
-        if(!$owners || empty($owners))
-        {
+        if (!$owners || empty($owners)) {
             return "";
         }
 
@@ -241,6 +240,4 @@ class File implements FileInterface
     {
         $this->owners = $owners;
     }
-
-
 }

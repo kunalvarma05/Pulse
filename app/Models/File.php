@@ -47,5 +47,4 @@ class File extends Model
     {
         return $this->hasMany('Pulse\Models\Transfer');
     }
-
 }

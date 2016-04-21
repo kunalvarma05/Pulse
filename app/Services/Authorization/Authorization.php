@@ -77,5 +77,4 @@ class Authorization implements AuthorizationInterface
         ->getAdapter()
         ->refreshAccessToken($access_token);
     }
-
 }

@@ -91,5 +91,4 @@ class AdapterFactory implements AdapterFactoryInterface
 
         return new OneDriveAdapter($provider, $sessionStore);
     }
-
 }

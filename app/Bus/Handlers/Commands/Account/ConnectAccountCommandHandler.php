@@ -32,8 +32,7 @@ class ConnectAccountCommandHandler
         $exists = Account::where('uid', '=', $uid)->count();
 
         //If account is already connected
-        if($exists)
-        {
+        if ($exists) {
             $response['error'] = true;
             $response['message'] = "Account already connected";
 
@@ -50,8 +49,7 @@ class ConnectAccountCommandHandler
             );
 
         //If account wasn't created
-        if(!$account)
-        {
+        if (!$account) {
             $response['error'] = true;
             $response['message'] = "Cannot create account!";
 
@@ -114,5 +112,4 @@ class ConnectAccountCommandHandler
             $access_token
             ));
     }
-
 }

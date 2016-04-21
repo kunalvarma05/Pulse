@@ -21,5 +21,4 @@ class ManagerFactory implements ManagerFactoryInterface
         //Make Manager Service with the Adapter
         return new Manager($adapter);
     }
-
 }

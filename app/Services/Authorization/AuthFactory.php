@@ -3,7 +3,8 @@ namespace Pulse\Services\Authorization;
 
 use Pulse\Services\Authorization\Adapters\AdapterFactory;
 
-class AuthFactory implements AuthFactoryInterface {
+class AuthFactory implements AuthFactoryInterface
+{
 
     /**
      * Create a Authorization Service with
@@ -19,5 +20,4 @@ class AuthFactory implements AuthFactoryInterface {
         //Authorization Service
         return new Authorization($authAdapter);
     }
-
 }

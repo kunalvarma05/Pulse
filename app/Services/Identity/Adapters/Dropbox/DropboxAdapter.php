@@ -71,5 +71,4 @@ class DropboxAdapter implements AdapterInterface
         $this->accountInfo->setImage("");
         $this->accountInfo->setEmail($account['email']);
     }
-
 }

@@ -148,5 +148,4 @@ interface FileInterface
      * @param array $owners
      */
     public function setOwners($owners);
-
 }

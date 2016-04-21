@@ -50,5 +50,4 @@ class AccountTransformer extends TransformerAbstract
     {
         return $this->item($account->user, new UserTransformer);
     }
-
 }

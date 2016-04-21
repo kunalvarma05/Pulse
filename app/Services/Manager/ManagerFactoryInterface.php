@@ -12,5 +12,4 @@ interface ManagerFactoryInterface
      * @return Pulse\Services\Manager\ManagerInterface
      */
     public static function create($provider, $access_token);
-
 }

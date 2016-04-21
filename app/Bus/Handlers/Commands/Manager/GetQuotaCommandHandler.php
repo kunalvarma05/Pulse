@@ -31,5 +31,4 @@ class GetQuotaCommandHandler
         //Fetch the Quota
         return $manager->getQuota();
     }
-
 }

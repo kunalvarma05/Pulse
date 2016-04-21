@@ -32,5 +32,4 @@ class CreateAccountCommandHandler
         //Return the created account
         return $account;
     }
-
 }

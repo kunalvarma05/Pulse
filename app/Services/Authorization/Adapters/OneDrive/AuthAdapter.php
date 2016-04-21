@@ -70,13 +70,12 @@ class AuthAdapter implements AdapterInterface
     public function getAccessToken($code, $state, array $data = array())
     {
         //Access Token is already present
-        if(isset($data['access_token'])) {
+        if (isset($data['access_token'])) {
             return $this->refreshAccessToken($data['access_token']);
         }
         //Check Session State with the provided state
         //Prevents against CSRF Attacks
-        if($state !== $this->sessionStore->get($this->tokenLabel))
-        {
+        if ($state !== $this->sessionStore->get($this->tokenLabel)) {
             //Probably a CSRF Attack
             throw new \Exception("Invalid OAuth State Token");
         }
@@ -110,5 +109,4 @@ class AuthAdapter implements AdapterInterface
 
         return json_encode($access_token->jsonSerialize());
     }
-
 }

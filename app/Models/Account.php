@@ -89,5 +89,4 @@ class Account extends Model
     {
         return $this->hasMany('Pulse\Models\Action');
     }
-
 }

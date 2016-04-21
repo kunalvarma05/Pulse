@@ -16,5 +16,4 @@ class FetchAccountInfoCommandHandler
         //Get Account Info
         return $identity->getAccount();
     }
-
 }

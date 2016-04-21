@@ -19,7 +19,8 @@ class OneDriveController extends Controller
     private $provider;
     private $guzzleClient;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->user = (!\Auth::check()) ? \Auth::login(\Pulse\Models\User::first()) : \Auth::user();
 
         $this->provider = new Microsoft([
@@ -31,9 +32,10 @@ class OneDriveController extends Controller
         $this->guzzleClient = new Guzzle;
     }
 
-    public function connect(Request $request){
+    public function connect(Request $request)
+    {
         //Session has an access token
-        if(Session::has('onedrive-access-token')){
+        if (Session::has('onedrive-access-token')) {
             return redirect('api/onedrive');
         }
         // If we don't have an authorization code then get one
@@ -47,7 +49,8 @@ class OneDriveController extends Controller
     }
 
 
-    public function auth(Request $request){
+    public function auth(Request $request)
+    {
         //return $request->all();
         //No code or state, accessed directly.
         if (!$request->has('code') || !$request->has('state')) {
@@ -71,9 +74,10 @@ class OneDriveController extends Controller
         }
     }
 
-    public function api(){
+    public function api()
+    {
         //Session doesn't have an access token
-        if(!Session::has('onedrive-access-token')){
+        if (!Session::has('onedrive-access-token')) {
             return redirect('connect/onedrive');
         }
 
@@ -87,7 +91,6 @@ class OneDriveController extends Controller
         // dd($user);
 
         try {
-
             $oneDriveClient = new Client($access_token->getToken(), $this->guzzleClient);
             dd($oneDriveClient->move("7D780E8525603004!1363", "7D780E8525603004!1377"));
 
@@ -97,14 +100,14 @@ class OneDriveController extends Controller
 
             //$file = $oneDriveClient->getItem("7D780E8525603004!1315");
             dd($access_token, $file);
-
         } catch (\Exception $e) {
             // Failed to get user details
             abort(500, 'Oh dear...');
         }
     }
 
-    protected function getAccessToken(){
+    protected function getAccessToken()
+    {
         //Fetch the access token from the session
         $access_token = Session::get('onedrive-access-token');
 

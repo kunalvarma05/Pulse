@@ -33,9 +33,8 @@ class Account implements AccountInterface
      */
     public function __construct(array $accountInfo = array())
     {
-        if(!empty($accountInfo)) {
-
-            if(!isset($accountInfo['id']) || !isset($accountInfo['name']) || !isset($accountInfo['email']) || !isset($accountInfo['image'])) {
+        if (!empty($accountInfo)) {
+            if (!isset($accountInfo['id']) || !isset($accountInfo['name']) || !isset($accountInfo['email']) || !isset($accountInfo['image'])) {
                 throw new \Exception("id, name, email and image are required!");
             }
 
@@ -44,7 +43,6 @@ class Account implements AccountInterface
             $this->email = $accountInfo['email'];
             $this->image = $accountInfo['image'];
         }
-
     }
 
     /**
@@ -118,6 +116,4 @@ class Account implements AccountInterface
     {
         return (string) $this->image;
     }
-
 }
-

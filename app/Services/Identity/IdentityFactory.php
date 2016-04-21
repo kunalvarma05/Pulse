@@ -21,5 +21,4 @@ class IdentityFactory implements IdentityFactoryInterface
         //Make Identity Service with the Adapter
         return new Identity($adapter);
     }
-
 }

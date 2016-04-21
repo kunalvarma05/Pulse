@@ -35,5 +35,4 @@ class RenameCommandHandler
         //Rename File
         return $manager->rename($file, $title);
     }
-
 }

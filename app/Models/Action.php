@@ -46,5 +46,4 @@ class Action extends Model
     {
         return $this->morphMany('Pulse\Models\Activity', 'transaction');
     }
-
 }

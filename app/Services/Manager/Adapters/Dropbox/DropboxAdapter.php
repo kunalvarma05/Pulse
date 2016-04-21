@@ -72,7 +72,7 @@ class DropboxAdapter extends AbstractAdapter
     {
         $account = $this->getService()->getAccountInfo();
 
-        if($account) {
+        if ($account) {
             $this->makeQuotaInfo($account);
 
             return $this->quotaInfo;
@@ -109,8 +109,7 @@ class DropboxAdapter extends AbstractAdapter
     public function listChildren($path = null, array $data = array())
     {
         //Root
-        if(is_null($path))
-        {
+        if (is_null($path)) {
             $path = "/";
         }
 
@@ -119,8 +118,7 @@ class DropboxAdapter extends AbstractAdapter
         $items = $metadata['contents'];
 
         //Files not found
-        if(empty($items))
-        {
+        if (empty($items)) {
             return false;
         }
 
@@ -128,7 +126,6 @@ class DropboxAdapter extends AbstractAdapter
         $files = $this->makeFileList($items);
 
         return $files;
-
     }
 
     /**
@@ -143,7 +140,7 @@ class DropboxAdapter extends AbstractAdapter
         $name = pathinfo($file, PATHINFO_FILENAME);
         $ext = pathinfo($file, PATHINFO_EXTENSION);
 
-        if(is_null($location)) {
+        if (is_null($location)) {
             $path = pathinfo($file, PATHINFO_DIRNAME);
             $location = $path === "/" ? "" : $path;
         }
@@ -166,7 +163,6 @@ class DropboxAdapter extends AbstractAdapter
             // @todo
             dd($e);
         }
-
     }
 
     /**
@@ -180,7 +176,7 @@ class DropboxAdapter extends AbstractAdapter
     {
         $newFile = basename($file);
 
-        if($location === "/") {
+        if ($location === "/") {
             $location = "";
         }
 
@@ -195,7 +191,6 @@ class DropboxAdapter extends AbstractAdapter
             // @todo
             dd($e);
         }
-
     }
 
     /**
@@ -220,13 +215,13 @@ class DropboxAdapter extends AbstractAdapter
      */
     public function createFolder($name, $location = null, array $data = array())
     {
-        if($location === "/") {
+        if ($location === "/") {
             $location = "";
         }
 
         $folder = "{$location}/{$name}";
 
-        try{
+        try {
             //Create Folder
             $createdFolder = $this->getService()->createFolder($folder);
             //Make File, FileInterface compatible
@@ -250,9 +245,9 @@ class DropboxAdapter extends AbstractAdapter
             //Get Download Link
             $downloadLink = $this->getService()->createTemporaryDirectLink($file);
 
-            if(isset($downloadLink[0]))
+            if (isset($downloadLink[0])) {
                 return $downloadLink[0] . "?dl=1";
-
+            }
         } catch (Exception $e) {
             // @todo
             dd($e);
@@ -271,8 +266,7 @@ class DropboxAdapter extends AbstractAdapter
      */
     public function uploadFile($file, $location = null, $title = null, array $data = array())
     {
-
-        if($location === "/") {
+        if ($location === "/") {
             $location = "";
         }
 
@@ -294,13 +288,12 @@ class DropboxAdapter extends AbstractAdapter
         $uploadedFile = $this->getService()->uploadFile($location, WriteMode::add(), $fileStream);
 
         //File was uploaded
-        if($uploadedFile) {
+        if ($uploadedFile) {
             //Make File, FileInterface compatible
             return $this->makeFile($uploadedFile);
         }
 
         return false;
-
     }
 
     /**
@@ -314,7 +307,7 @@ class DropboxAdapter extends AbstractAdapter
     {
         $location = pathinfo($file, PATHINFO_DIRNAME);
 
-        if($location === ".") {
+        if ($location === ".") {
             $file = "/" . $file;
             $location = "";
         }
@@ -355,14 +348,14 @@ class DropboxAdapter extends AbstractAdapter
      */
     public function downloadFile($file, $downloadUrl = null, array $data = array())
     {
-        if(is_null($downloadUrl)) {
+        if (is_null($downloadUrl)) {
             $downloadUrl = $this->getDownloadLink($file);
         }
 
         try {
             $stream = fopen($downloadUrl, "rb");
 
-            if($stream) {
+            if ($stream) {
                 $contents = stream_get_contents($stream);
                 fclose($stream);
                 return $contents;
@@ -375,7 +368,6 @@ class DropboxAdapter extends AbstractAdapter
         }
 
         return false;
-
     }
 
     /**
@@ -439,5 +431,4 @@ class DropboxAdapter extends AbstractAdapter
 
         return $fileInfo;
     }
-
 }

@@ -1,7 +1,8 @@
 <?php
 namespace Pulse\Services\Authorization;
 
-interface AuthFactoryInterface {
+interface AuthFactoryInterface
+{
 
     /**
      * Create a Authorization Service with
@@ -10,5 +11,4 @@ interface AuthFactoryInterface {
      * @return AuthorizationInterface
      */
     public static function create($provider);
-
 }

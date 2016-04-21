@@ -25,5 +25,4 @@ class CreateUserCommandHandler
         //Return the created user
         return $user;
     }
-
 }

@@ -82,5 +82,4 @@ class TransferTransformer extends TransformerAbstract
     {
         return $this->collection($transfer->activities, new ActivityTransformer);
     }
-
 }

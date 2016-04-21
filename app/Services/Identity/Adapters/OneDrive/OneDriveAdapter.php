@@ -90,5 +90,4 @@ class OneDriveAdapter implements AdapterInterface
         $this->accountInfo->setImage($account->getImageurl());
         $this->accountInfo->setName($account->getName());
     }
-
 }

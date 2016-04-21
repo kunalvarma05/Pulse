@@ -33,5 +33,4 @@ class GetDownloadLinkCommandHandler
         //Get File Info
         return $manager->getDownloadLink($file, $data);
     }
-
 }

@@ -20,5 +20,4 @@ class Provider extends Model
     protected $fillable = [
     'title', 'description', 'link', 'picture', 'alias',
     ];
-
 }

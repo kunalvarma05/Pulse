@@ -35,5 +35,4 @@ class MoveCommandHandler
         //Move File
         return $manager->move($file, $location);
     }
-
 }

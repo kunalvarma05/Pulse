@@ -66,5 +66,4 @@ class Transfer extends Model
     {
         return $this->morphMany('Pulse\Models\Pulse\Models\Activity', 'transaction');
     }
-
 }

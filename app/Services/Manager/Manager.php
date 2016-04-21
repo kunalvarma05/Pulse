@@ -202,5 +202,4 @@ class Manager implements ManagerInterface
         ->getAdapter()
         ->downloadFile($file, $downloadUrl, $data);
     }
-
 }

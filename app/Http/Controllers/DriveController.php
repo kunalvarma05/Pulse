@@ -3,7 +3,6 @@ namespace Pulse\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Pulse\Http\Requests;
-
 use \Google_Client;
 use \Google_Service_Plus;
 use \Google_Service_Drive;
@@ -16,8 +15,8 @@ class DriveController extends Controller
 
     private $user;
 
-    public function __construct(){
-
+    public function __construct()
+    {
         $this->user = (!\Auth::check()) ? \Auth::login(\Pulse\Models\User::first()) : \Auth::user();
 
         $client_id = config("drive.client_id");
@@ -32,19 +31,20 @@ class DriveController extends Controller
         $this->client->setScopes([Google_Service_Drive::DRIVE, 'profile', 'email']);
     }
 
-    public function connect(){
-        if($this->getClient()){
+    public function connect()
+    {
+        if ($this->getClient()) {
             return redirect('devapi/drive');
         }
 
         $authUrl = $this->client->createAuthUrl();
         return redirect($authUrl);
-
     }
 
-    public function auth(Request $request){
+    public function auth(Request $request)
+    {
         //return $request->all();
-        if($request->has('code')){
+        if ($request->has('code')) {
             $code = $request->input('code');
             $this->client->authenticate($code);
             $access_token = $this->client->getAccessToken();
@@ -55,10 +55,11 @@ class DriveController extends Controller
         }
     }
 
-    public function api(){
+    public function api()
+    {
         $client = $this->getClient();
 
-        if(!$client){
+        if (!$client) {
             return redirect('/connect/drive');
         }
 
@@ -164,7 +165,7 @@ class DriveController extends Controller
             $chunk = fread($handle, $chunkSizeBytes);
             $status = $media->nextChunk($chunk);
 
-            if(!$status) {
+            if (!$status) {
                 //nextChunk() returns 'false' whenever the upload is still in progress
                 $progress = ($media->getProgress() / $fileSize) * 100;
             }
@@ -180,11 +181,12 @@ class DriveController extends Controller
         dd($result);
     }
 
-    protected function getClient(){
-        if(Session::has('google-access-token')){
+    protected function getClient()
+    {
+        if (Session::has('google-access-token')) {
             $this->client->setAccessToken(Session::get('google-access-token'));
 
-            if($this->client->isAccessTokenExpired()) {
+            if ($this->client->isAccessTokenExpired()) {
                 return false;
             }
 
@@ -196,8 +198,7 @@ class DriveController extends Controller
 
     public function listChildren($service, $location = null, $optParams = array())
     {
-        if(is_null($location))
-        {
+        if (is_null($location)) {
             $location = $service->about->get()->getRootFolderId();
         }
         $maxResults = isset($optParams['maxResults']) ? $optParams['maxResults'] : 18;
@@ -214,7 +215,7 @@ class DriveController extends Controller
         $ownerSearch = implode(" or ", $ownerSearch);
         $searchQuery = "{$locationSearch} and trashed = {$trashed}";
 
-        if($ownerSearch) {
+        if ($ownerSearch) {
             $searchQuery .= " and " . $ownerSearch;
         }
 

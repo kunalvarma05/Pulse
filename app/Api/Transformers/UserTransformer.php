@@ -59,5 +59,4 @@ class UserTransformer extends TransformerAbstract
     {
         return $this->collection($user->scheduledTransfers, new ScheduledTransferTransformer);
     }
-
 }

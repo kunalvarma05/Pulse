@@ -1,7 +1,8 @@
 <?php
 namespace Pulse\Utils;
 
-class Helpers {
+class Helpers
+{
 
     public static function defaultAccountPicture()
     {
@@ -44,5 +45,4 @@ class Helpers {
 
         return round($bytes, $precision) . ' ' . $units[$pow];
     }
-
 }

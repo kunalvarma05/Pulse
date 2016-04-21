@@ -42,5 +42,4 @@ class UploadFileCommandHandler
         //Upload File
         return $manager->uploadFile($file, $location, $title, $data);
     }
-
 }

@@ -33,5 +33,4 @@ class GetFileInfoCommandHandler
         //Get File Info
         return $manager->getFileInfo($file, $data);
     }
-
 }

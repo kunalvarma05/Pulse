@@ -19,8 +19,7 @@ class DropboxCsrfTokenStore implements DropboxCsrfTokenStoreInterface
 
     public function get()
     {
-        if($this->store->has($this->key))
-        {
+        if ($this->store->has($this->key)) {
             return $this->store->get($this->key);
         }
 
@@ -35,10 +34,8 @@ class DropboxCsrfTokenStore implements DropboxCsrfTokenStoreInterface
 
     public function clear()
     {
-        if($this->store->has($this->key))
-        {
+        if ($this->store->has($this->key)) {
             $this->store->forget($this->key);
         }
     }
-
 }

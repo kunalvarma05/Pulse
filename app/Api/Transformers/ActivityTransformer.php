@@ -49,11 +49,10 @@ class ActivityTransformer extends TransformerAbstract
      */
     public function includeTransaction(Activity $activity)
     {
-        if($activity->transaction_type === Action::class) {
+        if ($activity->transaction_type === Action::class) {
             return $this->item($activity->transaction, new ActionTransformer);
         }
 
         return $this->item($activity->transaction, new TransferTransformer);
     }
-
 }

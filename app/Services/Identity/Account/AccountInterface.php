@@ -51,5 +51,4 @@ interface AccountInterface
      * @return string Account Image URL
      */
     public function getImage();
-
 }

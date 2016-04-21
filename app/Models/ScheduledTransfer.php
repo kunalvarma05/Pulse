@@ -37,5 +37,4 @@ class ScheduledTransfer extends Model
     {
         return $this->belongsTo('Pulse\Models\Transfer', 'transfer_id');
     }
-
 }

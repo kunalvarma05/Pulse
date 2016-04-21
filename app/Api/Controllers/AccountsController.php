@@ -45,8 +45,7 @@ class AccountsController extends BaseController
             ));
 
         //Something went wrong
-        if($account['error'])
-        {
+        if ($account['error']) {
             $message = $account['message'] ? $account['message'] : "Something went wrong!";
             return response()->json(['error' => 'could_not_create_account', 'message' => $message], 500);
         }

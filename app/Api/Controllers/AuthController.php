@@ -23,9 +23,9 @@ class AuthController extends BaseController
         //Login Credentials
         $credentials = $request->only('email', 'password');
 
-        try{
+        try {
             //Try to Verify Credentials and Create a Token
-            if(! $token = JWTAuth::attempt($credentials)) {
+            if (! $token = JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'invalid_credentials', 'message' => "Invalid Credentials!"], 401);
             }
         } catch (JWTException $e) {
@@ -54,7 +54,7 @@ class AuthController extends BaseController
             ));
 
         //Something went wrong
-        if(!$user) {
+        if (!$user) {
             return response()->json(['error' => 'could_not_create_user', 'message' => "Something went wrong!"], 500);
         }
 

@@ -48,7 +48,7 @@ class ManagerController extends BaseController
      */
     public function getFileInfo(Request $request, $account_id)
     {
-        if(!$request->has('file')) {
+        if (!$request->has('file')) {
             return response()->json(['error' => 'no_file_specified', 'message' => "No file was specified!"], 200);
         }
 
@@ -65,7 +65,7 @@ class ManagerController extends BaseController
             ));
 
         //File not found
-        if(!$fileInfo) {
+        if (!$fileInfo) {
             return response()->json(['error' => 'file_not_found', 'message' => "File not found!"], 200);
         }
 
@@ -88,7 +88,7 @@ class ManagerController extends BaseController
         $files = dispatch(new ListFilesCommand($account, $request->get('path')));
 
         //Files not found
-        if(!$files) {
+        if (!$files) {
             return response()->json(['error' => 'no_files_found', 'message' => "No files found!"], 200);
         }
 
@@ -106,7 +106,7 @@ class ManagerController extends BaseController
      */
     public function performCopy(Request $request, $account_id)
     {
-        if(!$request->has('file')) {
+        if (!$request->has('file')) {
             return response()->json(['error' => 'no_file_specified', 'message' => "No file was specified!"], 200);
         }
 
@@ -125,13 +125,12 @@ class ManagerController extends BaseController
             ));
 
         //Files not copied
-        if(!$fileCopy) {
+        if (!$fileCopy) {
             return response()->json(['error' => 'file_not_copied', 'message' => "Cannot copy file!"], 200);
         }
 
         //Return Response
         return $this->response->item($fileCopy, new FileListTransformer);
-
     }
 
     /**
@@ -142,7 +141,7 @@ class ManagerController extends BaseController
      */
     public function performMove(Request $request, $account_id)
     {
-        if(!$request->has('file') || !$request->has('location')) {
+        if (!$request->has('file') || !$request->has('location')) {
             return response()->json(['error' => 'no_file_or_location_specified', 'message' => "File or location was not specified!"], 200);
         }
 
@@ -160,13 +159,12 @@ class ManagerController extends BaseController
             ));
 
         //Files not moved
-        if(!$fileMove) {
+        if (!$fileMove) {
             return response()->json(['error' => 'file_not_moved', 'message' => "Cannot move file!"], 200);
         }
 
         //Return Response
         return $this->response->item($fileMove, new FileListTransformer);
-
     }
 
     /**
@@ -177,7 +175,7 @@ class ManagerController extends BaseController
      */
     public function performRename(Request $request, $account_id)
     {
-        if(!$request->has('file') || !$request->has('title')) {
+        if (!$request->has('file') || !$request->has('title')) {
             return response()->json(['error' => 'no_file_or_title_specified', 'message' => "File or title was not specified!"], 200);
         }
 
@@ -195,13 +193,12 @@ class ManagerController extends BaseController
             ));
 
         //Files not renamed
-        if(!$fileRename) {
+        if (!$fileRename) {
             return response()->json(['error' => 'file_not_renamed', 'message' => "Cannot rename file!"], 200);
         }
 
         //Return Response
         return $this->response->item($fileRename, new FileListTransformer);
-
     }
 
     /**
@@ -212,7 +209,7 @@ class ManagerController extends BaseController
      */
     public function performDelete(Request $request, $account_id)
     {
-        if(!$request->has('file')) {
+        if (!$request->has('file')) {
             return response()->json(['error' => 'no_file_specified', 'message' => "No file was specified!"], 200);
         }
 
@@ -231,7 +228,7 @@ class ManagerController extends BaseController
             ));
 
         //Files not deleted
-        if(!$fileDelete) {
+        if (!$fileDelete) {
             return response()->json(['error' => 'file_not_deleted', 'message' => "Cannot delete file!"], 200);
         }
 
@@ -247,7 +244,7 @@ class ManagerController extends BaseController
      */
     public function createFolder(Request $request, $account_id)
     {
-        if(!$request->has('title')) {
+        if (!$request->has('title')) {
             return response()->json(['error' => 'no_title_specified', 'message' => "No title was specified!"], 200);
         }
 
@@ -265,7 +262,7 @@ class ManagerController extends BaseController
             ));
 
         //Folder not created
-        if(!$folder) {
+        if (!$folder) {
             return response()->json(['error' => 'folder_not_created', 'message' => "Cannot create folder!"], 200);
         }
 
@@ -281,7 +278,7 @@ class ManagerController extends BaseController
      */
     public function getDownloadLink(Request $request, $account_id)
     {
-        if(!$request->has('file')) {
+        if (!$request->has('file')) {
             return response()->json(['error' => 'no_file_specified', 'message' => "No file was specified!"], 200);
         }
 
@@ -297,7 +294,7 @@ class ManagerController extends BaseController
             ));
 
         //Download link unavailable
-        if(!$downloadLink) {
+        if (!$downloadLink) {
             return response()->json(['error' => 'download_link_unavailable', 'message' => "Download link unavailable!"], 200);
         }
 
@@ -313,7 +310,7 @@ class ManagerController extends BaseController
      */
     public function uploadFile(Request $request, $account_id)
     {
-        if(!$request->hasFile('file')) {
+        if (!$request->hasFile('file')) {
             return response()->json(['error' => 'no_file_specified', 'message' => "No file was specified!"], 200);
         }
 
@@ -351,7 +348,7 @@ class ManagerController extends BaseController
             ));
 
         //Files not uploaded
-        if(!$uploadedFile) {
+        if (!$uploadedFile) {
             return response()->json(['error' => 'file_not_uploaded', 'message' => "File not uploaded!"], 200);
         }
 
@@ -367,8 +364,7 @@ class ManagerController extends BaseController
      */
     public function transferFile(Request $request, $account_id)
     {
-
-        if(!$request->has('file') || !$request->has('account')) {
+        if (!$request->has('file') || !$request->has('account')) {
             return response()->json(['error' => 'no_file_or_account_specified', 'message' => "File or account was not specified!"], 200);
         }
 
@@ -395,14 +391,11 @@ class ManagerController extends BaseController
             ));
 
         //Files not transfered
-        if(!$transferedFile) {
+        if (!$transferedFile) {
             return response()->json(['error' => 'file_not_transfered', 'message' => "File not transfered!"], 200);
         }
 
         //Return Response
         return $this->response->item($transferedFile, new FileListTransformer);
-
-
     }
-
 }

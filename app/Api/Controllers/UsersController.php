@@ -21,7 +21,7 @@ class UsersController extends BaseController
         $user = false;
 
         //No ID Provided
-        if(is_null($id)){
+        if (is_null($id)) {
             //Current User
             $user = JWTAuth::parseToken()->authenticate();
         } else {
@@ -30,7 +30,7 @@ class UsersController extends BaseController
         }
 
         //User not found
-        if(!$user) {
+        if (!$user) {
             return response()->json(['error' => 'user_not_found', 'message' => "User not found!"], 400);
         }
 
@@ -50,7 +50,7 @@ class UsersController extends BaseController
         $user = User::find($id);
 
         //User not found
-        if(!$user) {
+        if (!$user) {
             return response()->json(['error' => 'user_not_found', 'message' => "User not found!"], 400);
         }
 
@@ -60,5 +60,4 @@ class UsersController extends BaseController
         //Response
         return response()->json(['message' => "User Deleted"]);
     }
-
 }

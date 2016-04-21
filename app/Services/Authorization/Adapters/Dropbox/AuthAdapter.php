@@ -42,32 +42,26 @@ class AuthAdapter implements AdapterInterface
      */
     public function getAccessToken($code, $state, array $data = array())
     {
-        try{
+        try {
             $authCode = array('state' => $state, 'code' => $code);
             list($accessToken, $userId, $urlState) = $this->webAuth->finish($authCode);
             return $accessToken;
-        }
-        catch (WebAuthException_BadRequest $ex) {
+        } catch (WebAuthException_BadRequest $ex) {
             // @todo Log and handle gracefully.
             return false;
-        }
-        catch (WebAuthException_BadState $ex) {
+        } catch (WebAuthException_BadState $ex) {
             // @todo Log and handle gracefully.
             return false;
-        }
-        catch (WebAuthException_Csrf $ex) {
+        } catch (WebAuthException_Csrf $ex) {
             // @todo Log and handle gracefully.
             return false;
-        }
-        catch (WebAuthException_NotApproved $ex) {
+        } catch (WebAuthException_NotApproved $ex) {
             // @todo Log and handle gracefully.
             return false;
-        }
-        catch (WebAuthException_Provider $ex) {
+        } catch (WebAuthException_Provider $ex) {
             // @todo Log and handle gracefully.
             return false;
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             // @todo Log and handle gracefully.
             return false;
         }

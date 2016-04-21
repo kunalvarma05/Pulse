@@ -33,5 +33,4 @@ class DeleteCommandHandler
         //Delete File
         return $manager->delete($file);
     }
-
 }

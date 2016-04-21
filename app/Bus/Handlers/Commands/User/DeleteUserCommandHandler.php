@@ -25,5 +25,4 @@ class DeleteUserCommandHandler
         //Delete the User
         $user->delete();
     }
-
 }

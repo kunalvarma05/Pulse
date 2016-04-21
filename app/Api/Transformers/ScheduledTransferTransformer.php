@@ -50,5 +50,4 @@ class ScheduledTransferTransformer extends TransformerAbstract
     {
         return $this->item($scheduledTransfer->transfer, new TranferTransformer);
     }
-
 }

@@ -24,5 +24,4 @@ class GenerateAccessTokenCommandHandler
         //Return the generated token
         return $access_token;
     }
-
 }

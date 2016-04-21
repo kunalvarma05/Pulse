@@ -74,8 +74,7 @@ class OneDriveAdapter extends AbstractAdapter
 
         $drive = $this->getService()->getDrive($drive_id);
 
-        if($drive)
-        {
+        if ($drive) {
             $this->makeQuotaInfo($drive);
 
             return $this->quotaInfo;
@@ -114,8 +113,7 @@ class OneDriveAdapter extends AbstractAdapter
     public function listChildren($path = null, array $data = array())
     {
         //Root
-        if($path === "/")
-        {
+        if ($path === "/") {
             $path = null;
         }
 
@@ -124,8 +122,7 @@ class OneDriveAdapter extends AbstractAdapter
         $items = $children->value;
 
         //Files not found
-        if(empty($items))
-        {
+        if (empty($items)) {
             return false;
         }
 
@@ -133,7 +130,6 @@ class OneDriveAdapter extends AbstractAdapter
         $files = $this->makeFileList($items);
 
         return $files;
-
     }
 
     /**
@@ -149,12 +145,11 @@ class OneDriveAdapter extends AbstractAdapter
         $file = $this->getService()->getItem($file);
 
         //Copy Location not specified
-        if($location === "/" || is_null($location)) {
+        if ($location === "/" || is_null($location)) {
             //Use the original file's parent folder
-            if(isset($file->parentReference)) {
+            if (isset($file->parentReference)) {
                 $location = $file->parentReference->id;
-            }
-            else {
+            } else {
                 //Use the drive root
                 $driveRoot = $this->getService()->getDriveRoot();
                 $location = $driveRoot->id;
@@ -255,7 +250,7 @@ class OneDriveAdapter extends AbstractAdapter
      */
     public function createFolder($name, $location = null, array $data = array())
     {
-        try{
+        try {
             //Create Folder
             $folder = $this->getService()->createFolder($name, $location, "rename");
             //Make File, FileInterface compatible
@@ -291,8 +286,7 @@ class OneDriveAdapter extends AbstractAdapter
      */
     public function uploadFile($file, $location = null, $title = null, array $data = array())
     {
-
-        if($location === "/") {
+        if ($location === "/") {
             $location = null;
         }
 
@@ -303,13 +297,12 @@ class OneDriveAdapter extends AbstractAdapter
         $uploadedFile = $this->getService()->uploadFile($file, $title, $location, "rename");
 
         //File was uploaded
-        if($uploadedFile) {
+        if ($uploadedFile) {
             //Make File, FileInterface compatible
             return $this->makeFile($uploadedFile);
         }
 
         return false;
-
     }
 
     /**
@@ -384,7 +377,7 @@ class OneDriveAdapter extends AbstractAdapter
 
         $fileInfo->setIcon(Helpers::getFileIcon($icon));
 
-        if(isset($file->thumbnails)) {
+        if (isset($file->thumbnails)) {
             $thumbnails = $file->thumbnails;
             $thumbnail = (isset($thumbnails[0]) && isset($thumbnails[0]->medium)) ? $thumbnails[0]->medium->url : "";
             $fileInfo->setThumbnailURL($thumbnail);

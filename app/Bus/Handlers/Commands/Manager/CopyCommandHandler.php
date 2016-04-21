@@ -28,11 +28,11 @@ class CopyCommandHandler
         $data = $command->data;
 
         //Title
-        if($command->title)
+        if ($command->title) {
             $data['title'] = $command->title;
+        }
 
         //Copy File
         return $manager->copy($file, $location, $data);
     }
-
 }

@@ -107,5 +107,4 @@ interface ManagerInterface
      * @return string Downloaded File Contents
      */
     public function downloadFile($file, $downloadUrl = null, array $data = array());
-
 }

@@ -19,12 +19,12 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function transfer($file, ManagerInterface $newManager, $location = null, $title = null, array $data = array())
     {
-        try{
+        try {
             //Fetch the file info
             $fileInfo = $this->getFileInfo($file);
 
             //Cannot transfer folders
-            if($fileInfo->isFolder()) {
+            if ($fileInfo->isFolder()) {
                 return false;
             }
 
@@ -48,7 +48,7 @@ abstract class AbstractAdapter implements AdapterInterface
             //Download and store file temporarily
             $contents = $this->downloadFile($file, $fileInfo->getDownloadUrl());
 
-            if(!$contents) {
+            if (!$contents) {
                 return false;
             }
 
