@@ -215,6 +215,31 @@ class DriveAdapter implements AdapterInterface
             // @todo
             return false;
         }
+
+        return false;
+    }
+
+    /**
+     * Rename File/Folder
+     * @param  string $file  File Path
+     * @param  string $title New Name
+     * @param  array  $data  Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function rename($file, $title, array $data = array())
+    {
+        $fileInfo = new Google_Service_Drive_DriveFile();
+        $fileInfo->setTitle($title);
+        try {
+            //Rename File
+            $renamedFile = $this->getService()->files->patch($file, $fileInfo);
+            //Make File, FileInterface compatible
+            return $this->makeFile($renamedFile);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return false;
     }
 
     /**

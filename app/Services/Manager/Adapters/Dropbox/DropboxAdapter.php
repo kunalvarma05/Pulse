@@ -284,6 +284,35 @@ class DropboxAdapter implements AdapterInterface
     }
 
     /**
+     * Rename File/Folder
+     * @param  string $file  File Path
+     * @param  string $title New Name
+     * @param  array  $data  Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function rename($file, $title, array $data = array())
+    {
+        $location = pathinfo($file, PATHINFO_DIRNAME);
+
+        if($location === ".") {
+            $file = "/" . $file;
+            $location = "";
+        }
+
+        $newFile = "{$location}/{$title}";
+
+        try {
+            //Move the file
+            $movedFile = $this->getService()->move($file, $newFile);
+            //Make File, FileInterface compatible
+            return $this->makeFile($movedFile);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+    }
+
+    /**
      * Make Quota Info
      * @param  array $account
      */

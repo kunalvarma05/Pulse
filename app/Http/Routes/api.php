@@ -66,6 +66,8 @@ $api->version('v1', function ($api) {
                 $api->post('copy', ['as' => 'api.accounts.manager.copy', 'uses' => 'ManagerController@performCopy']);
                 //Perform Move Action
                 $api->patch('move', ['as' => 'api.accounts.manager.move', 'uses' => 'ManagerController@performMove']);
+                //Perform Rename Action
+                $api->patch('rename', ['as' => 'api.accounts.manager.rename', 'uses' => 'ManagerController@performRename']);
                 //Perform Delete Action
                 $api->delete('delete', ['as' => 'api.accounts.manager.delete', 'uses' => 'ManagerController@performDelete']);
                 //Perform Create Folder Action

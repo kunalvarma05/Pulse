@@ -187,6 +187,28 @@ class OneDriveAdapter implements AdapterInterface
     }
 
     /**
+     * Rename File/Folder
+     * @param  string $file  File Path
+     * @param  string $title New Name
+     * @param  array  $data  Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function rename($file, $title, array $data = array())
+    {
+        try {
+            //Move the file
+            $movedFile = $this->getService()->updateMeta($file, ['name' => $title]);
+            //Make File, FileInterface compatible
+            return $this->makeFile($movedFile);
+        } catch (Exception $e) {
+            // @todo
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
      * Delete File
      * @param  string $file          File to delete
      * @param  array       $data     Additional Data

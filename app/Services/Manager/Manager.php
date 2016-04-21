@@ -159,4 +159,18 @@ class Manager implements ManagerInterface
         ->uploadFile($file, $location, $title, $data);
     }
 
+    /**
+     * Rename File/Folder
+     * @param  string $file  File Path
+     * @param  string $title New Name
+     * @param  array  $data  Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function rename($file, $title, array $data = array())
+    {
+        return $this
+        ->getAdapter()
+        ->rename($file, $title, $data);
+    }
+
 }

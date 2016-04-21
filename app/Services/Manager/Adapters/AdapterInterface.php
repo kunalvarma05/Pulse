@@ -78,4 +78,13 @@ interface AdapterInterface
      * @return Pulse\Services\Manager\File\FileInterface
      */
     public function uploadFile($file, $location = null, $title = null, array $data = array());
+
+    /**
+     * Rename File/Folder
+     * @param  string $file  File Path
+     * @param  string $title New Name
+     * @param  array  $data  Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function rename($file, $title, array $data = array());
 }

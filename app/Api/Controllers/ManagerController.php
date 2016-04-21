@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Pulse\Services\Manager\ManagerFactory;
 use Pulse\Bus\Commands\Manager\CopyCommand;
 use Pulse\Bus\Commands\Manager\MoveCommand;
+use Pulse\Bus\Commands\Manager\RenameCommand;
 use Pulse\Api\Transformers\QuotaTransformer;
 use Pulse\Bus\Commands\Manager\DeleteCommand;
 use Pulse\Services\Authorization\AuthFactory;
@@ -164,6 +165,41 @@ class ManagerController extends BaseController
 
         //Return Response
         return $this->response->item($fileMove, new FileListTransformer);
+
+    }
+
+    /**
+     * Perform Rename Action
+     * @param  Request $request
+     * @param  int  $account_id Account ID
+     * @return Response
+     */
+    public function performRename(Request $request, $account_id)
+    {
+        if(!$request->has('file') || !$request->has('title')) {
+            return response()->json(['error' => 'no_file_or_title_specified', 'message' => "File or title was not specified!"], 200);
+        }
+
+        //Current User
+        $user = Auth::user();
+        //Account
+        $account = $user->accounts()->findOrFail($account_id);
+
+        //Rename File
+        $fileRename = dispatch(new RenameCommand(
+            $user,
+            $account,
+            $request->get('file'),
+            $request->get('title')
+            ));
+
+        //Files not renamed
+        if(!$fileRename) {
+            return response()->json(['error' => 'file_not_renamed', 'message' => "Cannot rename file!"], 200);
+        }
+
+        //Return Response
+        return $this->response->item($fileRename, new FileListTransformer);
 
     }
 
