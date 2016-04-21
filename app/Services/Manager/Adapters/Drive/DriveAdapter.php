@@ -7,6 +7,7 @@ use Google_Exception;
 use Pulse\Utils\Helpers;
 use Google_Service_Drive;
 use Google_Service_Drive_About;
+use Google_Http_MediaFileUpload;
 use Google_Service_Drive_FileList;
 use Google_Service_Drive_DriveFile;
 use Google_Service_Drive_ParentReference;
@@ -18,6 +19,8 @@ class DriveAdapter implements AdapterInterface
 {
 
     const DRIVE_FOLDER_MIME = "application/vnd.google-apps.folder";
+
+    const DEFAULT_CHUNK_SIZE = 10 * 1024 * 1024;
 
     /**
      * Google Plus Service
@@ -291,6 +294,48 @@ class DriveAdapter implements AdapterInterface
     }
 
     /**
+     * Upload File
+     * @param  string $file     File path
+     * @param  string          $location Location to upload the file to
+     * @param  string          $title    Title of the file
+     * @param  array           $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function uploadFile($file, $location = null, $title = null, array $data = array())
+    {
+
+        //Drive Root
+        if(is_null($location) || $location === "/")
+        {
+            $location = $this->getService()->about->get()->getRootFolderId();
+        }
+
+        //Title
+        $title = is_null($title) ? basename($file) : $title;
+
+        //Mime Type
+        $mimeType = isset($data['mimeType']) ? $data['mimeType'] : mime_content_type($file);
+
+        //File Size
+        $fileSize = isset($data['fileSize']) ? $data['fileSize'] : filesize($file);
+
+        //If a file path is given
+        $fileStream = fopen($file, "rb");
+
+        //Upload the file
+        $uploadedFile = $this->doFileUpload($fileStream, $title, $mimeType, $fileSize, $location);
+
+        //File was uploaded
+        if($uploadedFile) {
+            //Make File, FileInterface compatible
+            return $this->makeFile($uploadedFile);
+        }
+
+        return false;
+
+    }
+
+    /**
      * Make Quota Info
      * @param  Google_Service_Drive_About $about
      */
@@ -356,5 +401,81 @@ class DriveAdapter implements AdapterInterface
         $fileInfo->setOwners($file->getOwnerNames());
 
         return $fileInfo;
+    }
+
+    /**
+     * Do File Upload
+     * @param  resource $fileStream File Stream
+     * @param  string $fileName   File Name
+     * @param  string $mimeType   Mime Type
+     * @param  int $fileSize   File Size
+     * @param  string $parentId   Parent ID
+     * @return Google_Service_Drive_DriveFile
+     */
+    protected function doFileUpload($fileStream, $fileName, $mimeType, $fileSize, $parentId = null)
+    {
+        $service = $this->getService();
+        $client = $this->getService()->getClient();
+
+        $file = new Google_Service_Drive_DriveFile();
+        $file->setTitle($fileName);
+        $file->setMimeType($mimeType);
+
+        // Set the parent folder.
+        if (!is_null($parentId)) {
+            $parent = new Google_Service_Drive_ParentReference();
+            $parent->setId($parentId);
+            $file->setParents(array($parent));
+        }
+
+        //Chunk size
+        $chunkSizeBytes = self::DEFAULT_CHUNK_SIZE;
+
+        // Call the API with the media upload, defer so it doesn't immediately return.
+        $client->setDefer(true);
+        $request = $service->files->insert($file);
+
+        // Create a media file upload to represent our upload process.
+        $media = new Google_Http_MediaFileUpload(
+            $client,
+            $request,
+            $mimeType,
+            null,
+            true,
+            $chunkSizeBytes
+            );
+
+        //Set the file size
+        $media->setFileSize($fileSize);
+
+        // Upload the various chunks.
+        // $status will be false until the process is complete.
+        $status = false;
+        //Progress
+        $progress = 0;
+
+        //Wait for all the file chunks to be uploaded
+        while (!$status && !feof($fileStream)) {
+            $chunk = fread($fileStream, $chunkSizeBytes);
+            $status = $media->nextChunk($chunk);
+
+            if(!$status) {
+                //nextChunk() returns 'false' whenever the upload is still in progress
+                $progress = ($media->getProgress() / $fileSize) * 100;
+            }
+        }
+
+        // The final value of $status will be the data from the API for the object
+        // that has been uploaded.
+        $result = false;
+
+        if ($status != false) {
+            $result = $status;
+        }
+
+        fclose($fileStream);
+
+        //Uploaded File
+        return $result;
     }
 }

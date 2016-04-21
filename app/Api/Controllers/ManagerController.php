@@ -13,6 +13,7 @@ use Pulse\Services\Authorization\AuthFactory;
 use Pulse\Bus\Commands\Manager\GetQuotaCommand;
 use Pulse\Api\Transformers\FileListTransformer;
 use Pulse\Bus\Commands\Manager\ListFilesCommand;
+use Pulse\Bus\Commands\Manager\UploadFileCommand;
 use Pulse\Bus\Commands\Manager\GetFileInfoCommand;
 use Pulse\Bus\Commands\Manager\CreateFolderCommand;
 use Pulse\Bus\Commands\Manager\GetDownloadLinkCommand;
@@ -226,7 +227,7 @@ class ManagerController extends BaseController
             $request->get('location')
             ));
 
-        //Files not copied
+        //Folder not created
         if(!$folder) {
             return response()->json(['error' => 'folder_not_created', 'message' => "Cannot create folder!"], 200);
         }
@@ -265,6 +266,60 @@ class ManagerController extends BaseController
 
         //Return Response
         return $this->response->array(['link' => $downloadLink]);
+    }
+
+    /**
+     * Upload File
+     * @param  Request $request
+     * @param  int  $account_id Account ID
+     * @return Response
+     */
+    public function uploadFile(Request $request, $account_id)
+    {
+        if(!$request->hasFile('file')) {
+            return response()->json(['error' => 'no_file_specified', 'message' => "No file was specified!"], 200);
+        }
+
+        //File
+        $file = $request->file('file');
+
+        //Invalid File
+        if (!$file->isValid()) {
+            return response()->json(['error' => 'invalid_file', 'message' => "Please upload a valid file!"], 200);
+        }
+
+        //Current User
+        $user = Auth::user();
+        //Account
+        $account = $user->accounts()->findOrFail($account_id);
+
+        //Additional Data
+        $data = [
+            'fileSize' => $file->getSize(),
+            'mimeType' => $file->getMimeType(),
+            'fileExtension' => $file->guessExtension()
+        ];
+
+        //Title
+        $title = $request->has('title') ? $request->get('title') : $file->getClientOriginalName();
+
+        //Upload File
+        $uploadedFile = dispatch(new UploadFileCommand(
+            $user,
+            $account,
+            $file->path(),
+            $request->get('location'),
+            $title,
+            $data
+        ));
+
+        //Files not uploaded
+        if(!$uploadedFile) {
+            return response()->json(['error' => 'file_not_uploaded', 'message' => "File not uploaded!"], 200);
+        }
+
+        //Return Response
+        return $this->response->item($uploadedFile, new FileListTransformer);
     }
 
 }

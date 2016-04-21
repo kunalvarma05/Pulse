@@ -144,4 +144,19 @@ class Manager implements ManagerInterface
         ->getDownloadLink($file, $data);
     }
 
+    /**
+     * Upload File
+     * @param  string $file     File path
+     * @param  string          $location Location to upload the file to
+     * @param  string          $title    Title of the file
+     * @param  array           $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function uploadFile($file, $location = null, $title = null, array $data = array())
+    {
+        return $this
+        ->getAdapter()
+        ->uploadFile($file, $location, $title, $data);
+    }
+
 }

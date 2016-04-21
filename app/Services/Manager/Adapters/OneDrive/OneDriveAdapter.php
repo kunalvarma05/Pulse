@@ -241,6 +241,37 @@ class OneDriveAdapter implements AdapterInterface
     }
 
     /**
+     * Upload File
+     * @param  string $file     File path
+     * @param  string          $location Location to upload the file to
+     * @param  string          $title    Title of the file
+     * @param  array           $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function uploadFile($file, $location = null, $title = null, array $data = array())
+    {
+
+        if($location === "/") {
+            $location = null;
+        }
+
+        //Title
+        $title = is_null($title) ? basename($file) : $title;
+
+        //Upload the file
+        $uploadedFile = $this->getService()->uploadFile($file, $title, $location, "rename");
+
+        //File was uploaded
+        if($uploadedFile) {
+            //Make File, FileInterface compatible
+            return $this->makeFile($uploadedFile);
+        }
+
+        return false;
+
+    }
+
+    /**
      * Make File List
      * @param  array $list
      * @return Array (Pulse\Services\Manager\File\FileInterface)

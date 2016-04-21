@@ -72,8 +72,9 @@ $api->version('v1', function ($api) {
                 $api->post('create-folder', ['as' => 'api.accounts.manager.create-folder', 'uses' => 'ManagerController@createFolder']);
                 //Get Download Link
                 $api->get('download ', ['as' => 'api.accounts.manager.download', 'uses' => 'ManagerController@getDownloadLink']);
+                //Upload File
+                $api->post('upload ', ['as' => 'api.accounts.manager.upload', 'uses' => 'ManagerController@uploadFile']);
             });
-
         });
     });
 });

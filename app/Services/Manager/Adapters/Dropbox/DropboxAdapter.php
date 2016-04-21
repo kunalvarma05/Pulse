@@ -2,6 +2,7 @@
 namespace Pulse\Services\Manager\Adapters\Dropbox;
 
 use Exception;
+use Dropbox\WriteMode;
 use Pulse\Utils\Helpers;
 use Dropbox\Client as DropboxClient;
 use Pulse\Services\Manager\File\FileInterface;
@@ -238,6 +239,48 @@ class DropboxAdapter implements AdapterInterface
         }
 
         return false;
+    }
+
+    /**
+     * Upload File
+     * @param  string $file     File path
+     * @param  string          $location Location to upload the file to
+     * @param  string          $title    Title of the file
+     * @param  array           $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function uploadFile($file, $location = null, $title = null, array $data = array())
+    {
+
+        if($location === "/") {
+            $location = "";
+        }
+
+        //Title
+        $title = is_null($title) ? basename($file) : $title;
+
+        $location = "{$location}/{$title}";
+
+        //Mime Type
+        $mimeType = isset($data['mimeType']) ? $data['mimeType'] : mime_content_type($file);
+
+        //File Size
+        $fileSize = isset($data['fileSize']) ? $data['fileSize'] : filesize($file);
+
+        //If a file path is given
+        $fileStream = fopen($file, "rb");
+
+        //Upload the file
+        $uploadedFile = $this->getService()->uploadFile($location, WriteMode::add(), $fileStream, $fileSize);
+
+        //File was uploaded
+        if($uploadedFile) {
+            //Make File, FileInterface compatible
+            return $this->makeFile($uploadedFile);
+        }
+
+        return false;
+
     }
 
     /**
