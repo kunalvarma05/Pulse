@@ -11,6 +11,9 @@ $api->version('v1', function ($api) {
         //API Index Page
         $api->get('/', ['as' => 'api.index', 'uses' => 'HomeController@index']);
 
+        //Fetch Init Data
+        $api->get('data', ['as' => 'api.data', 'middleware' => ['jwt.auth'], 'uses' => 'HomeController@initData']);
+
         /**
          * ********************************
          * User Endpoint

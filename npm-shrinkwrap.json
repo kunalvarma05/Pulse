@@ -3436,6 +3436,11 @@
       "from": "pbkdf2@>=3.0.3 <4.0.0",
       "resolved": "https://registry.npmjs.org/pbkdf2/-/pbkdf2-3.0.4.tgz"
     },
+    "perfect-scrollbar": {
+      "version": "0.6.10",
+      "from": "perfect-scrollbar@latest",
+      "resolved": "https://registry.npmjs.org/perfect-scrollbar/-/perfect-scrollbar-0.6.10.tgz"
+    },
     "pify": {
       "version": "2.3.0",
       "from": "pify@>=2.0.0 <3.0.0",
@@ -4984,6 +4989,11 @@
       "version": "1.3.2",
       "from": "vue-hot-reload-api@>=1.2.2 <2.0.0",
       "resolved": "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-1.3.2.tgz"
+    },
+    "vue-resource": {
+      "version": "0.7.0",
+      "from": "vue-resource@latest",
+      "resolved": "https://registry.npmjs.org/vue-resource/-/vue-resource-0.7.0.tgz"
     },
     "vue-router": {
       "version": "0.7.13",

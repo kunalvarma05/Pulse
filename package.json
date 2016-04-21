@@ -11,7 +11,9 @@
     "laravel-elixir-vueify": "^1.0.3",
     "local-storage": "^1.4.2",
     "nprogress": "^0.2.0",
+    "perfect-scrollbar": "^0.6.10",
     "tether": "^1.2.0",
+    "vue-resource": "^0.7.0",
     "vue-router": "^0.7.13"
   }
 }
