@@ -32964,7 +32964,7 @@ require('./pulse/pulse.js');
 require('./pulse/app.js');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bootstrap.js":63,"./pulse/app.js":65,"./pulse/pulse.js":73,"jquery":8,"perfect-scrollbar":14,"tether":36}],65:[function(require,module,exports){
+},{"./bootstrap.js":63,"./pulse/app.js":65,"./pulse/pulse.js":72,"jquery":8,"perfect-scrollbar":14,"tether":36}],65:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -33020,7 +33020,7 @@ _vue2.default.http.interceptors.push({
 
 app.$mount('body');
 
-},{"./app.vue":66,"./services/ls":75,"nprogress":13,"vue":62,"vue-resource":51}],66:[function(require,module,exports){
+},{"./app.vue":66,"./services/ls":74,"nprogress":13,"vue":62,"vue-resource":51}],66:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33129,7 +33129,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./components/auth/login-form.vue":67,"./components/navbar/index.vue":68,"./services/ls":75,"./stores/shared":76,"./stores/user":77,"jquery":8,"vue":62,"vue-hot-reload-api":37}],67:[function(require,module,exports){
+},{"./components/auth/login-form.vue":67,"./components/navbar/index.vue":68,"./services/ls":74,"./stores/shared":75,"./stores/user":76,"jquery":8,"vue":62,"vue-hot-reload-api":37}],67:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33182,7 +33182,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user":77,"vue":62,"vue-hot-reload-api":37}],68:[function(require,module,exports){
+},{"../../stores/user":76,"vue":62,"vue-hot-reload-api":37}],68:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33226,57 +33226,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./notifications.vue":70,"./search.vue":71,"./user-profile.vue":72,"vue":62,"vue-hot-reload-api":37}],69:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    data: function data() {
-        return {
-            notifications: []
-        };
-    }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"dropdown-menu dropdown-menu-right notifications-dropdown\">\n    <div class=\"dropdown-header\">\n        Notifications\n        <div class=\"pull-right\">\n            <a href=\"#\">View All</a>\n        </div>\n    </div>\n    <div class=\"notification-items\">\n        <h5 v-show=\"notifications\" class=\"text-center\">No Notifications!</h5>\n\n        <a v-for=\"notification in notifications\" href=\"#\" class=\"dropdown-item media notification-item\">\n            <span class=\"media-left\">\n                <img class=\"media-object\" v-bind:src=\"notification.user.picture\" alt=\"img\">\n            </span>\n            <div class=\"media-body\">\n                <b>{{notification.file.key}}</b> {{notification.message}}\n                <span class=\"timestamp\">{{notification.created_at}}</span>\n            </div>\n        </a>\n\n    </div>\n</div>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\navbar\\notification-dropdown.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":62,"vue-hot-reload-api":37}],70:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _notificationDropdown = require('./notification-dropdown.vue');
-
-var _notificationDropdown2 = _interopRequireDefault(_notificationDropdown);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-
-    components: { notificationDropdown: _notificationDropdown2.default },
-
-    data: function data() {
-        return {
-            count: 0
-        };
-    }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<li class=\"nav-item dropdown notifications-menu unread\">\n    <a class=\"nav-link dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">\n        <span class=\"label label-primary notification-count animated zoomIn\" v-show=\"count\">{{ count }}</span>\n        <i class=\"fa fa-bell\"></i>\n    </a>\n\n    <notification-dropdown></notification-dropdown>\n\n</li>\n"
+},{"./notifications.vue":69,"./search.vue":70,"./user-profile.vue":71,"vue":62,"vue-hot-reload-api":37}],69:[function(require,module,exports){
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -33288,7 +33238,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./notification-dropdown.vue":69,"vue":62,"vue-hot-reload-api":37}],71:[function(require,module,exports){
+},{"vue":62,"vue-hot-reload-api":37}],70:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33314,7 +33264,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":62,"vue-hot-reload-api":37}],72:[function(require,module,exports){
+},{"vue":62,"vue-hot-reload-api":37}],71:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33355,7 +33305,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user":77,"vue":62,"vue-hot-reload-api":37}],73:[function(require,module,exports){
+},{"../../stores/user":76,"vue":62,"vue-hot-reload-api":37}],72:[function(require,module,exports){
 "use strict";
 
 jQuery(document).ready(function ($) {
@@ -33375,7 +33325,7 @@ jQuery(document).ready(function ($) {
     });
 });
 
-},{}],74:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33433,7 +33383,7 @@ exports.default = {
     }
 };
 
-},{"vue":62}],75:[function(require,module,exports){
+},{"vue":62}],74:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33462,7 +33412,7 @@ exports.default = {
     }
 };
 
-},{"local-storage":9}],76:[function(require,module,exports){
+},{"local-storage":9}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33512,7 +33462,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":74,"./user":77,"lodash":12}],77:[function(require,module,exports){
+},{"../services/http":73,"./user":76,"lodash":12}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33683,6 +33633,4 @@ exports.default = {
     }
 };
 
-},{"../services/http":74,"lodash":12,"nprogress":13,"vue":62}]},{},[64]);
-
-//# sourceMappingURL=main.js.map
+},{"../services/http":73,"lodash":12,"nprogress":13,"vue":62}]},{},[64]);

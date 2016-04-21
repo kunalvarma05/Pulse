@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <li class="nav-item dropdown notifications-menu unread">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
             <span class="label label-primary notification-count animated zoomIn" v-show="count">{{ count }}</span>
@@ -22,4 +22,4 @@
             };
         }
     }
-</script>
+</script> -->

@@ -7,7 +7,7 @@ var elixir = require('laravel-elixir');
 require('laravel-elixir-vueify');
 
 //Sourcemaps
-//elixir.config.sourcemaps = false;
+elixir.config.sourcemaps = false;
 
 //Start Elixir
 elixir(function(mix) {
