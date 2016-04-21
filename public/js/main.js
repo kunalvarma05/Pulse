@@ -33338,6 +33338,7 @@ exports.default = {
     methods: {
         logout: function logout() {
             //Logout
+            this.$root.logout();
         }
     }
 };
@@ -33493,11 +33494,11 @@ exports.default = {
 
         this.reset();
 
-        _http2.default.get('data', function (response) {
+        _http2.default.get('users/initialize', function (response) {
             var data = response.data;
-            console.log(data);
+            var user = data.data;
 
-            (0, _lodash.assign)(_this.state, data);
+            (0, _lodash.assign)(_this.state, { currentUser: user });
 
             _user2.default.init(_this.state.currentUser);
 
@@ -33625,6 +33626,16 @@ exports.default = {
      */
     logout: function logout() {
         var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
+        this.state.current = {
+            id: 0,
+            name: '',
+            email: '',
+            picture: ''
+        };
+        if (cb) {
+            cb();
+        }
     },
 
 

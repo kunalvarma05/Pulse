@@ -11,9 +11,6 @@ $api->version('v1', function ($api) {
         //API Index Page
         $api->get('/', ['as' => 'api.index', 'uses' => 'HomeController@index']);
 
-        //Fetch Init Data
-        $api->get('data', ['as' => 'api.data', 'middleware' => ['jwt.auth'], 'uses' => 'HomeController@initData']);
-
         /**
          * ********************************
          * User Endpoint
@@ -28,6 +25,8 @@ $api->version('v1', function ($api) {
 
             //Requires Authentication
             $api->group(['middleware' => ['jwt.auth']], function ($api) {
+                //Initialize
+                $api->get('initialize', ['as' => 'api.users.initialize', 'middleware' => ['jwt.auth'], 'uses' => 'UsersController@initialize']);
                 //Show User
                 $api->get('show/{id?}', ['as' => 'api.users.show', 'uses' => 'UsersController@show']);
 

@@ -14,19 +14,20 @@
 </template>
 
 <script>
-import userStore from '../../stores/user';
+    import userStore from '../../stores/user';
 
-export default {
-    data() {
-        return {
-            state: userStore.state
-        };
-    },
+    export default {
+        data() {
+            return {
+                state: userStore.state
+            };
+        },
 
-    methods: {
-        logout() {
-            //Logout
+        methods: {
+            logout() {
+                //Logout
+                this.$root.logout();
+            }
         }
     }
-}
 </script>

@@ -84,8 +84,16 @@ export default {
      * @param  {Function} cb The callback.
      */
      logout(cb = null) {
-
-     },
+        this.state.current = {
+            id: 0,
+            name: '',
+            email: '',
+            picture: ''
+        };
+        if(cb) {
+            cb();
+        }
+    },
 
     /**
      * Stores a new user into the database.

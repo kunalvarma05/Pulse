@@ -5,10 +5,23 @@ use Pulse\Models\User;
 use Dingo\Api\Facade\API;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Pulse\Api\Transformers\UserTransformer;
 use Pulse\Bus\Commands\User\DeleteUserCommand;
 
 class UsersController extends BaseController
 {
+
+    /**
+     * Initialize
+     * @return Response
+     */
+    public function initialize()
+    {
+
+        $user = auth()->user();
+        //Response
+        return $this->response->item($user, new UserTransformer);
+    }
 
     /**
      * Show User
@@ -35,7 +48,7 @@ class UsersController extends BaseController
         }
 
         //Response
-        return response()->json(compact('user'));
+        return $this->response->item($user, new UserTransformer);
     }
 
     /**

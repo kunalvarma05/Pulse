@@ -11,11 +11,11 @@ export default {
     init(successCb = null, errorCb = null) {
         this.reset();
 
-        http.get('data', response => {
+        http.get('users/initialize', response => {
             const data = response.data;
-            console.log(data);
+            const user = data.data;
 
-            assign(this.state, data);
+            assign(this.state, { currentUser: user });
 
             userStore.init(this.state.currentUser);
 

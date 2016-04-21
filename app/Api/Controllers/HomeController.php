@@ -9,11 +9,4 @@ class HomeController extends BaseController
         $data = ['name' => config('api.name'), 'version' => config('api.version')];
         return $this->response->array($data);
     }
-
-    public function initData()
-    {
-        return response()->json([
-            'currentUser' => auth()->user()
-            ]);
-    }
 }
