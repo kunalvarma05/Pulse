@@ -91,12 +91,21 @@ interface ManagerInterface
     /**
      * Transfer File to Another Provider
      * @param  string $file     File Path
-     * @param  string $provider Provider to Transfer the File To
+     * @param  Pulse\Services\Manager\ManagerInterface $newManager Manager of the Account to transfer the file to
      * @param  string $location File's new Location on the Provider
      * @param  string $title    New Title of the Transfered File
      * @param  array  $data     Additional Data
      * @return Pulse\Services\Manager\File\FileInterface
      */
-    public function transfer($file, $provider, $location = null, $title = null, array $data = array());
+    public function transfer($file, ManagerInterface $newManager, $location = null, $title = null, array $data = array());
+
+    /**
+     * Download File
+     * @param  string $file File
+     * @param  string $downloadUrl Explicitly Provided Download URL
+     * @param  array  $data Additional Data
+     * @return string Downloaded File Contents
+     */
+    public function downloadFile($file, $downloadUrl = null, array $data = array());
 
 }

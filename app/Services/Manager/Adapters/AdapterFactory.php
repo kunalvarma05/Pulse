@@ -48,8 +48,9 @@ class AdapterFactory implements AdapterFactoryInterface
         $client->setAccessToken($access_token);
         $service = new Google_Service_Drive($client);
         $quotaInfo = app('Pulse\Services\Manager\Quota\QuotaInterface');
+        $fileSystem = app('Illuminate\Contracts\Filesystem\Filesystem');
 
-        return new DriveAdapter($service, $quotaInfo);
+        return new DriveAdapter($service, $quotaInfo, $fileSystem);
     }
 
     /**
@@ -61,8 +62,9 @@ class AdapterFactory implements AdapterFactoryInterface
     {
         $service = new DropboxClient($access_token, config('dropbox.app'));
         $quotaInfo = app('Pulse\Services\Manager\Quota\QuotaInterface');
+        $fileSystem = app('Illuminate\Contracts\Filesystem\Filesystem');
 
-        return new DropboxAdapter($service, $quotaInfo);
+        return new DropboxAdapter($service, $quotaInfo, $fileSystem);
     }
 
     /**
@@ -76,7 +78,8 @@ class AdapterFactory implements AdapterFactoryInterface
         $access_token = new AccessToken(json_decode($access_token, true));
         $service = new OneDriveClient($access_token, $guzzle);
         $quotaInfo = app('Pulse\Services\Manager\Quota\QuotaInterface');
+        $fileSystem = app('Illuminate\Contracts\Filesystem\Filesystem');
 
-        return new OneDriveAdapter($service, $quotaInfo);
+        return new OneDriveAdapter($service, $quotaInfo, $fileSystem);
     }
 }

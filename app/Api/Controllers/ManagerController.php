@@ -17,6 +17,7 @@ use Pulse\Bus\Commands\Manager\ListFilesCommand;
 use Pulse\Bus\Commands\Manager\UploadFileCommand;
 use Pulse\Bus\Commands\Manager\GetFileInfoCommand;
 use Pulse\Bus\Commands\Manager\CreateFolderCommand;
+use Pulse\Bus\Commands\Manager\TransferFileCommand;
 use Pulse\Bus\Commands\Manager\GetDownloadLinkCommand;
 
 class ManagerController extends BaseController
@@ -331,9 +332,9 @@ class ManagerController extends BaseController
 
         //Additional Data
         $data = [
-            'fileSize' => $file->getSize(),
-            'mimeType' => $file->getMimeType(),
-            'fileExtension' => $file->guessExtension()
+        'fileSize' => $file->getSize(),
+        'mimeType' => $file->getMimeType(),
+        'fileExtension' => $file->guessExtension()
         ];
 
         //Title
@@ -347,7 +348,7 @@ class ManagerController extends BaseController
             $request->get('location'),
             $title,
             $data
-        ));
+            ));
 
         //Files not uploaded
         if(!$uploadedFile) {
@@ -356,6 +357,52 @@ class ManagerController extends BaseController
 
         //Return Response
         return $this->response->item($uploadedFile, new FileListTransformer);
+    }
+
+    /**
+     * Transfer File across Providers
+     * @param  Request $request
+     * @param  int  $account_id Account ID
+     * @return Response
+     */
+    public function transferFile(Request $request, $account_id)
+    {
+
+        if(!$request->has('file') || !$request->has('account')) {
+            return response()->json(['error' => 'no_file_or_account_specified', 'message' => "File or account was not specified!"], 200);
+        }
+
+        //File
+        $file = $request->get('file');
+        //New Account ID
+        $newAccountID = $request->get('account');
+
+        //Current User
+        $user = Auth::user();
+        //Account
+        $account = $user->accounts()->findOrFail($account_id);
+        //New Account
+        $newAccount = $user->accounts()->findOrFail($newAccountID);
+
+        //Transfer File
+        $transferedFile = dispatch(new TransferFileCommand(
+            $user,
+            $account,
+            $newAccount,
+            $file,
+            $request->get('location'),
+            $request->get('title')
+            ));
+
+        //Files not transfered
+        if(!$transferedFile) {
+            return response()->json(['error' => 'file_not_transfered', 'message' => "File not transfered!"], 200);
+        }
+
+        //Return Response
+        return $this->response->item($transferedFile, new FileListTransformer);
+
+
     }
 
 }

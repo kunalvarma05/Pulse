@@ -4,6 +4,7 @@ namespace Pulse\Services\Manager\Adapters\Drive;
 use Exception;
 use Google_Client;
 use Google_Exception;
+use Google_Http_Request;
 use Pulse\Utils\Helpers;
 use Google_Service_Drive;
 use Google_Service_Drive_About;
@@ -11,14 +12,19 @@ use Google_Http_MediaFileUpload;
 use Google_Service_Drive_FileList;
 use Google_Service_Drive_DriveFile;
 use Google_Service_Drive_ParentReference;
+use Pulse\Services\Manager\ManagerInterface;
 use Pulse\Services\Manager\File\FileInterface;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Pulse\Services\Manager\Quota\QuotaInterface;
+use Pulse\Services\Manager\Adapters\AbstractAdapter;
 use Pulse\Services\Manager\Adapters\AdapterInterface;
 
-class DriveAdapter implements AdapterInterface
+class DriveAdapter extends AbstractAdapter
 {
 
     const DRIVE_FOLDER_MIME = "application/vnd.google-apps.folder";
+
+    const MINIMUM_CHUNK_SIZE = 256 * 1024;
 
     const DEFAULT_CHUNK_SIZE = 10 * 1024 * 1024;
 
@@ -34,15 +40,22 @@ class DriveAdapter implements AdapterInterface
      */
     private $quotaInfo;
 
+    /**
+     * File System
+     * @var Illuminate\Contracts\Filesystem\Filesystem
+     */
+    private $fileSystem;
+
 
     /**
      * Constructor
      * @param Google_Service_Drive $service
      */
-    public function __construct(Google_Service_Drive $service, QuotaInterface $quotaInfo)
+    public function __construct(Google_Service_Drive $service, QuotaInterface $quotaInfo, Filesystem $fileSystem)
     {
         $this->service = $service;
         $this->quotaInfo = $quotaInfo;
+        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -52,6 +65,15 @@ class DriveAdapter implements AdapterInterface
     public function getService()
     {
         return $this->service;
+    }
+
+    /**
+     * Get Filesystem
+     * @return Filesystem
+     */
+    public function getFilesystem()
+    {
+        return $this->fileSystem;
     }
 
     /**
@@ -342,7 +364,7 @@ class DriveAdapter implements AdapterInterface
         $mimeType = isset($data['mimeType']) ? $data['mimeType'] : mime_content_type($file);
 
         //File Size
-        $fileSize = isset($data['fileSize']) ? $data['fileSize'] : filesize($file);
+        $fileSize = (int) (isset($data['fileSize']) ? $data['fileSize'] : filesize($file));
 
         //If a file path is given
         $fileStream = fopen($file, "rb");
@@ -358,6 +380,61 @@ class DriveAdapter implements AdapterInterface
 
         return false;
 
+    }
+
+    /**
+     * Transfer File to Another Provider
+     * @param  string $file     File Path
+     * @param  Pulse\Services\Manager\ManagerInterface $newManager Manager of the Account to transfer the file to
+     * @param  string $location File's new Location on the Provider
+     * @param  string $title    New Title of the Transfered File
+     * @param  array  $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function transfer($file, ManagerInterface $newManager, $location = null, $title = null, array $data = array())
+    {
+        return parent::transfer($file, $newManager, $location, $title, $data);
+    }
+
+    /**
+     * Download File
+     * @param  string $file File
+     * @param  string $downloadUrl Explicitly Provided Download URL
+     * @param  array  $data Additional Data
+     * @return string Downloaded File Contents
+     */
+    public function downloadFile($file, $downloadUrl = null, array $data = array())
+    {
+        //If a download url is not provided explicitly
+        if(is_null($downloadUrl)) {
+            //Fetch the file info
+            $fileInfo = $this->getFileInfo($file);
+            //Fetch the download url
+            $downloadUrl = $fileInfo->getDownloadUrl();
+        }
+
+        //If we obtained the download url
+        if ($downloadUrl) {
+            $request = new Google_Http_Request($downloadUrl, 'GET', null, null);
+
+            $httpRequest = $this->getService()->getClient()
+            ->getAuth()->authenticatedRequest($request);
+
+            //Request was successful
+            if ($httpRequest->getResponseHttpCode() == 200) {
+                //File Contents
+                return $httpRequest->getResponseBody();
+            } else {
+                // An error occurred.
+                return null;
+            }
+
+        } else {
+            // The file doesn't have any content stored on Drive.
+            return null;
+        }
+
+        return false;
     }
 
     /**
@@ -413,10 +490,10 @@ class DriveAdapter implements AdapterInterface
         $fileInfo->setMimeType($file->getMimeType());
         $fileInfo->setThumbnailURL($file->getThumbnailLink());
 
-        $downloadUrl = $file->getWebContentLink();
+        $downloadUrl = $file->getDownloadUrl();
         if(!$downloadUrl) {
             $exportLinks = $file->getExportLinks();
-            $downloadUrl = empty($exportLinks) ? $file->getAlternateLink() : end($exportLinks);
+            $downloadUrl = empty($exportLinks) ? null : end($exportLinks);
         }
         $fileInfo->setDownloadURL($downloadUrl);
 
@@ -455,6 +532,29 @@ class DriveAdapter implements AdapterInterface
 
         //Chunk size
         $chunkSizeBytes = self::DEFAULT_CHUNK_SIZE;
+        //Minimum Chunk Size
+        $minimumChunkSize = self::MINIMUM_CHUNK_SIZE;
+
+        //If the File is very small
+        //do a simple multipart upload
+        if($fileSize <= $minimumChunkSize)
+        {
+            try {
+                $data = stream_get_contents($fileStream);
+
+                $createdFile = $service->files->insert($file, array(
+                  'data' => $data,
+                  'mimeType' => $mimeType,
+                  'uploadType' => 'multipart'
+                  ));
+
+                return $createdFile;
+
+            } catch (Exception $e) {
+                // @todo
+                dd($e);
+            }
+        }
 
         // Call the API with the media upload, defer so it doesn't immediately return.
         $client->setDefer(true);

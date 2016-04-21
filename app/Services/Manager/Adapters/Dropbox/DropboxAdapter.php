@@ -5,11 +5,14 @@ use Exception;
 use Dropbox\WriteMode;
 use Pulse\Utils\Helpers;
 use Dropbox\Client as DropboxClient;
+use Pulse\Services\Manager\ManagerInterface;
 use Pulse\Services\Manager\File\FileInterface;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Pulse\Services\Manager\Quota\QuotaInterface;
+use Pulse\Services\Manager\Adapters\AbstractAdapter;
 use Pulse\Services\Manager\Adapters\AdapterInterface;
 
-class DropboxAdapter implements AdapterInterface
+class DropboxAdapter extends AbstractAdapter
 {
 
     /**
@@ -25,13 +28,21 @@ class DropboxAdapter implements AdapterInterface
     private $quotaInfo;
 
     /**
+     * File System
+     * @var Illuminate\Contracts\Filesystem\Filesystem
+     */
+    private $fileSystem;
+
+
+    /**
      * Constructor
      * @param DropboxClient $service
      */
-    public function __construct(DropboxClient $service, QuotaInterface $quotaInfo)
+    public function __construct(DropboxClient $service, QuotaInterface $quotaInfo, Filesystem $fileSystem)
     {
         $this->service = $service;
         $this->quotaInfo = $quotaInfo;
+        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -41,6 +52,15 @@ class DropboxAdapter implements AdapterInterface
     public function getService()
     {
         return $this->service;
+    }
+
+    /**
+     * Get Filesystem
+     * @return Filesystem
+     */
+    public function getFilesystem()
+    {
+        return $this->fileSystem;
     }
 
     /**
@@ -74,7 +94,7 @@ class DropboxAdapter implements AdapterInterface
             return $this->makeFile($fileInfo);
         } catch (Exception $e) {
             // @todo
-            return false;
+            dd($e);
         }
 
         return false;
@@ -144,7 +164,7 @@ class DropboxAdapter implements AdapterInterface
             return $this->makeFile($copiedFile);
         } catch (Exception $e) {
             // @todo
-            return false;
+            dd($e);
         }
 
     }
@@ -173,7 +193,7 @@ class DropboxAdapter implements AdapterInterface
             return $this->makeFile($movedFile);
         } catch (Exception $e) {
             // @todo
-            return false;
+            dd($e);
         }
 
     }
@@ -213,7 +233,7 @@ class DropboxAdapter implements AdapterInterface
             return $this->makeFile($createdFolder);
         } catch (Exception $e) {
             // @todo
-            return false;
+            dd($e);
         }
         return false;
     }
@@ -235,7 +255,7 @@ class DropboxAdapter implements AdapterInterface
 
         } catch (Exception $e) {
             // @todo
-            return false;
+            dd($e);
         }
 
         return false;
@@ -265,13 +285,13 @@ class DropboxAdapter implements AdapterInterface
         $mimeType = isset($data['mimeType']) ? $data['mimeType'] : mime_content_type($file);
 
         //File Size
-        $fileSize = isset($data['fileSize']) ? $data['fileSize'] : filesize($file);
+        $fileSize = (int) (isset($data['fileSize']) ? $data['fileSize'] : filesize($file));
 
         //If a file path is given
         $fileStream = fopen($file, "rb");
 
         //Upload the file
-        $uploadedFile = $this->getService()->uploadFile($location, WriteMode::add(), $fileStream, $fileSize);
+        $uploadedFile = $this->getService()->uploadFile($location, WriteMode::add(), $fileStream);
 
         //File was uploaded
         if($uploadedFile) {
@@ -308,21 +328,53 @@ class DropboxAdapter implements AdapterInterface
             return $this->makeFile($movedFile);
         } catch (Exception $e) {
             // @todo
-            return false;
+            dd($e);
         }
     }
 
     /**
      * Transfer File to Another Provider
      * @param  string $file     File Path
-     * @param  Pulse\Services\Manager\Adapters\AdapterInterface $provider Adapter of the Provider to Transfer the File To
+     * @param  Pulse\Services\Manager\ManagerInterface $newManager Manager of the Account to transfer the file to
      * @param  string $location File's new Location on the Provider
      * @param  string $title    New Title of the Transfered File
      * @param  array  $data     Additional Data
      * @return Pulse\Services\Manager\File\FileInterface
      */
-    public function transfer($file, AdapterInterface $provider, $location = null, $title = null, array $data = array())
+    public function transfer($file, ManagerInterface $newManager, $location = null, $title = null, array $data = array())
     {
+        return parent::transfer($file, $newManager, $location, $title, $data);
+    }
+
+    /**
+     * Download File
+     * @param  string $file File
+     * @param  string $downloadUrl Explicitly Provided Download URL
+     * @param  array  $data Additional Data
+     * @return string Downloaded File Contents
+     */
+    public function downloadFile($file, $downloadUrl = null, array $data = array())
+    {
+        if(is_null($downloadUrl)) {
+            $downloadUrl = $this->getDownloadLink($file);
+        }
+
+        try {
+            $stream = fopen($downloadUrl, "rb");
+
+            if($stream) {
+                $contents = stream_get_contents($stream);
+                fclose($stream);
+                return $contents;
+            }
+
+            return false;
+        } catch (Exception $e) {
+            // @todo
+            dd($e);
+        }
+
+        return false;
 
     }
 

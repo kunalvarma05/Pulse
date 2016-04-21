@@ -5,11 +5,14 @@ use Exception;
 use Pulse\Utils\Helpers;
 use League\OAuth2\Client\Token\AccessToken;
 use Kunnu\OneDrive\Client as OneDriveClient;
+use Pulse\Services\Manager\ManagerInterface;
 use Pulse\Services\Manager\File\FileInterface;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Pulse\Services\Manager\Quota\QuotaInterface;
+use Pulse\Services\Manager\Adapters\AbstractAdapter;
 use Pulse\Services\Manager\Adapters\AdapterInterface;
 
-class OneDriveAdapter implements AdapterInterface
+class OneDriveAdapter extends AbstractAdapter
 {
 
     /**
@@ -25,14 +28,21 @@ class OneDriveAdapter implements AdapterInterface
     private $quotaInfo;
 
     /**
+     * File System
+     * @var Illuminate\Contracts\Filesystem\Filesystem
+     */
+    private $fileSystem;
+
+    /**
      * Constructor
      * @param OneDriveClient $service
      * @param QuotaInterface $quota
      */
-    public function __construct(OneDriveClient $service, QuotaInterface $quotaInfo)
+    public function __construct(OneDriveClient $service, QuotaInterface $quotaInfo, Filesystem $fileSystem)
     {
         $this->service = $service;
         $this->quotaInfo = $quotaInfo;
+        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -42,6 +52,15 @@ class OneDriveAdapter implements AdapterInterface
     public function getService()
     {
         return $this->service;
+    }
+
+    /**
+     * Get Filesystem
+     * @return Filesystem
+     */
+    public function getFilesystem()
+    {
+        return $this->fileSystem;
     }
 
     /**
@@ -294,6 +313,32 @@ class OneDriveAdapter implements AdapterInterface
     }
 
     /**
+     * Download File
+     * @param  string $file File
+     * @param  string $downloadUrl Explicitly Provided Download URL
+     * @param  array  $data Additional Data
+     * @return string Downloaded File Contents
+     */
+    public function downloadFile($file, $downloadUrl = null, array $data = array())
+    {
+        return $this->getService()->downloadItem($file);
+    }
+
+    /**
+     * Transfer File to Another Provider
+     * @param  string $file     File Path
+     * @param  Pulse\Services\Manager\ManagerInterface $newManager Manager of the Account to transfer the file to
+     * @param  string $location File's new Location on the Provider
+     * @param  string $title    New Title of the Transfered File
+     * @param  array  $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function transfer($file, ManagerInterface $newManager, $location = null, $title = null, array $data = array())
+    {
+        return parent::transfer($file, $newManager, $location, $title, $data);
+    }
+
+    /**
      * Make File List
      * @param  array $list
      * @return Array (Pulse\Services\Manager\File\FileInterface)
@@ -326,7 +371,7 @@ class OneDriveAdapter implements AdapterInterface
         $fileInfo->setSize($file->size);
 
         $fileInfo->setURL($file->webUrl);
-        $downloadUrl = isset($file->{'@content.downloadUrl'}) ? $file->{'@content.downloadUrl'} : $fileInfo->getURL();
+        $downloadUrl = isset($file->{'@content.downloadUrl'}) ? $file->{'@content.downloadUrl'} : null;
         $fileInfo->setDownloadURL($downloadUrl);
 
         $isFolder = isset($file->folder) ? true : false;
