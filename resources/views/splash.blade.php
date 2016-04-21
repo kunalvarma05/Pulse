@@ -2,7 +2,7 @@
 @section('pageTitle', 'Dashboard')
 
 @section('body')
-<div class="site">
+<div class="site" id="app">
     @include('partials.navbar')
     @include('partials.sidemenu')
     @include('partials.explorer')
