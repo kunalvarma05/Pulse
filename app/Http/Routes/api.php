@@ -41,6 +41,8 @@ $api->version('v1', function ($api) {
          * ********************************
          */
         $api->group(['prefix' => 'providers', 'middleware' => ['jwt.auth']], function ($api) {
+            //List Providers
+            $api->get('/', ['as' => 'api.providers.list', 'uses' => 'ProvidersController@index']);
             //Get Auth Redirect URL
             $api->get('auth-url', ['as' => 'api.providers.auth-url', 'middleware' => ['session'], 'uses' => 'ProvidersController@getAuthUrl']);
         });
