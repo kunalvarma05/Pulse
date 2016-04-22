@@ -3,14 +3,12 @@ import Vue from 'vue';
 import NProgress from 'nprogress';
 
 import http from '../services/http';
+import stub from '../stubs/user';
 
 export default {
     state: {
         current: {
-            id: 0,
-            name: '',
-            email: '',
-            picture: ''
+            stub
         },
     },
 
@@ -85,10 +83,7 @@ export default {
      */
      logout(cb = null) {
         this.state.current = {
-            id: 0,
-            name: '',
-            email: '',
-            picture: ''
+            stub
         };
         if(cb) {
             cb();
@@ -107,7 +102,6 @@ export default {
         NProgress.start();
 
         http.post('user', { name, email, username, password }, response => {
-
             if (cb) {
                 cb();
             }

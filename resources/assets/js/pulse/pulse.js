@@ -1,5 +1,4 @@
 jQuery(document).ready(function($) {
-
     //Sidemenu Tooltips
     $("#sidemenu").find("[data-toggle-tooltip=tooltip]").tooltip({
         placement: 'right'

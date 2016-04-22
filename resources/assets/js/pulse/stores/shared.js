@@ -15,7 +15,7 @@ export default {
             const data = response.data;
             const user = data.data;
 
-            assign(this.state, { currentUser: user });
+            this.state.currentUser = user;
 
             userStore.init(this.state.currentUser);
 

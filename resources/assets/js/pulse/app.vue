@@ -1,6 +1,7 @@
 <template>
     <div id="app" tabindex="0" v-show="authenticated">
         <navbar></navbar>
+        <sidemenu></sidemenu>
     </div>
 
     <div class="login-wrapper" v-else>
@@ -12,6 +13,7 @@
     import Vue from 'vue';
     import $ from 'jquery';
     import navbar from './components/navbar/index.vue';
+    import sidemenu from './components/sidemenu/index.vue';
     import loginForm from './components/auth/login-form.vue';
     import sharedStore from './stores/shared';
     import userStore from './stores/user';
@@ -19,7 +21,7 @@
 
 
     export default {
-        components: { navbar, loginForm },
+        components: { navbar, sidemenu, loginForm },
 
         replace: false,
 

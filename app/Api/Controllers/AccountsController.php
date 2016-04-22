@@ -18,7 +18,7 @@ class AccountsController extends BaseController
      */
     public function index()
     {
-        $accounts = Account::all();
+        $accounts = Auth::user()->accounts;
 
         return $this->response->collection($accounts, new AccountTransformer);
     }
@@ -30,6 +30,7 @@ class AccountsController extends BaseController
      */
     public function create(CreateAccountRequest $request)
     {
+        return $request;
         //Current User
         $user = Auth::user();
         //Provider

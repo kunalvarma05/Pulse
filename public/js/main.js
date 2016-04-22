@@ -32964,7 +32964,7 @@ require('./pulse/pulse.js');
 require('./pulse/app.js');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bootstrap.js":63,"./pulse/app.js":65,"./pulse/pulse.js":72,"jquery":8,"perfect-scrollbar":14,"tether":36}],65:[function(require,module,exports){
+},{"./bootstrap.js":63,"./pulse/app.js":65,"./pulse/pulse.js":74,"jquery":8,"perfect-scrollbar":14,"tether":36}],65:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -33020,7 +33020,7 @@ _vue2.default.http.interceptors.push({
 
 app.$mount('body');
 
-},{"./app.vue":66,"./services/ls":74,"nprogress":13,"vue":62,"vue-resource":51}],66:[function(require,module,exports){
+},{"./app.vue":66,"./services/ls":76,"nprogress":13,"vue":62,"vue-resource":51}],66:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33038,6 +33038,10 @@ var _jquery2 = _interopRequireDefault(_jquery);
 var _index = require('./components/navbar/index.vue');
 
 var _index2 = _interopRequireDefault(_index);
+
+var _index3 = require('./components/sidemenu/index.vue');
+
+var _index4 = _interopRequireDefault(_index3);
 
 var _loginForm = require('./components/auth/login-form.vue');
 
@@ -33058,7 +33062,7 @@ var _ls2 = _interopRequireDefault(_ls);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-    components: { navbar: _index2.default, loginForm: _loginForm2.default },
+    components: { navbar: _index2.default, sidemenu: _index4.default, loginForm: _loginForm2.default },
 
     replace: false,
 
@@ -33117,7 +33121,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"app\" tabindex=\"0\" v-show=\"authenticated\">\n    <navbar></navbar>\n</div>\n\n<div class=\"login-wrapper\" v-else=\"\">\n    <login-form></login-form>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"app\" tabindex=\"0\" v-show=\"authenticated\">\n    <navbar></navbar>\n    <sidemenu></sidemenu>\n</div>\n\n<div class=\"login-wrapper\" v-else=\"\">\n    <login-form></login-form>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -33129,7 +33133,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./components/auth/login-form.vue":67,"./components/navbar/index.vue":68,"./services/ls":74,"./stores/shared":75,"./stores/user":76,"jquery":8,"vue":62,"vue-hot-reload-api":37}],67:[function(require,module,exports){
+},{"./components/auth/login-form.vue":67,"./components/navbar/index.vue":68,"./components/sidemenu/index.vue":72,"./services/ls":76,"./stores/shared":78,"./stores/user":79,"jquery":8,"vue":62,"vue-hot-reload-api":37}],67:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33182,7 +33186,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user":76,"vue":62,"vue-hot-reload-api":37}],68:[function(require,module,exports){
+},{"../../stores/user":79,"vue":62,"vue-hot-reload-api":37}],68:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33305,11 +33309,64 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user":76,"vue":62,"vue-hot-reload-api":37}],72:[function(require,module,exports){
+},{"../../stores/user":79,"vue":62,"vue-hot-reload-api":37}],72:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _config = require('../../config');
+
+var _config2 = _interopRequireDefault(_config);
+
+var _account = require('../../stores/account');
+
+var _account2 = _interopRequireDefault(_account);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    init: function init() {
+        _account2.default.list();
+    },
+    data: function data() {
+        return {
+            state: _account2.default.state,
+            appLogo: _config2.default.url + _config2.default.logo,
+            appUrl: _config2.default.url
+        };
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"sidemenu\" id=\"sidemenu\">\n\n    <a href=\"{{ appUrl }}\" class=\"sidemenu-logo\">\n        <img v-bind:src=\"appLogo\" alt=\"pulse logo\">\n    </a>\n\n    <ul class=\"nav sidemenu-user-accounts\">\n\n        <li v-for=\"account in accounts\">\n            <a class=\"sidemenu-user-account\" data-toggle-tooltip=\"tooltip\" title=\"{{account.title}}\" style=\"animation-delay: .{{$index}}s;\">\n                <img v-bind:src=\"{{ account.picture }}\">\n            </a>\n        </li>\n\n        <li>\n            <a class=\"sidemenu-add-button\" data-toggle-tooltip=\"tooltip\" title=\"Connect New Account\" href=\"#\" data-toggle=\"modal\" data-target=\"#connect-account-modal\">\n                <span class=\"fa fa-plus\"></span>\n            </a>\n        </li>\n\n    </ul>\n\n</nav>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\sidemenu\\index.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../config":73,"../../stores/account":77,"vue":62,"vue-hot-reload-api":37}],73:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    title: "Pulse",
+    url: "/",
+    logo: "images/logo-white.png"
+};
+
+},{}],74:[function(require,module,exports){
 "use strict";
 
 jQuery(document).ready(function ($) {
-
     //Sidemenu Tooltips
     $("#sidemenu").find("[data-toggle-tooltip=tooltip]").tooltip({
         placement: 'right'
@@ -33325,7 +33382,7 @@ jQuery(document).ready(function ($) {
     });
 });
 
-},{}],73:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33383,7 +33440,7 @@ exports.default = {
     }
 };
 
-},{"vue":62}],74:[function(require,module,exports){
+},{"vue":62}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33412,7 +33469,129 @@ exports.default = {
     }
 };
 
-},{"local-storage":9}],75:[function(require,module,exports){
+},{"local-storage":9}],77:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _lodash = require('lodash');
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _nprogress = require('nprogress');
+
+var _nprogress2 = _interopRequireDefault(_nprogress);
+
+var _http = require('../services/http');
+
+var _http2 = _interopRequireDefault(_http);
+
+var _account = require('../stubs/account');
+
+var _account2 = _interopRequireDefault(_account);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    state: {
+        accounts: [_account2.default],
+        current: {
+            stub: _account2.default
+        }
+    },
+
+    /**
+     * Init the store.
+     */
+    init: function init(accounts) {
+        this.state.accounts = accounts;
+    },
+
+
+    /**
+     * The current account.
+     *
+     * @return {Object}
+     */
+    get current() {
+        return this.state.current;
+    },
+
+    /**
+     * Set the current account.
+     *
+     * @param  {Object} account
+     *
+     * @return {Object}
+     */
+    set current(account) {
+        this.state.current = account;
+
+        return this.current;
+    },
+
+    /**
+     * List Accounts
+     */
+    list: function list() {
+        var _this = this;
+
+        var successCb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+        var errorCb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+        _nprogress2.default.start();
+        _http2.default.get('accounts', {}, function (response) {
+            var data = response.data;
+            var accounts = data.data;
+
+            _this.state.accounts = accounts;
+
+            if (successCb) {
+                successCb();
+            }
+        }, errorCb);
+    },
+
+
+    /**
+     * Get Account Quota
+     */
+    quota: function quota() {
+        var id = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+        var successCb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+        var errorCb = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+        _nprogress2.default.start();
+        var url = 'accounts' + id + '/manager/quota';
+        _http2.default.get(url, {}, function () {
+            if (successCb) {
+                successCb();
+            }
+        }, errorCb);
+    },
+
+
+    /**
+     * Create a new account
+     */
+    create: function create(name, provider, code, state) {
+        var cb = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+
+        _nprogress2.default.start();
+
+        _http2.default.post('accounts/create', { name: name, provider: provider, code: code, state: state }, function (response) {
+            if (cb) {
+                cb();
+            }
+        });
+    }
+};
+
+},{"../services/http":75,"../stubs/account":80,"lodash":12,"nprogress":13,"vue":62}],78:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33448,7 +33627,7 @@ exports.default = {
             var data = response.data;
             var user = data.data;
 
-            (0, _lodash.assign)(_this.state, { currentUser: user });
+            _this.state.currentUser = user;
 
             _user2.default.init(_this.state.currentUser);
 
@@ -33462,7 +33641,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":73,"./user":76,"lodash":12}],76:[function(require,module,exports){
+},{"../services/http":75,"./user":79,"lodash":12}],79:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33483,15 +33662,16 @@ var _http = require('../services/http');
 
 var _http2 = _interopRequireDefault(_http);
 
+var _user = require('../stubs/user');
+
+var _user2 = _interopRequireDefault(_user);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
     state: {
         current: {
-            id: 0,
-            name: '',
-            email: '',
-            picture: ''
+            stub: _user2.default
         }
     },
 
@@ -33578,10 +33758,7 @@ exports.default = {
         var cb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
 
         this.state.current = {
-            id: 0,
-            name: '',
-            email: '',
-            picture: ''
+            stub: _user2.default
         };
         if (cb) {
             cb();
@@ -33633,4 +33810,36 @@ exports.default = {
     }
 };
 
-},{"../services/http":73,"lodash":12,"nprogress":13,"vue":62}]},{},[64]);
+},{"../services/http":75,"../stubs/user":81,"lodash":12,"nprogress":13,"vue":62}],80:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    id: null,
+    uid: null,
+    name: null,
+    picture: null,
+    provider_id: null,
+    user_id: null,
+    created_at: null,
+    updated_at: null
+};
+
+},{}],81:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    id: null,
+    name: null,
+    username: null,
+    picture: null,
+    created_at: null,
+    updated_at: null
+};
+
+},{}]},{},[64]);
