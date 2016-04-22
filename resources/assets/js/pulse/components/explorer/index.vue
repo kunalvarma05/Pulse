@@ -1,5 +1,5 @@
 <template>
-    <div class="explorer has-sidebar" id="explorer">
+    <div class="explorer" id="explorer">
         <div class="explorer-header clearfix">
             <div class="explorer-header-title">{{ title }}</div>
 
