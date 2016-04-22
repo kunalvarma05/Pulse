@@ -2,6 +2,7 @@
     <div id="app" tabindex="0" v-show="authenticated">
         <navbar></navbar>
         <sidemenu></sidemenu>
+        <connect-account-modal></connect-account-modal>
     </div>
 
     <div class="login-wrapper" v-else>
@@ -12,16 +13,19 @@
 <script>
     import Vue from 'vue';
     import $ from 'jquery';
+
     import navbar from './components/navbar/index.vue';
     import sidemenu from './components/sidemenu/index.vue';
     import loginForm from './components/auth/login-form.vue';
+    import connectAccountModal from './components/modals/connect-account.vue';
+
     import sharedStore from './stores/shared';
     import userStore from './stores/user';
     import ls from './services/ls';
 
 
     export default {
-        components: { navbar, sidemenu, loginForm },
+        components: { navbar, sidemenu, loginForm, connectAccountModal },
 
         replace: false,
 

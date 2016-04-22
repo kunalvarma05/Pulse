@@ -7,7 +7,7 @@ import stub from '../stubs/provider';
 
 export default {
     state: {
-        providers: [stub],
+        providers: [],
         authUrl: null
     },
 
@@ -38,19 +38,19 @@ export default {
     /**
      * Get Account Quota
      */
-     authUrl(id = null, successCb = null, errorCb = null) {
+     authUrl(provider = null, successCb = null, errorCb = null) {
         NProgress.start();
         let url = 'providers/auth-url';
 
-        http.get(url, {provider: id}, () response => {
+        http.get(url, { provider }, response => {
 
             const data = response.data;
             const authUrl = data.url;
 
-            this.state.authUrl = url;
+            this.state.authUrl = authUrl;
 
             if (successCb) {
-                successCb();
+                successCb(authUrl);
             }
         }, errorCb);
     },

@@ -12,7 +12,7 @@
           <div class="container">
             <div class="row connect-account-items">
 
-              <div v-for="provider in providers" class="col-md-6 col-sm-6 connect-account-item">
+              <div v-for="provider in state.providers" class="col-md-6 col-sm-6 connect-account-item">
                 <div class="card">
                   <div class="card-block text-xs-center">
                     <p class="card-text">
@@ -23,7 +23,7 @@
                     </h4>
                   </div>
                   <div class="card-footer">
-                    <a href="#" @click="connect(provider.id)" class="btn btn-primary btn-block">Connect</a>
+                  <a href="#" @click="connect(provider.id)" class="btn btn-primary btn-block" data-toggle="button" data-loading="">Connect</a>
                   </div>
                 </div>
               </div>
@@ -41,20 +41,28 @@
 
 <script>
 
-import config from '../../config'
-import providerStore from '../../stores/provider';
+  import config from '../../config'
+  import providerStore from '../../stores/provider';
 
-export default {
+  export default {
 
-  ready() {
-    providerStore.list();
-  },
+    ready() {
+      providerStore.list();
+    },
 
-  data() {
-    return {
-      state: providerStore.state,
-    };
+    data() {
+      return {
+        state: providerStore.state,
+      };
+    },
+
+    methods: {
+      connect(provider_id) {
+        providerStore.authUrl(provider_id, (url) => {
+          window.location = url;
+        });
+      }
+    }
+
   }
-
-}
 </script>
