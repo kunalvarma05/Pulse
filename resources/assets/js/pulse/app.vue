@@ -1,14 +1,22 @@
 <template>
-    <div id="app" tabindex="0" v-show="authenticated">
+    <!-- The App Instance, where the magic happens! -->
+    <div id="app" v-show="authenticated">
+        <!-- Navbar -->
         <navbar></navbar>
+        <!-- Sidemenu -->
         <sidemenu></sidemenu>
+        <!-- Explorer -->
         <explorer></explorer>
+        <!-- Connect Account Modal -->
         <connect-account-modal></connect-account-modal>
     </div>
 
+    <!-- Not Authenticated -->
     <div class="login-wrapper" v-else>
+        <!-- Login Form -->
         <login-form></login-form>
     </div>
+
 </template>
 
 <script>
@@ -61,7 +69,7 @@
                     },
 
                     () => this.authenticated = false
-                );
+                    );
             },
 
             /**

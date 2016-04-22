@@ -33150,7 +33150,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"app\" tabindex=\"0\" v-show=\"authenticated\">\n    <navbar></navbar>\n    <sidemenu></sidemenu>\n    <explorer></explorer>\n    <connect-account-modal></connect-account-modal>\n</div>\n\n<div class=\"login-wrapper\" v-else=\"\">\n    <login-form></login-form>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- The App Instance, where the magic happens! -->\n<div id=\"app\" v-show=\"authenticated\">\n    <!-- Navbar -->\n    <navbar></navbar>\n    <!-- Sidemenu -->\n    <sidemenu></sidemenu>\n    <!-- Explorer -->\n    <explorer></explorer>\n    <!-- Connect Account Modal -->\n    <connect-account-modal></connect-account-modal>\n</div>\n\n<!-- Not Authenticated -->\n<div class=\"login-wrapper\" v-else=\"\">\n    <!-- Login Form -->\n    <login-form></login-form>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
