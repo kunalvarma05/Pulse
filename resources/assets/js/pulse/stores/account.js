@@ -7,10 +7,8 @@ import stub from '../stubs/account';
 
 export default {
     state: {
-        accounts: [stub],
-        current: {
-            stub
-        },
+        accounts: [],
+        current: {},
     },
 
     /**
@@ -46,7 +44,7 @@ export default {
      * List Accounts
      */
      list(successCb = null, errorCb = null) {
-        NProgress.start();
+        //NProgress.start();
         http.get('accounts', {}, response => {
             const data = response.data;
             const accounts = data.data;

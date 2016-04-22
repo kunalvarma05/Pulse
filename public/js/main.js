@@ -33327,19 +33327,24 @@ var _account2 = _interopRequireDefault(_account);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-    init: function init() {
-        _account2.default.list();
-    },
+    ready: function ready() {},
     data: function data() {
         return {
             state: _account2.default.state,
             appLogo: _config2.default.url + _config2.default.logo,
             appUrl: _config2.default.url
         };
+    },
+
+
+    events: {
+        "pulse:ready": function pulseReady() {
+            _account2.default.list();
+        }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"sidemenu\" id=\"sidemenu\">\n\n    <a href=\"{{ appUrl }}\" class=\"sidemenu-logo\">\n        <img v-bind:src=\"appLogo\" alt=\"pulse logo\">\n    </a>\n\n    <ul class=\"nav sidemenu-user-accounts\">\n\n        <li v-for=\"account in accounts\">\n            <a class=\"sidemenu-user-account\" data-toggle-tooltip=\"tooltip\" title=\"{{account.title}}\" style=\"animation-delay: .{{$index}}s;\">\n                <img v-bind:src=\"{{ account.picture }}\">\n            </a>\n        </li>\n\n        <li>\n            <a class=\"sidemenu-add-button\" data-toggle-tooltip=\"tooltip\" title=\"Connect New Account\" href=\"#\" data-toggle=\"modal\" data-target=\"#connect-account-modal\">\n                <span class=\"fa fa-plus\"></span>\n            </a>\n        </li>\n\n    </ul>\n\n</nav>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"sidemenu\" id=\"sidemenu\">\n\n    <a :href=\"appUrl\" class=\"sidemenu-logo\">\n        <img :src=\"appLogo\" alt=\"pulse logo\">\n    </a>\n\n    <ul class=\"nav sidemenu-user-accounts\">\n\n        <li v-for=\"account in state.accounts\">\n            <a class=\"sidemenu-user-account\" href=\"#\" data-toggle-tooltip=\"sidebar\" :title=\"account.name\" :style=\"'animation-delay:0.' + $index + 's';\">\n                <img :src=\"account.picture\">\n            </a>\n        </li>\n\n        <li>\n            <a class=\"sidemenu-add-button\" data-toggle-tooltip=\"sidebar\" title=\"Connect New Account\" href=\"#\" data-toggle=\"modal\" data-target=\"#connect-account-modal\">\n                <span class=\"fa fa-plus\"></span>\n            </a>\n        </li>\n\n    </ul>\n\n</nav>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -33368,12 +33373,14 @@ exports.default = {
 
 jQuery(document).ready(function ($) {
     //Sidemenu Tooltips
-    $("#sidemenu").find("[data-toggle-tooltip=tooltip]").tooltip({
+    $("body").tooltip({
+        selector: "[data-toggle-tooltip=sidebar]",
         placement: 'right'
     });
 
-    //Explorer Tooltips
-    $("#explorer").find("[data-toggle-tooltip=tooltip]").tooltip({
+    //Sidemenu Tooltips
+    $("html").tooltip({
+        selector: "[data-toggle-tooltip=explorer]",
         placement: 'bottom'
     });
 
@@ -33406,10 +33413,11 @@ exports.default = {
         return _vue2.default.http[method](url, data).then(successCb, errorCb);
     },
     get: function get(url) {
-        var successCb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-        var errorCb = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+        var data = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+        var successCb = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+        var errorCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
 
-        return this.request('get', url, {}, successCb, errorCb);
+        return this.request('get', url, data, successCb, errorCb);
     },
     post: function post(url, data) {
         var successCb = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
@@ -33498,10 +33506,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
     state: {
-        accounts: [_account2.default],
-        current: {
-            stub: _account2.default
-        }
+        accounts: [],
+        current: {}
     },
 
     /**
@@ -33543,7 +33549,7 @@ exports.default = {
         var successCb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
         var errorCb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
-        _nprogress2.default.start();
+        //NProgress.start();
         _http2.default.get('accounts', {}, function (response) {
             var data = response.data;
             var accounts = data.data;
@@ -33623,7 +33629,7 @@ exports.default = {
 
         this.reset();
 
-        _http2.default.get('users/initialize', function (response) {
+        _http2.default.get('users/initialize', {}, function (response) {
             var data = response.data;
             var user = data.data;
 

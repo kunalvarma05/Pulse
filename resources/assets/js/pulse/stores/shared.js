@@ -11,7 +11,7 @@ export default {
     init(successCb = null, errorCb = null) {
         this.reset();
 
-        http.get('users/initialize', response => {
+        http.get('users/initialize', {}, response => {
             const data = response.data;
             const user = data.data;
 

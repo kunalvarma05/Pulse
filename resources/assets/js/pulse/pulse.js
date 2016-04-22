@@ -1,16 +1,18 @@
 jQuery(document).ready(function($) {
-    //Sidemenu Tooltips
-    $("#sidemenu").find("[data-toggle-tooltip=tooltip]").tooltip({
-        placement: 'right'
-    });
+        //Sidemenu Tooltips
+        $("body").tooltip({
+            selector: "[data-toggle-tooltip=sidebar]",
+            placement: 'right'
+        });
 
-    //Explorer Tooltips
-    $("#explorer").find("[data-toggle-tooltip=tooltip]").tooltip({
-        placement: 'bottom'
-    });
+        //Sidemenu Tooltips
+        $("html").tooltip({
+            selector: "[data-toggle-tooltip=explorer]",
+            placement: 'bottom'
+        });
 
-    $("[data-scrollbar=true]").each(function(index, el) {
-        Ps.initialize(el);
-    });
+        $("[data-scrollbar=true]").each(function(index, el) {
+            Ps.initialize(el);
+        });
 
 });

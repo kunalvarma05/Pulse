@@ -30,7 +30,6 @@ class AccountsController extends BaseController
      */
     public function create(CreateAccountRequest $request)
     {
-        return $request;
         //Current User
         $user = Auth::user();
         //Provider

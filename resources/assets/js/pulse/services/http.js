@@ -8,8 +8,8 @@ export default {
         return Vue.http[method](url, data).then(successCb, errorCb);
     },
 
-    get(url, successCb = null, errorCb = null) {
-        return this.request('get', url, {}, successCb, errorCb);
+    get(url, data = {}, successCb = null, errorCb = null) {
+        return this.request('get', url, data, successCb, errorCb);
     },
 
     post(url, data, successCb = null, errorCb = null) {
