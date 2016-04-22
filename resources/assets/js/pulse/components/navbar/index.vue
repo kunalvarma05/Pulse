@@ -23,11 +23,6 @@ import notificationMenu from './notifications.vue';
 import userProfile from './user-profile.vue';
 
 export default {
-    data() {
-        return {
-            user: {}
-        }
-    },
 
     components: { search, notificationMenu, userProfile }
 }

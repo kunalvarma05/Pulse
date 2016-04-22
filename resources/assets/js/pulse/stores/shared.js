@@ -5,7 +5,7 @@ import userStore from './user';
 
 export default {
     state: {
-        currentUser: null,
+        currentUser: false,
     },
 
     init(successCb = null, errorCb = null) {
@@ -26,6 +26,6 @@ export default {
     },
 
     reset() {
-        this.state.currentUser = null;
+        this.state.currentUser = false;
     },
 };

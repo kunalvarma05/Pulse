@@ -26,7 +26,9 @@
 
 <script>
 
-    import config from '../../config'
+    import Vue from 'vue';
+    import config from '../../config';
+    import userStore from '../../stores/user';
     import accountStore from '../../stores/account';
 
     export default {
@@ -43,9 +45,22 @@
             }
         },
 
+        methods: {
+
+        },
+
         events: {
-            "pulse:ready": () => {
+
+            "user:loggedin" : () => {
                 accountStore.list();
+            },
+
+            "pulse:ready" : () => {
+                accountStore.list();
+            },
+
+            "pulse:teardown" : () => {
+                accountStore.init(false);
             }
         }
     }

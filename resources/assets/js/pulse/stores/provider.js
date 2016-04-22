@@ -7,8 +7,8 @@ import stub from '../stubs/provider';
 
 export default {
     state: {
-        providers: [],
-        authUrl: null
+        providers: false,
+        authUrl: false
     },
 
     /**

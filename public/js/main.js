@@ -33110,6 +33110,7 @@ exports.default = {
             _user2.default.logout(function () {
                 _ls2.default.remove('token');
                 _this2.authenticated = false;
+                _this2.$broadcast('pulse:teardown');
             });
         }
     },
@@ -33201,6 +33202,10 @@ var _config = require('../../config');
 
 var _config2 = _interopRequireDefault(_config);
 
+var _user = require('../../stores/user');
+
+var _user2 = _interopRequireDefault(_user);
+
 var _provider = require('../../stores/provider');
 
 var _provider2 = _interopRequireDefault(_provider);
@@ -33208,9 +33213,7 @@ var _provider2 = _interopRequireDefault(_provider);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  ready: function ready() {
-    _provider2.default.list();
-  },
+  ready: function ready() {},
   data: function data() {
     return {
       state: _provider2.default.state
@@ -33224,11 +33227,25 @@ exports.default = {
         window.location = url;
       });
     }
+  },
+
+  events: {
+    "user:loggedin": function userLoggedin() {
+      _provider2.default.list();
+    },
+
+    "pulse:ready": function pulseReady() {
+      _provider2.default.list();
+    },
+
+    "pulse:teardown": function pulseTeardown() {
+      _provider2.default.init([]);
+    }
   }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal fade\" id=\"connect-account-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"connectAccountLabel\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">×</span>\n        </button>\n        <h4 class=\"modal-title\" id=\"connectAccountLabel\">Connect Account</h4>\n      </div>\n      <div class=\"modal-body\">\n        <div class=\"container\">\n          <div class=\"row connect-account-items\">\n\n            <div v-for=\"provider in state.providers\" class=\"col-md-6 col-sm-6 connect-account-item\">\n              <div class=\"card\">\n                <div class=\"card-block text-xs-center\">\n                  <p class=\"card-text\">\n                    <img v-bind:src=\"'/images/providers/' + provider.alias + '.png'\" alt=\"dropbox\" class=\"connect-account-image\">\n                  </p>\n                  <h4 class=\"card-title\">\n                    {{provider.title}}\n                  </h4>\n                </div>\n                <div class=\"card-footer\">\n                <a href=\"#\" @click=\"connect(provider.id)\" class=\"btn btn-primary btn-block\" data-toggle=\"button\" data-loading=\"\">Connect</a>\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </div>\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal fade\" id=\"connect-account-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"connectAccountLabel\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">×</span>\n        </button>\n        <h4 class=\"modal-title\" id=\"connectAccountLabel\">Connect Account</h4>\n      </div>\n      <div class=\"modal-body\">\n        <div class=\"container\">\n          <div class=\"row connect-account-items\">\n\n            <div v-for=\"provider in state.providers\" class=\"col-md-6 col-sm-6 connect-account-item\">\n              <div class=\"card\">\n                <div class=\"card-block text-xs-center\">\n                  <p class=\"card-text\">\n                    <img v-bind:src=\"'/images/providers/' + provider.alias + '.png'\" alt=\"dropbox\" class=\"connect-account-image\">\n                  </p>\n                  <h4 class=\"card-title\">\n                    {{provider.title}}\n                  </h4>\n                </div>\n                <div class=\"card-footer\">\n                  <a href=\"#\" @click=\"connect(provider.id)\" class=\"btn btn-primary btn-block\" data-toggle=\"button\" data-loading=\"\">Connect</a>\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </div>\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -33240,7 +33257,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":74,"../../stores/provider":79,"vue":62,"vue-hot-reload-api":37}],69:[function(require,module,exports){
+},{"../../config":74,"../../stores/provider":79,"../../stores/user":81,"vue":62,"vue-hot-reload-api":37}],69:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33262,12 +33279,6 @@ var _userProfile2 = _interopRequireDefault(_userProfile);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-    data: function data() {
-        return {
-            user: {}
-        };
-    },
-
 
     components: { search: _search2.default, notificationMenu: _notifications2.default, userProfile: _userProfile2.default }
 };
@@ -33297,20 +33308,6 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":62,"vue-hot-reload-api":37}],71:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    data: function data() {
-        return {
-            query: ""
-        };
-    }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<form class=\"navbar-search-form col-lg-5 col-md-5 col-sm-9 col-xs-9\">\n    <input class=\"form-control navbar-search-input\" v-model=\"query\" type=\"text\" placeholder=\"Search\">\n</form>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -33370,9 +33367,17 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
 var _config = require('../../config');
 
 var _config2 = _interopRequireDefault(_config);
+
+var _user = require('../../stores/user');
+
+var _user2 = _interopRequireDefault(_user);
 
 var _account = require('../../stores/account');
 
@@ -33391,9 +33396,20 @@ exports.default = {
     },
 
 
+    methods: {},
+
     events: {
+
+        "user:loggedin": function userLoggedin() {
+            _account2.default.list();
+        },
+
         "pulse:ready": function pulseReady() {
             _account2.default.list();
+        },
+
+        "pulse:teardown": function pulseTeardown() {
+            _account2.default.init(false);
         }
     }
 };
@@ -33410,7 +33426,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":74,"../../stores/account":78,"vue":62,"vue-hot-reload-api":37}],74:[function(require,module,exports){
+},{"../../config":74,"../../stores/account":78,"../../stores/user":81,"vue":62,"vue-hot-reload-api":37}],74:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33560,8 +33576,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
     state: {
-        accounts: [],
-        current: {}
+        accounts: false,
+        current: false
     },
 
     /**
@@ -33603,7 +33619,7 @@ exports.default = {
         var successCb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
         var errorCb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
-        //NProgress.start();
+        _nprogress2.default.start();
         _http2.default.get('accounts', {}, function (response) {
             var data = response.data;
             var accounts = data.data;
@@ -33680,8 +33696,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
     state: {
-        providers: [],
-        authUrl: null
+        providers: false,
+        authUrl: false
     },
 
     /**
@@ -33764,7 +33780,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
     state: {
-        currentUser: null
+        currentUser: false
     },
 
     init: function init() {
@@ -33789,7 +33805,7 @@ exports.default = {
         }, errorCb);
     },
     reset: function reset() {
-        this.state.currentUser = null;
+        this.state.currentUser = false;
     }
 };
 
@@ -33822,9 +33838,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
     state: {
-        current: {
-            stub: _user2.default
-        }
+        current: false
     },
 
     /**
@@ -33932,7 +33946,6 @@ exports.default = {
         _nprogress2.default.start();
 
         _http2.default.post('user', { name: name, email: email, username: username, password: password }, function (response) {
-
             if (cb) {
                 cb();
             }

@@ -69,6 +69,7 @@
                 userStore.logout(() => {
                     ls.remove('token');
                     this.authenticated = false;
+                    this.$broadcast('pulse:teardown');
                 });
             },
         },
@@ -80,7 +81,7 @@
              'user:loggedin': function () {
                 this.authenticated = true;
                 this.init();
-            },
+            }
         },
     };
 </script>

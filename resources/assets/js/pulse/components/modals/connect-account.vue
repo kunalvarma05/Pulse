@@ -23,7 +23,7 @@
                     </h4>
                   </div>
                   <div class="card-footer">
-                  <a href="#" @click="connect(provider.id)" class="btn btn-primary btn-block" data-toggle="button" data-loading="">Connect</a>
+                    <a href="#" @click="connect(provider.id)" class="btn btn-primary btn-block" data-toggle="button" data-loading="">Connect</a>
                   </div>
                 </div>
               </div>
@@ -42,12 +42,12 @@
 <script>
 
   import config from '../../config'
+  import userStore from '../../stores/user';
   import providerStore from '../../stores/provider';
 
   export default {
 
     ready() {
-      providerStore.list();
     },
 
     data() {
@@ -61,6 +61,20 @@
         providerStore.authUrl(provider_id, (url) => {
           window.location = url;
         });
+      }
+    },
+
+    events: {
+      "user:loggedin" : () => {
+        providerStore.list();
+      },
+
+      "pulse:ready" : () => {
+        providerStore.list();
+      },
+
+      "pulse:teardown" : () => {
+        providerStore.init([]);
       }
     }
 

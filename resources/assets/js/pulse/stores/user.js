@@ -7,9 +7,7 @@ import stub from '../stubs/user';
 
 export default {
     state: {
-        current: {
-            stub
-        },
+        current: false,
     },
 
     /**
