@@ -2,6 +2,7 @@
     <div id="app" tabindex="0" v-show="authenticated">
         <navbar></navbar>
         <sidemenu></sidemenu>
+        <explorer></explorer>
         <connect-account-modal></connect-account-modal>
     </div>
 
@@ -16,6 +17,7 @@
 
     import navbar from './components/navbar/index.vue';
     import sidemenu from './components/sidemenu/index.vue';
+    import explorer from './components/explorer/index.vue';
     import loginForm from './components/auth/login-form.vue';
     import connectAccountModal from './components/modals/connect-account.vue';
 
@@ -25,7 +27,7 @@
 
 
     export default {
-        components: { navbar, sidemenu, loginForm, connectAccountModal },
+        components: { navbar, explorer, sidemenu, loginForm, connectAccountModal },
 
         replace: false,
 

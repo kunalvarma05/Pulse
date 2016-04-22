@@ -7027,7 +7027,7 @@ a.bg-danger:focus, a.bg-danger:hover {
     margin-right: 0 !important; } }
 
 body {
-  overflow: hidden; }
+  overflow: auto; }
 
 .open > .dropdown-menu {
   -webkit-animation-duration: 0.1s;

@@ -8,7 +8,7 @@
         <ul class="nav sidemenu-user-accounts">
 
             <li v-for="account in state.accounts">
-                <a class="sidemenu-user-account" href="#" data-toggle-tooltip="sidebar" :title="account.name" :style="'animation-delay:0.' + $index + 's';">
+                <a class="sidemenu-user-account" @click="browseFiles(account.id)" href="#" data-toggle-tooltip="sidebar" :title="account.name" :style="'animation-delay:0.' + $index + 's';">
                     <img :src="account.picture">
                 </a>
             </li>
@@ -29,6 +29,7 @@
     import Vue from 'vue';
     import config from '../../config';
     import userStore from '../../stores/user';
+    import fileStore from '../../stores/file';
     import accountStore from '../../stores/account';
 
     export default {
@@ -46,7 +47,10 @@
         },
 
         methods: {
-
+            browseFiles: (account) => {
+                accountStore.state.current = account;
+                fileStore.browse(account);
+            }
         },
 
         events: {
