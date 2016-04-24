@@ -9,8 +9,6 @@
         <div class="collapse navbar-toggleable-xs" id="navbarCollapsibleContent">
             <ul class="nav navbar-nav navbar-info-nav">
 
-                <notification-menu></notification-menu>
-
                 <user-profile></user-profile>
             </ul>
         </div>
@@ -19,11 +17,10 @@
 
 <script>
 import search from './search.vue';
-import notificationMenu from './notifications.vue';
 import userProfile from './user-profile.vue';
 
 export default {
 
-    components: { search, notificationMenu, userProfile }
+    components: { search, userProfile }
 }
 </script>

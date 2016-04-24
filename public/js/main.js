@@ -32984,7 +32984,7 @@ require('./pulse/pulse.js');
 require('./pulse/app.js');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bootstrap.js":64,"./pulse/app.js":66,"./pulse/pulse.js":77,"jquery":8,"perfect-scrollbar":14,"tether":36}],66:[function(require,module,exports){
+},{"./bootstrap.js":64,"./pulse/app.js":66,"./pulse/pulse.js":76,"jquery":8,"perfect-scrollbar":14,"tether":36}],66:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -33040,7 +33040,7 @@ _vue2.default.http.interceptors.push({
 
 app.$mount('body');
 
-},{"./app.vue":67,"./services/ls":79,"nprogress":13,"vue":62,"vue-resource":51}],67:[function(require,module,exports){
+},{"./app.vue":67,"./services/ls":78,"nprogress":13,"vue":62,"vue-resource":51}],67:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33162,7 +33162,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./components/auth/login-form.vue":68,"./components/explorer/index.vue":69,"./components/modals/connect-account.vue":70,"./components/navbar/index.vue":71,"./components/sidemenu/index.vue":75,"./services/ls":79,"./stores/shared":83,"./stores/user":84,"jquery":8,"vue":62,"vue-hot-reload-api":37}],68:[function(require,module,exports){
+},{"./components/auth/login-form.vue":68,"./components/explorer/index.vue":69,"./components/modals/connect-account.vue":70,"./components/navbar/index.vue":71,"./components/sidemenu/index.vue":74,"./services/ls":78,"./stores/shared":82,"./stores/user":83,"jquery":8,"vue":62,"vue-hot-reload-api":37}],68:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.login-container {\n    margin-top: 10%;\n    max-width: 300px;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -33220,7 +33220,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user":84,"vue":62,"vue-hot-reload-api":37,"vueify-insert-css":63}],69:[function(require,module,exports){
+},{"../../stores/user":83,"vue":62,"vue-hot-reload-api":37,"vueify-insert-css":63}],69:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33283,7 +33283,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":76,"../../stores/account":80,"../../stores/file":81,"../../stores/user":84,"vue":62,"vue-hot-reload-api":37}],70:[function(require,module,exports){
+},{"../../config":75,"../../stores/account":79,"../../stores/file":80,"../../stores/user":83,"vue":62,"vue-hot-reload-api":37}],70:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33349,7 +33349,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":76,"../../stores/provider":82,"../../stores/user":84,"vue":62,"vue-hot-reload-api":37}],71:[function(require,module,exports){
+},{"../../config":75,"../../stores/provider":81,"../../stores/user":83,"vue":62,"vue-hot-reload-api":37}],71:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33360,10 +33360,6 @@ var _search = require('./search.vue');
 
 var _search2 = _interopRequireDefault(_search);
 
-var _notifications = require('./notifications.vue');
-
-var _notifications2 = _interopRequireDefault(_notifications);
-
 var _userProfile = require('./user-profile.vue');
 
 var _userProfile2 = _interopRequireDefault(_userProfile);
@@ -33372,10 +33368,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
 
-    components: { search: _search2.default, notificationMenu: _notifications2.default, userProfile: _userProfile2.default }
+    components: { search: _search2.default, userProfile: _userProfile2.default }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"navbar navbar-fixed-top navbar-light navbar-main\">\n\n    <search></search>\n\n    <button class=\"navbar-toggler hidden-sm-up pull-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarCollapsibleContent\">\n        <i class=\"fa fa-user\"></i>\n    </button>\n    <div class=\"collapse navbar-toggleable-xs\" id=\"navbarCollapsibleContent\">\n        <ul class=\"nav navbar-nav navbar-info-nav\">\n\n            <notification-menu></notification-menu>\n\n            <user-profile></user-profile>\n        </ul>\n    </div>\n</nav>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"navbar navbar-fixed-top navbar-light navbar-main\">\n\n    <search></search>\n\n    <button class=\"navbar-toggler hidden-sm-up pull-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarCollapsibleContent\">\n        <i class=\"fa fa-user\"></i>\n    </button>\n    <div class=\"collapse navbar-toggleable-xs\" id=\"navbarCollapsibleContent\">\n        <ul class=\"nav navbar-nav navbar-info-nav\">\n\n            <user-profile></user-profile>\n        </ul>\n    </div>\n</nav>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -33387,19 +33383,21 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./notifications.vue":72,"./search.vue":73,"./user-profile.vue":74,"vue":62,"vue-hot-reload-api":37}],72:[function(require,module,exports){
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\navbar\\notifications.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":62,"vue-hot-reload-api":37}],73:[function(require,module,exports){
+},{"./search.vue":72,"./user-profile.vue":73,"vue":62,"vue-hot-reload-api":37}],72:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    data: function data() {
+        return {
+            query: ""
+        };
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<form class=\"navbar-search-form col-lg-5 col-md-5 col-sm-9 col-xs-9\">\n    <input class=\"form-control navbar-search-input\" v-model=\"query\" type=\"text\" placeholder=\"Search\">\n</form>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -33411,7 +33409,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":62,"vue-hot-reload-api":37}],74:[function(require,module,exports){
+},{"vue":62,"vue-hot-reload-api":37}],73:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33452,7 +33450,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user":84,"vue":62,"vue-hot-reload-api":37}],75:[function(require,module,exports){
+},{"../../stores/user":83,"vue":62,"vue-hot-reload-api":37}],74:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33527,7 +33525,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":76,"../../stores/account":80,"../../stores/file":81,"../../stores/user":84,"vue":62,"vue-hot-reload-api":37}],76:[function(require,module,exports){
+},{"../../config":75,"../../stores/account":79,"../../stores/file":80,"../../stores/user":83,"vue":62,"vue-hot-reload-api":37}],75:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33539,7 +33537,7 @@ exports.default = {
     logo: "images/logo-white.png"
 };
 
-},{}],77:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 "use strict";
 
 jQuery(document).ready(function ($) {
@@ -33560,7 +33558,7 @@ jQuery(document).ready(function ($) {
     });
 });
 
-},{}],78:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33619,7 +33617,7 @@ exports.default = {
     }
 };
 
-},{"vue":62}],79:[function(require,module,exports){
+},{"vue":62}],78:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33648,7 +33646,7 @@ exports.default = {
     }
 };
 
-},{"local-storage":9}],80:[function(require,module,exports){
+},{"local-storage":9}],79:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33768,7 +33766,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":78,"../stubs/account":85,"lodash":12,"nprogress":13,"vue":62}],81:[function(require,module,exports){
+},{"../services/http":77,"../stubs/account":84,"lodash":12,"nprogress":13,"vue":62}],80:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33942,7 +33940,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":78,"../stubs/file":86,"lodash":12,"nprogress":13,"vue":62}],82:[function(require,module,exports){
+},{"../services/http":77,"../stubs/file":85,"lodash":12,"nprogress":13,"vue":62}],81:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -34034,7 +34032,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":78,"../stubs/provider":87,"lodash":12,"nprogress":13,"vue":62}],83:[function(require,module,exports){
+},{"../services/http":77,"../stubs/provider":86,"lodash":12,"nprogress":13,"vue":62}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -34084,7 +34082,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":78,"./user":84,"lodash":12}],84:[function(require,module,exports){
+},{"../services/http":77,"./user":83,"lodash":12}],83:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -34250,7 +34248,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":78,"../stubs/user":88,"lodash":12,"nprogress":13,"vue":62}],85:[function(require,module,exports){
+},{"../services/http":77,"../stubs/user":87,"lodash":12,"nprogress":13,"vue":62}],84:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34267,7 +34265,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],86:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34288,7 +34286,7 @@ exports.default = {
     owners: null
 };
 
-},{}],87:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34305,7 +34303,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],88:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
