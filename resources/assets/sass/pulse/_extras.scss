@@ -2,6 +2,10 @@ body {
     overflow: auto;
 }
 
+a, a:hover{
+    cursor: pointer;
+}
+
 .open > .dropdown-menu {
     @extend .animated;
     @extend .zoomIn;

@@ -1,14 +1,14 @@
 <template>
     <img v-bind:src="state.current.picture" class="navbar-account-image">
     <li class="nav-item dropdown account-dropdown">
-        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown">
             {{state.current.name}} <span class="caret"></span>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#">Profile</a>
-            <a class="dropdown-item" href="#">Settings</a>
+            <a class="dropdown-item">Profile</a>
+            <a class="dropdown-item">Settings</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" @click="logout()">Log out</a>
+            <a class="dropdown-item" @click="logout()">Log out</a>
         </div>
     </li>
 </template>
@@ -26,7 +26,7 @@
         methods: {
             logout() {
                 //Logout
-                this.$root.logout();
+                this.$dispatch('user:logout');
             }
         }
     }

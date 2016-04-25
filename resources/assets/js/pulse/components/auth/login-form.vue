@@ -23,7 +23,8 @@
             return {
                 email: '',
                 password: '',
-                failed: false,
+                failed: false
+
             };
         },
 
@@ -34,7 +35,6 @@
 
                 userStore.login(this.email, this.password, () => {
                     this.failed = false;
-                    // Reset the password so that the next login will have this field empty.
                     this.password = '';
                     this.$dispatch('user:loggedin');
                 }, () => {

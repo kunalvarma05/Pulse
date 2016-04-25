@@ -7029,6 +7029,9 @@ a.bg-danger:focus, a.bg-danger:hover {
 body {
   overflow: auto; }
 
+a, a:hover {
+  cursor: pointer; }
+
 .open > .dropdown-menu {
   -webkit-animation-duration: 0.1s;
   animation-duration: 0.1s; }

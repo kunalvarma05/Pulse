@@ -10,35 +10,22 @@ export default {
         current: false,
     },
 
+    set current(user) {
+        this.state.current = user;
+        return this.current;
+    },
+
+    get current() {
+        return this.state.current;
+    },
+
     /**
      * Init the store.
      *
      * @param {Object}          currentUser The current user.
      */
      init(currentUser) {
-        this.current = currentUser;
-    },
-
-    /**
-     * The current user.
-     *
-     * @return {Object}
-     */
-     get current() {
-        return this.state.current;
-    },
-
-    /**
-     * Set the current user.
-     *
-     * @param  {Object} user
-     *
-     * @return {Object}
-     */
-     set current(user) {
-        this.state.current = user;
-
-        return this.current;
+        this.state.current = currentUser;
     },
 
     /**
@@ -80,9 +67,7 @@ export default {
      * @param  {Function} cb The callback.
      */
      logout(cb = null) {
-        this.state.current = {
-            stub
-        };
+        this.state.current = false;
         if(cb) {
             cb();
         }

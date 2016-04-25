@@ -13,6 +13,7 @@
     "nprogress": "^0.2.0",
     "perfect-scrollbar": "^0.6.10",
     "tether": "^1.2.0",
+    "vue-clickaway": "^1.1.1",
     "vue-resource": "^0.7.0",
     "vue-router": "^0.7.13"
   }

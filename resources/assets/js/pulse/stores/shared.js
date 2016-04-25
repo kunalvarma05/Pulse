@@ -5,7 +5,16 @@ import userStore from './user';
 
 export default {
     state: {
-        currentUser: false,
+        currentUser: userStore.current,
+    },
+
+    set currentUser(user) {
+        this.state.currentUser = user;
+        return this.currentUser;
+    },
+
+    get currentUser() {
+        return this.state.currentUser;
     },
 
     init(successCb = null, errorCb = null) {
@@ -15,9 +24,8 @@ export default {
             const data = response.data;
             const user = data.data;
 
-            this.state.currentUser = user;
-
-            userStore.init(this.state.currentUser);
+            this.currentUser = user;
+            userStore.init(this.currentUser);
 
             if (successCb) {
                 successCb();

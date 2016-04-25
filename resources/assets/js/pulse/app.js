@@ -1,43 +1,64 @@
 import Vue from 'vue';
 import ls from './services/ls';
 import NProgress from 'nprogress';
+//Debug ON
+Vue.config.debug = true;
+//Use Vue-Resource
+require('./config/resource');
 
-const app = new Vue(require('./app.vue'));
+//Main App Component
+const app = require('./app.vue');
+//Dashboard Component
+const dashboard = require('./dashboard.vue');
+//Login Component
+const login = require('./components/auth/login-form.vue');
+//Explorer
+const explorer = require('./components/explorer/index.vue');
 
-//Vue.config.debug = false;
-Vue.use(require('vue-resource'));
-Vue.http.options.root = '/api';
-Vue.http.interceptors.push({
-    request(r) {
-        const token = ls.get('token');
+//User Store
+import userStore from './stores/user';
+import sharedStore from './stores/shared';
 
-        if (token) {
-            Vue.http.headers.common.Authorization = `Bearer ${token}`;
-        }
+//Router
+var VueRouter = require('vue-router');
+Vue.use(VueRouter);
+var router = new VueRouter();
 
-        return r;
+// router.beforeEach(function (transition) {
+//     if (transition.to.auth && !router.app.authenticated) {
+//         transition.redirect({ name: 'login'});
+//     } else if (transition.to.guest && router.app.authenticated) {
+//         transition.redirect({ name: 'dashboard'});
+//     } else {
+//         transition.next();
+//     }
+// });
+
+router.map({
+    '/': {
+        name: 'index',
+        auth: false,
+        guest: true,
+        component: app
+    },
+    '/login': {
+        name: 'login',
+        guest: true,
+        component: login,
     },
 
-    response(r) {
-        NProgress.done();
+    '/dashboard': {
+        name: 'dashboard',
+        auth: true,
+        component: dashboard,
 
-        if (r.status === 400 || r.status === 401) {
-            if (r.request.method !== 'POST' && r.request.url !== 'users/logout') {
-                // This is not a failed login. Log out then.
-                app.logout();
+        subRoutes: {
+            '/account/:account_id': {
+                name: 'explorer',
+                component: explorer
             }
         }
-
-        if (r.headers && r.headers.Authorization) {
-            ls.set('token', r.headers.Authorization);
-        }
-
-        if (r.data && r.data.token && r.data.token.length > 10) {
-            ls.set('token', r.data.token);
-        }
-
-        return r;
     },
 });
 
-app.$mount('body');
+router.start(app, 'body');

@@ -8,13 +8,13 @@
         <ul class="nav sidemenu-user-accounts">
 
             <li v-for="account in state.accounts">
-                <a class="sidemenu-user-account" @click="browseFiles(account.id)" href="#" data-toggle-tooltip="sidebar" :title="account.name" :style="'animation-delay:0.' + $index + 's';">
+                <a class="sidemenu-user-account" @click="exploreAccount(account.id)" data-toggle-tooltip="sidebar" :title="account.name" :style="'animation-delay:0.' + $index + 's';">
                     <img :src="account.picture">
                 </a>
             </li>
 
             <li>
-                <a class="sidemenu-add-button" data-toggle-tooltip="sidebar" title="Connect New Account" href="#" data-toggle="modal" data-target="#connect-account-modal">
+                <a class="sidemenu-add-button" data-toggle-tooltip="sidebar" title="Connect New Account" data-toggle="modal" data-target="#connect-account-modal">
                     <span class="fa fa-plus"></span>
                 </a>
             </li>
@@ -47,23 +47,26 @@
         },
 
         methods: {
-            browseFiles: (account) => {
-                accountStore.state.current = account;
-                fileStore.browse(account);
+            exploreAccount(account) {
+                //Go to the account explorer route
+                this.$route.router.go({name: 'explorer', params: { account_id: account } });
             }
         },
 
         events: {
 
             "user:loggedin" : () => {
+                //Fetch the Accounts of the user
                 accountStore.list();
             },
 
             "pulse:ready" : () => {
+                //Fetch the Accounts of the user
                 accountStore.list();
             },
 
             "pulse:teardown" : () => {
+                //Reset
                 accountStore.init(false);
             }
         }

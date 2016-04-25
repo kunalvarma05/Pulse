@@ -41,6 +41,28 @@ export default {
     },
 
     /**
+     * Accounts
+     *
+     * @return {Object}
+     */
+     get accounts() {
+        return this.state.accounts;
+    },
+
+    /**
+     * Set the accounts
+     *
+     * @param  {Object} account
+     *
+     * @return {Object}
+     */
+     set accounts(accounts) {
+        this.state.accounts = account;
+
+        return this.accounts;
+    },
+
+    /**
      * List Accounts
      */
      list(successCb = null, errorCb = null) {

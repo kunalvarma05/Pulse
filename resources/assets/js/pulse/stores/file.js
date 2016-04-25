@@ -7,39 +7,39 @@ import stub from '../stubs/file';
 
 export default {
     state: {
-        current: false,
+        selected: false,
         files: false
     },
 
     /**
      * Init the store.
      *
-     * @param {Object}          currentFile The current file.
+     * @param {Object}          selectedFile The selected file.
      */
-     init(currentFile) {
-        this.current = currentFile;
+     init(selectedFile) {
+        this.selected = selectedFile;
     },
 
     /**
-     * The current file.
+     * The selected file.
      *
      * @return {Object}
      */
-     get current() {
-        return this.state.current;
+     get selected() {
+        return this.state.selected;
     },
 
     /**
-     * Set the current file.
+     * Set the selected file.
      *
      * @param  {Object} file
      *
      * @return {Object}
      */
-     set current(file) {
-        this.state.current = file;
+     set selected(file) {
+        this.state.selected = file;
 
-        return this.current;
+        return this.selected;
     },
 
     /**
@@ -79,12 +79,12 @@ export default {
     },
 
     /**
-     * Log the current file out.
+     * Log the selected file out.
      *
      * @param  {Function} cb The callback.
      */
      logout(cb = null) {
-        this.state.current = {
+        this.state.selected = {
             stub
         };
         if(cb) {
