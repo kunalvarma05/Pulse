@@ -1,35 +1,48 @@
-import { each, find, without } from 'lodash';
-import Vue from 'vue';
 import NProgress from 'nprogress';
 
 import http from '../services/http';
 import stub from '../stubs/user';
 
 export default {
+
+    /**
+     * Store state
+     * @type {Object}
+     */
     state: {
-        current: false,
+        current: stub,
     },
 
+    /**
+     * Set the Current User
+     * @param  {Object} user Logged in User
+     * @return {Object}      Logged in User
+     */
     set current(user) {
         this.state.current = user;
         return this.current;
     },
 
+    /**
+     * Get the Current User
+     *
+     * @return {Object} Logged in User
+     */
     get current() {
         return this.state.current;
     },
 
     /**
-     * Init the store.
+     * Initialize the store
      *
-     * @param {Object}          currentUser The current user.
+     * @param {Object} currentUser The Current User
      */
      init(currentUser) {
         this.state.current = currentUser;
     },
 
     /**
-     * Log a user in.
+     * Log in a user
      *
      * @param  {String}     email
      * @param  {String}     password
@@ -38,9 +51,9 @@ export default {
      */
      login(email, password, successCb = null, errorCb = null) {
         NProgress.start();
-        http.post('users/authorize', { email, password }, () => {
+        http.post('users/authorize', { email, password }, response => {
             if (successCb) {
-                successCb();
+                successCb(response);
             }
         }, errorCb);
     },
@@ -48,12 +61,13 @@ export default {
     /**
      * Show User Profile
      *
-     * @param  {int}     id
+     * @param  {int}        id
      * @param  {?Function}  successCb
      * @param  {?Function}  errorCb
      */
      profile(id = null, successCb = null, errorCb = null) {
         NProgress.start();
+
         http.post('users/show/' + id, {}, () => {
             if (successCb) {
                 successCb();
@@ -62,12 +76,13 @@ export default {
     },
 
     /**
-     * Log the current user out.
+     * Log the current user out
      *
-     * @param  {Function} cb The callback.
+     * @param  {?Function} cb The callback.
      */
      logout(cb = null) {
         this.state.current = false;
+
         if(cb) {
             cb();
         }
@@ -84,24 +99,7 @@ export default {
      store(name, email, username, password, cb = null) {
         NProgress.start();
 
-        http.post('user', { name, email, username, password }, response => {
-            if (cb) {
-                cb();
-            }
-        });
-    },
-
-    /**
-     * Delete a user.
-     *
-     * @param  {Object}     user
-     * @param  {?Function}  cb
-     */
-     destroy(user, cb = null) {
-        NProgress.start();
-
-        http.delete(`user/${user.id}`, {}, () => {
-            this.all = without(this.all, user);
+        http.post('users/create', { name, email, username, password }, response => {
             if (cb) {
                 cb();
             }

@@ -1,39 +1,68 @@
-import { assign } from 'lodash';
-
 import http from '../services/http';
 import userStore from './user';
 
 export default {
-    state: {
+    /**
+     * Store state
+     * @type {Object}
+     */
+     state: {
         currentUser: userStore.current,
     },
 
-    set currentUser(user) {
+    /**
+     * Set the current user
+     *
+     * @param  {Object} user Logged in User
+     * @return {Object}      Logged in User
+     */
+     set currentUser(user) {
         this.state.currentUser = user;
         return this.currentUser;
     },
 
-    get currentUser() {
+    /**
+     * Get the current user
+     *
+     * @return {Object} Logged in User
+     */
+     get currentUser() {
         return this.state.currentUser;
     },
 
-    init(successCb = null, errorCb = null) {
+    /**
+     * Initialize the store
+     *
+     * @param  {?Function} successCb Success Callback
+     * @param  {?Function} errorCb   Error Callback
+     * @return {Promise}
+     */
+     init(successCb = null, errorCb = null) {
+        //Reset the store state
         this.reset();
 
-        http.get('users/initialize', {}, response => {
+        //Initialize
+        return http.get('users/initialize', {}, response => {
             const data = response.data;
             const user = data.data;
 
+            //Set the current user
             this.currentUser = user;
+
+            //Initialize the user store
             userStore.init(this.currentUser);
 
             if (successCb) {
-                successCb();
+                successCb(response);
             }
+
         }, errorCb);
     },
 
-    reset() {
+    /**
+     * Reset the store
+     */
+     reset() {
         this.state.currentUser = false;
     },
 };

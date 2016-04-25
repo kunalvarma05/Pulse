@@ -1,49 +1,60 @@
 <template>
-    <!-- The App Instance, where the magic happens! -->
-    <div id="app">
-        <!-- Navbar -->
-        <navbar></navbar>
-        <!-- Sidemenu -->
-        <sidemenu></sidemenu>
-
-        <!-- Router View -->
-        <router-view></router-view>
+    <div id="dashboard">
+        <h1>Dashboard</h1>
     </div>
 
 </template>
 
 <script>
-    import navbar from './components/navbar/index.vue';
-    import sidemenu from './components/sidemenu/index.vue';
-
-    import sharedStore from './stores/shared';
-    import userStore from './stores/user';
-    import ls from './services/ls';
-
+    //User Store
+    import userStore from './stores/user.js';
+    //Shared Store
+    import sharedStore from './stores/shared.js';
 
     export default {
-        components: { navbar, sidemenu },
-
-        replace: false,
+        components: {},
 
         data() {
             return {
             };
         },
 
-        route: {
-            data() {
-
-            }
-        },
-
         ready() {
         },
 
+        route: {
+            data() {
+                //Initialize
+                this.init();
+            }
+        },
+
         methods: {
+
+            /**
+             * Initialize the dashboard
+             */
+            init() {
+                sharedStore.init(
+                    response => {
+                        //The app is ready
+                        //Let the parent know
+                        this.$dispatch("pulse:ready");
+                        //Let the children know
+                        this.$broadcast("pulse:ready");
+                    },
+                    () => {
+                        this.$dispatch("user:loggedout");
+                    }
+                );
+            }
         },
 
         events: {
+            "pulse:ready"() {
+                //Let the event propogate
+                return true;
+            }
         },
     };
 </script>

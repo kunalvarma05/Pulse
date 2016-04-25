@@ -15,8 +15,7 @@
 </template>
 
 <script>
-    import userStore from '../../stores/user';
-
+    import userStore from "../../stores/user.js";
     export default {
 
         data() {
@@ -24,22 +23,31 @@
                 email: '',
                 password: '',
                 failed: false
-
             };
         },
 
         methods: {
 
+            /**
+             * Log in
+             */
             login() {
                 this.failed = false;
 
-                userStore.login(this.email, this.password, () => {
-                    this.failed = false;
-                    this.password = '';
-                    this.$dispatch('user:loggedin');
-                }, () => {
-                    this.failed = true;
-                });
+                userStore.login(this.email, this.password,
+                    response => {
+                        //Reset the form
+                        this.email = "";
+                        this.password = "";
+
+                        //Notify the parent
+                        this.$dispatch("user:loggedin");
+                    },
+                    () => {
+                        //Error
+                        this.failed = true;
+                    }
+                );
             },
         },
     };

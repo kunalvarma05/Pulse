@@ -3,74 +3,57 @@
 </template>
 
 <script>
-    import sharedStore from './stores/shared';
-    import userStore from './stores/user';
     import ls from './services/ls';
+    //Shared Store
+    import sharedStore from './stores/shared.js';
+    //User Store
+    import userStore from './stores/user.js';
 
     export default {
         components: {},
         replace: false,
         data() {
             return {
-                authenticated: false
+                authenticated: false,
             };
         },
 
         ready() {
-            // The app has just been initialized, check if we can get the user data with an already existing token
             const token = ls.get('token');
-
+            //If a token is present
+            //the user seems authenticated
             if (token) {
                 this.authenticated = true;
-                this.init();
+                return this.$route.router.go({ name: 'dashboard' });
             }
         },
 
         methods: {
-            init() {
-                // Make the most important HTTP request to get all necessary data from the server.
-                // Afterwards, init all mandatory stores and services.
-                sharedStore.init(
+            logout() {
+                userStore.logout(
                     () => {
-                        console.log("App Initialized!");
-                        // Let all other components know we're ready.
-                        this.$broadcast('pulse:ready');
-                    },
-
-                    () => {
-                        console.log("Logging out...");
-                        this.logout();
+                        ls.remove('token');
+                        this.authenticated = false;
+                        return this.$route.router.go({ name: 'login' });
                     }
-                    );
-            },
-            /**
-             * Log the current user out and reset the application state.
-             */
-             logout() {
-                userStore.logout(() => {
-                    ls.remove('token');
-                    this.authenticated = false;
-                    sharedStore.currentUser = false;
-                    this.$broadcast('pulse:teardown');
-                    this.$route.router.go({name: 'login'});
-                });
-            },
+                );
+            }
         },
 
         events: {
-            /**
-             * When the user logs in, set the whole app to be "authenticated" and initialize it.
-             */
-             'user:loggedin'() {
+            "user:loggedin"() {
+                //User logged in
                 this.authenticated = true;
-                //this.init();
-                this.$route.router.go({name: 'dashboard'});
+                //Redirect to the dashboard
+                return this.$route.router.go({ name: 'dashboard' });
             },
-            /**
-             * When the user logs out
-             */
-             'user:logout'() {
+
+            "user:loggedout"() {
+                //Log the user out
                 this.logout();
+            },
+
+            "pulse:ready"() {
             }
         },
     };
