@@ -7,9 +7,9 @@
 
 <script>
     //User Store
-    import userStore from './stores/user.js';
+    import userStore from '../../stores/user.js';
     //Shared Store
-    import sharedStore from './stores/shared.js';
+    import sharedStore from '../../stores/shared.js';
 
     export default {
         components: {},

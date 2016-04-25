@@ -30751,7 +30751,7 @@ var router = new VueRouter({
 //Kickoff!
 router.start(app, 'body');
 
-},{"./app.vue":67,"./config/resource":69,"./routes.js":72,"./services/ls":74,"nprogress":12,"vue":62,"vue-router":61}],67:[function(require,module,exports){
+},{"./app.vue":67,"./config/resource":70,"./routes.js":72,"./services/ls":74,"nprogress":12,"vue":62,"vue-router":61}],67:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30782,17 +30782,21 @@ exports.default = {
         };
     },
     ready: function ready() {
-        var token = _ls2.default.get('token');
-        //If a token is present
-        //the user seems authenticated
-        if (token) {
-            this.authenticated = true;
-            return this.$route.router.go({ name: 'dashboard' });
-        }
+        //Initialize
+        this.init();
     },
 
 
     methods: {
+        init: function init() {
+            var token = _ls2.default.get('token');
+            //If a token is present
+            //the user seems authenticated
+            if (token) {
+                this.authenticated = true;
+                return this.$route.router.go({ name: 'dashboard' });
+            }
+        },
         logout: function logout() {
             var _this = this;
 
@@ -30901,70 +30905,15 @@ if (module.hot) {(function () {  module.hot.accept()
 },{"../../stores/user.js":76,"vue":62,"vue-hot-reload-api":36,"vueify-insert-css":63}],69:[function(require,module,exports){
 'use strict';
 
-var _vue = require('vue');
-
-var _vue2 = _interopRequireDefault(_vue);
-
-var _ls = require('../services/ls');
-
-var _ls2 = _interopRequireDefault(_ls);
-
-var _nprogress = require('nprogress');
-
-var _nprogress2 = _interopRequireDefault(_nprogress);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var VueResource = require('vue-resource');
-
-_vue2.default.use(VueResource);
-
-_vue2.default.http.options.root = '/api';
-
-_vue2.default.http.interceptors.push({
-    request: function request(r) {
-        var token = _ls2.default.get('token');
-
-        if (token) {
-            _vue2.default.http.headers.common.Authorization = 'Bearer ' + token;
-        }
-
-        return r;
-    },
-    response: function response(r) {
-        _nprogress2.default.done();
-
-        if (r.status === 400 || r.status === 401) {
-            if (r.request.method !== 'POST') {
-                //Something seems fishy
-                //app.logout();
-            }
-        }
-
-        if (r.headers && r.headers.Authorization) {
-            _ls2.default.set('token', r.headers.Authorization);
-        }
-
-        if (r.data && r.data.token && r.data.token.length > 10) {
-            _ls2.default.set('token', r.data.token);
-        }
-
-        return r;
-    }
-});
-
-},{"../services/ls":74,"nprogress":12,"vue":62,"vue-resource":50}],70:[function(require,module,exports){
-'use strict';
-
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _user = require('./stores/user.js');
+var _user = require('../../stores/user.js');
 
 var _user2 = _interopRequireDefault(_user);
 
-var _shared = require('./stores/shared.js');
+var _shared = require('../../stores/shared.js');
 
 var _shared2 = _interopRequireDefault(_shared);
 
@@ -31022,14 +30971,69 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\dashboard.vue"
+  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\dashboard\\index.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./stores/shared.js":75,"./stores/user.js":76,"vue":62,"vue-hot-reload-api":36}],71:[function(require,module,exports){
+},{"../../stores/shared.js":75,"../../stores/user.js":76,"vue":62,"vue-hot-reload-api":36}],70:[function(require,module,exports){
+'use strict';
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _ls = require('../services/ls');
+
+var _ls2 = _interopRequireDefault(_ls);
+
+var _nprogress = require('nprogress');
+
+var _nprogress2 = _interopRequireDefault(_nprogress);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var VueResource = require('vue-resource');
+
+_vue2.default.use(VueResource);
+
+_vue2.default.http.options.root = '/api';
+
+_vue2.default.http.interceptors.push({
+    request: function request(r) {
+        var token = _ls2.default.get('token');
+
+        if (token) {
+            _vue2.default.http.headers.common.Authorization = 'Bearer ' + token;
+        }
+
+        return r;
+    },
+    response: function response(r) {
+        _nprogress2.default.done();
+
+        if (r.status === 400 || r.status === 401) {
+            if (r.request.method !== 'POST') {
+                //Something seems fishy
+                //app.logout();
+            }
+        }
+
+        if (r.headers && r.headers.Authorization) {
+            _ls2.default.set('token', r.headers.Authorization);
+        }
+
+        if (r.data && r.data.token && r.data.token.length > 10) {
+            _ls2.default.set('token', r.data.token);
+        }
+
+        return r;
+    }
+});
+
+},{"../services/ls":74,"nprogress":12,"vue":62,"vue-resource":50}],71:[function(require,module,exports){
 "use strict";
 
 jQuery(document).ready(function ($) {
@@ -31059,27 +31063,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.configRouter = configRouter;
 function configRouter(router) {
 
-    //Middlewares
-    router.beforeEach(function (_ref) {
-        var to = _ref.to;
-        var next = _ref.next;
-        var redirect = _ref.redirect;
-
-        //If route requires authentication
-        //and the user is not logged in
-        if (to.auth && !router.app.authenticated) {
-            return redirect({ name: 'login' });
-        }
-        //If the route requires a guest
-        //and the user is logged in
-        else if (to.guest && router.app.authenticated) {
-                return redirect({ name: 'dashboard' });
-            } else {
-                //Go on...
-                return next();
-            }
-    });
-
     //Routes
     router.map({
         '/login': {
@@ -31090,12 +31073,32 @@ function configRouter(router) {
         '/dashboard': {
             name: 'dashboard',
             auth: true,
-            component: require('./dashboard.vue')
+            component: require('./components/dashboard/index.vue')
         }
+    });
+
+    //BeforeEach Route Hook
+    router.beforeEach(function (_ref) {
+        var to = _ref.to;
+        var redirect = _ref.redirect;
+        var next = _ref.next;
+
+        //If route requires authentication
+        //and the user is not logged in
+        if (to.auth && !router.app.authenticated) {
+            return redirect({ name: 'login' });
+        }
+        //If the route requires a guest
+        //and the user is logged in
+        else if (to.guest && router.app.authenticated) {
+                return redirect({ name: 'dashboard' });
+            }
+        //Go on...
+        return next();
     });
 }
 
-},{"./components/auth/login-form.vue":68,"./dashboard.vue":70}],73:[function(require,module,exports){
+},{"./components/auth/login-form.vue":68,"./components/dashboard/index.vue":69}],73:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

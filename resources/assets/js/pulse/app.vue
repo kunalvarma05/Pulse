@@ -19,16 +19,22 @@
         },
 
         ready() {
-            const token = ls.get('token');
-            //If a token is present
-            //the user seems authenticated
-            if (token) {
-                this.authenticated = true;
-                return this.$route.router.go({ name: 'dashboard' });
-            }
+            //Initialize
+            this.init();
         },
 
         methods: {
+
+            init() {
+                const token = ls.get('token');
+                //If a token is present
+                //the user seems authenticated
+                if (token) {
+                    this.authenticated = true;
+                    return this.$route.router.go({ name: 'dashboard' });
+                }
+            },
+
             logout() {
                 userStore.logout(
                     () => {
