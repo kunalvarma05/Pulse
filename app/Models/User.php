@@ -1,5 +1,4 @@
 <?php
-
 namespace Pulse\Models;
 
 use Hash;

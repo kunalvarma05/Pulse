@@ -1,5 +1,4 @@
 <?php
-
 namespace Pulse\Providers;
 
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;

@@ -1,5 +1,4 @@
 <?php
-
 namespace Pulse\Providers;
 
 use AltThree\Bus\Dispatcher;
