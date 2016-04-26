@@ -35,9 +35,32 @@
                 return this.state.fileStore.selected;
             },
 
+            path() {
+                return this.state.fileStore.path;
+            },
+
             title() {
+                //Selected file
                 let selectedFile = this.selectedFile;
-                return selectedFile ? selectedFile.title : "File Explorer";
+                //Current Explorer Path
+                let path = this.path;
+                //Breadcrumb
+                let breadcrumb = (selectedFile) ? selectedFile.title : "File Explorer";
+                //If the current path has directories
+                if(path.length) {
+                    //Make breadcrumb
+                    breadcrumb = path.join('/');
+
+                    //If a file is selected
+                    if(selectedFile && !selectedFile.isFolder){
+                        //Add it to the breadcrumb
+                        breadcrumb += "/" + selectedFile.title;
+                    }
+
+                    return breadcrumb;
+                }
+
+                return breadcrumb;
             },
         },
 

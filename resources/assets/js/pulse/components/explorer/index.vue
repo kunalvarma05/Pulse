@@ -46,6 +46,7 @@
 
         route: {
             data() {
+                fileStore.init(false, []);
                 //Browse Files
                 fileStore.browse(this.account_id);
             }

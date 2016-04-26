@@ -49,7 +49,11 @@
 
             browseFolder: (account, selectedFile) => {
                 if(selectedFile.isFolder) {
-                    fileStore.browse(account, selectedFile.id);
+                    fileStore.browse(account, selectedFile.id,
+                        (files) => {
+                            fileStore.state.path.push(selectedFile.title);
+                        }
+                    );
                 }
             },
 

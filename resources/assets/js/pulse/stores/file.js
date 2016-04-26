@@ -7,6 +7,7 @@ import stub from '../stubs/file';
 
 export default {
     state: {
+        path: [],
         selected: false,
         files: false
     },
@@ -16,8 +17,9 @@ export default {
      *
      * @param {Object}          selectedFile The selected file.
      */
-     init(selectedFile) {
+     init(selectedFile, path) {
         this.selected = selectedFile;
+        this.path = path;
     },
 
     /**
@@ -43,6 +45,28 @@ export default {
     },
 
     /**
+     * The selected path
+     *
+     * @return {Object}
+     */
+     get path() {
+        return this.state.path;
+    },
+
+    /**
+     * Set the selected path
+     *
+     * @param  {Array} path
+     *
+     * @return {Object}
+     */
+     set path(path) {
+        this.state.path = path;
+
+        return this.path;
+    },
+
+    /**
      * Browse
      */
      browse(account, path = null, successCb = null, errorCb = null) {
@@ -56,7 +80,7 @@ export default {
             this.state.files = files;
 
             if (successCb) {
-                successCb();
+                successCb(files);
             }
         }, errorCb);
     },

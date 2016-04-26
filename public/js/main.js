@@ -36083,7 +36083,9 @@ exports.default = {
 
         browseFolder: function browseFolder(account, selectedFile) {
             if (selectedFile.isFolder) {
-                _file2.default.browse(account, selectedFile.id);
+                _file2.default.browse(account, selectedFile.id, function (files) {
+                    _file2.default.state.path.push(selectedFile.title);
+                });
             }
         },
 
@@ -36143,9 +36145,31 @@ exports.default = {
         selectedFile: function selectedFile() {
             return this.state.fileStore.selected;
         },
+        path: function path() {
+            return this.state.fileStore.path;
+        },
         title: function title() {
+            //Selected file
             var selectedFile = this.selectedFile;
-            return selectedFile ? selectedFile.title : "File Explorer";
+            //Current Explorer Path
+            var path = this.path;
+            //Breadcrumb
+            var breadcrumb = selectedFile ? selectedFile.title : "File Explorer";
+            //If the current path has directories
+            if (path.length) {
+                //Make breadcrumb
+                breadcrumb = path.join('/');
+
+                //If a file is selected
+                if (selectedFile && !selectedFile.isFolder) {
+                    //Add it to the breadcrumb
+                    breadcrumb += "/" + selectedFile.title;
+                }
+
+                return breadcrumb;
+            }
+
+            return breadcrumb;
         }
     },
 
@@ -36207,6 +36231,7 @@ exports.default = {
 
     route: {
         data: function data() {
+            _file2.default.init(false, []);
             //Browse Files
             _file2.default.browse(this.account_id);
         }
@@ -36769,6 +36794,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
     state: {
+        path: [],
         selected: false,
         files: false
     },
@@ -36778,8 +36804,9 @@ exports.default = {
      *
      * @param {Object}          selectedFile The selected file.
      */
-    init: function init(selectedFile) {
+    init: function init(selectedFile, path) {
         this.selected = selectedFile;
+        this.path = path;
     },
 
 
@@ -36806,6 +36833,28 @@ exports.default = {
     },
 
     /**
+     * The selected path
+     *
+     * @return {Object}
+     */
+    get path() {
+        return this.state.path;
+    },
+
+    /**
+     * Set the selected path
+     *
+     * @param  {Array} path
+     *
+     * @return {Object}
+     */
+    set path(path) {
+        this.state.path = path;
+
+        return this.path;
+    },
+
+    /**
      * Browse
      */
     browse: function browse(account) {
@@ -36826,7 +36875,7 @@ exports.default = {
             _this.state.files = files;
 
             if (successCb) {
-                successCb();
+                successCb(files);
             }
         }, errorCb);
     }
