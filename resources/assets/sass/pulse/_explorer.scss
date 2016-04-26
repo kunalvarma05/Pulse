@@ -19,6 +19,22 @@
     float: left;
 }
 
+.explorer-header-breadcrumb {
+    a {
+        color: $gray-light;
+        text-decoration: none;
+    }
+
+    a:after {
+        content: " > ";
+        color: lighten($gray-light, 20%);
+    }
+
+    a:last-child:after {
+        content: "";
+    }
+}
+
 .explorer-header-links {
     float: right;
     & > a {

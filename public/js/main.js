@@ -36083,8 +36083,9 @@ exports.default = {
 
         browseFolder: function browseFolder(account, selectedFile) {
             if (selectedFile.isFolder) {
+                _file2.default.state.selected = false;
                 _file2.default.browse(account, selectedFile.id, function (files) {
-                    _file2.default.state.path.push(selectedFile.title);
+                    _file2.default.state.path.push(selectedFile);
                 });
             }
         },
@@ -36135,7 +36136,7 @@ exports.default = {
                 fileStore: _file2.default.state,
                 accountStore: _account2.default.state
             },
-            title: 'File Explorer',
+            title: '',
             selectedFile: ''
         };
     },
@@ -36149,34 +36150,30 @@ exports.default = {
             return this.state.fileStore.path;
         },
         title: function title() {
-            //Selected file
-            var selectedFile = this.selectedFile;
-            //Current Explorer Path
-            var path = this.path;
-            //Breadcrumb
-            var breadcrumb = selectedFile ? selectedFile.title : "File Explorer";
-            //If the current path has directories
-            if (path.length) {
-                //Make breadcrumb
-                breadcrumb = path.join('/');
-
-                //If a file is selected
-                if (selectedFile && !selectedFile.isFolder) {
-                    //Add it to the breadcrumb
-                    breadcrumb += "/" + selectedFile.title;
-                }
-
-                return breadcrumb;
-            }
-
-            return breadcrumb;
+            var title = _account2.default.current ? _account2.default.current.name : "File Explorer";
+            return this.selectedFile ? this.selectedFile.title : title;
+        },
+        account_id: function account_id() {
+            return this.$route.params.account_id;
         }
     },
 
-    methods: {}
+    methods: {
+        browseBack: function browseBack(account, selectedFile, index) {
+            _file2.default.state.selected = false;
+            var breadcrumbs = [];
+            _file2.default.browse(account, selectedFile.id, function (files) {
+                for (var i = 0; i <= index; i++) {
+                    var crumb = _file2.default.state.path[i];
+                    breadcrumbs.push(crumb);
+                };
+                _file2.default.path = breadcrumbs;
+            });
+        }
+    }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">{{ title }}</div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"state.fileStore.selected\">\n        <a class=\"nav-link active\"><i class=\"fa fa-info-circle\"></i> Info</a>\n        <a class=\"nav-link\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseBack(account_id, path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"state.fileStore.selected\">\n        <a class=\"nav-link active\"><i class=\"fa fa-info-circle\"></i> Info</a>\n        <a class=\"nav-link\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36198,6 +36195,10 @@ Object.defineProperty(exports, "__esModule", {
 var _file = require('../../stores/file');
 
 var _file2 = _interopRequireDefault(_file);
+
+var _account = require('../../stores/account');
+
+var _account2 = _interopRequireDefault(_account);
 
 var _header = require('./header.vue');
 
@@ -36232,6 +36233,11 @@ exports.default = {
     route: {
         data: function data() {
             _file2.default.init(false, []);
+            //Get Account
+            _account2.default.getInfo(this.account_id, function (account) {
+                _account2.default.current = account;
+            });
+
             //Browse Files
             _file2.default.browse(this.account_id);
         }
@@ -36252,7 +36258,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":86,"./file.vue":72,"./header.vue":73,"vue":64,"vue-hot-reload-api":38}],75:[function(require,module,exports){
+},{"../../stores/account":85,"../../stores/file":86,"./file.vue":72,"./header.vue":73,"vue":64,"vue-hot-reload-api":38}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36675,7 +36681,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
     state: {
-        accounts: false
+        accounts: false,
+        current: false
     },
 
     /**
@@ -36706,6 +36713,28 @@ exports.default = {
         this.state.accounts = accounts;
 
         return this.accounts;
+    },
+
+    /**
+     * Current
+     *
+     * @return {Object}
+     */
+    get current() {
+        return this.state.current;
+    },
+
+    /**
+     * Set current acccount
+     *
+     * @param  {Object} account
+     *
+     * @return {Object}
+     */
+    set current(account) {
+        this.state.current = account;
+
+        return this.current;
     },
 
     /**
@@ -36740,10 +36769,33 @@ exports.default = {
         var errorCb = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
 
         _nprogress2.default.start();
-        var url = 'accounts' + id + '/manager/quota';
-        _http2.default.get(url, {}, function () {
+        var url = 'accounts/' + id + '/manager/quota';
+        _http2.default.get(url, {}, function (response) {
+            var data = response.data;
+            var quota = data.data;
             if (successCb) {
-                successCb();
+                successCb(quota);
+            }
+        }, errorCb);
+    },
+
+
+    /**
+     * Get Account Info
+     */
+    getInfo: function getInfo() {
+        var id = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+        var successCb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+        var errorCb = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+        _nprogress2.default.start();
+        var url = 'accounts/' + id + '/manager/info';
+        _http2.default.get(url, {}, function (response) {
+            var data = response.data;
+            var account = data.data;
+
+            if (successCb) {
+                successCb(account);
             }
         }, errorCb);
     },

@@ -1,6 +1,13 @@
 <template>
     <div class="explorer-header clearfix">
-        <div class="explorer-header-title">{{ title }}</div>
+        <div class="explorer-header-title">
+            <div v-if="path.length" :class="'explorer-header-breadcrumb'">
+                <a v-for="path in state.fileStore.path" @click="browseBack(account_id, path, $index)"> {{path.title}} </a>
+            </div>
+            <span v-else>
+                {{title}}
+            </span>
+        </div>
 
         <nav class="nav nav-inline explorer-header-links" v-show="state.fileStore.selected">
             <a class="nav-link active"><i class="fa fa-info-circle"></i> Info</a>
@@ -25,7 +32,7 @@
                     fileStore : fileStore.state,
                     accountStore : accountStore.state,
                 },
-                title: 'File Explorer',
+                title: '',
                 selectedFile: ''
             };
         },
@@ -40,31 +47,29 @@
             },
 
             title() {
-                //Selected file
-                let selectedFile = this.selectedFile;
-                //Current Explorer Path
-                let path = this.path;
-                //Breadcrumb
-                let breadcrumb = (selectedFile) ? selectedFile.title : "File Explorer";
-                //If the current path has directories
-                if(path.length) {
-                    //Make breadcrumb
-                    breadcrumb = path.join('/');
-
-                    //If a file is selected
-                    if(selectedFile && !selectedFile.isFolder){
-                        //Add it to the breadcrumb
-                        breadcrumb += "/" + selectedFile.title;
-                    }
-
-                    return breadcrumb;
-                }
-
-                return breadcrumb;
+                const title = accountStore.current ? accountStore.current.name : "File Explorer";
+                return (this.selectedFile) ? this.selectedFile.title : title;
             },
+
+            account_id() {
+                return this.$route.params.account_id;
+            }
         },
 
         methods: {
+            browseBack: (account, selectedFile, index) => {
+                fileStore.state.selected = false;
+                let breadcrumbs = [];
+                fileStore.browse(account, selectedFile.id,
+                    (files) => {
+                        for (var i = 0; i <= index; i++) {
+                            let crumb = fileStore.state.path[i];
+                            breadcrumbs.push(crumb);
+                        };
+                        fileStore.path = breadcrumbs;
+                    }
+                    );
+            },
         }
     }
 </script>

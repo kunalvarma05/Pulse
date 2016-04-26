@@ -8,6 +8,7 @@ import stub from '../stubs/account';
 export default {
     state: {
         accounts: false,
+        current: false
     },
 
     /**
@@ -41,6 +42,28 @@ export default {
     },
 
     /**
+     * Current
+     *
+     * @return {Object}
+     */
+     get current() {
+        return this.state.current;
+    },
+
+    /**
+     * Set current acccount
+     *
+     * @param  {Object} account
+     *
+     * @return {Object}
+     */
+     set current(account) {
+        this.state.current = account;
+
+        return this.current;
+    },
+
+    /**
      * List Accounts
      */
      list(successCb = null, errorCb = null) {
@@ -62,10 +85,28 @@ export default {
      */
      quota(id = null, successCb = null, errorCb = null) {
         NProgress.start();
-        let url = 'accounts' + id + '/manager/quota';
-        http.get(url, {}, () => {
+        let url = 'accounts/' + id + '/manager/quota';
+        http.get(url, {}, response => {
+            const data = response.data;
+            const quota = data.data;
             if (successCb) {
-                successCb();
+                successCb(quota);
+            }
+        }, errorCb);
+    },
+
+    /**
+     * Get Account Info
+     */
+     getInfo(id = null, successCb = null, errorCb = null) {
+        NProgress.start();
+        let url = 'accounts/' + id + '/manager/info';
+        http.get(url, {}, response => {
+            const data = response.data;
+            const account = data.data;
+
+            if (successCb) {
+                successCb(account);
             }
         }, errorCb);
     },

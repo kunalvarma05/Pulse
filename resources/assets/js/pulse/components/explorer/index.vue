@@ -20,6 +20,7 @@
 <script>
 
     import fileStore from '../../stores/file';
+    import accountStore from '../../stores/account';
 
     import explorerHeader from './header.vue';
     import explorerFile from './file.vue';
@@ -47,6 +48,13 @@
         route: {
             data() {
                 fileStore.init(false, []);
+                //Get Account
+                accountStore.getInfo(this.account_id,
+                    (account) => {
+                        accountStore.current = account;
+                    }
+                );
+
                 //Browse Files
                 fileStore.browse(this.account_id);
             }

@@ -6978,6 +6978,17 @@ a.bg-danger:focus, a.bg-danger:hover {
   font-weight: bold;
   float: left; }
 
+.explorer-header-breadcrumb a {
+  color: #818a91;
+  text-decoration: none; }
+
+.explorer-header-breadcrumb a:after {
+  content: " > ";
+  color: #b7bdc1; }
+
+.explorer-header-breadcrumb a:last-child:after {
+  content: ""; }
+
 .explorer-header-links {
   float: right; }
   .explorer-header-links > a {

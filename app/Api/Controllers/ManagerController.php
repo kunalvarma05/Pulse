@@ -9,6 +9,7 @@ use Pulse\Bus\Commands\Manager\CopyCommand;
 use Pulse\Bus\Commands\Manager\MoveCommand;
 use Pulse\Bus\Commands\Manager\RenameCommand;
 use Pulse\Api\Transformers\QuotaTransformer;
+use Pulse\Api\Transformers\AccountTransformer;
 use Pulse\Bus\Commands\Manager\DeleteCommand;
 use Pulse\Services\Authorization\AuthFactory;
 use Pulse\Bus\Commands\Manager\GetQuotaCommand;
@@ -38,6 +39,20 @@ class ManagerController extends BaseController
         $quota = dispatch(new GetQuotaCommand($account));
 
         return $this->response->item($quota, new QuotaTransformer);
+    }
+
+    /**
+     * Fetch Account Details
+     * @return Response
+     */
+    public function getAccountInfo(Request $request, $account_id)
+    {
+        //Current User
+        $user = Auth::user();
+        //Account
+        $account = $user->accounts()->findOrFail($account_id);
+
+        return $this->response->item($account, new AccountTransformer);
     }
 
     /**
