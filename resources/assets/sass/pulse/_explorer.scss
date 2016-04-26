@@ -66,6 +66,10 @@
 .explorer-item-thumbnail {
     width: 100%;
     height: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    object-fit: cover;
 }
 
 .explorer-item-body {

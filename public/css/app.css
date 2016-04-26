@@ -7016,7 +7016,11 @@ a.bg-danger:focus, a.bg-danger:hover {
 
 .explorer-item-thumbnail {
   width: 100%;
-  height: auto; }
+  height: auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  object-fit: cover; }
 
 .explorer-item-body {
   padding: 0.5rem 0.75rem;
