@@ -1,8 +1,8 @@
 <template>
-    <img v-bind:src="state.current.picture" class="navbar-account-image">
+    <img v-bind:src="currentUser.picture" class="navbar-account-image">
     <li class="nav-item dropdown account-dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown">
-            {{state.current.name}} <span class="caret"></span>
+            {{currentUser.name}} <span class="caret"></span>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item">Profile</a>
@@ -14,20 +14,33 @@
 </template>
 
 <script>
-    import userStore from '../../stores/user';
 
     export default {
-        data() {
-            return {
-                state: userStore.state
-            };
+
+        props: [ 'user' ],
+
+        computed: {
+
+            /**
+             * Current User
+             * @return {Object}
+             */
+             currentUser() {
+                return this.user;
+            },
+
         },
 
         methods: {
+
+            /**
+             * Log out
+             */
             logout() {
                 //Logout
                 this.$dispatch('user:loggedout');
             }
+
         }
     }
 </script>

@@ -1,21 +1,22 @@
 <template>
-    <div class="explorer" :class="{ 'has-sidebar': state.fileStore.selected }" id="explorer">
+    <div class="explorer" :class="{ 'has-sidebar': selectedFile }" id="explorer">
 
-        <explorer-header></explorer-header>
+        <explorer-header :file.sync='selectedFile' :account.sync='currentAccount'></explorer-header>
 
-        <div class="explorer-content" data-scrollbar='true'>
+        <div class="explorer-content">
             <div class="container-fluid">
                 <div class="row explorer-items">
 
                     <explorer-file v-for="fileItem in state.fileStore.files" :file='fileItem' :index='$index'></explorer-file>
 
-                    <h4 class="text-center" v-show='!state.fileStore.files' align="center">No files found!</h4>
+                    <h4 class="text-center" v-show='!state.fileStore.files' align="center">No files to show!</h4>
 
                 </div>
             </div>
         </div>
 
-        <sidebar v-show='state.fileStore.selected' :file='state.fileStore.selected'></sidebar>
+        <sidebar v-show='selectedFile' :file.sync='selectedFile'></sidebar>
+
     </div>
 </template>
 
@@ -37,24 +38,24 @@
             return {
                 state: {
                     fileStore : fileStore.state,
+                    accountStore : accountStore.state,
                 },
                 title: "File Explorer"
             };
         },
 
-        computed: {
-            account_id() {
-                return this.$route.params.account_id;
-            }
-        },
-
         route: {
+
             data() {
+
+                //Initialize the File Store
                 fileStore.init(false, []);
-                //Get Account
+
+                //Get Account Info
                 accountStore.getInfo(this.account_id,
                     (account) => {
-                        accountStore.current = account;
+                        //Set the current account
+                        this.state.accountStore.current = account;
                     }
                 );
 
@@ -63,7 +64,33 @@
             }
         },
 
-        methods: {
-        }
+        computed: {
+
+            /**
+             * Account Id
+             * @return {int}
+             */
+            account_id() {
+                return this.$route.params.account_id;
+            },
+
+            /**
+             * Selected File
+             * @return {Object}
+             */
+            selectedFile() {
+                return this.state.fileStore.selected;
+            },
+
+            /**
+             * Current Account
+             * @return {Object}
+             */
+            currentAccount() {
+                return this.state.accountStore.current;
+            }
+
+        },
+
     }
 </script>

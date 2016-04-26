@@ -36058,8 +36058,6 @@ exports.default = {
 
     props: ['file', 'index'],
 
-    components: {},
-
     data: function data() {
         return {
             state: {
@@ -36070,33 +36068,72 @@ exports.default = {
 
 
     computed: {
+
+        /**
+         * Account ID
+         * @return {int}
+         */
+
         account_id: function account_id() {
             return this.$route.params.account_id;
+        },
+
+
+        /**
+         * Selected File
+         * @return {Object}
+         */
+        selectedFile: function selectedFile() {
+            return this.state.fileStore.selected;
         }
     },
 
     methods: {
 
+        /**
+         * Select File
+         * @param  {Object} account      Current Account
+         * @param  {Object} selectedFile Selected File
+         */
+
         selectFile: function selectFile(account, selectedFile) {
-            _file2.default.state.selected = selectedFile;
+            this.state.fileStore.selected = selectedFile;
         },
 
+
+        /**
+         * Browse Folder
+         * @param  {Object} account      Current Account
+         * @param  {Object} selectedFile Selected File
+         * @return {Promise}
+         */
         browseFolder: function browseFolder(account, selectedFile) {
+            var _this = this;
+
+            //If the selected file
+            //is a folder, duh.
             if (selectedFile.isFolder) {
-                _file2.default.state.selected = false;
-                _file2.default.browse(account, selectedFile.id, function (files) {
+                //Browse the Folder
+                return _file2.default.browse(account, selectedFile.id, function (files) {
+                    //Reset the selected file
+                    _this.state.fileStore.selected = false;
+                    //Add folder to the current explorer path
                     _file2.default.state.path.push(selectedFile);
                 });
             }
         },
 
+
+        /**
+         * Deselect the File
+         */
         deSelectFile: function deSelectFile() {
             _file2.default.selected = false;
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"col-lg-2 col-md-4 col-sm-6 col-xs-12\">\n    <div @click.stop=\"selectFile(account_id, file)\" @dblclick.stop=\"browseFolder(account_id, file)\" v-on-clickaway=\"deSelectFile()\" class=\"card explorer-item\" data-toggle-tooltip=\"tooltip\" :title=\"file.title\">\n        <div class=\"explorer-item-thumbnail card-img-top\">\n            <i :class=\"'fa explorer-item-icon ' + file.icon\"></i>\n        </div>\n        <div class=\"card-block explorer-item-body\">\n            <div class=\"card-title explorer-item-title\">\n                {{file.title}}\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-lg-2 col-md-4 col-sm-6 col-xs-12\">\n    <div @click.stop=\"selectFile(account_id, file)\" @dblclick.stop=\"browseFolder(account_id, file)\" v-on-clickaway=\"deSelectFile()\" data-toggle-tooltip=\"tooltip\" :title=\"file.title\" class=\"card explorer-item\" :class=\" { 'selected': file === selectedFile } \">\n\n        <div class=\"explorer-item-thumbnail card-img-top\">\n            <i class=\"fa explorer-item-icon\" :class=\"file.icon\"></i>\n        </div>\n\n        <div class=\"card-block explorer-item-body\">\n            <div class=\"card-title explorer-item-title\">\n                {{file.title}}\n            </div>\n        </div>\n\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36119,22 +36156,16 @@ var _file = require('../../stores/file');
 
 var _file2 = _interopRequireDefault(_file);
 
-var _user = require('../../stores/user');
-
-var _user2 = _interopRequireDefault(_user);
-
-var _account = require('../../stores/account');
-
-var _account2 = _interopRequireDefault(_account);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
+
+    props: ['file', 'account'],
+
     data: function data() {
         return {
             state: {
-                fileStore: _file2.default.state,
-                accountStore: _account2.default.state
+                fileStore: _file2.default.state
             },
             title: '',
             selectedFile: ''
@@ -36143,37 +36174,89 @@ exports.default = {
 
 
     computed: {
+
+        /**
+         * Selected File
+         * @return {Object}
+         */
+
         selectedFile: function selectedFile() {
-            return this.state.fileStore.selected;
+            return this.file;
         },
+
+
+        /**
+         * Current Account
+         * @return {Object}
+         */
+        currentAccount: function currentAccount() {
+            return this.account;
+        },
+
+
+        /**
+         * Current Explorer Path
+         * @return {Array}
+         */
         path: function path() {
             return this.state.fileStore.path;
         },
+
+
+        /**
+         * Explorer Title
+         * @return {string}
+         */
         title: function title() {
-            var title = _account2.default.current ? _account2.default.current.name : "File Explorer";
+            //If no file is selected, use the name of the current account
+            var title = this.currentAccount ? this.currentAccount.name : "File Explorer";
             return this.selectedFile ? this.selectedFile.title : title;
         },
+
+
+        /**
+         * Account ID
+         * @return {int}
+         */
         account_id: function account_id() {
             return this.$route.params.account_id;
         }
     },
 
     methods: {
-        browseBack: function browseBack(account, selectedFile, index) {
-            _file2.default.state.selected = false;
+
+        /**
+         * Browse to Path
+         * @param  {Object} account      Current Account
+         * @param  {Object} selectedFile Selected File
+         * @param  {int} index           Path Element Index
+         */
+        browseTo: function browseTo(account, selectedFile, index) {
+            //Breadcrumbs
             var breadcrumbs = [];
+
+            //Browse the specified path
             _file2.default.browse(account, selectedFile.id, function (files) {
+
+                //Reset the selected file
+                undefined.state.fileStore.selectedFile = false;
+
+                //Build breadcrumbs.
+                //Keep elements upto the index of the
+                //current path and discard the rest
                 for (var i = 0; i <= index; i++) {
-                    var crumb = _file2.default.state.path[i];
+                    var crumb = undefined.state.fileStore.state.path[i];
                     breadcrumbs.push(crumb);
                 };
-                _file2.default.path = breadcrumbs;
+
+                //Update the current explorer path
+                undefined.state.fileStore.path = breadcrumbs;
             });
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseBack(account_id, path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"state.fileStore.selected\">\n        <a class=\"nav-link active\"><i class=\"fa fa-info-circle\"></i> Info</a>\n        <a class=\"nav-link\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(account_id, path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36185,7 +36268,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":87,"../../stores/file":88,"../../stores/user":90,"vue":64,"vue-hot-reload-api":38}],74:[function(require,module,exports){
+},{"../../stores/file":88,"vue":64,"vue-hot-reload-api":38}],74:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36221,25 +36304,25 @@ exports.default = {
     data: function data() {
         return {
             state: {
-                fileStore: _file2.default.state
+                fileStore: _file2.default.state,
+                accountStore: _account2.default.state
             },
             title: "File Explorer"
         };
     },
 
 
-    computed: {
-        account_id: function account_id() {
-            return this.$route.params.account_id;
-        }
-    },
-
     route: {
         data: function data() {
+            var _this = this;
+
+            //Initialize the File Store
             _file2.default.init(false, []);
-            //Get Account
+
+            //Get Account Info
             _account2.default.getInfo(this.account_id, function (account) {
-                _account2.default.current = account;
+                //Set the current account
+                _this.state.accountStore.current = account;
             });
 
             //Browse Files
@@ -36247,10 +36330,39 @@ exports.default = {
         }
     },
 
-    methods: {}
+    computed: {
+
+        /**
+         * Account Id
+         * @return {int}
+         */
+
+        account_id: function account_id() {
+            return this.$route.params.account_id;
+        },
+
+
+        /**
+         * Selected File
+         * @return {Object}
+         */
+        selectedFile: function selectedFile() {
+            return this.state.fileStore.selected;
+        },
+
+
+        /**
+         * Current Account
+         * @return {Object}
+         */
+        currentAccount: function currentAccount() {
+            return this.state.accountStore.current;
+        }
+    }
+
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': state.fileStore.selected }\" id=\"explorer\">\n\n    <explorer-header></explorer-header>\n\n    <div class=\"explorer-content\" data-scrollbar=\"true\">\n        <div class=\"container-fluid\">\n            <div class=\"row explorer-items\">\n\n                <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                <h4 class=\"text-center\" v-show=\"!state.fileStore.files\" align=\"center\">No files found!</h4>\n\n            </div>\n        </div>\n    </div>\n\n    <sidebar v-show=\"state.fileStore.selected\" :file=\"state.fileStore.selected\"></sidebar>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': selectedFile }\" id=\"explorer\">\n\n    <explorer-header :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></explorer-header>\n\n    <div class=\"explorer-content\">\n        <div class=\"container-fluid\">\n            <div class=\"row explorer-items\">\n\n                <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                <h4 class=\"text-center\" v-show=\"!state.fileStore.files\" align=\"center\">No files to show!</h4>\n\n            </div>\n        </div>\n    </div>\n\n    <sidebar v-show=\"selectedFile\" :file.sync=\"selectedFile\"></sidebar>\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36269,6 +36381,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _user = require('../../stores/user.js');
+
+var _user2 = _interopRequireDefault(_user);
+
 var _search = require('./search.vue');
 
 var _search2 = _interopRequireDefault(_search);
@@ -36281,10 +36397,34 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
 
-    components: { search: _search2.default, userProfile: _userProfile2.default }
+    components: { search: _search2.default, userProfile: _userProfile2.default },
+
+    data: function data() {
+        return {
+            state: {
+                userStore: _user2.default.state
+            }
+        };
+    },
+
+
+    computed: {
+
+        /**
+         * Current User
+         * @return {Object}
+         */
+
+        currentUser: function currentUser() {
+            return this.state.userStore.current;
+        }
+    }
+
 };
+
+//User Store
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"navbar navbar-fixed-top navbar-light navbar-main\">\n\n    <search></search>\n\n    <button class=\"navbar-toggler hidden-sm-up pull-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarCollapsibleContent\">\n        <i class=\"fa fa-user\"></i>\n    </button>\n    <div class=\"collapse navbar-toggleable-xs\" id=\"navbarCollapsibleContent\">\n        <ul class=\"nav navbar-nav navbar-info-nav\">\n\n            <user-profile></user-profile>\n        </ul>\n    </div>\n</nav>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"navbar navbar-fixed-top navbar-light navbar-main\">\n\n    <search></search>\n\n    <button class=\"navbar-toggler hidden-sm-up pull-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarCollapsibleContent\">\n        <i class=\"fa fa-user\"></i>\n    </button>\n    <div class=\"collapse navbar-toggleable-xs\" id=\"navbarCollapsibleContent\">\n        <ul class=\"nav navbar-nav navbar-info-nav\">\n\n            <user-profile :user.sync=\"currentUser\"></user-profile>\n\n        </ul>\n    </div>\n</nav>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36296,7 +36436,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./search.vue":76,"./user-profile.vue":77,"vue":64,"vue-hot-reload-api":38}],76:[function(require,module,exports){
+},{"../../stores/user.js":90,"./search.vue":76,"./user-profile.vue":77,"vue":64,"vue-hot-reload-api":38}],76:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36328,22 +36468,28 @@ if (module.hot) {(function () {  module.hot.accept()
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _user = require('../../stores/user');
-
-var _user2 = _interopRequireDefault(_user);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 exports.default = {
-    data: function data() {
-        return {
-            state: _user2.default.state
-        };
+
+    props: ['user'],
+
+    computed: {
+
+        /**
+         * Current User
+         * @return {Object}
+         */
+
+        currentUser: function currentUser() {
+            return this.user;
+        }
     },
 
-
     methods: {
+
+        /**
+         * Log out
+         */
+
         logout: function logout() {
             //Logout
             this.$dispatch('user:loggedout');
@@ -36351,7 +36497,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<img v-bind:src=\"state.current.picture\" class=\"navbar-account-image\">\n<li class=\"nav-item dropdown account-dropdown\">\n    <a class=\"nav-link dropdown-toggle\" data-toggle=\"dropdown\">\n        {{state.current.name}} <span class=\"caret\"></span>\n    </a>\n    <div class=\"dropdown-menu dropdown-menu-right\">\n        <a class=\"dropdown-item\">Profile</a>\n        <a class=\"dropdown-item\">Settings</a>\n        <div class=\"dropdown-divider\"></div>\n        <a class=\"dropdown-item\" @click=\"logout()\">Log out</a>\n    </div>\n</li>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<img v-bind:src=\"currentUser.picture\" class=\"navbar-account-image\">\n<li class=\"nav-item dropdown account-dropdown\">\n    <a class=\"nav-link dropdown-toggle\" data-toggle=\"dropdown\">\n        {{currentUser.name}} <span class=\"caret\"></span>\n    </a>\n    <div class=\"dropdown-menu dropdown-menu-right\">\n        <a class=\"dropdown-item\">Profile</a>\n        <a class=\"dropdown-item\">Settings</a>\n        <div class=\"dropdown-divider\"></div>\n        <a class=\"dropdown-item\" @click=\"logout()\">Log out</a>\n    </div>\n</li>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36363,7 +36509,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user":90,"vue":64,"vue-hot-reload-api":38}],78:[function(require,module,exports){
+},{"vue":64,"vue-hot-reload-api":38}],78:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36396,14 +36542,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _file = require('../../stores/file');
-
-var _file2 = _interopRequireDefault(_file);
-
-var _account = require('../../stores/account');
-
-var _account2 = _interopRequireDefault(_account);
-
 var _fileinfo = require('./fileinfo.vue');
 
 var _fileinfo2 = _interopRequireDefault(_fileinfo);
@@ -36411,6 +36549,7 @@ var _fileinfo2 = _interopRequireDefault(_fileinfo);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
+
     props: ['file'],
 
     components: { fileInfo: _fileinfo2.default },
@@ -36420,7 +36559,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar\" data-scrollbar=\"true\" @click.stop=\"\">\n        <file-info :file=\"file\"></file-info>\n    </div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"sidebar\" data-scrollbar=\"true\" @click.stop=\"\">\n    <file-info :file.sync=\"file\"></file-info>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36432,7 +36571,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":87,"../../stores/file":88,"./fileinfo.vue":78,"vue":64,"vue-hot-reload-api":38}],80:[function(require,module,exports){
+},{"./fileinfo.vue":78,"vue":64,"vue-hot-reload-api":38}],80:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36977,6 +37116,28 @@ exports.default = {
         this.state.path = path;
 
         return this.path;
+    },
+
+    /**
+     * The files
+     *
+     * @return {Object}
+     */
+    get files() {
+        return this.state.files;
+    },
+
+    /**
+     * Set the files
+     *
+     * @param  {Array} files
+     *
+     * @return {Object}
+     */
+    set files(files) {
+        this.state.files = files;
+
+        return this.files;
     },
 
     /**

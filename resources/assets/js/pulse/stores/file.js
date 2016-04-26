@@ -67,6 +67,28 @@ export default {
     },
 
     /**
+     * The files
+     *
+     * @return {Object}
+     */
+     get files() {
+        return this.state.files;
+    },
+
+    /**
+     * Set the files
+     *
+     * @param  {Array} files
+     *
+     * @return {Object}
+     */
+     set files(files) {
+        this.state.files = files;
+
+        return this.files;
+    },
+
+    /**
      * Browse
      */
      browse(account, path = null, successCb = null, errorCb = null) {
