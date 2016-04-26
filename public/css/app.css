@@ -2221,7 +2221,7 @@
     -webkit-transform: none;
     transform: none; } }
 
-.fadeInUp {
+.fadeInUp, .explorer-item {
   -webkit-animation-name: fadeInUp;
   animation-name: fadeInUp; }
 
@@ -2337,7 +2337,7 @@
   50% {
     opacity: 1; } }
 
-.zoomIn, .sidemenu-add-button, .explorer-item, .open > .dropdown-menu {
+.zoomIn, .sidemenu-add-button, .open > .dropdown-menu {
   -webkit-animation-name: zoomIn;
   animation-name: zoomIn; }
 

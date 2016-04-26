@@ -35,7 +35,7 @@
     cursor: pointer;
     margin-bottom: 1.75em;
     @extend .animated;
-    @extend .zoomIn;
+    @extend .fadeInUp;
     &.selected {
         background: $primary;
         border-color: darken($primary, 7%);

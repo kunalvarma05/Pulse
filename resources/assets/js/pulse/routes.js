@@ -11,6 +11,14 @@ export function configRouter(router) {
             name: 'dashboard',
             auth: true,
             component: require('./components/dashboard/index.vue'),
+
+            subRoutes: {
+                '/accounts/:account_id': {
+                    name: 'account-explorer',
+                    auth: true,
+                    component: require('./components/explorer/index.vue'),
+                }
+            }
         },
     });
 

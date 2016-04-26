@@ -8,7 +8,7 @@
         <ul class="nav sidemenu-user-accounts">
 
             <li v-for="account in state.accounts">
-                <a class="sidemenu-user-account" @click="exploreAccount(account.id)" data-toggle-tooltip="sidebar" :title="account.name" :style="'animation-delay:0.' + $index + 's';">
+                <a class="sidemenu-user-account" v-link="{name: 'account-explorer', params: { account_id: account.id } }" data-toggle-tooltip="sidebar" :title="account.name" :style="'animation-delay:0.' + $index + 's';">
                     <img :src="account.picture">
                 </a>
             </li>
@@ -25,8 +25,6 @@
 </template>
 
 <script>
-
-    import Vue from 'vue';
     import config from '../../config';
     import userStore from '../../stores/user';
     import fileStore from '../../stores/file';
@@ -46,29 +44,21 @@
             }
         },
 
-        methods: {
-            exploreAccount(account) {
-                //Go to the account explorer route
-                this.$route.router.go({name: 'explorer', params: { account_id: account } });
+        computed: {
+            account_id() {
+                return this.$route.params.account_id;
             }
         },
 
-        events: {
+        methods: {
+        },
 
-            "user:loggedin" : () => {
-                //Fetch the Accounts of the user
-                accountStore.list();
-            },
+        events: {
 
             "pulse:ready" : () => {
                 //Fetch the Accounts of the user
                 accountStore.list();
             },
-
-            "pulse:teardown" : () => {
-                //Reset
-                accountStore.init(false);
-            }
         }
     }
 

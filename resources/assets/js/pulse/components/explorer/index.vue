@@ -7,7 +7,7 @@
             <div class="container-fluid">
                 <div class="row explorer-items">
 
-                    <explorer-file v-for="fileItem in state.fileStore.files" :file='fileItem'></explorer-file>
+                    <explorer-file v-for="fileItem in state.fileStore.files" :file='fileItem' :index='$index'></explorer-file>
 
                     <h4 class="text-center" v-show='!state.fileStore.files' align="center">No files found!</h4>
 
@@ -20,33 +20,38 @@
 <script>
 
     import fileStore from '../../stores/file';
-    import accountStore from '../../stores/account';
 
     import explorerHeader from './header.vue';
     import explorerFile from './file.vue';
 
+
     export default {
+
         components: { explorerHeader, explorerFile },
 
         data() {
             return {
                 state: {
                     fileStore : fileStore.state,
-                    accountStore : accountStore.state
                 },
                 title: "File Explorer"
             };
         },
 
+        computed: {
+            account_id() {
+                return this.$route.params.account_id;
+            }
+        },
+
         route: {
             data() {
                 //Browse Files
-                fileStore.browse(this.$route.params.account_id);
+                fileStore.browse(this.account_id);
             }
         },
 
         methods: {
-
         }
     }
 </script>

@@ -26,7 +26,7 @@
         methods: {
             logout() {
                 //Logout
-                this.$dispatch('user:logout');
+                this.$dispatch('user:loggedout');
             }
         }
     }

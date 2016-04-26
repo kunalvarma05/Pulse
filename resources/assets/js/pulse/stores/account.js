@@ -8,7 +8,6 @@ import stub from '../stubs/account';
 export default {
     state: {
         accounts: false,
-        current: false,
     },
 
     /**
@@ -18,27 +17,6 @@ export default {
         this.state.accounts = accounts;
     },
 
-    /**
-     * The current account.
-     *
-     * @return {Object}
-     */
-     get current() {
-        return this.state.current;
-    },
-
-    /**
-     * Set the current account.
-     *
-     * @param  {Object} account
-     *
-     * @return {Object}
-     */
-     set current(account) {
-        this.state.current = account;
-
-        return this.current;
-    },
 
     /**
      * Accounts
@@ -57,7 +35,7 @@ export default {
      * @return {Object}
      */
      set accounts(accounts) {
-        this.state.accounts = account;
+        this.state.accounts = accounts;
 
         return this.accounts;
     },
@@ -71,7 +49,7 @@ export default {
             const data = response.data;
             const accounts = data.data;
 
-            this.state.accounts = accounts;
+            this.accounts = accounts;
 
             if (successCb) {
                 successCb();

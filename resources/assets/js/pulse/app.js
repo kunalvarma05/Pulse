@@ -18,7 +18,8 @@ Vue.use(VueRouter);
 
 //Init Router
 const router = new VueRouter({
-    saveScrollPosition: true
+    saveScrollPosition: true,
+    linkActiveClass: 'active'
 });
 
 //Configure Router

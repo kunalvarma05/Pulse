@@ -31,7 +31,6 @@
                 //the user seems authenticated
                 if (token) {
                     this.authenticated = true;
-                    return this.$route.router.go({ name: 'dashboard' });
                 }
             },
 
@@ -42,7 +41,7 @@
                         this.authenticated = false;
                         return this.$route.router.go({ name: 'login' });
                     }
-                );
+                    );
             }
         },
 
