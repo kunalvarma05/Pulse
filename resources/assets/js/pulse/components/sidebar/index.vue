@@ -1,7 +1,12 @@
 <template>
 
     <div class="sidebar" data-scrollbar='true' @click.stop="">
-        <file-info :file.sync='file'></file-info>
+        <div v-show='file'>
+            <file-info :file.sync='file'></file-info>
+        </div>
+        <div v-show='!file'>
+            <quota :account.sync='currentAccount'></quota>
+        </div>
     </div>
 
 </template>
@@ -9,17 +14,30 @@
 <script>
 
     import fileInfo from './fileinfo.vue';
+    import quota from './quota.vue';
 
     export default {
 
-        props: [ 'file' ],
+        props: [ 'file', 'account' ],
 
-        components: { fileInfo },
+        components: { fileInfo, quota },
 
         data() {
             return {
 
             };
+        },
+
+        methods: {
+
+            /**
+             * Current Account
+             * @return {Object}
+             */
+             currentAccount() {
+                return this.account;
+            }
+
         }
 
     }

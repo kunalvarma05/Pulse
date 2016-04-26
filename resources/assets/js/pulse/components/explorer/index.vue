@@ -1,5 +1,5 @@
 <template>
-    <div class="explorer" :class="{ 'has-sidebar': selectedFile }" id="explorer">
+    <div class="explorer" :class="{ 'has-sidebar': true }" id="explorer">
 
         <explorer-header :file.sync='selectedFile' :account.sync='currentAccount'></explorer-header>
 
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <sidebar v-show='selectedFile' :file.sync='selectedFile'></sidebar>
+        <sidebar :file.sync='selectedFile' :account.sync='currentAccount'></sidebar>
 
     </div>
 </template>
