@@ -6947,7 +6947,12 @@ a.bg-danger:focus, a.bg-danger:hover {
 
 .sidebar-item-body.has-details .item-detail-value {
   color: #2b90d9;
-  float: right; }
+  float: right;
+  width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right; }
 
 .sidebar-item-actions {
   padding: 5px;

@@ -63,6 +63,11 @@
         .item-detail-value {
             color: $primary;
             float: right;
+            width: 70%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: right;
         }
     }
 }

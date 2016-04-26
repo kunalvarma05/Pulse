@@ -1,5 +1,5 @@
 <template>
-    <div class="explorer" id="explorer">
+    <div class="explorer" :class="{ 'has-sidebar': state.fileStore.selected }" id="explorer">
 
         <explorer-header></explorer-header>
 
@@ -14,6 +14,8 @@
                 </div>
             </div>
         </div>
+
+        <sidebar v-show='state.fileStore.selected'></sidebar>
     </div>
 </template>
 
@@ -24,11 +26,12 @@
 
     import explorerHeader from './header.vue';
     import explorerFile from './file.vue';
+    import sidebar from '../sidebar/index.vue';
 
 
     export default {
 
-        components: { explorerHeader, explorerFile },
+        components: { explorerHeader, explorerFile, sidebar },
 
         data() {
             return {

@@ -35753,7 +35753,7 @@ require('./pulse/pulse.js');
 require('./pulse/app.js');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bootstrap.js":66,"./pulse/app.js":68,"./pulse/pulse.js":81,"jquery":8,"perfect-scrollbar":14,"tether":36}],68:[function(require,module,exports){
+},{"./bootstrap.js":66,"./pulse/app.js":68,"./pulse/pulse.js":83,"jquery":8,"perfect-scrollbar":14,"tether":36}],68:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -35798,7 +35798,7 @@ var router = new VueRouter({
 //Kickoff!
 router.start(app, 'body');
 
-},{"./app.vue":69,"./config/resource":80,"./routes.js":82,"./services/ls":84,"nprogress":13,"vue":64,"vue-router":63}],69:[function(require,module,exports){
+},{"./app.vue":69,"./config/resource":82,"./routes.js":84,"./services/ls":86,"nprogress":13,"vue":64,"vue-router":63}],69:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35882,7 +35882,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./services/ls":84,"./stores/shared.js":87,"./stores/user.js":88,"vue":64,"vue-hot-reload-api":38}],70:[function(require,module,exports){
+},{"./services/ls":86,"./stores/shared.js":89,"./stores/user.js":90,"vue":64,"vue-hot-reload-api":38}],70:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.login-container {\n    margin-top: 10%;\n    max-width: 300px;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -35948,7 +35948,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":88,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],71:[function(require,module,exports){
+},{"../../stores/user.js":90,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],71:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36037,7 +36037,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/shared.js":87,"../../stores/user.js":88,"../navbar/index.vue":75,"../sidemenu/index.vue":78,"vue":64,"vue-hot-reload-api":38}],72:[function(require,module,exports){
+},{"../../stores/shared.js":89,"../../stores/user.js":90,"../navbar/index.vue":75,"../sidemenu/index.vue":80,"vue":64,"vue-hot-reload-api":38}],72:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36108,7 +36108,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":86,"vue":64,"vue-clickaway":37,"vue-hot-reload-api":38}],73:[function(require,module,exports){
+},{"../../stores/file":88,"vue":64,"vue-clickaway":37,"vue-hot-reload-api":38}],73:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36185,7 +36185,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":85,"../../stores/file":86,"../../stores/user":88,"vue":64,"vue-hot-reload-api":38}],74:[function(require,module,exports){
+},{"../../stores/account":87,"../../stores/file":88,"../../stores/user":90,"vue":64,"vue-hot-reload-api":38}],74:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36208,11 +36208,15 @@ var _file3 = require('./file.vue');
 
 var _file4 = _interopRequireDefault(_file3);
 
+var _index = require('../sidebar/index.vue');
+
+var _index2 = _interopRequireDefault(_index);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
 
-    components: { explorerHeader: _header2.default, explorerFile: _file4.default },
+    components: { explorerHeader: _header2.default, explorerFile: _file4.default, sidebar: _index2.default },
 
     data: function data() {
         return {
@@ -36246,7 +36250,7 @@ exports.default = {
     methods: {}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" id=\"explorer\">\n\n    <explorer-header></explorer-header>\n\n    <div class=\"explorer-content\" data-scrollbar=\"true\">\n        <div class=\"container-fluid\">\n            <div class=\"row explorer-items\">\n\n                <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                <h4 class=\"text-center\" v-show=\"!state.fileStore.files\" align=\"center\">No files found!</h4>\n\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': state.fileStore.selected }\" id=\"explorer\">\n\n    <explorer-header></explorer-header>\n\n    <div class=\"explorer-content\" data-scrollbar=\"true\">\n        <div class=\"container-fluid\">\n            <div class=\"row explorer-items\">\n\n                <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                <h4 class=\"text-center\" v-show=\"!state.fileStore.files\" align=\"center\">No files found!</h4>\n\n            </div>\n        </div>\n    </div>\n\n    <sidebar v-show=\"state.fileStore.selected\"></sidebar>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36258,7 +36262,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":85,"../../stores/file":86,"./file.vue":72,"./header.vue":73,"vue":64,"vue-hot-reload-api":38}],75:[function(require,module,exports){
+},{"../../stores/account":87,"../../stores/file":88,"../sidebar/index.vue":79,"./file.vue":72,"./header.vue":73,"vue":64,"vue-hot-reload-api":38}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36359,7 +36363,96 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user":88,"vue":64,"vue-hot-reload-api":38}],78:[function(require,module,exports){
+},{"../../stores/user":90,"vue":64,"vue-hot-reload-api":38}],78:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _file = require('../../stores/file');
+
+var _file2 = _interopRequireDefault(_file);
+
+var _account = require('../../stores/account');
+
+var _account2 = _interopRequireDefault(_account);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    data: function data() {
+        return {
+            state: {
+                fileStore: _file2.default.state,
+                accountStore: _account2.default.state
+            }
+        };
+    },
+
+
+    computed: {
+        selectedFile: function selectedFile() {
+            return this.state.fileStore.selected;
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar-header animated slideInRight\">\n    {{ selectedFile.title }}\n</div>\n\n<div class=\"sidebar-body\">\n    <div class=\"sidebar-items\">\n        <div class=\"sidebar-item\" style=\"animation-delay: 0.5s;\">\n            <div class=\"sidebar-item-body has-details\">\n                <div class=\"item-detail\" v-show=\"!selectedFile.isFolder\">\n                    <span class=\"item-detail-title\">Type</span>\n                    <span class=\"item-detail-value\">{{ selectedFile.mimeType }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Size</span>\n                    <span class=\"item-detail-value\">{{ selectedFile.size }}</span>\n                </div>\n                <div class=\"item-detail\" v-show=\"selectedFile.owners\">\n                    <span class=\"item-detail-title\">Owner</span>\n                    <span class=\"item-detail-value\">{{ selectedFile.owners }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Path</span>\n                    <span class=\"item-detail-value\">{{ selectedFile.path }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Modified</span>\n                    <span class=\"item-detail-value\">{{ selectedFile.modified }}</span>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\sidebar\\fileinfo.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../stores/account":87,"../../stores/file":88,"vue":64,"vue-hot-reload-api":38}],79:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _file = require('../../stores/file');
+
+var _file2 = _interopRequireDefault(_file);
+
+var _account = require('../../stores/account');
+
+var _account2 = _interopRequireDefault(_account);
+
+var _fileinfo = require('./fileinfo.vue');
+
+var _fileinfo2 = _interopRequireDefault(_fileinfo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    components: { fileInfo: _fileinfo2.default },
+
+    data: function data() {
+        return {};
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar\" data-scrollbar=\"true\" @click.stop=\"\">\n        <file-info></file-info>\n    </div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\sidebar\\index.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../stores/account":87,"../../stores/file":88,"./fileinfo.vue":78,"vue":64,"vue-hot-reload-api":38}],80:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36424,7 +36517,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":79,"../../stores/account":85,"../../stores/file":86,"../../stores/user":88,"vue":64,"vue-hot-reload-api":38}],79:[function(require,module,exports){
+},{"../../config":81,"../../stores/account":87,"../../stores/file":88,"../../stores/user":90,"vue":64,"vue-hot-reload-api":38}],81:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36436,7 +36529,7 @@ exports.default = {
     logo: "images/logo-white.png"
 };
 
-},{}],80:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -36491,7 +36584,7 @@ _vue2.default.http.interceptors.push({
     }
 });
 
-},{"../services/ls":84,"nprogress":13,"vue":64,"vue-resource":52}],81:[function(require,module,exports){
+},{"../services/ls":86,"nprogress":13,"vue":64,"vue-resource":52}],83:[function(require,module,exports){
 "use strict";
 
 jQuery(document).ready(function ($) {
@@ -36512,7 +36605,7 @@ jQuery(document).ready(function ($) {
     });
 });
 
-},{}],82:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36564,7 +36657,7 @@ function configRouter(router) {
     });
 }
 
-},{"./components/auth/login-form.vue":70,"./components/dashboard/index.vue":71,"./components/explorer/index.vue":74}],83:[function(require,module,exports){
+},{"./components/auth/login-form.vue":70,"./components/dashboard/index.vue":71,"./components/explorer/index.vue":74}],85:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36623,7 +36716,7 @@ exports.default = {
     }
 };
 
-},{"vue":64}],84:[function(require,module,exports){
+},{"vue":64}],86:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36652,7 +36745,7 @@ exports.default = {
     }
 };
 
-},{"local-storage":9}],85:[function(require,module,exports){
+},{"local-storage":9}],87:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36817,7 +36910,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":83,"../stubs/account":89,"lodash":12,"nprogress":13,"vue":64}],86:[function(require,module,exports){
+},{"../services/http":85,"../stubs/account":91,"lodash":12,"nprogress":13,"vue":64}],88:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36933,7 +37026,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":83,"../stubs/file":90,"lodash":12,"nprogress":13,"vue":64}],87:[function(require,module,exports){
+},{"../services/http":85,"../stubs/file":92,"lodash":12,"nprogress":13,"vue":64}],89:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37021,7 +37114,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":83,"./user":88}],88:[function(require,module,exports){
+},{"../services/http":85,"./user":90}],90:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37161,7 +37254,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":83,"../stubs/user":91,"nprogress":13}],89:[function(require,module,exports){
+},{"../services/http":85,"../stubs/user":93,"nprogress":13}],91:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37178,7 +37271,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],90:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37199,7 +37292,7 @@ exports.default = {
     owners: null
 };
 
-},{}],91:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
