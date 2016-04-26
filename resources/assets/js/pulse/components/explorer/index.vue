@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <sidebar v-show='state.fileStore.selected'></sidebar>
+        <sidebar v-show='state.fileStore.selected' :file='state.fileStore.selected'></sidebar>
     </div>
 </template>
 

@@ -1,31 +1,31 @@
 <template>
     <div class="sidebar-header animated slideInRight">
-        {{ selectedFile.title }}
+        {{ file.title }}
     </div>
 
     <div class="sidebar-body">
         <div class="sidebar-items">
             <div class="sidebar-item" style="animation-delay: 0.5s;">
                 <div class="sidebar-item-body has-details">
-                    <div class="item-detail" v-show='!selectedFile.isFolder'>
+                    <div class="item-detail" v-show='!file.isFolder'>
                         <span class="item-detail-title">Type</span>
-                        <span class="item-detail-value">{{ selectedFile.mimeType }}</span>
+                        <span class="item-detail-value">{{ file.mimeType }}</span>
                     </div>
                     <div class="item-detail">
                         <span class="item-detail-title">Size</span>
-                        <span class="item-detail-value">{{ selectedFile.size }}</span>
+                        <span class="item-detail-value">{{ file.size }}</span>
                     </div>
-                    <div class="item-detail" v-show='selectedFile.owners'>
+                    <div class="item-detail" v-show='file.owners'>
                         <span class="item-detail-title">Owner</span>
-                        <span class="item-detail-value">{{ selectedFile.owners }}</span>
+                        <span class="item-detail-value">{{ file.owners }}</span>
                     </div>
                     <div class="item-detail">
                         <span class="item-detail-title">Path</span>
-                        <span class="item-detail-value">{{ selectedFile.path }}</span>
+                        <span class="item-detail-value">{{ file.path }}</span>
                     </div>
                     <div class="item-detail">
                         <span class="item-detail-title">Modified</span>
-                        <span class="item-detail-value">{{ selectedFile.modified }}</span>
+                        <span class="item-detail-value">{{ file.modified }}</span>
                     </div>
                 </div>
             </div>
@@ -34,23 +34,12 @@
 </template>
 
 <script>
-    import fileStore from '../../stores/file';
-    import accountStore from '../../stores/account';
-
     export default {
+        props: [ 'file' ],
+
         data() {
             return {
-                state: {
-                    fileStore: fileStore.state,
-                    accountStore: accountStore.state
-                }
             };
         },
-
-        computed: {
-            selectedFile() {
-                return this.state.fileStore.selected;
-            },
-        }
     }
 </script>

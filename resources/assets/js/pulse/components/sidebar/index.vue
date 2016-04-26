@@ -1,6 +1,6 @@
 <template>
 <div class="sidebar" data-scrollbar='true' @click.stop="">
-        <file-info></file-info>
+        <file-info :file='file'></file-info>
     </div>
 </template>
 
@@ -11,6 +11,7 @@
     import fileInfo from './fileinfo.vue';
 
     export default {
+        props: [ 'file' ],
 
         components: { fileInfo },
 

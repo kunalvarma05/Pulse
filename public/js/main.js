@@ -36250,7 +36250,7 @@ exports.default = {
     methods: {}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': state.fileStore.selected }\" id=\"explorer\">\n\n    <explorer-header></explorer-header>\n\n    <div class=\"explorer-content\" data-scrollbar=\"true\">\n        <div class=\"container-fluid\">\n            <div class=\"row explorer-items\">\n\n                <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                <h4 class=\"text-center\" v-show=\"!state.fileStore.files\" align=\"center\">No files found!</h4>\n\n            </div>\n        </div>\n    </div>\n\n    <sidebar v-show=\"state.fileStore.selected\"></sidebar>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': state.fileStore.selected }\" id=\"explorer\">\n\n    <explorer-header></explorer-header>\n\n    <div class=\"explorer-content\" data-scrollbar=\"true\">\n        <div class=\"container-fluid\">\n            <div class=\"row explorer-items\">\n\n                <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                <h4 class=\"text-center\" v-show=\"!state.fileStore.files\" align=\"center\">No files found!</h4>\n\n            </div>\n        </div>\n    </div>\n\n    <sidebar v-show=\"state.fileStore.selected\" :file=\"state.fileStore.selected\"></sidebar>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36369,36 +36369,15 @@ if (module.hot) {(function () {  module.hot.accept()
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _file = require('../../stores/file');
-
-var _file2 = _interopRequireDefault(_file);
-
-var _account = require('../../stores/account');
-
-var _account2 = _interopRequireDefault(_account);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 exports.default = {
+    props: ['file'],
+
     data: function data() {
-        return {
-            state: {
-                fileStore: _file2.default.state,
-                accountStore: _account2.default.state
-            }
-        };
-    },
-
-
-    computed: {
-        selectedFile: function selectedFile() {
-            return this.state.fileStore.selected;
-        }
+        return {};
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar-header animated slideInRight\">\n    {{ selectedFile.title }}\n</div>\n\n<div class=\"sidebar-body\">\n    <div class=\"sidebar-items\">\n        <div class=\"sidebar-item\" style=\"animation-delay: 0.5s;\">\n            <div class=\"sidebar-item-body has-details\">\n                <div class=\"item-detail\" v-show=\"!selectedFile.isFolder\">\n                    <span class=\"item-detail-title\">Type</span>\n                    <span class=\"item-detail-value\">{{ selectedFile.mimeType }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Size</span>\n                    <span class=\"item-detail-value\">{{ selectedFile.size }}</span>\n                </div>\n                <div class=\"item-detail\" v-show=\"selectedFile.owners\">\n                    <span class=\"item-detail-title\">Owner</span>\n                    <span class=\"item-detail-value\">{{ selectedFile.owners }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Path</span>\n                    <span class=\"item-detail-value\">{{ selectedFile.path }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Modified</span>\n                    <span class=\"item-detail-value\">{{ selectedFile.modified }}</span>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar-header animated slideInRight\">\n    {{ file.title }}\n</div>\n\n<div class=\"sidebar-body\">\n    <div class=\"sidebar-items\">\n        <div class=\"sidebar-item\" style=\"animation-delay: 0.5s;\">\n            <div class=\"sidebar-item-body has-details\">\n                <div class=\"item-detail\" v-show=\"!file.isFolder\">\n                    <span class=\"item-detail-title\">Type</span>\n                    <span class=\"item-detail-value\">{{ file.mimeType }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Size</span>\n                    <span class=\"item-detail-value\">{{ file.size }}</span>\n                </div>\n                <div class=\"item-detail\" v-show=\"file.owners\">\n                    <span class=\"item-detail-title\">Owner</span>\n                    <span class=\"item-detail-value\">{{ file.owners }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Path</span>\n                    <span class=\"item-detail-value\">{{ file.path }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Modified</span>\n                    <span class=\"item-detail-value\">{{ file.modified }}</span>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36410,7 +36389,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":87,"../../stores/file":88,"vue":64,"vue-hot-reload-api":38}],79:[function(require,module,exports){
+},{"vue":64,"vue-hot-reload-api":38}],79:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36432,6 +36411,7 @@ var _fileinfo2 = _interopRequireDefault(_fileinfo);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
+    props: ['file'],
 
     components: { fileInfo: _fileinfo2.default },
 
@@ -36440,7 +36420,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar\" data-scrollbar=\"true\" @click.stop=\"\">\n        <file-info></file-info>\n    </div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar\" data-scrollbar=\"true\" @click.stop=\"\">\n        <file-info :file=\"file\"></file-info>\n    </div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
