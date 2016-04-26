@@ -23,24 +23,6 @@ use Pulse\Bus\Commands\Manager\GetDownloadLinkCommand;
 
 class ManagerController extends BaseController
 {
-
-    /**
-     * Fetch Account Quota
-     * @return Response
-     */
-    public function quota(Request $request, $account_id)
-    {
-        //Current User
-        $user = Auth::user();
-        //Account
-        $account = $user->accounts()->findOrFail($account_id);
-
-        //Get Quota
-        $quota = dispatch(new GetQuotaCommand($account));
-
-        return $this->response->item($quota, new QuotaTransformer);
-    }
-
     /**
      * Fetch Account Details
      * @return Response
@@ -52,7 +34,24 @@ class ManagerController extends BaseController
         //Account
         $account = $user->accounts()->findOrFail($account_id);
 
-        return $this->response->item($account, new AccountTransformer);
+        //Transform Account for Response
+        $accountTransformer = new AccountTransformer();
+        $accountResponse = $accountTransformer->transform($account);
+
+        //If account quota is required
+        if($request->has('quota')) {
+            //Get Quota
+            $quota = dispatch(new GetQuotaCommand($account));
+
+            //Transform Quota for Response
+            $quotaTransformer = new QuotaTransformer();
+            $quotaResponse = $quotaTransformer->transform($quota);
+
+            //Set the Account Quota
+            $accountResponse['quota'] = $quotaResponse;
+        }
+
+        return $this->response->array(['data' => $accountResponse]);
     }
 
     /**
