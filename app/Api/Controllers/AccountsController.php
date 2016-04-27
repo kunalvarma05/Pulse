@@ -33,7 +33,7 @@ class AccountsController extends BaseController
         //Current User
         $user = Auth::user();
         //Provider
-        $provider = Provider::find($request->get('provider'));
+        $provider = Provider::where('alias', $request->get('provider'))->firstOrFail();
 
         //Dispatch ConnectAccountCommand
         $account = dispatch(new ConnectAccountCommand(

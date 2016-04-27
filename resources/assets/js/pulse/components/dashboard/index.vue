@@ -3,6 +3,7 @@
     <div id="dashboard">
         <navbar></navbar>
         <sidemenu></sidemenu>
+        <connect-account></connect-account>
         <router-view></router-view>
     </div>
 
@@ -20,9 +21,11 @@
     //Sidemenu
     import sidemenu from '../sidemenu/index.vue';
 
+    import connectAccount from '../modals/connect-account.vue';
+
     export default {
 
-        components: { navbar, sidemenu },
+        components: { navbar, sidemenu, connectAccount },
 
         data() {
             return {
@@ -70,7 +73,7 @@
                         //log'em out.
                         this.$dispatch("user:loggedout");
                     }
-                );
+                    );
             }
         },
 

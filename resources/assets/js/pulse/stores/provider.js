@@ -35,9 +35,7 @@ export default {
         }, errorCb);
     },
 
-    /**
-     * Get Account Quota
-     */
+
      authUrl(provider = null, successCb = null, errorCb = null) {
         NProgress.start();
         let url = 'providers/auth-url';

@@ -22,6 +22,11 @@ export function configRouter(router) {
                     name: 'account-explorer',
                     auth: true,
                     component: require('./components/explorer/index.vue'),
+                },
+                '/auth-callback/:provider' : {
+                    name: 'auth-callback',
+                    auth: true,
+                    component: require('./components/account/create.vue')
                 }
             }
         },

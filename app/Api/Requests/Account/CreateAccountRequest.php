@@ -26,7 +26,7 @@ class CreateAccountRequest extends FormRequest
         'name' => 'bail|required|string|max:255',
         'code' => 'bail|required|string',
         'state' => 'bail|required|string',
-        'provider' => 'bail|required|exists:providers,id',
+        'provider' => 'bail|required|exists:providers,alias',
         ];
     }
 }

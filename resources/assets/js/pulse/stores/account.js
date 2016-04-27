@@ -81,21 +81,6 @@ export default {
     },
 
     /**
-     * Get Account Quota
-     */
-     quota(id = null, successCb = null, errorCb = null) {
-        NProgress.start();
-        let url = 'accounts/' + id + '/manager/quota';
-        http.get(url, {}, response => {
-            const data = response.data;
-            const quota = data.data;
-            if (successCb) {
-                successCb(quota);
-            }
-        }, errorCb);
-    },
-
-    /**
      * Get Account Info
      * @param  {int}  id        Account ID
      * @param  {Boolean} quota     If true, account quota will be returned
@@ -118,15 +103,38 @@ export default {
     },
 
     /**
-     * Create a new account
+     * Create Account
+     * @param  {string} name
+     * @param  {string} provider
+     * @param  {string} code      Auth Code
+     * @param  {string} state     CSRF State
+     * @param  {?Function} successCb
+     * @param  {?Function} errorCb
+     * @return {Promise}
      */
-     create(name, provider, code, state, cb = null) {
+     create(name, provider, code, state, successCb = null, errorCb = null) {
         NProgress.start();
 
-        http.post('accounts/create', { name, provider, code, state }, response => {
-            if (cb) {
-                cb();
+        return http.post('accounts/create', { name, provider, code, state },
+            response => {
+                const data = response.data;
+                const account = data.data;
+
+                this.accounts.unshift(account);
+
+                if (successCb) {
+                    successCb(account);
+                }
+            },
+            response => {
+                const data = response.data;
+                const errors = data.errors;
+
+                if (errorCb) {
+                    errorCb(errors);
+                }
+
             }
-        });
+        );
     },
 };

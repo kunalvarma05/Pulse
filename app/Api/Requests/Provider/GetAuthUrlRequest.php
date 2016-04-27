@@ -24,7 +24,7 @@ class GetAuthUrlRequest extends Request
     public function rules()
     {
         return [
-            'provider' => 'bail|required|exists:providers,id'
+            'provider' => 'bail|required|exists:providers,alias'
         ];
     }
 }

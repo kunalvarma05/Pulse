@@ -23,7 +23,7 @@
                     </h4>
                   </div>
                   <div class="card-footer">
-                    <a href="#" @click="connect(provider.id)" class="btn btn-primary btn-block" data-toggle="button" data-loading="">Connect</a>
+                    <a href="#" @click="connect(provider.alias)" class="btn btn-primary btn-block" data-toggle="button" data-loading="">Connect</a>
                   </div>
                 </div>
               </div>
@@ -57,8 +57,8 @@
     },
 
     methods: {
-      connect(provider_id) {
-        providerStore.authUrl(provider_id, (url) => {
+      connect(provider_alias) {
+        providerStore.authUrl(provider_alias, (url) => {
           window.location = url;
         });
       }

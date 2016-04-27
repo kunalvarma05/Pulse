@@ -32,7 +32,7 @@ class ProvidersController extends BaseController
     public function getAuthUrl(GetAuthUrlRequest $request)
     {
         //Provider
-        $provider = Provider::find($request->get('provider'));
+        $provider = Provider::where('alias', $request->get('provider'))->firstOrFail();
 
         //Resolve Authorization Service
         $authorization = AuthFactory::create(strtolower($provider->alias));

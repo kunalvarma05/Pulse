@@ -35753,7 +35753,7 @@ require('./pulse/pulse.js');
 require('./pulse/app.js');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bootstrap.js":66,"./pulse/app.js":68,"./pulse/pulse.js":85,"jquery":8,"perfect-scrollbar":14,"tether":36}],68:[function(require,module,exports){
+},{"./bootstrap.js":66,"./pulse/app.js":68,"./pulse/pulse.js":87,"jquery":8,"perfect-scrollbar":14,"tether":36}],68:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -35798,7 +35798,7 @@ var router = new VueRouter({
 //Kickoff!
 router.start(app, 'body');
 
-},{"./app.vue":69,"./config/resource":84,"./routes.js":86,"./services/ls":88,"nprogress":13,"vue":64,"vue-router":63}],69:[function(require,module,exports){
+},{"./app.vue":69,"./config/resource":86,"./routes.js":88,"./services/ls":90,"nprogress":13,"vue":64,"vue-router":63}],69:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35882,7 +35882,93 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./services/ls":88,"./stores/shared.js":91,"./stores/user.js":92,"vue":64,"vue-hot-reload-api":38}],70:[function(require,module,exports){
+},{"./services/ls":90,"./stores/shared.js":94,"./stores/user.js":95,"vue":64,"vue-hot-reload-api":38}],70:[function(require,module,exports){
+var __vueify_style__ = require("vueify-insert-css").insert("\n.create-account-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _account = require('../../stores/account.js');
+
+var _account2 = _interopRequireDefault(_account);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    data: function data() {
+        return {
+            name: '',
+            code: '',
+            state: '',
+            provider: '',
+            errors: false
+        };
+    },
+
+
+    computed: {
+        nameError: function nameError() {
+            if (this.errors) {
+                return this.errors.name ? this.errors.name[0] : '';
+            }
+        },
+        code: function code() {
+            return this.$route.query.code;
+        },
+        state: function state() {
+            return this.$route.query.state;
+        },
+        provider: function provider() {
+            return this.$route.params.provider;
+        }
+    },
+
+    methods: {
+
+        /**
+         * Connect
+         */
+
+        create: function create() {
+            var _this = this;
+
+            this.errors = false;
+
+            _account2.default.create(this.name, this.provider, this.code, this.state, function (account) {
+                //Reset the form
+                _this.name = "";
+
+                _this.$route.router.go({ name: 'account-explorer', params: { account_id: account.id } });
+
+                //Notify the parent
+                _this.$dispatch("account:created");
+            }, function (errors) {
+                //Error
+                _this.errors = errors;
+            });
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container create-account-container\">\n    <form @submit.prevent=\"create\" :class=\"{ 'has-danger': errors }\">\n        <h2 class=\"page-header\">Create Account</h2>\n        <div class=\"form-group\">\n            <label>Name</label>\n            <input class=\"form-control form-control-danger\" v-model=\"name\" type=\"text\" placeholder=\"Name\" autofocus=\"autofocus\" required=\"\">\n            <div class=\"form-error\" v-show=\"nameError\">{{ nameError }}</div>\n        </div>\n        <button type=\"submit\" class=\"btn btn-primary btn-block\">Create Account</button>\n    </form>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\account\\create.vue"
+  module.hot.dispose(function () {
+    require("vueify-insert-css").cache["\n.create-account-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../stores/account.js":91,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],71:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.login-container {\n    margin-top: 10%;\n    max-width: 300px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -35948,7 +36034,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":92,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],71:[function(require,module,exports){
+},{"../../stores/user.js":95,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],72:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.signup-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -36043,7 +36129,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":92,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],72:[function(require,module,exports){
+},{"../../stores/user.js":95,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],73:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36066,15 +36152,18 @@ var _index3 = require('../sidemenu/index.vue');
 
 var _index4 = _interopRequireDefault(_index3);
 
+var _connectAccount = require('../modals/connect-account.vue');
+
+var _connectAccount2 = _interopRequireDefault(_connectAccount);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//Navbar
+//Sidemenu
 
-
-//User Store
+//Shared Store
 exports.default = {
 
-    components: { navbar: _index2.default, sidemenu: _index4.default },
+    components: { navbar: _index2.default, sidemenu: _index4.default, connectAccount: _connectAccount2.default },
 
     data: function data() {
         return {
@@ -36132,11 +36221,13 @@ exports.default = {
         }
     }
 };
-//Sidemenu
 
-//Shared Store
+//Navbar
+
+
+//User Store
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div id=\"dashboard\">\n    <navbar></navbar>\n    <sidemenu></sidemenu>\n    <router-view></router-view>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div id=\"dashboard\">\n    <navbar></navbar>\n    <sidemenu></sidemenu>\n    <connect-account></connect-account>\n    <router-view></router-view>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36148,7 +36239,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/shared.js":91,"../../stores/user.js":92,"../navbar/index.vue":76,"../sidemenu/index.vue":82,"vue":64,"vue-hot-reload-api":38}],73:[function(require,module,exports){
+},{"../../stores/shared.js":94,"../../stores/user.js":95,"../modals/connect-account.vue":77,"../navbar/index.vue":78,"../sidemenu/index.vue":84,"vue":64,"vue-hot-reload-api":38}],74:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36256,7 +36347,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":90,"vue":64,"vue-clickaway":37,"vue-hot-reload-api":38}],74:[function(require,module,exports){
+},{"../../stores/file":92,"vue":64,"vue-clickaway":37,"vue-hot-reload-api":38}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36379,7 +36470,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":90,"vue":64,"vue-hot-reload-api":38}],75:[function(require,module,exports){
+},{"../../stores/file":92,"vue":64,"vue-hot-reload-api":38}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36402,6 +36493,10 @@ var _file3 = require('./file.vue');
 
 var _file4 = _interopRequireDefault(_file3);
 
+var _connectAccount = require('../modals/connect-account.vue');
+
+var _connectAccount2 = _interopRequireDefault(_connectAccount);
+
 var _index = require('../sidebar/index.vue');
 
 var _index2 = _interopRequireDefault(_index);
@@ -36410,7 +36505,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
 
-    components: { explorerHeader: _header2.default, explorerFile: _file4.default, sidebar: _index2.default },
+    components: { explorerHeader: _header2.default, explorerFile: _file4.default, sidebar: _index2.default, connectAccount: _connectAccount2.default },
 
     data: function data() {
         return {
@@ -36473,7 +36568,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': true }\" id=\"explorer\">\n\n    <explorer-header :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></explorer-header>\n\n    <div class=\"explorer-content\">\n        <div class=\"container-fluid\">\n            <div class=\"row explorer-items\">\n\n                <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                <h4 class=\"text-center\" v-show=\"!state.fileStore.files\" align=\"center\">No files to show!</h4>\n\n            </div>\n        </div>\n    </div>\n\n    <sidebar :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></sidebar>\n\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': true }\" id=\"explorer\">\n\n    <explorer-header :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></explorer-header>\n\n    <div class=\"explorer-content\">\n        <div class=\"container-fluid\">\n            <div class=\"row explorer-items\">\n\n                <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                <h4 class=\"text-center\" v-show=\"!state.fileStore.files\" align=\"center\">No files to show!</h4>\n\n            </div>\n        </div>\n    </div>\n\n    <sidebar :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></sidebar>\n\n    <connect-account></connect-account>\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36485,7 +36580,73 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":89,"../../stores/file":90,"../sidebar/index.vue":80,"./file.vue":73,"./header.vue":74,"vue":64,"vue-hot-reload-api":38}],76:[function(require,module,exports){
+},{"../../stores/account":91,"../../stores/file":92,"../modals/connect-account.vue":77,"../sidebar/index.vue":82,"./file.vue":74,"./header.vue":75,"vue":64,"vue-hot-reload-api":38}],77:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _config = require('../../config');
+
+var _config2 = _interopRequireDefault(_config);
+
+var _user = require('../../stores/user');
+
+var _user2 = _interopRequireDefault(_user);
+
+var _provider = require('../../stores/provider');
+
+var _provider2 = _interopRequireDefault(_provider);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  ready: function ready() {},
+  data: function data() {
+    return {
+      state: _provider2.default.state
+    };
+  },
+
+
+  methods: {
+    connect: function connect(provider_alias) {
+      _provider2.default.authUrl(provider_alias, function (url) {
+        window.location = url;
+      });
+    }
+  },
+
+  events: {
+    "user:loggedin": function userLoggedin() {
+      _provider2.default.list();
+    },
+
+    "pulse:ready": function pulseReady() {
+      _provider2.default.list();
+    },
+
+    "pulse:teardown": function pulseTeardown() {
+      _provider2.default.init([]);
+    }
+  }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal fade\" id=\"connect-account-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"connectAccountLabel\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">×</span>\n        </button>\n        <h4 class=\"modal-title\" id=\"connectAccountLabel\">Connect Account</h4>\n      </div>\n      <div class=\"modal-body\">\n        <div class=\"container\">\n          <div class=\"row connect-account-items\">\n\n            <div v-for=\"provider in state.providers\" class=\"col-md-6 col-sm-6 connect-account-item\">\n              <div class=\"card\">\n                <div class=\"card-block text-xs-center\">\n                  <p class=\"card-text\">\n                    <img v-bind:src=\"'/images/providers/' + provider.alias + '.png'\" alt=\"dropbox\" class=\"connect-account-image\">\n                  </p>\n                  <h4 class=\"card-title\">\n                    {{provider.title}}\n                  </h4>\n                </div>\n                <div class=\"card-footer\">\n                  <a href=\"#\" @click=\"connect(provider.alias)\" class=\"btn btn-primary btn-block\" data-toggle=\"button\" data-loading=\"\">Connect</a>\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </div>\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\modals\\connect-account.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../config":85,"../../stores/provider":93,"../../stores/user":95,"vue":64,"vue-hot-reload-api":38}],78:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36547,7 +36708,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":92,"./search.vue":77,"./user-profile.vue":78,"vue":64,"vue-hot-reload-api":38}],77:[function(require,module,exports){
+},{"../../stores/user.js":95,"./search.vue":79,"./user-profile.vue":80,"vue":64,"vue-hot-reload-api":38}],79:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36573,7 +36734,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":64,"vue-hot-reload-api":38}],78:[function(require,module,exports){
+},{"vue":64,"vue-hot-reload-api":38}],80:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36620,7 +36781,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":64,"vue-hot-reload-api":38}],79:[function(require,module,exports){
+},{"vue":64,"vue-hot-reload-api":38}],81:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36646,7 +36807,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":64,"vue-hot-reload-api":38}],80:[function(require,module,exports){
+},{"vue":64,"vue-hot-reload-api":38}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36708,7 +36869,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":89,"./fileinfo.vue":79,"./quota.vue":81,"vue":64,"vue-hot-reload-api":38}],81:[function(require,module,exports){
+},{"../../stores/account":91,"./fileinfo.vue":81,"./quota.vue":83,"vue":64,"vue-hot-reload-api":38}],83:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36785,7 +36946,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":89,"vue":64,"vue-hot-reload-api":38}],82:[function(require,module,exports){
+},{"../../stores/account":91,"vue":64,"vue-hot-reload-api":38}],84:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36850,7 +37011,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":83,"../../stores/account":89,"../../stores/file":90,"../../stores/user":92,"vue":64,"vue-hot-reload-api":38}],83:[function(require,module,exports){
+},{"../../config":85,"../../stores/account":91,"../../stores/file":92,"../../stores/user":95,"vue":64,"vue-hot-reload-api":38}],85:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36862,7 +37023,7 @@ exports.default = {
     logo: "images/logo-white.png"
 };
 
-},{}],84:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -36917,7 +37078,7 @@ _vue2.default.http.interceptors.push({
     }
 });
 
-},{"../services/ls":88,"nprogress":13,"vue":64,"vue-resource":52}],85:[function(require,module,exports){
+},{"../services/ls":90,"nprogress":13,"vue":64,"vue-resource":52}],87:[function(require,module,exports){
 "use strict";
 
 jQuery(document).ready(function ($) {
@@ -36938,7 +37099,7 @@ jQuery(document).ready(function ($) {
     });
 });
 
-},{}],86:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36969,6 +37130,11 @@ function configRouter(router) {
                     name: 'account-explorer',
                     auth: true,
                     component: require('./components/explorer/index.vue')
+                },
+                '/auth-callback/:provider': {
+                    name: 'auth-callback',
+                    auth: true,
+                    component: require('./components/account/create.vue')
                 }
             }
         }
@@ -36995,7 +37161,7 @@ function configRouter(router) {
     });
 }
 
-},{"./components/auth/login-form.vue":70,"./components/auth/signup-form.vue":71,"./components/dashboard/index.vue":72,"./components/explorer/index.vue":75}],87:[function(require,module,exports){
+},{"./components/account/create.vue":70,"./components/auth/login-form.vue":71,"./components/auth/signup-form.vue":72,"./components/dashboard/index.vue":73,"./components/explorer/index.vue":76}],89:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37054,7 +37220,7 @@ exports.default = {
     }
 };
 
-},{"vue":64}],88:[function(require,module,exports){
+},{"vue":64}],90:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37083,7 +37249,7 @@ exports.default = {
     }
 };
 
-},{"local-storage":9}],89:[function(require,module,exports){
+},{"local-storage":9}],91:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37192,26 +37358,6 @@ exports.default = {
 
 
     /**
-     * Get Account Quota
-     */
-    quota: function quota() {
-        var id = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-        var successCb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-        var errorCb = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
-
-        _nprogress2.default.start();
-        var url = 'accounts/' + id + '/manager/quota';
-        _http2.default.get(url, {}, function (response) {
-            var data = response.data;
-            var quota = data.data;
-            if (successCb) {
-                successCb(quota);
-            }
-        }, errorCb);
-    },
-
-
-    /**
      * Get Account Info
      * @param  {int}  id        Account ID
      * @param  {Boolean} quota     If true, account quota will be returned
@@ -37240,22 +37386,44 @@ exports.default = {
 
 
     /**
-     * Create a new account
+     * Create Account
+     * @param  {string} name
+     * @param  {string} provider
+     * @param  {string} code      Auth Code
+     * @param  {string} state     CSRF State
+     * @param  {?Function} successCb
+     * @param  {?Function} errorCb
+     * @return {Promise}
      */
     create: function create(name, provider, code, state) {
-        var cb = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+        var _this2 = this;
+
+        var successCb = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+        var errorCb = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
 
         _nprogress2.default.start();
 
-        _http2.default.post('accounts/create', { name: name, provider: provider, code: code, state: state }, function (response) {
-            if (cb) {
-                cb();
+        return _http2.default.post('accounts/create', { name: name, provider: provider, code: code, state: state }, function (response) {
+            var data = response.data;
+            var account = data.data;
+
+            _this2.accounts.unshift(account);
+
+            if (successCb) {
+                successCb(account);
+            }
+        }, function (response) {
+            var data = response.data;
+            var errors = data.errors;
+
+            if (errorCb) {
+                errorCb(errors);
             }
         });
     }
 };
 
-},{"../services/http":87,"../stubs/account":93,"lodash":12,"nprogress":13,"vue":64}],90:[function(require,module,exports){
+},{"../services/http":89,"../stubs/account":96,"lodash":12,"nprogress":13,"vue":64}],92:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37393,7 +37561,94 @@ exports.default = {
     }
 };
 
-},{"../services/http":87,"../stubs/file":94,"lodash":12,"nprogress":13,"vue":64}],91:[function(require,module,exports){
+},{"../services/http":89,"../stubs/file":97,"lodash":12,"nprogress":13,"vue":64}],93:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _lodash = require('lodash');
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _nprogress = require('nprogress');
+
+var _nprogress2 = _interopRequireDefault(_nprogress);
+
+var _http = require('../services/http');
+
+var _http2 = _interopRequireDefault(_http);
+
+var _provider = require('../stubs/provider');
+
+var _provider2 = _interopRequireDefault(_provider);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    state: {
+        providers: false,
+        authUrl: false
+    },
+
+    /**
+     * Init the store.
+     */
+    init: function init(providers) {
+        this.state.providers = providers;
+    },
+
+
+    /**
+     * List Accounts
+     */
+    list: function list() {
+        var _this = this;
+
+        var successCb = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+        var errorCb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+        _nprogress2.default.start();
+        _http2.default.get('providers', {}, function (response) {
+            var data = response.data;
+            var providers = data.data;
+
+            _this.state.providers = providers;
+
+            if (successCb) {
+                successCb();
+            }
+        }, errorCb);
+    },
+    authUrl: function authUrl() {
+        var provider = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
+        var _this2 = this;
+
+        var successCb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+        var errorCb = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+        _nprogress2.default.start();
+        var url = 'providers/auth-url';
+
+        _http2.default.get(url, { provider: provider }, function (response) {
+
+            var data = response.data;
+            var authUrl = data.url;
+
+            _this2.state.authUrl = authUrl;
+
+            if (successCb) {
+                successCb(authUrl);
+            }
+        }, errorCb);
+    }
+};
+
+},{"../services/http":89,"../stubs/provider":98,"lodash":12,"nprogress":13,"vue":64}],94:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37481,7 +37736,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":87,"./user":92}],92:[function(require,module,exports){
+},{"../services/http":89,"./user":95}],95:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37631,7 +37886,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":87,"../stubs/user":95,"nprogress":13}],93:[function(require,module,exports){
+},{"../services/http":89,"../stubs/user":99,"nprogress":13}],96:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37648,7 +37903,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],94:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37669,7 +37924,24 @@ exports.default = {
     owners: null
 };
 
-},{}],95:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    id: null,
+    title: null,
+    description: null,
+    link: null,
+    alias: null,
+    picture: null,
+    created_at: null,
+    updated_at: null
+};
+
+},{}],99:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

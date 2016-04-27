@@ -17,6 +17,8 @@
 
         <sidebar :file.sync='selectedFile' :account.sync='currentAccount'></sidebar>
 
+        <connect-account></connect-account>
+
     </div>
 </template>
 
@@ -27,12 +29,13 @@
 
     import explorerHeader from './header.vue';
     import explorerFile from './file.vue';
+    import connectAccount from '../modals/connect-account.vue';
     import sidebar from '../sidebar/index.vue';
 
 
     export default {
 
-        components: { explorerHeader, explorerFile, sidebar },
+        components: { explorerHeader, explorerFile, sidebar, connectAccount },
 
         data() {
             return {
@@ -57,7 +60,7 @@
                         //Set the current account
                         this.state.accountStore.current = account;
                     }
-                );
+                    );
 
                 //Browse Files
                 fileStore.browse(this.account_id);
@@ -70,7 +73,7 @@
              * Account Id
              * @return {int}
              */
-            account_id() {
+             account_id() {
                 return this.$route.params.account_id;
             },
 
@@ -78,7 +81,7 @@
              * Selected File
              * @return {Object}
              */
-            selectedFile() {
+             selectedFile() {
                 return this.state.fileStore.selected;
             },
 
@@ -86,7 +89,7 @@
              * Current Account
              * @return {Object}
              */
-            currentAccount() {
+             currentAccount() {
                 return this.state.accountStore.current;
             }
 
