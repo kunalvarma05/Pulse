@@ -16,6 +16,10 @@
     padding: 5px 5px 7px 5px;
     margin-bottom: 15px;
     border-bottom: solid 1px $sidebar-header-border-color;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
     a {
         float: right;
     }
@@ -58,16 +62,19 @@
             margin-bottom: 5px;
         }
         .item-detail-title {
-            color: $gray;
+            color: $sidebar-header-color;
+            display: block;
+            margin-bottom: 2px;
+            font-weight: bold;
         }
         .item-detail-value {
             color: $primary;
-            float: right;
-            width: 70%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            text-align: right;
+            width: 100%;
+            display: block;
+            margin-bottom: 10px;
         }
     }
 }

@@ -51,8 +51,8 @@
                 //Initialize the File Store
                 fileStore.init(false, []);
 
-                //Get Account Info
-                accountStore.getInfo(this.account_id,
+                //Get Account Info with quota
+                accountStore.getInfo(this.account_id, true,
                     (account) => {
                         //Set the current account
                         this.state.accountStore.current = account;

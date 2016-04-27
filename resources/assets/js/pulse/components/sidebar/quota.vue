@@ -5,8 +5,13 @@
 
     <div class="sidebar-body">
         <div class="sidebar-items">
-            <div class="sidebar-item" style="animation-delay: 0.5s;">
-                <div class="sidebar-item-body has-details">
+            <div class="sidebar-item">
+
+                <div class="loading" v-show="!currentAccount">
+                    Fetching account quota...
+                </div>
+
+                <div class="sidebar-item-body has-details" v-show='currentAccount'>
                     <div class="item-detail">
                         <span class="item-detail-title">Space Alloted</span>
                         <span class="item-detail-value">{{ spaceAlloted }}</span>
@@ -35,29 +40,17 @@
             return {
                 state: {
                     accountStore: accountStore.state,
-                    quota: ''
                 }
             };
         },
 
-        ready() {
-            //Get Account Quota
-            accountStore.quota(this.account_id,
-                (quota) => {
-                    //Set the account quota
-                    this.state.quota = quota;
-                }
-            );
-        },
-
         computed: {
-
             /**
-             * Account Id
-             * @return {int}
+             * Current Account
+             * @return {Object}
              */
-             account_id() {
-                return this.$route.params.account_id;
+             currentAccount() {
+                return this.account;
             },
 
             /**
@@ -65,7 +58,7 @@
              * @return {string}
              */
              spaceAlloted() {
-                return this.state.quota.space_alloted;
+                return this.currentAccount ? this.currentAccount.quota.space_alloted : '';
             },
 
             /**
@@ -73,7 +66,7 @@
              * @return {string}
              */
              spaceUsed() {
-                return this.state.quota.space_used;
+                return this.currentAccount ? this.currentAccount.quota.space_used : '';
             },
 
             /**
@@ -81,7 +74,7 @@
              * @return {string}
              */
              spaceRemaining() {
-                return this.state.quota.space_remaining;
+                return this.currentAccount ? this.currentAccount.quota.space_remaining : '';
             },
 
         }

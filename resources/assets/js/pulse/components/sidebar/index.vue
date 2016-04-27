@@ -13,6 +13,8 @@
 
 <script>
 
+    import accountStore from '../../stores/account';
+
     import fileInfo from './fileinfo.vue';
     import quota from './quota.vue';
 
@@ -24,11 +26,13 @@
 
         data() {
             return {
-
+                state: {
+                    accountStore: accountStore.state,
+                }
             };
         },
 
-        methods: {
+        computed: {
 
             /**
              * Current Account

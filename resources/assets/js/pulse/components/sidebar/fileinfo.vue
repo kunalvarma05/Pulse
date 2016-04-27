@@ -5,7 +5,7 @@
 
     <div class="sidebar-body">
         <div class="sidebar-items">
-            <div class="sidebar-item" style="animation-delay: 0.5s;">
+            <div class="sidebar-item">
                 <div class="sidebar-item-body has-details">
                     <div class="item-detail" v-show='!file.isFolder'>
                         <span class="item-detail-title">Type</span>

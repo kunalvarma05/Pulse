@@ -35978,10 +35978,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 //User Store
 exports.default = {
+
     components: { navbar: _index2.default, sidemenu: _index4.default },
 
     data: function data() {
-        return {};
+        return {
+            state: {
+                userStore: _user2.default.state
+            }
+        };
     },
     ready: function ready() {
         //Initialize
@@ -35989,8 +35994,16 @@ exports.default = {
     },
 
 
-    route: {
-        data: function data() {}
+    computed: {
+
+        /**
+         * Current User
+         * @return {Object}
+         */
+
+        currentUser: function currentUser() {
+            return this.state.userStore.current;
+        }
     },
 
     methods: {
@@ -36002,6 +36015,7 @@ exports.default = {
         init: function init() {
             var _this = this;
 
+            //Initialize
             _shared2.default.init(function (response) {
                 //The app is ready
                 //Let the parent know
@@ -36009,6 +36023,8 @@ exports.default = {
                 //Let the children know
                 _this.$broadcast("pulse:ready");
             }, function () {
+                //The User ain't logged in,
+                //log'em out.
                 _this.$dispatch("user:loggedout");
             });
         }
@@ -36025,7 +36041,7 @@ exports.default = {
 
 //Shared Store
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"dashboard\">\n    <navbar></navbar>\n    <sidemenu></sidemenu>\n    <router-view></router-view>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div id=\"dashboard\">\n    <navbar></navbar>\n    <sidemenu></sidemenu>\n    <router-view></router-view>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36319,8 +36335,8 @@ exports.default = {
             //Initialize the File Store
             _file2.default.init(false, []);
 
-            //Get Account Info
-            _account2.default.getInfo(this.account_id, function (account) {
+            //Get Account Info with quota
+            _account2.default.getInfo(this.account_id, true, function (account) {
                 //Set the current account
                 _this.state.accountStore.current = account;
             });
@@ -36523,7 +36539,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar-header animated slideInRight\">\n    {{ file.title }}\n</div>\n\n<div class=\"sidebar-body\">\n    <div class=\"sidebar-items\">\n        <div class=\"sidebar-item\" style=\"animation-delay: 0.5s;\">\n            <div class=\"sidebar-item-body has-details\">\n                <div class=\"item-detail\" v-show=\"!file.isFolder\">\n                    <span class=\"item-detail-title\">Type</span>\n                    <span class=\"item-detail-value\">{{ file.mimeType }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Size</span>\n                    <span class=\"item-detail-value\">{{ file.size }}</span>\n                </div>\n                <div class=\"item-detail\" v-show=\"file.owners\">\n                    <span class=\"item-detail-title\">Owner</span>\n                    <span class=\"item-detail-value\">{{ file.owners }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Path</span>\n                    <span class=\"item-detail-value\">{{ file.path }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Modified</span>\n                    <span class=\"item-detail-value\">{{ file.modified }}</span>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar-header animated slideInRight\">\n    {{ file.title }}\n</div>\n\n<div class=\"sidebar-body\">\n    <div class=\"sidebar-items\">\n        <div class=\"sidebar-item\">\n            <div class=\"sidebar-item-body has-details\">\n                <div class=\"item-detail\" v-show=\"!file.isFolder\">\n                    <span class=\"item-detail-title\">Type</span>\n                    <span class=\"item-detail-value\">{{ file.mimeType }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Size</span>\n                    <span class=\"item-detail-value\">{{ file.size }}</span>\n                </div>\n                <div class=\"item-detail\" v-show=\"file.owners\">\n                    <span class=\"item-detail-title\">Owner</span>\n                    <span class=\"item-detail-value\">{{ file.owners }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Path</span>\n                    <span class=\"item-detail-value\">{{ file.path }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Modified</span>\n                    <span class=\"item-detail-value\">{{ file.modified }}</span>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36542,6 +36558,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _account = require('../../stores/account');
+
+var _account2 = _interopRequireDefault(_account);
+
 var _fileinfo = require('./fileinfo.vue');
 
 var _fileinfo2 = _interopRequireDefault(_fileinfo);
@@ -36559,11 +36579,15 @@ exports.default = {
     components: { fileInfo: _fileinfo2.default, quota: _quota2.default },
 
     data: function data() {
-        return {};
+        return {
+            state: {
+                accountStore: _account2.default.state
+            }
+        };
     },
 
 
-    methods: {
+    computed: {
 
         /**
          * Current Account
@@ -36589,7 +36613,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./fileinfo.vue":78,"./quota.vue":80,"vue":64,"vue-hot-reload-api":38}],80:[function(require,module,exports){
+},{"../../stores/account":88,"./fileinfo.vue":78,"./quota.vue":80,"vue":64,"vue-hot-reload-api":38}],80:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36608,31 +36632,20 @@ exports.default = {
     data: function data() {
         return {
             state: {
-                accountStore: _account2.default.state,
-                quota: ''
+                accountStore: _account2.default.state
             }
         };
-    },
-    ready: function ready() {
-        var _this = this;
-
-        //Get Account Quota
-        _account2.default.quota(this.account_id, function (quota) {
-            //Set the account quota
-            _this.state.quota = quota;
-        });
     },
 
 
     computed: {
-
         /**
-         * Account Id
-         * @return {int}
+         * Current Account
+         * @return {Object}
          */
 
-        account_id: function account_id() {
-            return this.$route.params.account_id;
+        currentAccount: function currentAccount() {
+            return this.account;
         },
 
 
@@ -36641,7 +36654,7 @@ exports.default = {
          * @return {string}
          */
         spaceAlloted: function spaceAlloted() {
-            return this.state.quota.space_alloted;
+            return this.currentAccount ? this.currentAccount.quota.space_alloted : '';
         },
 
 
@@ -36650,7 +36663,7 @@ exports.default = {
          * @return {string}
          */
         spaceUsed: function spaceUsed() {
-            return this.state.quota.space_used;
+            return this.currentAccount ? this.currentAccount.quota.space_used : '';
         },
 
 
@@ -36659,13 +36672,13 @@ exports.default = {
          * @return {string}
          */
         spaceRemaining: function spaceRemaining() {
-            return this.state.quota.space_remaining;
+            return this.currentAccount ? this.currentAccount.quota.space_remaining : '';
         }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar-header animated slideInRight\">\n    Account Quota\n</div>\n\n<div class=\"sidebar-body\">\n    <div class=\"sidebar-items\">\n        <div class=\"sidebar-item\" style=\"animation-delay: 0.5s;\">\n            <div class=\"sidebar-item-body has-details\">\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Space Alloted</span>\n                    <span class=\"item-detail-value\">{{ spaceAlloted }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Space Used</span>\n                    <span class=\"item-detail-value\">{{ spaceUsed }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Space Remaining</span>\n                    <span class=\"item-detail-value\">{{ spaceRemaining }}</span>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar-header animated slideInRight\">\n    Account Quota\n</div>\n\n<div class=\"sidebar-body\">\n    <div class=\"sidebar-items\">\n        <div class=\"sidebar-item\">\n\n            <div class=\"loading\" v-show=\"!currentAccount\">\n                Fetching account quota...\n            </div>\n\n            <div class=\"sidebar-item-body has-details\" v-show=\"currentAccount\">\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Space Alloted</span>\n                    <span class=\"item-detail-value\">{{ spaceAlloted }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Space Used</span>\n                    <span class=\"item-detail-value\">{{ spaceUsed }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Space Remaining</span>\n                    <span class=\"item-detail-value\">{{ spaceRemaining }}</span>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -37100,15 +37113,22 @@ exports.default = {
 
     /**
      * Get Account Info
+     * @param  {int}  id        Account ID
+     * @param  {Boolean} quota     If true, account quota will be returned
+     * @param  {?Function}  successCb
+     * @param  {?Function}  errorCb
+     * @return {Promise}
      */
     getInfo: function getInfo() {
         var id = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-        var successCb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-        var errorCb = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+        var quota = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+        var successCb = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+        var errorCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
 
         _nprogress2.default.start();
         var url = 'accounts/' + id + '/manager/info';
-        _http2.default.get(url, {}, function (response) {
+
+        return _http2.default.get(url, { quota: quota }, function (response) {
             var data = response.data;
             var account = data.data;
 
