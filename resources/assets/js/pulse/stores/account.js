@@ -97,11 +97,17 @@ export default {
 
     /**
      * Get Account Info
+     * @param  {int}  id        Account ID
+     * @param  {Boolean} quota     If true, account quota will be returned
+     * @param  {?Function}  successCb
+     * @param  {?Function}  errorCb
+     * @return {Promise}
      */
-     getInfo(id = null, successCb = null, errorCb = null) {
+     getInfo(id = null, quota = false, successCb = null, errorCb = null) {
         NProgress.start();
         let url = 'accounts/' + id + '/manager/info';
-        http.get(url, {}, response => {
+
+        return http.get(url, { quota }, response => {
             const data = response.data;
             const account = data.data;
 
