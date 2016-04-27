@@ -4,7 +4,9 @@
         <navbar></navbar>
         <sidemenu></sidemenu>
         <connect-account></connect-account>
-        <router-view></router-view>
+        <div class="dashboard-content">
+            <router-view></router-view>
+        </div>
     </div>
 
 </template>

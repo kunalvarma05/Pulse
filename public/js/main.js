@@ -35753,7 +35753,7 @@ require('./pulse/pulse.js');
 require('./pulse/app.js');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bootstrap.js":66,"./pulse/app.js":68,"./pulse/pulse.js":87,"jquery":8,"perfect-scrollbar":14,"tether":36}],68:[function(require,module,exports){
+},{"./bootstrap.js":66,"./pulse/app.js":68,"./pulse/pulse.js":88,"jquery":8,"perfect-scrollbar":14,"tether":36}],68:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -35798,7 +35798,7 @@ var router = new VueRouter({
 //Kickoff!
 router.start(app, 'body');
 
-},{"./app.vue":69,"./config/resource":86,"./routes.js":88,"./services/ls":90,"nprogress":13,"vue":64,"vue-router":63}],69:[function(require,module,exports){
+},{"./app.vue":69,"./config/resource":87,"./routes.js":89,"./services/ls":91,"nprogress":13,"vue":64,"vue-router":63}],69:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35882,7 +35882,78 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./services/ls":90,"./stores/shared.js":94,"./stores/user.js":95,"vue":64,"vue-hot-reload-api":38}],70:[function(require,module,exports){
+},{"./services/ls":91,"./stores/shared.js":95,"./stores/user.js":96,"vue":64,"vue-hot-reload-api":38}],70:[function(require,module,exports){
+var __vueify_style__ = require("vueify-insert-css").insert("\n.connect-account {\n  padding-top: 20px;\n}\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _config = require('../../config');
+
+var _config2 = _interopRequireDefault(_config);
+
+var _user = require('../../stores/user');
+
+var _user2 = _interopRequireDefault(_user);
+
+var _provider = require('../../stores/provider');
+
+var _provider2 = _interopRequireDefault(_provider);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  ready: function ready() {},
+  data: function data() {
+    return {
+      state: _provider2.default.state
+    };
+  },
+
+
+  methods: {
+    connect: function connect(provider_alias) {
+      _provider2.default.authUrl(provider_alias, function (url) {
+        window.location = url;
+      });
+    }
+  },
+
+  events: {
+    "user:loggedin": function userLoggedin() {
+      _provider2.default.list();
+    },
+
+    "pulse:ready": function pulseReady() {
+      _provider2.default.list();
+    },
+
+    "pulse:teardown": function pulseTeardown() {
+      _provider2.default.init([]);
+    }
+  }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"connect-account container\">\n  <h2 class=\"page-header\">Connect Account</h2>\n  <div class=\"connect-account-items\">\n    <div v-for=\"provider in state.providers\" class=\"col-md-6 col-sm-6 connect-account-item\">\n      <div class=\"card\">\n        <div class=\"card-block text-xs-center\">\n          <p class=\"card-text\">\n            <img v-bind:src=\"'/images/providers/' + provider.alias + '.png'\" alt=\"dropbox\" class=\"connect-account-image\">\n          </p>\n          <h4 class=\"card-title\">\n            {{provider.title}}\n          </h4>\n        </div>\n        <div class=\"card-footer\">\n          <a href=\"#\" @click=\"connect(provider.alias)\" class=\"btn btn-primary btn-block\">Connect</a>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\account\\connect.vue"
+  module.hot.dispose(function () {
+    require("vueify-insert-css").cache["\n.connect-account {\n  padding-top: 20px;\n}\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../config":86,"../../stores/provider":94,"../../stores/user":96,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],71:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.create-account-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -35968,7 +36039,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account.js":91,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],71:[function(require,module,exports){
+},{"../../stores/account.js":92,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],72:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.login-container {\n    margin-top: 10%;\n    max-width: 300px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -36034,7 +36105,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":95,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],72:[function(require,module,exports){
+},{"../../stores/user.js":96,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],73:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.signup-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -36129,7 +36200,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":95,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],73:[function(require,module,exports){
+},{"../../stores/user.js":96,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],74:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36227,7 +36298,7 @@ exports.default = {
 
 //User Store
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div id=\"dashboard\">\n    <navbar></navbar>\n    <sidemenu></sidemenu>\n    <connect-account></connect-account>\n    <router-view></router-view>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div id=\"dashboard\">\n    <navbar></navbar>\n    <sidemenu></sidemenu>\n    <connect-account></connect-account>\n    <div class=\"dashboard-content\">\n        <router-view></router-view>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36239,7 +36310,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/shared.js":94,"../../stores/user.js":95,"../modals/connect-account.vue":77,"../navbar/index.vue":78,"../sidemenu/index.vue":84,"vue":64,"vue-hot-reload-api":38}],74:[function(require,module,exports){
+},{"../../stores/shared.js":95,"../../stores/user.js":96,"../modals/connect-account.vue":78,"../navbar/index.vue":79,"../sidemenu/index.vue":85,"vue":64,"vue-hot-reload-api":38}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36347,7 +36418,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":92,"vue":64,"vue-clickaway":37,"vue-hot-reload-api":38}],75:[function(require,module,exports){
+},{"../../stores/file":93,"vue":64,"vue-clickaway":37,"vue-hot-reload-api":38}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36470,7 +36541,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":92,"vue":64,"vue-hot-reload-api":38}],76:[function(require,module,exports){
+},{"../../stores/file":93,"vue":64,"vue-hot-reload-api":38}],77:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36580,7 +36651,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":91,"../../stores/file":92,"../modals/connect-account.vue":77,"../sidebar/index.vue":82,"./file.vue":74,"./header.vue":75,"vue":64,"vue-hot-reload-api":38}],77:[function(require,module,exports){
+},{"../../stores/account":92,"../../stores/file":93,"../modals/connect-account.vue":78,"../sidebar/index.vue":83,"./file.vue":75,"./header.vue":76,"vue":64,"vue-hot-reload-api":38}],78:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36646,7 +36717,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":85,"../../stores/provider":93,"../../stores/user":95,"vue":64,"vue-hot-reload-api":38}],78:[function(require,module,exports){
+},{"../../config":86,"../../stores/provider":94,"../../stores/user":96,"vue":64,"vue-hot-reload-api":38}],79:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36708,7 +36779,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":95,"./search.vue":79,"./user-profile.vue":80,"vue":64,"vue-hot-reload-api":38}],79:[function(require,module,exports){
+},{"../../stores/user.js":96,"./search.vue":80,"./user-profile.vue":81,"vue":64,"vue-hot-reload-api":38}],80:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36734,7 +36805,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":64,"vue-hot-reload-api":38}],80:[function(require,module,exports){
+},{"vue":64,"vue-hot-reload-api":38}],81:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36781,7 +36852,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":64,"vue-hot-reload-api":38}],81:[function(require,module,exports){
+},{"vue":64,"vue-hot-reload-api":38}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36807,7 +36878,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":64,"vue-hot-reload-api":38}],82:[function(require,module,exports){
+},{"vue":64,"vue-hot-reload-api":38}],83:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36869,7 +36940,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":91,"./fileinfo.vue":81,"./quota.vue":83,"vue":64,"vue-hot-reload-api":38}],83:[function(require,module,exports){
+},{"../../stores/account":92,"./fileinfo.vue":82,"./quota.vue":84,"vue":64,"vue-hot-reload-api":38}],84:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36946,7 +37017,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":91,"vue":64,"vue-hot-reload-api":38}],84:[function(require,module,exports){
+},{"../../stores/account":92,"vue":64,"vue-hot-reload-api":38}],85:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36999,7 +37070,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"sidemenu\" id=\"sidemenu\">\n\n    <a :href=\"appUrl\" class=\"sidemenu-logo\">\n        <img :src=\"appLogo\" alt=\"pulse logo\">\n    </a>\n\n    <ul class=\"nav sidemenu-user-accounts\">\n\n        <li v-for=\"account in state.accounts\">\n            <a class=\"sidemenu-user-account\" v-link=\"{name: 'account-explorer', params: { account_id: account.id } }\" data-toggle-tooltip=\"sidebar\" :title=\"account.name\" :style=\"'animation-delay:0.' + $index + 's';\">\n                <img :src=\"account.picture\">\n            </a>\n        </li>\n\n        <li>\n            <a class=\"sidemenu-add-button\" data-toggle-tooltip=\"sidebar\" title=\"Connect New Account\" data-toggle=\"modal\" data-target=\"#connect-account-modal\">\n                <span class=\"fa fa-plus\"></span>\n            </a>\n        </li>\n\n    </ul>\n\n</nav>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"sidemenu\" id=\"sidemenu\">\n\n    <a :href=\"appUrl\" class=\"sidemenu-logo\">\n        <img :src=\"appLogo\" alt=\"pulse logo\">\n    </a>\n\n    <ul class=\"nav sidemenu-user-accounts\">\n\n        <li v-for=\"account in state.accounts\">\n            <a class=\"sidemenu-user-account\" v-link=\"{name: 'account-explorer', params: { account_id: account.id } }\" data-toggle-tooltip=\"sidebar\" :title=\"account.name\" :style=\"'animation-delay:0.' + $index + 's';\">\n                <img :src=\"account.picture\">\n            </a>\n        </li>\n\n        <li>\n            <a class=\"sidemenu-add-button\" v-link=\"{ name: 'connect-account' }\" data-toggle-tooltip=\"sidebar\" title=\"Connect New Account\">\n                <span class=\"fa fa-plus\"></span>\n            </a>\n        </li>\n\n    </ul>\n\n</nav>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -37011,7 +37082,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":85,"../../stores/account":91,"../../stores/file":92,"../../stores/user":95,"vue":64,"vue-hot-reload-api":38}],85:[function(require,module,exports){
+},{"../../config":86,"../../stores/account":92,"../../stores/file":93,"../../stores/user":96,"vue":64,"vue-hot-reload-api":38}],86:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37023,7 +37094,7 @@ exports.default = {
     logo: "images/logo-white.png"
 };
 
-},{}],86:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -37078,7 +37149,7 @@ _vue2.default.http.interceptors.push({
     }
 });
 
-},{"../services/ls":90,"nprogress":13,"vue":64,"vue-resource":52}],87:[function(require,module,exports){
+},{"../services/ls":91,"nprogress":13,"vue":64,"vue-resource":52}],88:[function(require,module,exports){
 "use strict";
 
 jQuery(document).ready(function ($) {
@@ -37099,7 +37170,7 @@ jQuery(document).ready(function ($) {
     });
 });
 
-},{}],88:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37126,6 +37197,11 @@ function configRouter(router) {
             component: require('./components/dashboard/index.vue'),
 
             subRoutes: {
+                '/connect-account': {
+                    name: 'connect-account',
+                    auth: true,
+                    component: require('./components/account/connect.vue')
+                },
                 '/accounts/:account_id': {
                     name: 'account-explorer',
                     auth: true,
@@ -37161,7 +37237,7 @@ function configRouter(router) {
     });
 }
 
-},{"./components/account/create.vue":70,"./components/auth/login-form.vue":71,"./components/auth/signup-form.vue":72,"./components/dashboard/index.vue":73,"./components/explorer/index.vue":76}],89:[function(require,module,exports){
+},{"./components/account/connect.vue":70,"./components/account/create.vue":71,"./components/auth/login-form.vue":72,"./components/auth/signup-form.vue":73,"./components/dashboard/index.vue":74,"./components/explorer/index.vue":77}],90:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37220,7 +37296,7 @@ exports.default = {
     }
 };
 
-},{"vue":64}],90:[function(require,module,exports){
+},{"vue":64}],91:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37249,7 +37325,7 @@ exports.default = {
     }
 };
 
-},{"local-storage":9}],91:[function(require,module,exports){
+},{"local-storage":9}],92:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37423,7 +37499,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":89,"../stubs/account":96,"lodash":12,"nprogress":13,"vue":64}],92:[function(require,module,exports){
+},{"../services/http":90,"../stubs/account":97,"lodash":12,"nprogress":13,"vue":64}],93:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37561,7 +37637,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":89,"../stubs/file":97,"lodash":12,"nprogress":13,"vue":64}],93:[function(require,module,exports){
+},{"../services/http":90,"../stubs/file":98,"lodash":12,"nprogress":13,"vue":64}],94:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37648,7 +37724,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":89,"../stubs/provider":98,"lodash":12,"nprogress":13,"vue":64}],94:[function(require,module,exports){
+},{"../services/http":90,"../stubs/provider":99,"lodash":12,"nprogress":13,"vue":64}],95:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37736,7 +37812,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":89,"./user":95}],95:[function(require,module,exports){
+},{"../services/http":90,"./user":96}],96:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37886,7 +37962,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":89,"../stubs/user":99,"nprogress":13}],96:[function(require,module,exports){
+},{"../services/http":90,"../stubs/user":100,"nprogress":13}],97:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37903,7 +37979,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],97:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37924,7 +38000,7 @@ exports.default = {
     owners: null
 };
 
-},{}],98:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37941,7 +38017,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],99:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

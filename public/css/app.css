@@ -6973,9 +6973,12 @@ a.bg-danger:focus, a.bg-danger:hover {
   .sidebar {
     display: none; } }
 
-.explorer {
+.dashboard-content {
   margin-top: 55px;
   margin-left: 60px;
+  margin-right: 0; }
+
+.explorer {
   margin-right: 0; }
   .explorer.has-sidebar {
     margin-right: 300px; }

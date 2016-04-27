@@ -14,7 +14,7 @@
             </li>
 
             <li>
-                <a class="sidemenu-add-button" data-toggle-tooltip="sidebar" title="Connect New Account" data-toggle="modal" data-target="#connect-account-modal">
+                <a class="sidemenu-add-button" v-link="{ name: 'connect-account' }" data-toggle-tooltip="sidebar" title="Connect New Account" >
                     <span class="fa fa-plus"></span>
                 </a>
             </li>
