@@ -7,6 +7,11 @@ export function configRouter(router) {
             guest: true,
             component: require('./components/auth/login-form.vue'),
         },
+        '/signup': {
+            name: 'signup',
+            guest: true,
+            component: require('./components/auth/signup-form.vue'),
+        },
         '/dashboard': {
             name: 'dashboard',
             auth: true,

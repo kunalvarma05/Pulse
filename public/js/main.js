@@ -35753,7 +35753,7 @@ require('./pulse/pulse.js');
 require('./pulse/app.js');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bootstrap.js":66,"./pulse/app.js":68,"./pulse/pulse.js":84,"jquery":8,"perfect-scrollbar":14,"tether":36}],68:[function(require,module,exports){
+},{"./bootstrap.js":66,"./pulse/app.js":68,"./pulse/pulse.js":85,"jquery":8,"perfect-scrollbar":14,"tether":36}],68:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -35798,7 +35798,7 @@ var router = new VueRouter({
 //Kickoff!
 router.start(app, 'body');
 
-},{"./app.vue":69,"./config/resource":83,"./routes.js":85,"./services/ls":87,"nprogress":13,"vue":64,"vue-router":63}],69:[function(require,module,exports){
+},{"./app.vue":69,"./config/resource":84,"./routes.js":86,"./services/ls":88,"nprogress":13,"vue":64,"vue-router":63}],69:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35882,8 +35882,8 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./services/ls":87,"./stores/shared.js":90,"./stores/user.js":91,"vue":64,"vue-hot-reload-api":38}],70:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\n.login-container {\n    margin-top: 10%;\n    max-width: 300px;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
+},{"./services/ls":88,"./stores/shared.js":91,"./stores/user.js":92,"vue":64,"vue-hot-reload-api":38}],70:[function(require,module,exports){
+var __vueify_style__ = require("vueify-insert-css").insert("\n.login-container {\n    margin-top: 10%;\n    max-width: 300px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35939,7 +35939,7 @@ if (module.hot) {(function () {  module.hot.accept()
   if (!hotAPI.compatible) return
   var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\auth\\login-form.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\n.login-container {\n    margin-top: 10%;\n    max-width: 300px;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n"] = false
+    require("vueify-insert-css").cache["\n.login-container {\n    margin-top: 10%;\n    max-width: 300px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -35948,7 +35948,102 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":91,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],71:[function(require,module,exports){
+},{"../../stores/user.js":92,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],71:[function(require,module,exports){
+var __vueify_style__ = require("vueify-insert-css").insert("\n.signup-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _user = require('../../stores/user.js');
+
+var _user2 = _interopRequireDefault(_user);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    data: function data() {
+        return {
+            email: '',
+            name: '',
+            username: '',
+            password: '',
+            password_confirmation: '',
+            errors: false
+        };
+    },
+
+
+    computed: {
+        nameError: function nameError() {
+            if (this.errors) {
+                return this.errors.name ? this.errors.name[0] : '';
+            }
+        },
+        emailError: function emailError() {
+            if (this.errors) {
+                return this.errors.email ? this.errors.email[0] : '';
+            }
+        },
+        usernameError: function usernameError() {
+            if (this.errors) {
+                return this.errors.username ? this.errors.username[0] : '';
+            }
+        },
+        passwordError: function passwordError() {
+            if (this.errors) {
+                return this.errors.password ? this.errors.password[0] : '';
+            }
+        }
+    },
+
+    methods: {
+
+        /**
+         * Sign Up
+         */
+
+        signup: function signup() {
+            var _this = this;
+
+            this.errors = false;
+
+            _user2.default.store(this.name, this.email, this.username, this.password, this.password_confirmation, function (response) {
+                //Reset the form
+                _this.name = "";
+                _this.email = "";
+                _this.username = "";
+                _this.password = "";
+                _this.password_confirmation = "";
+
+                //Notify the parent
+                _this.$dispatch("user:loggedin");
+            }, function (errors) {
+                //Error
+                _this.errors = errors;
+            });
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container signup-container\">\n    <form @submit.prevent=\"signup\" :class=\"{ 'has-danger': errors }\">\n        <h2 class=\"page-header\">Sign Up</h2>\n        <div class=\"form-group\">\n            <label>Name</label>\n            <input class=\"form-control form-control-danger\" v-model=\"name\" type=\"text\" placeholder=\"Name\" autofocus=\"autofocus\" required=\"\">\n            <div class=\"form-error\" v-show=\"nameError\">{{ nameError }}</div>\n        </div>\n        <div class=\"form-group\">\n            <label>Email Address</label>\n            <input class=\"form-control form-control-danger\" v-model=\"email\" type=\"email\" placeholder=\"Email Address\" required=\"\">\n            <div class=\"form-error\" v-show=\"emailError\">{{ emailError }}</div>\n        </div>\n        <div class=\"form-group\">\n            <label>Username</label>\n            <input class=\"form-control form-control-danger\" v-model=\"username\" type=\"text\" placeholder=\"Username\" required=\"\">\n            <div class=\"form-error\" v-show=\"usernameError\">{{ usernameError }}</div>\n        </div>\n        <div class=\"form-group\">\n            <div class=\"row\">\n                <div class=\"col-lg-6\">\n                    <label>Password</label>\n                    <input class=\"form-control form-control-danger\" v-model=\"password\" type=\"password\" placeholder=\"Password\" required=\"\">\n                </div>\n                <div class=\"col-lg-6\">\n                    <label>Confirm Password</label>\n                    <input class=\"form-control form-control-danger\" v-model=\"password_confirmation\" type=\"password\" placeholder=\"Confirm Password\" required=\"\">\n                </div>\n            </div>\n            <div class=\"form-error\" v-show=\"passwordError\">{{ passwordError }}</div>\n        </div>\n        <button type=\"submit\" class=\"btn btn-primary btn-block\">Sign Up</button>\n    </form>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\auth\\signup-form.vue"
+  module.hot.dispose(function () {
+    require("vueify-insert-css").cache["\n.signup-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../stores/user.js":92,"vue":64,"vue-hot-reload-api":38,"vueify-insert-css":65}],72:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36053,7 +36148,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/shared.js":90,"../../stores/user.js":91,"../navbar/index.vue":75,"../sidemenu/index.vue":81,"vue":64,"vue-hot-reload-api":38}],72:[function(require,module,exports){
+},{"../../stores/shared.js":91,"../../stores/user.js":92,"../navbar/index.vue":76,"../sidemenu/index.vue":82,"vue":64,"vue-hot-reload-api":38}],73:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36161,7 +36256,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":89,"vue":64,"vue-clickaway":37,"vue-hot-reload-api":38}],73:[function(require,module,exports){
+},{"../../stores/file":90,"vue":64,"vue-clickaway":37,"vue-hot-reload-api":38}],74:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36284,7 +36379,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":89,"vue":64,"vue-hot-reload-api":38}],74:[function(require,module,exports){
+},{"../../stores/file":90,"vue":64,"vue-hot-reload-api":38}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36390,7 +36485,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":88,"../../stores/file":89,"../sidebar/index.vue":79,"./file.vue":72,"./header.vue":73,"vue":64,"vue-hot-reload-api":38}],75:[function(require,module,exports){
+},{"../../stores/account":89,"../../stores/file":90,"../sidebar/index.vue":80,"./file.vue":73,"./header.vue":74,"vue":64,"vue-hot-reload-api":38}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36452,7 +36547,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":91,"./search.vue":76,"./user-profile.vue":77,"vue":64,"vue-hot-reload-api":38}],76:[function(require,module,exports){
+},{"../../stores/user.js":92,"./search.vue":77,"./user-profile.vue":78,"vue":64,"vue-hot-reload-api":38}],77:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36478,7 +36573,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":64,"vue-hot-reload-api":38}],77:[function(require,module,exports){
+},{"vue":64,"vue-hot-reload-api":38}],78:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36525,7 +36620,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":64,"vue-hot-reload-api":38}],78:[function(require,module,exports){
+},{"vue":64,"vue-hot-reload-api":38}],79:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36551,7 +36646,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":64,"vue-hot-reload-api":38}],79:[function(require,module,exports){
+},{"vue":64,"vue-hot-reload-api":38}],80:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36613,7 +36708,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":88,"./fileinfo.vue":78,"./quota.vue":80,"vue":64,"vue-hot-reload-api":38}],80:[function(require,module,exports){
+},{"../../stores/account":89,"./fileinfo.vue":79,"./quota.vue":81,"vue":64,"vue-hot-reload-api":38}],81:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36690,7 +36785,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":88,"vue":64,"vue-hot-reload-api":38}],81:[function(require,module,exports){
+},{"../../stores/account":89,"vue":64,"vue-hot-reload-api":38}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36755,7 +36850,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":82,"../../stores/account":88,"../../stores/file":89,"../../stores/user":91,"vue":64,"vue-hot-reload-api":38}],82:[function(require,module,exports){
+},{"../../config":83,"../../stores/account":89,"../../stores/file":90,"../../stores/user":92,"vue":64,"vue-hot-reload-api":38}],83:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36767,7 +36862,7 @@ exports.default = {
     logo: "images/logo-white.png"
 };
 
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -36822,7 +36917,7 @@ _vue2.default.http.interceptors.push({
     }
 });
 
-},{"../services/ls":87,"nprogress":13,"vue":64,"vue-resource":52}],84:[function(require,module,exports){
+},{"../services/ls":88,"nprogress":13,"vue":64,"vue-resource":52}],85:[function(require,module,exports){
 "use strict";
 
 jQuery(document).ready(function ($) {
@@ -36843,7 +36938,7 @@ jQuery(document).ready(function ($) {
     });
 });
 
-},{}],85:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36858,6 +36953,11 @@ function configRouter(router) {
             name: 'login',
             guest: true,
             component: require('./components/auth/login-form.vue')
+        },
+        '/signup': {
+            name: 'signup',
+            guest: true,
+            component: require('./components/auth/signup-form.vue')
         },
         '/dashboard': {
             name: 'dashboard',
@@ -36895,7 +36995,7 @@ function configRouter(router) {
     });
 }
 
-},{"./components/auth/login-form.vue":70,"./components/dashboard/index.vue":71,"./components/explorer/index.vue":74}],86:[function(require,module,exports){
+},{"./components/auth/login-form.vue":70,"./components/auth/signup-form.vue":71,"./components/dashboard/index.vue":72,"./components/explorer/index.vue":75}],87:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36954,7 +37054,7 @@ exports.default = {
     }
 };
 
-},{"vue":64}],87:[function(require,module,exports){
+},{"vue":64}],88:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36983,7 +37083,7 @@ exports.default = {
     }
 };
 
-},{"local-storage":9}],88:[function(require,module,exports){
+},{"local-storage":9}],89:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37155,7 +37255,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":86,"../stubs/account":92,"lodash":12,"nprogress":13,"vue":64}],89:[function(require,module,exports){
+},{"../services/http":87,"../stubs/account":93,"lodash":12,"nprogress":13,"vue":64}],90:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37293,7 +37393,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":86,"../stubs/file":93,"lodash":12,"nprogress":13,"vue":64}],90:[function(require,module,exports){
+},{"../services/http":87,"../stubs/file":94,"lodash":12,"nprogress":13,"vue":64}],91:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37381,7 +37481,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":86,"./user":91}],91:[function(require,module,exports){
+},{"../services/http":87,"./user":92}],92:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37506,22 +37606,32 @@ exports.default = {
      * @param  {string}     name
      * @param  {string}     email
      * @param  {string}     password
-     * @param  {?Function}  cb
+     * @param  {string}     password_confirmation
+     * @param  {?Function}  successCb
+     * @param  {?Function}  errorCb
      */
-    store: function store(name, email, username, password) {
-        var cb = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+    store: function store(name, email, username, password, password_confirmation) {
+        var successCb = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
+        var errorCb = arguments.length <= 6 || arguments[6] === undefined ? null : arguments[6];
 
         _nprogress2.default.start();
 
-        _http2.default.post('users/create', { name: name, email: email, username: username, password: password }, function (response) {
-            if (cb) {
-                cb();
+        _http2.default.post('users/create', { name: name, email: email, username: username, password: password, password_confirmation: password_confirmation }, function (response) {
+            if (successCb) {
+                successCb(response);
+            }
+        }, function (response) {
+            var data = response.data;
+            var errors = data.errors;
+
+            if (errorCb) {
+                errorCb(errors);
             }
         });
     }
 };
 
-},{"../services/http":86,"../stubs/user":94,"nprogress":13}],92:[function(require,module,exports){
+},{"../services/http":87,"../stubs/user":95,"nprogress":13}],93:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37538,7 +37648,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],93:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37559,7 +37669,7 @@ exports.default = {
     owners: null
 };
 
-},{}],94:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

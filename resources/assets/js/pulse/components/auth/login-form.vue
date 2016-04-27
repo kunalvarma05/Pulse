@@ -59,6 +59,12 @@
         max-width: 300px;
     }
 
+    .page-header {
+        margin-bottom: 1rem;
+        border-bottom: solid 1px #dedede;
+        padding-bottom: 1rem;
+    }
+
     .login-text-help {
         padding: 5px 10px;
         border-radius: 3px;

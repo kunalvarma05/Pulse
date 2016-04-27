@@ -94,15 +94,27 @@ export default {
      * @param  {string}     name
      * @param  {string}     email
      * @param  {string}     password
-     * @param  {?Function}  cb
+     * @param  {string}     password_confirmation
+     * @param  {?Function}  successCb
+     * @param  {?Function}  errorCb
      */
-     store(name, email, username, password, cb = null) {
+     store(name, email, username, password, password_confirmation, successCb = null, errorCb = null) {
         NProgress.start();
 
-        http.post('users/create', { name, email, username, password }, response => {
-            if (cb) {
-                cb();
+        http.post('users/create', { name, email, username, password, password_confirmation },
+            response => {
+                if (successCb) {
+                    successCb(response);
+                }
+            },
+            response => {
+                const data = response.data;
+                const errors = data.errors;
+
+                if(errorCb) {
+                    errorCb(errors);
+                }
             }
-        });
+        );
     },
 };
