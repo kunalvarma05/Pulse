@@ -17,7 +17,6 @@
 
         <sidebar :file.sync='selectedFile' :account.sync='currentAccount'></sidebar>
 
-        <connect-account></connect-account>
 
     </div>
 </template>
@@ -29,13 +28,12 @@
 
     import explorerHeader from './header.vue';
     import explorerFile from './file.vue';
-    import connectAccount from '../modals/connect-account.vue';
     import sidebar from '../sidebar/index.vue';
 
 
     export default {
 
-        components: { explorerHeader, explorerFile, sidebar, connectAccount },
+        components: { explorerHeader, explorerFile, sidebar },
 
         data() {
             return {

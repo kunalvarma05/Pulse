@@ -3,7 +3,6 @@
     <div id="dashboard">
         <navbar></navbar>
         <sidemenu></sidemenu>
-        <connect-account></connect-account>
         <div class="dashboard-content">
             <router-view></router-view>
         </div>
@@ -23,11 +22,10 @@
     //Sidemenu
     import sidemenu from '../sidemenu/index.vue';
 
-    import connectAccount from '../modals/connect-account.vue';
 
     export default {
 
-        components: { navbar, sidemenu, connectAccount },
+        components: { navbar, sidemenu },
 
         data() {
             return {
