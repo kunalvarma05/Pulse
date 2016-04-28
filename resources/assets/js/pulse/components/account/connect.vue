@@ -29,13 +29,22 @@
 
   export default {
 
-    ready() {
-    },
-
     data() {
       return {
         state: providerStore.state,
       };
+    },
+
+    route: {
+      data() {
+
+        //Provider's once loaded
+        //don't need to be loaded again
+        if(!providerStore.providers) {
+          providerStore.list();
+        }
+
+      },
     },
 
     methods: {
@@ -47,17 +56,11 @@
     },
 
     events: {
-      "user:loggedin" : () => {
-        providerStore.list();
-      },
-
-      "pulse:ready" : () => {
-        providerStore.list();
-      },
-
+      
       "pulse:teardown" : () => {
         providerStore.init([]);
       }
+      
     }
 
   }

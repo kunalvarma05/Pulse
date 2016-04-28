@@ -19,7 +19,29 @@ export default {
     },
 
     /**
-     * List Accounts
+     * Providers
+     *
+     * @return {Object}
+     */
+     get providers() {
+        return this.state.providers;
+    },
+
+    /**
+     * Set the providers
+     *
+     * @param  {Object} provider
+     *
+     * @return {Object}
+     */
+     set providers(providers) {
+        this.state.providers = providers;
+
+        return this.providers;
+    },
+
+    /**
+     * List Providers
      */
      list(successCb = null, errorCb = null) {
         NProgress.start();
@@ -30,7 +52,7 @@ export default {
             this.state.providers = providers;
 
             if (successCb) {
-                successCb();
+                successCb(providers);
             }
         }, errorCb);
     },
