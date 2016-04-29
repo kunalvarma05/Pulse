@@ -16,3 +16,9 @@ a, a:hover{
     height: 64px;
     width: auto;
 }
+
+.text-overflow-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

@@ -17,7 +17,7 @@
 
         <sidebar :file.sync='selectedFile' :account.sync='currentAccount'></sidebar>
 
-
+        <share-file-modal></share-file-modal>
     </div>
 </template>
 
@@ -29,11 +29,12 @@
     import explorerHeader from './header.vue';
     import explorerFile from './file.vue';
     import sidebar from '../sidebar/index.vue';
+    import shareFileModal from '../modals/sharefile.vue';
 
 
     export default {
 
-        components: { explorerHeader, explorerFile, sidebar },
+        components: { explorerHeader, explorerFile, sidebar, shareFileModal },
 
         data() {
             return {
@@ -100,6 +101,13 @@
              */
             deSelectFile() {
                 this.$broadcast('explorer:deSelectFile');
+            }
+        },
+
+        events: {
+            "file:share"(data) {
+                //Broadcast to all childrens
+                this.$broadcast('file:share', { file: data.file, link: data.link });
             }
         }
 

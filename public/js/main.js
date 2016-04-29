@@ -36951,7 +36951,7 @@ require('./pulse/pulse.js');
 require('./pulse/app.js');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bootstrap.js":74,"./pulse/app.js":76,"./pulse/pulse.js":95,"jquery":8,"perfect-scrollbar":14,"sweetalert":44,"tether":45}],76:[function(require,module,exports){
+},{"./bootstrap.js":74,"./pulse/app.js":76,"./pulse/pulse.js":96,"jquery":8,"perfect-scrollbar":14,"sweetalert":44,"tether":45}],76:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -36996,7 +36996,7 @@ var router = new VueRouter({
 //Kickoff!
 router.start(app, 'body');
 
-},{"./app.vue":77,"./config/resource":94,"./routes.js":96,"./services/ls":98,"nprogress":13,"vue":72,"vue-router":71}],77:[function(require,module,exports){
+},{"./app.vue":77,"./config/resource":95,"./routes.js":97,"./services/ls":99,"nprogress":13,"vue":72,"vue-router":71}],77:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37080,7 +37080,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./services/ls":98,"./stores/shared.js":102,"./stores/user.js":103,"vue":72,"vue-hot-reload-api":46}],78:[function(require,module,exports){
+},{"./services/ls":99,"./stores/shared.js":103,"./stores/user.js":104,"vue":72,"vue-hot-reload-api":46}],78:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.connect-account {\n  padding-top: 20px;\n}\n")
 'use strict';
 
@@ -37155,7 +37155,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":93,"../../stores/provider":101,"../../stores/user":103,"vue":72,"vue-hot-reload-api":46,"vueify-insert-css":73}],79:[function(require,module,exports){
+},{"../../config":94,"../../stores/provider":102,"../../stores/user":104,"vue":72,"vue-hot-reload-api":46,"vueify-insert-css":73}],79:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.create-account-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -37241,7 +37241,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account.js":99,"vue":72,"vue-hot-reload-api":46,"vueify-insert-css":73}],80:[function(require,module,exports){
+},{"../../stores/account.js":100,"vue":72,"vue-hot-reload-api":46,"vueify-insert-css":73}],80:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.login-container {\n    margin-top: 10%;\n    max-width: 300px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -37307,7 +37307,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":103,"vue":72,"vue-hot-reload-api":46,"vueify-insert-css":73}],81:[function(require,module,exports){
+},{"../../stores/user.js":104,"vue":72,"vue-hot-reload-api":46,"vueify-insert-css":73}],81:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.signup-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -37402,7 +37402,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":103,"vue":72,"vue-hot-reload-api":46,"vueify-insert-css":73}],82:[function(require,module,exports){
+},{"../../stores/user.js":104,"vue":72,"vue-hot-reload-api":46,"vueify-insert-css":73}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37507,7 +37507,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/shared.js":102,"../../stores/user.js":103,"../navbar/index.vue":86,"../sidemenu/index.vue":92,"vue":72,"vue-hot-reload-api":46}],83:[function(require,module,exports){
+},{"../../stores/shared.js":103,"../../stores/user.js":104,"../navbar/index.vue":87,"../sidemenu/index.vue":93,"vue":72,"vue-hot-reload-api":46}],83:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37623,7 +37623,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":100,"vue":72,"vue-hot-reload-api":46}],84:[function(require,module,exports){
+},{"../../stores/file":101,"vue":72,"vue-hot-reload-api":46}],84:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37810,25 +37810,8 @@ exports.default = {
             //Only if it's a file
             if (!this.selectedFile.isFolder) {
                 _file2.default.getShareLink(this.currentAccount.id, this.selectedFile.id, function (link) {
-                    var text = "The file <b>" + _this4.selectedFile.title + "</b> is ready for sharing!";
-                    var linkBox = "<input type='text' onfocus='this.select();' onmouseup='return false;' value='" + link + "' class='form-control' style='display: block !important;'>";
-
-                    var htmlLink = text + linkBox;
-                    swal({
-                        title: "Link to File",
-                        text: htmlLink,
-                        type: 'success',
-                        confirmButtonColor: "#2b90d9",
-                        confirmButtonText: "Open Link",
-                        showLoaderOnConfirm: true,
-                        allowOutsideClick: true,
-                        html: true
-                    }, function () {
-                        var file = _this4.selectedFile;
-
-                        var win = window.open(link, '_blank');
-                        win.focus();
-                    });
+                    //Dispatch the File Share Event to the Parent
+                    _this4.$dispatch('file:share', { file: _this4.selectedFile, link: link });
                 });
             }
         }
@@ -37847,7 +37830,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":100,"vue":72,"vue-hot-reload-api":46}],85:[function(require,module,exports){
+},{"../../stores/file":101,"vue":72,"vue-hot-reload-api":46}],85:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37874,11 +37857,15 @@ var _index = require('../sidebar/index.vue');
 
 var _index2 = _interopRequireDefault(_index);
 
+var _sharefile = require('../modals/sharefile.vue');
+
+var _sharefile2 = _interopRequireDefault(_sharefile);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
 
-    components: { explorerHeader: _header2.default, explorerFile: _file4.default, sidebar: _index2.default },
+    components: { explorerHeader: _header2.default, explorerFile: _file4.default, sidebar: _index2.default, shareFileModal: _sharefile2.default },
 
     data: function data() {
         return {
@@ -37948,11 +37935,18 @@ exports.default = {
         deSelectFile: function deSelectFile() {
             this.$broadcast('explorer:deSelectFile');
         }
+    },
+
+    events: {
+        "file:share": function fileShare(data) {
+            //Broadcast to all childrens
+            this.$broadcast('file:share', { file: data.file, link: data.link });
+        }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': true }\" id=\"explorer\" @click.stop=\"deSelectFile()\">\n\n    <explorer-header :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></explorer-header>\n\n    <div class=\"explorer-content\">\n        <div class=\"container-fluid\">\n            <div class=\"row explorer-items\">\n\n                <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                <h4 class=\"text-center\" v-show=\"!state.fileStore.files\" align=\"center\">No files to show!</h4>\n\n            </div>\n        </div>\n    </div>\n\n    <sidebar :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></sidebar>\n\n\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': true }\" id=\"explorer\" @click.stop=\"deSelectFile()\">\n\n    <explorer-header :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></explorer-header>\n\n    <div class=\"explorer-content\">\n        <div class=\"container-fluid\">\n            <div class=\"row explorer-items\">\n\n                <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                <h4 class=\"text-center\" v-show=\"!state.fileStore.files\" align=\"center\">No files to show!</h4>\n\n            </div>\n        </div>\n    </div>\n\n    <sidebar :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></sidebar>\n\n    <share-file-modal></share-file-modal>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -37964,7 +37958,52 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":99,"../../stores/file":100,"../sidebar/index.vue":90,"./file.vue":83,"./header.vue":84,"vue":72,"vue-hot-reload-api":46}],86:[function(require,module,exports){
+},{"../../stores/account":100,"../../stores/file":101,"../modals/sharefile.vue":86,"../sidebar/index.vue":91,"./file.vue":83,"./header.vue":84,"vue":72,"vue-hot-reload-api":46}],86:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    data: function data() {
+        return {
+            shareLink: '',
+            selectedFile: false
+        };
+    },
+
+
+    events: {
+
+        /**
+         * File Share Event
+         */
+
+        "file:share": function fileShare(data) {
+            this.shareLink = data.link;
+            this.selectedFile = data.file;
+            //Show the Modal
+            var modal = global.jQuery('#share-file-modal').modal({ show: true });
+        }
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal fade\" id=\"share-file-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"shareFileModalLabel\" aria-hidden=\"true\" @click.stop=\"\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                    <span aria-hidden=\"true\">×</span>\n                </button>\n                <h4 class=\"text-overflow-ellipsis modal-title\" id=\"shareFileModalLabel\">Share: {{ selectedFile.title }}</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"container\">\n                    <div class=\"form-group\">\n                        <label>Link to File</label>\n                        <input type=\"text\" onfocus=\"this.select();\" onmouseup=\"return false;\" :value=\"shareLink\" class=\"form-control\">\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n    </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\modals\\sharefile.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"vue":72,"vue-hot-reload-api":46}],87:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38026,7 +38065,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":103,"./search.vue":87,"./user-profile.vue":88,"vue":72,"vue-hot-reload-api":46}],87:[function(require,module,exports){
+},{"../../stores/user.js":104,"./search.vue":88,"./user-profile.vue":89,"vue":72,"vue-hot-reload-api":46}],88:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38052,7 +38091,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":72,"vue-hot-reload-api":46}],88:[function(require,module,exports){
+},{"vue":72,"vue-hot-reload-api":46}],89:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38099,7 +38138,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":72,"vue-hot-reload-api":46}],89:[function(require,module,exports){
+},{"vue":72,"vue-hot-reload-api":46}],90:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38195,7 +38234,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":100,"vue":72,"vue-hot-reload-api":46}],90:[function(require,module,exports){
+},{"../../stores/file":101,"vue":72,"vue-hot-reload-api":46}],91:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38257,7 +38296,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":99,"./fileinfo.vue":89,"./quota.vue":91,"vue":72,"vue-hot-reload-api":46}],91:[function(require,module,exports){
+},{"../../stores/account":100,"./fileinfo.vue":90,"./quota.vue":92,"vue":72,"vue-hot-reload-api":46}],92:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38334,7 +38373,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":99,"vue":72,"vue-hot-reload-api":46}],92:[function(require,module,exports){
+},{"../../stores/account":100,"vue":72,"vue-hot-reload-api":46}],93:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38399,7 +38438,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":93,"../../stores/account":99,"../../stores/file":100,"../../stores/user":103,"vue":72,"vue-hot-reload-api":46}],93:[function(require,module,exports){
+},{"../../config":94,"../../stores/account":100,"../../stores/file":101,"../../stores/user":104,"vue":72,"vue-hot-reload-api":46}],94:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38411,7 +38450,7 @@ exports.default = {
     logo: "images/logo-white.png"
 };
 
-},{}],94:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -38466,7 +38505,7 @@ _vue2.default.http.interceptors.push({
     }
 });
 
-},{"../services/ls":98,"nprogress":13,"vue":72,"vue-resource":60}],95:[function(require,module,exports){
+},{"../services/ls":99,"nprogress":13,"vue":72,"vue-resource":60}],96:[function(require,module,exports){
 "use strict";
 
 jQuery(document).ready(function ($) {
@@ -38487,7 +38526,7 @@ jQuery(document).ready(function ($) {
     });
 });
 
-},{}],96:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38554,7 +38593,7 @@ function configRouter(router) {
     });
 }
 
-},{"./components/account/connect.vue":78,"./components/account/create.vue":79,"./components/auth/login-form.vue":80,"./components/auth/signup-form.vue":81,"./components/dashboard/index.vue":82,"./components/explorer/index.vue":85}],97:[function(require,module,exports){
+},{"./components/account/connect.vue":78,"./components/account/create.vue":79,"./components/auth/login-form.vue":80,"./components/auth/signup-form.vue":81,"./components/dashboard/index.vue":82,"./components/explorer/index.vue":85}],98:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38619,7 +38658,7 @@ exports.default = {
     }
 };
 
-},{"vue":72}],98:[function(require,module,exports){
+},{"vue":72}],99:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38648,7 +38687,7 @@ exports.default = {
     }
 };
 
-},{"local-storage":9}],99:[function(require,module,exports){
+},{"local-storage":9}],100:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38822,7 +38861,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":97,"../stubs/account":104,"lodash":12,"nprogress":13,"vue":72}],100:[function(require,module,exports){
+},{"../services/http":98,"../stubs/account":105,"lodash":12,"nprogress":13,"vue":72}],101:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39093,7 +39132,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":97,"../stubs/file":105,"lodash":12,"nprogress":13,"vue":72}],101:[function(require,module,exports){
+},{"../services/http":98,"../stubs/file":106,"lodash":12,"nprogress":13,"vue":72}],102:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39202,7 +39241,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":97,"../stubs/provider":106,"lodash":12,"nprogress":13,"vue":72}],102:[function(require,module,exports){
+},{"../services/http":98,"../stubs/provider":107,"lodash":12,"nprogress":13,"vue":72}],103:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39290,7 +39329,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":97,"./user":103}],103:[function(require,module,exports){
+},{"../services/http":98,"./user":104}],104:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39440,7 +39479,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":97,"../stubs/user":107,"nprogress":13}],104:[function(require,module,exports){
+},{"../services/http":98,"../stubs/user":108,"nprogress":13}],105:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39457,7 +39496,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],105:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39478,7 +39517,7 @@ exports.default = {
     owners: null
 };
 
-},{}],106:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39495,7 +39534,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],107:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
