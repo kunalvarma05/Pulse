@@ -1,6 +1,6 @@
 <template>
 
-    <div class="sidebar" data-scrollbar='true' @click.stop="">
+    <div class="sidebar" @click.stop="">
         <div v-show='file'>
             <file-info :file.sync='file' :account.sync='currentAccount'></file-info>
         </div>

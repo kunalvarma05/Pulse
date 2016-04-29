@@ -17917,1533 +17917,6 @@ module.exports = {
 
 
 },{}],14:[function(require,module,exports){
-'use strict';
-
-module.exports = require('./src/js/main');
-
-},{"./src/js/main":20}],15:[function(require,module,exports){
-'use strict';
-
-function oldAdd(element, className) {
-  var classes = element.className.split(' ');
-  if (classes.indexOf(className) < 0) {
-    classes.push(className);
-  }
-  element.className = classes.join(' ');
-}
-
-function oldRemove(element, className) {
-  var classes = element.className.split(' ');
-  var idx = classes.indexOf(className);
-  if (idx >= 0) {
-    classes.splice(idx, 1);
-  }
-  element.className = classes.join(' ');
-}
-
-exports.add = function (element, className) {
-  if (element.classList) {
-    element.classList.add(className);
-  } else {
-    oldAdd(element, className);
-  }
-};
-
-exports.remove = function (element, className) {
-  if (element.classList) {
-    element.classList.remove(className);
-  } else {
-    oldRemove(element, className);
-  }
-};
-
-exports.list = function (element) {
-  if (element.classList) {
-    return Array.prototype.slice.apply(element.classList);
-  } else {
-    return element.className.split(' ');
-  }
-};
-
-},{}],16:[function(require,module,exports){
-'use strict';
-
-var DOM = {};
-
-DOM.e = function (tagName, className) {
-  var element = document.createElement(tagName);
-  element.className = className;
-  return element;
-};
-
-DOM.appendTo = function (child, parent) {
-  parent.appendChild(child);
-  return child;
-};
-
-function cssGet(element, styleName) {
-  return window.getComputedStyle(element)[styleName];
-}
-
-function cssSet(element, styleName, styleValue) {
-  if (typeof styleValue === 'number') {
-    styleValue = styleValue.toString() + 'px';
-  }
-  element.style[styleName] = styleValue;
-  return element;
-}
-
-function cssMultiSet(element, obj) {
-  for (var key in obj) {
-    var val = obj[key];
-    if (typeof val === 'number') {
-      val = val.toString() + 'px';
-    }
-    element.style[key] = val;
-  }
-  return element;
-}
-
-DOM.css = function (element, styleNameOrObject, styleValue) {
-  if (typeof styleNameOrObject === 'object') {
-    // multiple set with object
-    return cssMultiSet(element, styleNameOrObject);
-  } else {
-    if (typeof styleValue === 'undefined') {
-      return cssGet(element, styleNameOrObject);
-    } else {
-      return cssSet(element, styleNameOrObject, styleValue);
-    }
-  }
-};
-
-DOM.matches = function (element, query) {
-  if (typeof element.matches !== 'undefined') {
-    return element.matches(query);
-  } else {
-    if (typeof element.matchesSelector !== 'undefined') {
-      return element.matchesSelector(query);
-    } else if (typeof element.webkitMatchesSelector !== 'undefined') {
-      return element.webkitMatchesSelector(query);
-    } else if (typeof element.mozMatchesSelector !== 'undefined') {
-      return element.mozMatchesSelector(query);
-    } else if (typeof element.msMatchesSelector !== 'undefined') {
-      return element.msMatchesSelector(query);
-    }
-  }
-};
-
-DOM.remove = function (element) {
-  if (typeof element.remove !== 'undefined') {
-    element.remove();
-  } else {
-    if (element.parentNode) {
-      element.parentNode.removeChild(element);
-    }
-  }
-};
-
-DOM.queryChildren = function (element, selector) {
-  return Array.prototype.filter.call(element.childNodes, function (child) {
-    return DOM.matches(child, selector);
-  });
-};
-
-module.exports = DOM;
-
-},{}],17:[function(require,module,exports){
-'use strict';
-
-var EventElement = function (element) {
-  this.element = element;
-  this.events = {};
-};
-
-EventElement.prototype.bind = function (eventName, handler) {
-  if (typeof this.events[eventName] === 'undefined') {
-    this.events[eventName] = [];
-  }
-  this.events[eventName].push(handler);
-  this.element.addEventListener(eventName, handler, false);
-};
-
-EventElement.prototype.unbind = function (eventName, handler) {
-  var isHandlerProvided = (typeof handler !== 'undefined');
-  this.events[eventName] = this.events[eventName].filter(function (hdlr) {
-    if (isHandlerProvided && hdlr !== handler) {
-      return true;
-    }
-    this.element.removeEventListener(eventName, hdlr, false);
-    return false;
-  }, this);
-};
-
-EventElement.prototype.unbindAll = function () {
-  for (var name in this.events) {
-    this.unbind(name);
-  }
-};
-
-var EventManager = function () {
-  this.eventElements = [];
-};
-
-EventManager.prototype.eventElement = function (element) {
-  var ee = this.eventElements.filter(function (eventElement) {
-    return eventElement.element === element;
-  })[0];
-  if (typeof ee === 'undefined') {
-    ee = new EventElement(element);
-    this.eventElements.push(ee);
-  }
-  return ee;
-};
-
-EventManager.prototype.bind = function (element, eventName, handler) {
-  this.eventElement(element).bind(eventName, handler);
-};
-
-EventManager.prototype.unbind = function (element, eventName, handler) {
-  this.eventElement(element).unbind(eventName, handler);
-};
-
-EventManager.prototype.unbindAll = function () {
-  for (var i = 0; i < this.eventElements.length; i++) {
-    this.eventElements[i].unbindAll();
-  }
-};
-
-EventManager.prototype.once = function (element, eventName, handler) {
-  var ee = this.eventElement(element);
-  var onceHandler = function (e) {
-    ee.unbind(eventName, onceHandler);
-    handler(e);
-  };
-  ee.bind(eventName, onceHandler);
-};
-
-module.exports = EventManager;
-
-},{}],18:[function(require,module,exports){
-'use strict';
-
-module.exports = (function () {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-               .toString(16)
-               .substring(1);
-  }
-  return function () {
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-           s4() + '-' + s4() + s4() + s4();
-  };
-})();
-
-},{}],19:[function(require,module,exports){
-'use strict';
-
-var cls = require('./class')
-  , d = require('./dom');
-
-exports.toInt = function (x) {
-  return parseInt(x, 10) || 0;
-};
-
-exports.clone = function (obj) {
-  if (obj === null) {
-    return null;
-  } else if (typeof obj === 'object') {
-    var result = {};
-    for (var key in obj) {
-      result[key] = this.clone(obj[key]);
-    }
-    return result;
-  } else {
-    return obj;
-  }
-};
-
-exports.extend = function (original, source) {
-  var result = this.clone(original);
-  for (var key in source) {
-    result[key] = this.clone(source[key]);
-  }
-  return result;
-};
-
-exports.isEditable = function (el) {
-  return d.matches(el, "input,[contenteditable]") ||
-         d.matches(el, "select,[contenteditable]") ||
-         d.matches(el, "textarea,[contenteditable]") ||
-         d.matches(el, "button,[contenteditable]");
-};
-
-exports.removePsClasses = function (element) {
-  var clsList = cls.list(element);
-  for (var i = 0; i < clsList.length; i++) {
-    var className = clsList[i];
-    if (className.indexOf('ps-') === 0) {
-      cls.remove(element, className);
-    }
-  }
-};
-
-exports.outerWidth = function (element) {
-  return this.toInt(d.css(element, 'width')) +
-         this.toInt(d.css(element, 'paddingLeft')) +
-         this.toInt(d.css(element, 'paddingRight')) +
-         this.toInt(d.css(element, 'borderLeftWidth')) +
-         this.toInt(d.css(element, 'borderRightWidth'));
-};
-
-exports.startScrolling = function (element, axis) {
-  cls.add(element, 'ps-in-scrolling');
-  if (typeof axis !== 'undefined') {
-    cls.add(element, 'ps-' + axis);
-  } else {
-    cls.add(element, 'ps-x');
-    cls.add(element, 'ps-y');
-  }
-};
-
-exports.stopScrolling = function (element, axis) {
-  cls.remove(element, 'ps-in-scrolling');
-  if (typeof axis !== 'undefined') {
-    cls.remove(element, 'ps-' + axis);
-  } else {
-    cls.remove(element, 'ps-x');
-    cls.remove(element, 'ps-y');
-  }
-};
-
-exports.env = {
-  isWebKit: 'WebkitAppearance' in document.documentElement.style,
-  supportsTouch: (('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch),
-  supportsIePointer: window.navigator.msMaxTouchPoints !== null
-};
-
-},{"./class":15,"./dom":16}],20:[function(require,module,exports){
-'use strict';
-
-var destroy = require('./plugin/destroy')
-  , initialize = require('./plugin/initialize')
-  , update = require('./plugin/update');
-
-module.exports = {
-  initialize: initialize,
-  update: update,
-  destroy: destroy
-};
-
-},{"./plugin/destroy":22,"./plugin/initialize":30,"./plugin/update":34}],21:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-  maxScrollbarLength: null,
-  minScrollbarLength: null,
-  scrollXMarginOffset: 0,
-  scrollYMarginOffset: 0,
-  stopPropagationOnClick: true,
-  suppressScrollX: false,
-  suppressScrollY: false,
-  swipePropagation: true,
-  useBothWheelAxes: false,
-  useKeyboard: true,
-  useSelectionScroll: false,
-  wheelPropagation: false,
-  wheelSpeed: 1,
-  theme: 'default'
-};
-
-},{}],22:[function(require,module,exports){
-'use strict';
-
-var d = require('../lib/dom')
-  , h = require('../lib/helper')
-  , instances = require('./instances');
-
-module.exports = function (element) {
-  var i = instances.get(element);
-
-  if (!i) {
-    return;
-  }
-
-  i.event.unbindAll();
-  d.remove(i.scrollbarX);
-  d.remove(i.scrollbarY);
-  d.remove(i.scrollbarXRail);
-  d.remove(i.scrollbarYRail);
-  h.removePsClasses(element);
-
-  instances.remove(element);
-};
-
-},{"../lib/dom":16,"../lib/helper":19,"./instances":31}],23:[function(require,module,exports){
-'use strict';
-
-var h = require('../../lib/helper')
-  , instances = require('../instances')
-  , updateGeometry = require('../update-geometry')
-  , updateScroll = require('../update-scroll');
-
-function bindClickRailHandler(element, i) {
-  function pageOffset(el) {
-    return el.getBoundingClientRect();
-  }
-  var stopPropagation = window.Event.prototype.stopPropagation.bind;
-
-  if (i.settings.stopPropagationOnClick) {
-    i.event.bind(i.scrollbarY, 'click', stopPropagation);
-  }
-  i.event.bind(i.scrollbarYRail, 'click', function (e) {
-    var halfOfScrollbarLength = h.toInt(i.scrollbarYHeight / 2);
-    var positionTop = i.railYRatio * (e.pageY - window.pageYOffset - pageOffset(i.scrollbarYRail).top - halfOfScrollbarLength);
-    var maxPositionTop = i.railYRatio * (i.railYHeight - i.scrollbarYHeight);
-    var positionRatio = positionTop / maxPositionTop;
-
-    if (positionRatio < 0) {
-      positionRatio = 0;
-    } else if (positionRatio > 1) {
-      positionRatio = 1;
-    }
-
-    updateScroll(element, 'top', (i.contentHeight - i.containerHeight) * positionRatio);
-    updateGeometry(element);
-
-    e.stopPropagation();
-  });
-
-  if (i.settings.stopPropagationOnClick) {
-    i.event.bind(i.scrollbarX, 'click', stopPropagation);
-  }
-  i.event.bind(i.scrollbarXRail, 'click', function (e) {
-    var halfOfScrollbarLength = h.toInt(i.scrollbarXWidth / 2);
-    var positionLeft = i.railXRatio * (e.pageX - window.pageXOffset - pageOffset(i.scrollbarXRail).left - halfOfScrollbarLength);
-    var maxPositionLeft = i.railXRatio * (i.railXWidth - i.scrollbarXWidth);
-    var positionRatio = positionLeft / maxPositionLeft;
-
-    if (positionRatio < 0) {
-      positionRatio = 0;
-    } else if (positionRatio > 1) {
-      positionRatio = 1;
-    }
-
-    updateScroll(element, 'left', ((i.contentWidth - i.containerWidth) * positionRatio) - i.negativeScrollAdjustment);
-    updateGeometry(element);
-
-    e.stopPropagation();
-  });
-}
-
-module.exports = function (element) {
-  var i = instances.get(element);
-  bindClickRailHandler(element, i);
-};
-
-},{"../../lib/helper":19,"../instances":31,"../update-geometry":32,"../update-scroll":33}],24:[function(require,module,exports){
-'use strict';
-
-var d = require('../../lib/dom')
-  , h = require('../../lib/helper')
-  , instances = require('../instances')
-  , updateGeometry = require('../update-geometry')
-  , updateScroll = require('../update-scroll');
-
-function bindMouseScrollXHandler(element, i) {
-  var currentLeft = null;
-  var currentPageX = null;
-
-  function updateScrollLeft(deltaX) {
-    var newLeft = currentLeft + (deltaX * i.railXRatio);
-    var maxLeft = Math.max(0, i.scrollbarXRail.getBoundingClientRect().left) + (i.railXRatio * (i.railXWidth - i.scrollbarXWidth));
-
-    if (newLeft < 0) {
-      i.scrollbarXLeft = 0;
-    } else if (newLeft > maxLeft) {
-      i.scrollbarXLeft = maxLeft;
-    } else {
-      i.scrollbarXLeft = newLeft;
-    }
-
-    var scrollLeft = h.toInt(i.scrollbarXLeft * (i.contentWidth - i.containerWidth) / (i.containerWidth - (i.railXRatio * i.scrollbarXWidth))) - i.negativeScrollAdjustment;
-    updateScroll(element, 'left', scrollLeft);
-  }
-
-  var mouseMoveHandler = function (e) {
-    updateScrollLeft(e.pageX - currentPageX);
-    updateGeometry(element);
-    e.stopPropagation();
-    e.preventDefault();
-  };
-
-  var mouseUpHandler = function () {
-    h.stopScrolling(element, 'x');
-    i.event.unbind(i.ownerDocument, 'mousemove', mouseMoveHandler);
-  };
-
-  i.event.bind(i.scrollbarX, 'mousedown', function (e) {
-    currentPageX = e.pageX;
-    currentLeft = h.toInt(d.css(i.scrollbarX, 'left')) * i.railXRatio;
-    h.startScrolling(element, 'x');
-
-    i.event.bind(i.ownerDocument, 'mousemove', mouseMoveHandler);
-    i.event.once(i.ownerDocument, 'mouseup', mouseUpHandler);
-
-    e.stopPropagation();
-    e.preventDefault();
-  });
-}
-
-function bindMouseScrollYHandler(element, i) {
-  var currentTop = null;
-  var currentPageY = null;
-
-  function updateScrollTop(deltaY) {
-    var newTop = currentTop + (deltaY * i.railYRatio);
-    var maxTop = Math.max(0, i.scrollbarYRail.getBoundingClientRect().top) + (i.railYRatio * (i.railYHeight - i.scrollbarYHeight));
-
-    if (newTop < 0) {
-      i.scrollbarYTop = 0;
-    } else if (newTop > maxTop) {
-      i.scrollbarYTop = maxTop;
-    } else {
-      i.scrollbarYTop = newTop;
-    }
-
-    var scrollTop = h.toInt(i.scrollbarYTop * (i.contentHeight - i.containerHeight) / (i.containerHeight - (i.railYRatio * i.scrollbarYHeight)));
-    updateScroll(element, 'top', scrollTop);
-  }
-
-  var mouseMoveHandler = function (e) {
-    updateScrollTop(e.pageY - currentPageY);
-    updateGeometry(element);
-    e.stopPropagation();
-    e.preventDefault();
-  };
-
-  var mouseUpHandler = function () {
-    h.stopScrolling(element, 'y');
-    i.event.unbind(i.ownerDocument, 'mousemove', mouseMoveHandler);
-  };
-
-  i.event.bind(i.scrollbarY, 'mousedown', function (e) {
-    currentPageY = e.pageY;
-    currentTop = h.toInt(d.css(i.scrollbarY, 'top')) * i.railYRatio;
-    h.startScrolling(element, 'y');
-
-    i.event.bind(i.ownerDocument, 'mousemove', mouseMoveHandler);
-    i.event.once(i.ownerDocument, 'mouseup', mouseUpHandler);
-
-    e.stopPropagation();
-    e.preventDefault();
-  });
-}
-
-module.exports = function (element) {
-  var i = instances.get(element);
-  bindMouseScrollXHandler(element, i);
-  bindMouseScrollYHandler(element, i);
-};
-
-},{"../../lib/dom":16,"../../lib/helper":19,"../instances":31,"../update-geometry":32,"../update-scroll":33}],25:[function(require,module,exports){
-'use strict';
-
-var h = require('../../lib/helper')
-  , d = require('../../lib/dom')
-  , instances = require('../instances')
-  , updateGeometry = require('../update-geometry')
-  , updateScroll = require('../update-scroll');
-
-function bindKeyboardHandler(element, i) {
-  var hovered = false;
-  i.event.bind(element, 'mouseenter', function () {
-    hovered = true;
-  });
-  i.event.bind(element, 'mouseleave', function () {
-    hovered = false;
-  });
-
-  var shouldPrevent = false;
-  function shouldPreventDefault(deltaX, deltaY) {
-    var scrollTop = element.scrollTop;
-    if (deltaX === 0) {
-      if (!i.scrollbarYActive) {
-        return false;
-      }
-      if ((scrollTop === 0 && deltaY > 0) || (scrollTop >= i.contentHeight - i.containerHeight && deltaY < 0)) {
-        return !i.settings.wheelPropagation;
-      }
-    }
-
-    var scrollLeft = element.scrollLeft;
-    if (deltaY === 0) {
-      if (!i.scrollbarXActive) {
-        return false;
-      }
-      if ((scrollLeft === 0 && deltaX < 0) || (scrollLeft >= i.contentWidth - i.containerWidth && deltaX > 0)) {
-        return !i.settings.wheelPropagation;
-      }
-    }
-    return true;
-  }
-
-  i.event.bind(i.ownerDocument, 'keydown', function (e) {
-    if (e.isDefaultPrevented && e.isDefaultPrevented()) {
-      return;
-    }
-
-    var focused = d.matches(i.scrollbarX, ':focus') ||
-                  d.matches(i.scrollbarY, ':focus');
-
-    if (!hovered && !focused) {
-      return;
-    }
-
-    var activeElement = document.activeElement ? document.activeElement : i.ownerDocument.activeElement;
-    if (activeElement) {
-      // go deeper if element is a webcomponent
-      while (activeElement.shadowRoot) {
-        activeElement = activeElement.shadowRoot.activeElement;
-      }
-      if (h.isEditable(activeElement)) {
-        return;
-      }
-    }
-
-    var deltaX = 0;
-    var deltaY = 0;
-
-    switch (e.which) {
-    case 37: // left
-      deltaX = -30;
-      break;
-    case 38: // up
-      deltaY = 30;
-      break;
-    case 39: // right
-      deltaX = 30;
-      break;
-    case 40: // down
-      deltaY = -30;
-      break;
-    case 33: // page up
-      deltaY = 90;
-      break;
-    case 32: // space bar
-      if (e.shiftKey) {
-        deltaY = 90;
-      } else {
-        deltaY = -90;
-      }
-      break;
-    case 34: // page down
-      deltaY = -90;
-      break;
-    case 35: // end
-      if (e.ctrlKey) {
-        deltaY = -i.contentHeight;
-      } else {
-        deltaY = -i.containerHeight;
-      }
-      break;
-    case 36: // home
-      if (e.ctrlKey) {
-        deltaY = element.scrollTop;
-      } else {
-        deltaY = i.containerHeight;
-      }
-      break;
-    default:
-      return;
-    }
-
-    updateScroll(element, 'top', element.scrollTop - deltaY);
-    updateScroll(element, 'left', element.scrollLeft + deltaX);
-    updateGeometry(element);
-
-    shouldPrevent = shouldPreventDefault(deltaX, deltaY);
-    if (shouldPrevent) {
-      e.preventDefault();
-    }
-  });
-}
-
-module.exports = function (element) {
-  var i = instances.get(element);
-  bindKeyboardHandler(element, i);
-};
-
-},{"../../lib/dom":16,"../../lib/helper":19,"../instances":31,"../update-geometry":32,"../update-scroll":33}],26:[function(require,module,exports){
-'use strict';
-
-var instances = require('../instances')
-  , updateGeometry = require('../update-geometry')
-  , updateScroll = require('../update-scroll');
-
-function bindMouseWheelHandler(element, i) {
-  var shouldPrevent = false;
-
-  function shouldPreventDefault(deltaX, deltaY) {
-    var scrollTop = element.scrollTop;
-    if (deltaX === 0) {
-      if (!i.scrollbarYActive) {
-        return false;
-      }
-      if ((scrollTop === 0 && deltaY > 0) || (scrollTop >= i.contentHeight - i.containerHeight && deltaY < 0)) {
-        return !i.settings.wheelPropagation;
-      }
-    }
-
-    var scrollLeft = element.scrollLeft;
-    if (deltaY === 0) {
-      if (!i.scrollbarXActive) {
-        return false;
-      }
-      if ((scrollLeft === 0 && deltaX < 0) || (scrollLeft >= i.contentWidth - i.containerWidth && deltaX > 0)) {
-        return !i.settings.wheelPropagation;
-      }
-    }
-    return true;
-  }
-
-  function getDeltaFromEvent(e) {
-    var deltaX = e.deltaX;
-    var deltaY = -1 * e.deltaY;
-
-    if (typeof deltaX === "undefined" || typeof deltaY === "undefined") {
-      // OS X Safari
-      deltaX = -1 * e.wheelDeltaX / 6;
-      deltaY = e.wheelDeltaY / 6;
-    }
-
-    if (e.deltaMode && e.deltaMode === 1) {
-      // Firefox in deltaMode 1: Line scrolling
-      deltaX *= 10;
-      deltaY *= 10;
-    }
-
-    if (deltaX !== deltaX && deltaY !== deltaY/* NaN checks */) {
-      // IE in some mouse drivers
-      deltaX = 0;
-      deltaY = e.wheelDelta;
-    }
-
-    return [deltaX, deltaY];
-  }
-
-  function shouldBeConsumedByTextarea(deltaX, deltaY) {
-    var hoveredTextarea = element.querySelector('textarea:hover');
-    if (hoveredTextarea) {
-      var maxScrollTop = hoveredTextarea.scrollHeight - hoveredTextarea.clientHeight;
-      if (maxScrollTop > 0) {
-        if (!(hoveredTextarea.scrollTop === 0 && deltaY > 0) &&
-            !(hoveredTextarea.scrollTop === maxScrollTop && deltaY < 0)) {
-          return true;
-        }
-      }
-      var maxScrollLeft = hoveredTextarea.scrollLeft - hoveredTextarea.clientWidth;
-      if (maxScrollLeft > 0) {
-        if (!(hoveredTextarea.scrollLeft === 0 && deltaX < 0) &&
-            !(hoveredTextarea.scrollLeft === maxScrollLeft && deltaX > 0)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  function mousewheelHandler(e) {
-    var delta = getDeltaFromEvent(e);
-
-    var deltaX = delta[0];
-    var deltaY = delta[1];
-
-    if (shouldBeConsumedByTextarea(deltaX, deltaY)) {
-      return;
-    }
-
-    shouldPrevent = false;
-    if (!i.settings.useBothWheelAxes) {
-      // deltaX will only be used for horizontal scrolling and deltaY will
-      // only be used for vertical scrolling - this is the default
-      updateScroll(element, 'top', element.scrollTop - (deltaY * i.settings.wheelSpeed));
-      updateScroll(element, 'left', element.scrollLeft + (deltaX * i.settings.wheelSpeed));
-    } else if (i.scrollbarYActive && !i.scrollbarXActive) {
-      // only vertical scrollbar is active and useBothWheelAxes option is
-      // active, so let's scroll vertical bar using both mouse wheel axes
-      if (deltaY) {
-        updateScroll(element, 'top', element.scrollTop - (deltaY * i.settings.wheelSpeed));
-      } else {
-        updateScroll(element, 'top', element.scrollTop + (deltaX * i.settings.wheelSpeed));
-      }
-      shouldPrevent = true;
-    } else if (i.scrollbarXActive && !i.scrollbarYActive) {
-      // useBothWheelAxes and only horizontal bar is active, so use both
-      // wheel axes for horizontal bar
-      if (deltaX) {
-        updateScroll(element, 'left', element.scrollLeft + (deltaX * i.settings.wheelSpeed));
-      } else {
-        updateScroll(element, 'left', element.scrollLeft - (deltaY * i.settings.wheelSpeed));
-      }
-      shouldPrevent = true;
-    }
-
-    updateGeometry(element);
-
-    shouldPrevent = (shouldPrevent || shouldPreventDefault(deltaX, deltaY));
-    if (shouldPrevent) {
-      e.stopPropagation();
-      e.preventDefault();
-    }
-  }
-
-  if (typeof window.onwheel !== "undefined") {
-    i.event.bind(element, 'wheel', mousewheelHandler);
-  } else if (typeof window.onmousewheel !== "undefined") {
-    i.event.bind(element, 'mousewheel', mousewheelHandler);
-  }
-}
-
-module.exports = function (element) {
-  var i = instances.get(element);
-  bindMouseWheelHandler(element, i);
-};
-
-},{"../instances":31,"../update-geometry":32,"../update-scroll":33}],27:[function(require,module,exports){
-'use strict';
-
-var instances = require('../instances')
-  , updateGeometry = require('../update-geometry');
-
-function bindNativeScrollHandler(element, i) {
-  i.event.bind(element, 'scroll', function () {
-    updateGeometry(element);
-  });
-}
-
-module.exports = function (element) {
-  var i = instances.get(element);
-  bindNativeScrollHandler(element, i);
-};
-
-},{"../instances":31,"../update-geometry":32}],28:[function(require,module,exports){
-'use strict';
-
-var h = require('../../lib/helper')
-  , instances = require('../instances')
-  , updateGeometry = require('../update-geometry')
-  , updateScroll = require('../update-scroll');
-
-function bindSelectionHandler(element, i) {
-  function getRangeNode() {
-    var selection = window.getSelection ? window.getSelection() :
-                    document.getSelection ? document.getSelection() : '';
-    if (selection.toString().length === 0) {
-      return null;
-    } else {
-      return selection.getRangeAt(0).commonAncestorContainer;
-    }
-  }
-
-  var scrollingLoop = null;
-  var scrollDiff = {top: 0, left: 0};
-  function startScrolling() {
-    if (!scrollingLoop) {
-      scrollingLoop = setInterval(function () {
-        if (!instances.get(element)) {
-          clearInterval(scrollingLoop);
-          return;
-        }
-
-        updateScroll(element, 'top', element.scrollTop + scrollDiff.top);
-        updateScroll(element, 'left', element.scrollLeft + scrollDiff.left);
-        updateGeometry(element);
-      }, 50); // every .1 sec
-    }
-  }
-  function stopScrolling() {
-    if (scrollingLoop) {
-      clearInterval(scrollingLoop);
-      scrollingLoop = null;
-    }
-    h.stopScrolling(element);
-  }
-
-  var isSelected = false;
-  i.event.bind(i.ownerDocument, 'selectionchange', function () {
-    if (element.contains(getRangeNode())) {
-      isSelected = true;
-    } else {
-      isSelected = false;
-      stopScrolling();
-    }
-  });
-  i.event.bind(window, 'mouseup', function () {
-    if (isSelected) {
-      isSelected = false;
-      stopScrolling();
-    }
-  });
-
-  i.event.bind(window, 'mousemove', function (e) {
-    if (isSelected) {
-      var mousePosition = {x: e.pageX, y: e.pageY};
-      var containerGeometry = {
-        left: element.offsetLeft,
-        right: element.offsetLeft + element.offsetWidth,
-        top: element.offsetTop,
-        bottom: element.offsetTop + element.offsetHeight
-      };
-
-      if (mousePosition.x < containerGeometry.left + 3) {
-        scrollDiff.left = -5;
-        h.startScrolling(element, 'x');
-      } else if (mousePosition.x > containerGeometry.right - 3) {
-        scrollDiff.left = 5;
-        h.startScrolling(element, 'x');
-      } else {
-        scrollDiff.left = 0;
-      }
-
-      if (mousePosition.y < containerGeometry.top + 3) {
-        if (containerGeometry.top + 3 - mousePosition.y < 5) {
-          scrollDiff.top = -5;
-        } else {
-          scrollDiff.top = -20;
-        }
-        h.startScrolling(element, 'y');
-      } else if (mousePosition.y > containerGeometry.bottom - 3) {
-        if (mousePosition.y - containerGeometry.bottom + 3 < 5) {
-          scrollDiff.top = 5;
-        } else {
-          scrollDiff.top = 20;
-        }
-        h.startScrolling(element, 'y');
-      } else {
-        scrollDiff.top = 0;
-      }
-
-      if (scrollDiff.top === 0 && scrollDiff.left === 0) {
-        stopScrolling();
-      } else {
-        startScrolling();
-      }
-    }
-  });
-}
-
-module.exports = function (element) {
-  var i = instances.get(element);
-  bindSelectionHandler(element, i);
-};
-
-},{"../../lib/helper":19,"../instances":31,"../update-geometry":32,"../update-scroll":33}],29:[function(require,module,exports){
-'use strict';
-
-var instances = require('../instances')
-  , updateGeometry = require('../update-geometry')
-  , updateScroll = require('../update-scroll');
-
-function bindTouchHandler(element, i, supportsTouch, supportsIePointer) {
-  function shouldPreventDefault(deltaX, deltaY) {
-    var scrollTop = element.scrollTop;
-    var scrollLeft = element.scrollLeft;
-    var magnitudeX = Math.abs(deltaX);
-    var magnitudeY = Math.abs(deltaY);
-
-    if (magnitudeY > magnitudeX) {
-      // user is perhaps trying to swipe up/down the page
-
-      if (((deltaY < 0) && (scrollTop === i.contentHeight - i.containerHeight)) ||
-          ((deltaY > 0) && (scrollTop === 0))) {
-        return !i.settings.swipePropagation;
-      }
-    } else if (magnitudeX > magnitudeY) {
-      // user is perhaps trying to swipe left/right across the page
-
-      if (((deltaX < 0) && (scrollLeft === i.contentWidth - i.containerWidth)) ||
-          ((deltaX > 0) && (scrollLeft === 0))) {
-        return !i.settings.swipePropagation;
-      }
-    }
-
-    return true;
-  }
-
-  function applyTouchMove(differenceX, differenceY) {
-    updateScroll(element, 'top', element.scrollTop - differenceY);
-    updateScroll(element, 'left', element.scrollLeft - differenceX);
-
-    updateGeometry(element);
-  }
-
-  var startOffset = {};
-  var startTime = 0;
-  var speed = {};
-  var easingLoop = null;
-  var inGlobalTouch = false;
-  var inLocalTouch = false;
-
-  function globalTouchStart() {
-    inGlobalTouch = true;
-  }
-  function globalTouchEnd() {
-    inGlobalTouch = false;
-  }
-
-  function getTouch(e) {
-    if (e.targetTouches) {
-      return e.targetTouches[0];
-    } else {
-      // Maybe IE pointer
-      return e;
-    }
-  }
-  function shouldHandle(e) {
-    if (e.targetTouches && e.targetTouches.length === 1) {
-      return true;
-    }
-    if (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== e.MSPOINTER_TYPE_MOUSE) {
-      return true;
-    }
-    return false;
-  }
-  function touchStart(e) {
-    if (shouldHandle(e)) {
-      inLocalTouch = true;
-
-      var touch = getTouch(e);
-
-      startOffset.pageX = touch.pageX;
-      startOffset.pageY = touch.pageY;
-
-      startTime = (new Date()).getTime();
-
-      if (easingLoop !== null) {
-        clearInterval(easingLoop);
-      }
-
-      e.stopPropagation();
-    }
-  }
-  function touchMove(e) {
-    if (!inGlobalTouch && inLocalTouch && shouldHandle(e)) {
-      var touch = getTouch(e);
-
-      var currentOffset = {pageX: touch.pageX, pageY: touch.pageY};
-
-      var differenceX = currentOffset.pageX - startOffset.pageX;
-      var differenceY = currentOffset.pageY - startOffset.pageY;
-
-      applyTouchMove(differenceX, differenceY);
-      startOffset = currentOffset;
-
-      var currentTime = (new Date()).getTime();
-
-      var timeGap = currentTime - startTime;
-      if (timeGap > 0) {
-        speed.x = differenceX / timeGap;
-        speed.y = differenceY / timeGap;
-        startTime = currentTime;
-      }
-
-      if (shouldPreventDefault(differenceX, differenceY)) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
-    }
-  }
-  function touchEnd() {
-    if (!inGlobalTouch && inLocalTouch) {
-      inLocalTouch = false;
-
-      clearInterval(easingLoop);
-      easingLoop = setInterval(function () {
-        if (!instances.get(element)) {
-          clearInterval(easingLoop);
-          return;
-        }
-
-        if (Math.abs(speed.x) < 0.01 && Math.abs(speed.y) < 0.01) {
-          clearInterval(easingLoop);
-          return;
-        }
-
-        applyTouchMove(speed.x * 30, speed.y * 30);
-
-        speed.x *= 0.8;
-        speed.y *= 0.8;
-      }, 10);
-    }
-  }
-
-  if (supportsTouch) {
-    i.event.bind(window, 'touchstart', globalTouchStart);
-    i.event.bind(window, 'touchend', globalTouchEnd);
-    i.event.bind(element, 'touchstart', touchStart);
-    i.event.bind(element, 'touchmove', touchMove);
-    i.event.bind(element, 'touchend', touchEnd);
-  }
-
-  if (supportsIePointer) {
-    if (window.PointerEvent) {
-      i.event.bind(window, 'pointerdown', globalTouchStart);
-      i.event.bind(window, 'pointerup', globalTouchEnd);
-      i.event.bind(element, 'pointerdown', touchStart);
-      i.event.bind(element, 'pointermove', touchMove);
-      i.event.bind(element, 'pointerup', touchEnd);
-    } else if (window.MSPointerEvent) {
-      i.event.bind(window, 'MSPointerDown', globalTouchStart);
-      i.event.bind(window, 'MSPointerUp', globalTouchEnd);
-      i.event.bind(element, 'MSPointerDown', touchStart);
-      i.event.bind(element, 'MSPointerMove', touchMove);
-      i.event.bind(element, 'MSPointerUp', touchEnd);
-    }
-  }
-}
-
-module.exports = function (element, supportsTouch, supportsIePointer) {
-  var i = instances.get(element);
-  bindTouchHandler(element, i, supportsTouch, supportsIePointer);
-};
-
-},{"../instances":31,"../update-geometry":32,"../update-scroll":33}],30:[function(require,module,exports){
-'use strict';
-
-var cls = require('../lib/class')
-  , h = require('../lib/helper')
-  , instances = require('./instances')
-  , updateGeometry = require('./update-geometry');
-
-// Handlers
-var clickRailHandler = require('./handler/click-rail')
-  , dragScrollbarHandler = require('./handler/drag-scrollbar')
-  , keyboardHandler = require('./handler/keyboard')
-  , mouseWheelHandler = require('./handler/mouse-wheel')
-  , nativeScrollHandler = require('./handler/native-scroll')
-  , selectionHandler = require('./handler/selection')
-  , touchHandler = require('./handler/touch');
-
-module.exports = function (element, userSettings) {
-  userSettings = typeof userSettings === 'object' ? userSettings : {};
-
-  cls.add(element, 'ps-container');
-
-  // Create a plugin instance.
-  var i = instances.add(element);
-
-  i.settings = h.extend(i.settings, userSettings);
-  cls.add(element, 'ps-theme-' + i.settings.theme);
-
-  clickRailHandler(element);
-  dragScrollbarHandler(element);
-  mouseWheelHandler(element);
-  nativeScrollHandler(element);
-
-  if (i.settings.useSelectionScroll) {
-    selectionHandler(element);
-  }
-
-  if (h.env.supportsTouch || h.env.supportsIePointer) {
-    touchHandler(element, h.env.supportsTouch, h.env.supportsIePointer);
-  }
-  if (i.settings.useKeyboard) {
-    keyboardHandler(element);
-  }
-
-  updateGeometry(element);
-};
-
-},{"../lib/class":15,"../lib/helper":19,"./handler/click-rail":23,"./handler/drag-scrollbar":24,"./handler/keyboard":25,"./handler/mouse-wheel":26,"./handler/native-scroll":27,"./handler/selection":28,"./handler/touch":29,"./instances":31,"./update-geometry":32}],31:[function(require,module,exports){
-'use strict';
-
-var cls = require('../lib/class')
-  , d = require('../lib/dom')
-  , defaultSettings = require('./default-setting')
-  , EventManager = require('../lib/event-manager')
-  , guid = require('../lib/guid')
-  , h = require('../lib/helper');
-
-var instances = {};
-
-function Instance(element) {
-  var i = this;
-
-  i.settings = h.clone(defaultSettings);
-  i.containerWidth = null;
-  i.containerHeight = null;
-  i.contentWidth = null;
-  i.contentHeight = null;
-
-  i.isRtl = d.css(element, 'direction') === "rtl";
-  i.isNegativeScroll = (function () {
-    var originalScrollLeft = element.scrollLeft;
-    var result = null;
-    element.scrollLeft = -1;
-    result = element.scrollLeft < 0;
-    element.scrollLeft = originalScrollLeft;
-    return result;
-  })();
-  i.negativeScrollAdjustment = i.isNegativeScroll ? element.scrollWidth - element.clientWidth : 0;
-  i.event = new EventManager();
-  i.ownerDocument = element.ownerDocument || document;
-
-  function focus() {
-    cls.add(element, 'ps-focus');
-  }
-
-  function blur() {
-    cls.remove(element, 'ps-focus');
-  }
-
-  i.scrollbarXRail = d.appendTo(d.e('div', 'ps-scrollbar-x-rail'), element);
-  i.scrollbarX = d.appendTo(d.e('div', 'ps-scrollbar-x'), i.scrollbarXRail);
-  i.scrollbarX.setAttribute('tabindex', 0);
-  i.event.bind(i.scrollbarX, 'focus', focus);
-  i.event.bind(i.scrollbarX, 'blur', blur);
-  i.scrollbarXActive = null;
-  i.scrollbarXWidth = null;
-  i.scrollbarXLeft = null;
-  i.scrollbarXBottom = h.toInt(d.css(i.scrollbarXRail, 'bottom'));
-  i.isScrollbarXUsingBottom = i.scrollbarXBottom === i.scrollbarXBottom; // !isNaN
-  i.scrollbarXTop = i.isScrollbarXUsingBottom ? null : h.toInt(d.css(i.scrollbarXRail, 'top'));
-  i.railBorderXWidth = h.toInt(d.css(i.scrollbarXRail, 'borderLeftWidth')) + h.toInt(d.css(i.scrollbarXRail, 'borderRightWidth'));
-  // Set rail to display:block to calculate margins
-  d.css(i.scrollbarXRail, 'display', 'block');
-  i.railXMarginWidth = h.toInt(d.css(i.scrollbarXRail, 'marginLeft')) + h.toInt(d.css(i.scrollbarXRail, 'marginRight'));
-  d.css(i.scrollbarXRail, 'display', '');
-  i.railXWidth = null;
-  i.railXRatio = null;
-
-  i.scrollbarYRail = d.appendTo(d.e('div', 'ps-scrollbar-y-rail'), element);
-  i.scrollbarY = d.appendTo(d.e('div', 'ps-scrollbar-y'), i.scrollbarYRail);
-  i.scrollbarY.setAttribute('tabindex', 0);
-  i.event.bind(i.scrollbarY, 'focus', focus);
-  i.event.bind(i.scrollbarY, 'blur', blur);
-  i.scrollbarYActive = null;
-  i.scrollbarYHeight = null;
-  i.scrollbarYTop = null;
-  i.scrollbarYRight = h.toInt(d.css(i.scrollbarYRail, 'right'));
-  i.isScrollbarYUsingRight = i.scrollbarYRight === i.scrollbarYRight; // !isNaN
-  i.scrollbarYLeft = i.isScrollbarYUsingRight ? null : h.toInt(d.css(i.scrollbarYRail, 'left'));
-  i.scrollbarYOuterWidth = i.isRtl ? h.outerWidth(i.scrollbarY) : null;
-  i.railBorderYWidth = h.toInt(d.css(i.scrollbarYRail, 'borderTopWidth')) + h.toInt(d.css(i.scrollbarYRail, 'borderBottomWidth'));
-  d.css(i.scrollbarYRail, 'display', 'block');
-  i.railYMarginHeight = h.toInt(d.css(i.scrollbarYRail, 'marginTop')) + h.toInt(d.css(i.scrollbarYRail, 'marginBottom'));
-  d.css(i.scrollbarYRail, 'display', '');
-  i.railYHeight = null;
-  i.railYRatio = null;
-}
-
-function getId(element) {
-  if (typeof element.dataset === 'undefined') {
-    return element.getAttribute('data-ps-id');
-  } else {
-    return element.dataset.psId;
-  }
-}
-
-function setId(element, id) {
-  if (typeof element.dataset === 'undefined') {
-    element.setAttribute('data-ps-id', id);
-  } else {
-    element.dataset.psId = id;
-  }
-}
-
-function removeId(element) {
-  if (typeof element.dataset === 'undefined') {
-    element.removeAttribute('data-ps-id');
-  } else {
-    delete element.dataset.psId;
-  }
-}
-
-exports.add = function (element) {
-  var newId = guid();
-  setId(element, newId);
-  instances[newId] = new Instance(element);
-  return instances[newId];
-};
-
-exports.remove = function (element) {
-  delete instances[getId(element)];
-  removeId(element);
-};
-
-exports.get = function (element) {
-  return instances[getId(element)];
-};
-
-},{"../lib/class":15,"../lib/dom":16,"../lib/event-manager":17,"../lib/guid":18,"../lib/helper":19,"./default-setting":21}],32:[function(require,module,exports){
-'use strict';
-
-var cls = require('../lib/class')
-  , d = require('../lib/dom')
-  , h = require('../lib/helper')
-  , instances = require('./instances')
-  , updateScroll = require('./update-scroll');
-
-function getThumbSize(i, thumbSize) {
-  if (i.settings.minScrollbarLength) {
-    thumbSize = Math.max(thumbSize, i.settings.minScrollbarLength);
-  }
-  if (i.settings.maxScrollbarLength) {
-    thumbSize = Math.min(thumbSize, i.settings.maxScrollbarLength);
-  }
-  return thumbSize;
-}
-
-function updateCss(element, i) {
-  var xRailOffset = {width: i.railXWidth};
-  if (i.isRtl) {
-    xRailOffset.left = i.negativeScrollAdjustment + element.scrollLeft + i.containerWidth - i.contentWidth;
-  } else {
-    xRailOffset.left = element.scrollLeft;
-  }
-  if (i.isScrollbarXUsingBottom) {
-    xRailOffset.bottom = i.scrollbarXBottom - element.scrollTop;
-  } else {
-    xRailOffset.top = i.scrollbarXTop + element.scrollTop;
-  }
-  d.css(i.scrollbarXRail, xRailOffset);
-
-  var yRailOffset = {top: element.scrollTop, height: i.railYHeight};
-  if (i.isScrollbarYUsingRight) {
-    if (i.isRtl) {
-      yRailOffset.right = i.contentWidth - (i.negativeScrollAdjustment + element.scrollLeft) - i.scrollbarYRight - i.scrollbarYOuterWidth;
-    } else {
-      yRailOffset.right = i.scrollbarYRight - element.scrollLeft;
-    }
-  } else {
-    if (i.isRtl) {
-      yRailOffset.left = i.negativeScrollAdjustment + element.scrollLeft + i.containerWidth * 2 - i.contentWidth - i.scrollbarYLeft - i.scrollbarYOuterWidth;
-    } else {
-      yRailOffset.left = i.scrollbarYLeft + element.scrollLeft;
-    }
-  }
-  d.css(i.scrollbarYRail, yRailOffset);
-
-  d.css(i.scrollbarX, {left: i.scrollbarXLeft, width: i.scrollbarXWidth - i.railBorderXWidth});
-  d.css(i.scrollbarY, {top: i.scrollbarYTop, height: i.scrollbarYHeight - i.railBorderYWidth});
-}
-
-module.exports = function (element) {
-  var i = instances.get(element);
-
-  i.containerWidth = element.clientWidth;
-  i.containerHeight = element.clientHeight;
-  i.contentWidth = element.scrollWidth;
-  i.contentHeight = element.scrollHeight;
-
-  var existingRails;
-  if (!element.contains(i.scrollbarXRail)) {
-    existingRails = d.queryChildren(element, '.ps-scrollbar-x-rail');
-    if (existingRails.length > 0) {
-      existingRails.forEach(function (rail) {
-        d.remove(rail);
-      });
-    }
-    d.appendTo(i.scrollbarXRail, element);
-  }
-  if (!element.contains(i.scrollbarYRail)) {
-    existingRails = d.queryChildren(element, '.ps-scrollbar-y-rail');
-    if (existingRails.length > 0) {
-      existingRails.forEach(function (rail) {
-        d.remove(rail);
-      });
-    }
-    d.appendTo(i.scrollbarYRail, element);
-  }
-
-  if (!i.settings.suppressScrollX && i.containerWidth + i.settings.scrollXMarginOffset < i.contentWidth) {
-    i.scrollbarXActive = true;
-    i.railXWidth = i.containerWidth - i.railXMarginWidth;
-    i.railXRatio = i.containerWidth / i.railXWidth;
-    i.scrollbarXWidth = getThumbSize(i, h.toInt(i.railXWidth * i.containerWidth / i.contentWidth));
-    i.scrollbarXLeft = h.toInt((i.negativeScrollAdjustment + element.scrollLeft) * (i.railXWidth - i.scrollbarXWidth) / (i.contentWidth - i.containerWidth));
-  } else {
-    i.scrollbarXActive = false;
-  }
-
-  if (!i.settings.suppressScrollY && i.containerHeight + i.settings.scrollYMarginOffset < i.contentHeight) {
-    i.scrollbarYActive = true;
-    i.railYHeight = i.containerHeight - i.railYMarginHeight;
-    i.railYRatio = i.containerHeight / i.railYHeight;
-    i.scrollbarYHeight = getThumbSize(i, h.toInt(i.railYHeight * i.containerHeight / i.contentHeight));
-    i.scrollbarYTop = h.toInt(element.scrollTop * (i.railYHeight - i.scrollbarYHeight) / (i.contentHeight - i.containerHeight));
-  } else {
-    i.scrollbarYActive = false;
-  }
-
-  if (i.scrollbarXLeft >= i.railXWidth - i.scrollbarXWidth) {
-    i.scrollbarXLeft = i.railXWidth - i.scrollbarXWidth;
-  }
-  if (i.scrollbarYTop >= i.railYHeight - i.scrollbarYHeight) {
-    i.scrollbarYTop = i.railYHeight - i.scrollbarYHeight;
-  }
-
-  updateCss(element, i);
-
-  if (i.scrollbarXActive) {
-    cls.add(element, 'ps-active-x');
-  } else {
-    cls.remove(element, 'ps-active-x');
-    i.scrollbarXWidth = 0;
-    i.scrollbarXLeft = 0;
-    updateScroll(element, 'left', 0);
-  }
-  if (i.scrollbarYActive) {
-    cls.add(element, 'ps-active-y');
-  } else {
-    cls.remove(element, 'ps-active-y');
-    i.scrollbarYHeight = 0;
-    i.scrollbarYTop = 0;
-    updateScroll(element, 'top', 0);
-  }
-};
-
-},{"../lib/class":15,"../lib/dom":16,"../lib/helper":19,"./instances":31,"./update-scroll":33}],33:[function(require,module,exports){
-'use strict';
-
-var instances = require('./instances');
-
-var upEvent = document.createEvent('Event')
-  , downEvent = document.createEvent('Event')
-  , leftEvent = document.createEvent('Event')
-  , rightEvent = document.createEvent('Event')
-  , yEvent = document.createEvent('Event')
-  , xEvent = document.createEvent('Event')
-  , xStartEvent = document.createEvent('Event')
-  , xEndEvent = document.createEvent('Event')
-  , yStartEvent = document.createEvent('Event')
-  , yEndEvent = document.createEvent('Event')
-  , lastTop
-  , lastLeft;
-
-upEvent.initEvent('ps-scroll-up', true, true);
-downEvent.initEvent('ps-scroll-down', true, true);
-leftEvent.initEvent('ps-scroll-left', true, true);
-rightEvent.initEvent('ps-scroll-right', true, true);
-yEvent.initEvent('ps-scroll-y', true, true);
-xEvent.initEvent('ps-scroll-x', true, true);
-xStartEvent.initEvent('ps-x-reach-start', true, true);
-xEndEvent.initEvent('ps-x-reach-end', true, true);
-yStartEvent.initEvent('ps-y-reach-start', true, true);
-yEndEvent.initEvent('ps-y-reach-end', true, true);
-
-module.exports = function (element, axis, value) {
-  if (typeof element === 'undefined') {
-    throw 'You must provide an element to the update-scroll function';
-  }
-
-  if (typeof axis === 'undefined') {
-    throw 'You must provide an axis to the update-scroll function';
-  }
-
-  if (typeof value === 'undefined') {
-    throw 'You must provide a value to the update-scroll function';
-  }
-
-  if (axis === 'top' && value <= 0) {
-    element.scrollTop = value = 0; // don't allow negative scroll
-    element.dispatchEvent(yStartEvent);
-  }
-
-  if (axis === 'left' && value <= 0) {
-    element.scrollLeft = value = 0; // don't allow negative scroll
-    element.dispatchEvent(xStartEvent);
-  }
-
-  var i = instances.get(element);
-
-  if (axis === 'top' && value >= i.contentHeight - i.containerHeight) {
-    element.scrollTop = value = i.contentHeight - i.containerHeight; // don't allow scroll past container
-    element.dispatchEvent(yEndEvent);
-  }
-
-  if (axis === 'left' && value >= i.contentWidth - i.containerWidth) {
-    element.scrollLeft = value = i.contentWidth - i.containerWidth; // don't allow scroll past container
-    element.dispatchEvent(xEndEvent);
-  }
-
-  if (!lastTop) {
-    lastTop = element.scrollTop;
-  }
-
-  if (!lastLeft) {
-    lastLeft = element.scrollLeft;
-  }
-
-  if (axis === 'top' && value < lastTop) {
-    element.dispatchEvent(upEvent);
-  }
-
-  if (axis === 'top' && value > lastTop) {
-    element.dispatchEvent(downEvent);
-  }
-
-  if (axis === 'left' && value < lastLeft) {
-    element.dispatchEvent(leftEvent);
-  }
-
-  if (axis === 'left' && value > lastLeft) {
-    element.dispatchEvent(rightEvent);
-  }
-
-  if (axis === 'top') {
-    element.scrollTop = lastTop = value;
-    element.dispatchEvent(yEvent);
-  }
-
-  if (axis === 'left') {
-    element.scrollLeft = lastLeft = value;
-    element.dispatchEvent(xEvent);
-  }
-
-};
-
-},{"./instances":31}],34:[function(require,module,exports){
-'use strict';
-
-var d = require('../lib/dom')
-  , h = require('../lib/helper')
-  , instances = require('./instances')
-  , updateGeometry = require('./update-geometry')
-  , updateScroll = require('./update-scroll');
-
-module.exports = function (element) {
-  var i = instances.get(element);
-
-  if (!i) {
-    return;
-  }
-
-  // Recalcuate negative scrollLeft adjustment
-  i.negativeScrollAdjustment = i.isNegativeScroll ? element.scrollWidth - element.clientWidth : 0;
-
-  // Recalculate rail margins
-  d.css(i.scrollbarXRail, 'display', 'block');
-  d.css(i.scrollbarYRail, 'display', 'block');
-  i.railXMarginWidth = h.toInt(d.css(i.scrollbarXRail, 'marginLeft')) + h.toInt(d.css(i.scrollbarXRail, 'marginRight'));
-  i.railYMarginHeight = h.toInt(d.css(i.scrollbarYRail, 'marginTop')) + h.toInt(d.css(i.scrollbarYRail, 'marginBottom'));
-
-  // Hide scrollbars not to affect scrollWidth and scrollHeight
-  d.css(i.scrollbarXRail, 'display', 'none');
-  d.css(i.scrollbarYRail, 'display', 'none');
-
-  updateGeometry(element);
-
-  // Update top/left scroll to trigger events
-  updateScroll(element, 'top', element.scrollTop);
-  updateScroll(element, 'left', element.scrollLeft);
-
-  d.css(i.scrollbarXRail, 'display', '');
-  d.css(i.scrollbarYRail, 'display', '');
-};
-
-},{"../lib/dom":16,"../lib/helper":19,"./instances":31,"./update-geometry":32,"./update-scroll":33}],35:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -19536,7 +18009,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],36:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19569,7 +18042,7 @@ var defaultParams = {
 
 exports['default'] = defaultParams;
 module.exports = exports['default'];
-},{}],37:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19705,7 +18178,7 @@ exports['default'] = {
   handleCancel: handleCancel
 };
 module.exports = exports['default'];
-},{"./handle-dom":38,"./handle-swal-dom":40,"./utils":43}],38:[function(require,module,exports){
+},{"./handle-dom":17,"./handle-swal-dom":19,"./utils":22}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19897,7 +18370,7 @@ exports.fadeIn = fadeIn;
 exports.fadeOut = fadeOut;
 exports.fireClick = fireClick;
 exports.stopEventPropagation = stopEventPropagation;
-},{}],39:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19977,7 +18450,7 @@ var handleKeyDown = function handleKeyDown(event, params, modal) {
 
 exports['default'] = handleKeyDown;
 module.exports = exports['default'];
-},{"./handle-dom":38,"./handle-swal-dom":40}],40:[function(require,module,exports){
+},{"./handle-dom":17,"./handle-swal-dom":19}],19:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -20145,7 +18618,7 @@ exports.openModal = openModal;
 exports.resetInput = resetInput;
 exports.resetInputError = resetInputError;
 exports.fixVerticalPosition = fixVerticalPosition;
-},{"./default-params":36,"./handle-dom":38,"./injected-html":41,"./utils":43}],41:[function(require,module,exports){
+},{"./default-params":15,"./handle-dom":17,"./injected-html":20,"./utils":22}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20188,7 +18661,7 @@ var injectedHTML =
 
 exports["default"] = injectedHTML;
 module.exports = exports["default"];
-},{}],42:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -20414,7 +18887,7 @@ var setParameters = function setParameters(params) {
 
 exports['default'] = setParameters;
 module.exports = exports['default'];
-},{"./handle-dom":38,"./handle-swal-dom":40,"./utils":43}],43:[function(require,module,exports){
+},{"./handle-dom":17,"./handle-swal-dom":19,"./utils":22}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -20488,7 +18961,7 @@ exports.hexToRgb = hexToRgb;
 exports.isIE8 = isIE8;
 exports.logStr = logStr;
 exports.colorLuminance = colorLuminance;
-},{}],44:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -20792,7 +19265,7 @@ if (typeof window !== 'undefined') {
   _extend$hexToRgb$isIE8$logStr$colorLuminance.logStr('SweetAlert is a frontend module!');
 }
 module.exports = exports['default'];
-},{"./modules/default-params":36,"./modules/handle-click":37,"./modules/handle-dom":38,"./modules/handle-key":39,"./modules/handle-swal-dom":40,"./modules/set-params":42,"./modules/utils":43}],45:[function(require,module,exports){
+},{"./modules/default-params":15,"./modules/handle-click":16,"./modules/handle-dom":17,"./modules/handle-key":18,"./modules/handle-swal-dom":19,"./modules/set-params":21,"./modules/utils":22}],24:[function(require,module,exports){
 /*! tether 1.2.0 */
 
 (function(root, factory) {
@@ -22520,7 +20993,7 @@ return Tether;
 
 }));
 
-},{}],46:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 var Vue // late bind
 var map = Object.create(null)
 var shimmed = false
@@ -22820,7 +21293,7 @@ function format (id) {
   return id.match(/[^\/]+\.vue$/)[0]
 }
 
-},{}],47:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /**
  * Before Interceptor.
  */
@@ -22840,7 +21313,7 @@ module.exports = {
 
 };
 
-},{"../util":70}],48:[function(require,module,exports){
+},{"../util":49}],27:[function(require,module,exports){
 /**
  * Base client.
  */
@@ -22907,7 +21380,7 @@ function parseHeaders(str) {
     return headers;
 }
 
-},{"../../promise":63,"../../util":70,"./xhr":51}],49:[function(require,module,exports){
+},{"../../promise":42,"../../util":49,"./xhr":30}],28:[function(require,module,exports){
 /**
  * JSONP client.
  */
@@ -22957,7 +21430,7 @@ module.exports = function (request) {
     });
 };
 
-},{"../../promise":63,"../../util":70}],50:[function(require,module,exports){
+},{"../../promise":42,"../../util":49}],29:[function(require,module,exports){
 /**
  * XDomain client (Internet Explorer).
  */
@@ -22996,7 +21469,7 @@ module.exports = function (request) {
     });
 };
 
-},{"../../promise":63,"../../util":70}],51:[function(require,module,exports){
+},{"../../promise":42,"../../util":49}],30:[function(require,module,exports){
 /**
  * XMLHttp client.
  */
@@ -23048,7 +21521,7 @@ module.exports = function (request) {
     });
 };
 
-},{"../../promise":63,"../../util":70}],52:[function(require,module,exports){
+},{"../../promise":42,"../../util":49}],31:[function(require,module,exports){
 /**
  * CORS Interceptor.
  */
@@ -23087,7 +21560,7 @@ function crossOrigin(request) {
     return (requestUrl.protocol !== originUrl.protocol || requestUrl.host !== originUrl.host);
 }
 
-},{"../util":70,"./client/xdr":50}],53:[function(require,module,exports){
+},{"../util":49,"./client/xdr":29}],32:[function(require,module,exports){
 /**
  * Header Interceptor.
  */
@@ -23115,7 +21588,7 @@ module.exports = {
 
 };
 
-},{"../util":70}],54:[function(require,module,exports){
+},{"../util":49}],33:[function(require,module,exports){
 /**
  * Service for sending network requests.
  */
@@ -23215,7 +21688,7 @@ Http.headers = {
 
 module.exports = _.http = Http;
 
-},{"../promise":63,"../util":70,"./before":47,"./client":48,"./cors":52,"./header":53,"./interceptor":55,"./jsonp":56,"./method":57,"./mime":58,"./timeout":59}],55:[function(require,module,exports){
+},{"../promise":42,"../util":49,"./before":26,"./client":27,"./cors":31,"./header":32,"./interceptor":34,"./jsonp":35,"./method":36,"./mime":37,"./timeout":38}],34:[function(require,module,exports){
 /**
  * Interceptor factory.
  */
@@ -23262,7 +21735,7 @@ function when(value, fulfilled, rejected) {
     return promise.then(fulfilled, rejected);
 }
 
-},{"../promise":63,"../util":70}],56:[function(require,module,exports){
+},{"../promise":42,"../util":49}],35:[function(require,module,exports){
 /**
  * JSONP Interceptor.
  */
@@ -23282,7 +21755,7 @@ module.exports = {
 
 };
 
-},{"./client/jsonp":49}],57:[function(require,module,exports){
+},{"./client/jsonp":28}],36:[function(require,module,exports){
 /**
  * HTTP method override Interceptor.
  */
@@ -23301,7 +21774,7 @@ module.exports = {
 
 };
 
-},{}],58:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 /**
  * Mime Interceptor.
  */
@@ -23339,7 +21812,7 @@ module.exports = {
 
 };
 
-},{"../util":70}],59:[function(require,module,exports){
+},{"../util":49}],38:[function(require,module,exports){
 /**
  * Timeout Interceptor.
  */
@@ -23371,7 +21844,7 @@ module.exports = function () {
     };
 };
 
-},{}],60:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 /**
  * Install plugin.
  */
@@ -23426,7 +21899,7 @@ if (window.Vue) {
 
 module.exports = install;
 
-},{"./http":54,"./promise":63,"./resource":64,"./url":65,"./util":70}],61:[function(require,module,exports){
+},{"./http":33,"./promise":42,"./resource":43,"./url":44,"./util":49}],40:[function(require,module,exports){
 /**
  * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
  */
@@ -23607,7 +22080,7 @@ p.catch = function (onRejected) {
 
 module.exports = Promise;
 
-},{"../util":70}],62:[function(require,module,exports){
+},{"../util":49}],41:[function(require,module,exports){
 /**
  * URL Template v2.0.6 (https://github.com/bramstein/url-template)
  */
@@ -23759,7 +22232,7 @@ exports.encodeReserved = function (str) {
     }).join('');
 };
 
-},{}],63:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 /**
  * Promise adapter.
  */
@@ -23870,7 +22343,7 @@ p.always = function (callback) {
 
 module.exports = Promise;
 
-},{"./lib/promise":61,"./util":70}],64:[function(require,module,exports){
+},{"./lib/promise":40,"./util":49}],43:[function(require,module,exports){
 /**
  * Service for interacting with RESTful services.
  */
@@ -23982,7 +22455,7 @@ Resource.actions = {
 
 module.exports = _.resource = Resource;
 
-},{"./util":70}],65:[function(require,module,exports){
+},{"./util":49}],44:[function(require,module,exports){
 /**
  * Service for URL templating.
  */
@@ -24114,7 +22587,7 @@ function serialize(params, obj, scope) {
 
 module.exports = _.url = Url;
 
-},{"../util":70,"./legacy":66,"./query":67,"./root":68,"./template":69}],66:[function(require,module,exports){
+},{"../util":49,"./legacy":45,"./query":46,"./root":47,"./template":48}],45:[function(require,module,exports){
 /**
  * Legacy Transform.
  */
@@ -24162,7 +22635,7 @@ function encodeUriQuery(value, spaces) {
         replace(/%20/g, (spaces ? '%20' : '+'));
 }
 
-},{"../util":70}],67:[function(require,module,exports){
+},{"../util":49}],46:[function(require,module,exports){
 /**
  * Query Parameter Transform.
  */
@@ -24188,7 +22661,7 @@ module.exports = function (options, next) {
     return url;
 };
 
-},{"../util":70}],68:[function(require,module,exports){
+},{"../util":49}],47:[function(require,module,exports){
 /**
  * Root Prefix Transform.
  */
@@ -24206,7 +22679,7 @@ module.exports = function (options, next) {
     return url;
 };
 
-},{"../util":70}],69:[function(require,module,exports){
+},{"../util":49}],48:[function(require,module,exports){
 /**
  * URL Template (RFC 6570) Transform.
  */
@@ -24224,7 +22697,7 @@ module.exports = function (options) {
     return url;
 };
 
-},{"../lib/url-template":62}],70:[function(require,module,exports){
+},{"../lib/url-template":41}],49:[function(require,module,exports){
 /**
  * Utility functions.
  */
@@ -24348,7 +22821,7 @@ function merge(target, source, deep) {
     }
 }
 
-},{}],71:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 /*!
  * vue-router v0.7.13
  * (c) 2016 Evan You
@@ -27058,7 +25531,7 @@ function merge(target, source, deep) {
   return Router;
 
 }));
-},{}],72:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 (function (process,global){
 /*!
  * Vue.js v1.0.20
@@ -36882,7 +35355,7 @@ if (config.devtools) {
 
 module.exports = Vue;
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":35}],73:[function(require,module,exports){
+},{"_process":14}],52:[function(require,module,exports){
 var inserted = exports.cache = {}
 
 exports.insert = function (css) {
@@ -36902,7 +35375,7 @@ exports.insert = function (css) {
   return elem
 }
 
-},{}],74:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
 
 //Utils
@@ -36938,20 +35411,19 @@ require('../../../node_modules/bootstrap/dist/js/umd/tooltip.js');
 //Popover
 //require('../../../node_modules/bootstrap/dist/js/umd/popover.js');
 
-},{"../../../node_modules/bootstrap/dist/js/umd/alert.js":1,"../../../node_modules/bootstrap/dist/js/umd/button.js":2,"../../../node_modules/bootstrap/dist/js/umd/collapse.js":3,"../../../node_modules/bootstrap/dist/js/umd/dropdown.js":4,"../../../node_modules/bootstrap/dist/js/umd/modal.js":5,"../../../node_modules/bootstrap/dist/js/umd/tooltip.js":6,"../../../node_modules/bootstrap/dist/js/umd/util.js":7}],75:[function(require,module,exports){
+},{"../../../node_modules/bootstrap/dist/js/umd/alert.js":1,"../../../node_modules/bootstrap/dist/js/umd/button.js":2,"../../../node_modules/bootstrap/dist/js/umd/collapse.js":3,"../../../node_modules/bootstrap/dist/js/umd/dropdown.js":4,"../../../node_modules/bootstrap/dist/js/umd/modal.js":5,"../../../node_modules/bootstrap/dist/js/umd/tooltip.js":6,"../../../node_modules/bootstrap/dist/js/umd/util.js":7}],54:[function(require,module,exports){
 (function (global){
 'use strict';
 
 global.jQuery = require('jquery');
 global.Tether = require('tether');
-global.Ps = require('perfect-scrollbar');
 global.sweetalert = require('sweetalert');
 require('./bootstrap.js');
 require('./pulse/pulse.js');
 require('./pulse/app.js');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bootstrap.js":74,"./pulse/app.js":76,"./pulse/pulse.js":96,"jquery":8,"perfect-scrollbar":14,"sweetalert":44,"tether":45}],76:[function(require,module,exports){
+},{"./bootstrap.js":53,"./pulse/app.js":55,"./pulse/pulse.js":75,"jquery":8,"sweetalert":23,"tether":24}],55:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -36996,7 +35468,7 @@ var router = new VueRouter({
 //Kickoff!
 router.start(app, 'body');
 
-},{"./app.vue":77,"./config/resource":95,"./routes.js":97,"./services/ls":99,"nprogress":13,"vue":72,"vue-router":71}],77:[function(require,module,exports){
+},{"./app.vue":56,"./config/resource":74,"./routes.js":76,"./services/ls":78,"nprogress":13,"vue":51,"vue-router":50}],56:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37080,7 +35552,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./services/ls":99,"./stores/shared.js":103,"./stores/user.js":104,"vue":72,"vue-hot-reload-api":46}],78:[function(require,module,exports){
+},{"./services/ls":78,"./stores/shared.js":82,"./stores/user.js":83,"vue":51,"vue-hot-reload-api":25}],57:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.connect-account {\n  padding-top: 20px;\n}\n")
 'use strict';
 
@@ -37155,7 +35627,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":94,"../../stores/provider":102,"../../stores/user":104,"vue":72,"vue-hot-reload-api":46,"vueify-insert-css":73}],79:[function(require,module,exports){
+},{"../../config":73,"../../stores/provider":81,"../../stores/user":83,"vue":51,"vue-hot-reload-api":25,"vueify-insert-css":52}],58:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.create-account-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -37241,7 +35713,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account.js":100,"vue":72,"vue-hot-reload-api":46,"vueify-insert-css":73}],80:[function(require,module,exports){
+},{"../../stores/account.js":79,"vue":51,"vue-hot-reload-api":25,"vueify-insert-css":52}],59:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.login-container {\n    margin-top: 10%;\n    max-width: 300px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -37307,7 +35779,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":104,"vue":72,"vue-hot-reload-api":46,"vueify-insert-css":73}],81:[function(require,module,exports){
+},{"../../stores/user.js":83,"vue":51,"vue-hot-reload-api":25,"vueify-insert-css":52}],60:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.signup-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -37402,7 +35874,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":104,"vue":72,"vue-hot-reload-api":46,"vueify-insert-css":73}],82:[function(require,module,exports){
+},{"../../stores/user.js":83,"vue":51,"vue-hot-reload-api":25,"vueify-insert-css":52}],61:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37507,7 +35979,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/shared.js":103,"../../stores/user.js":104,"../navbar/index.vue":87,"../sidemenu/index.vue":93,"vue":72,"vue-hot-reload-api":46}],83:[function(require,module,exports){
+},{"../../stores/shared.js":82,"../../stores/user.js":83,"../navbar/index.vue":66,"../sidemenu/index.vue":72,"vue":51,"vue-hot-reload-api":25}],62:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37623,7 +36095,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":101,"vue":72,"vue-hot-reload-api":46}],84:[function(require,module,exports){
+},{"../../stores/file":80,"vue":51,"vue-hot-reload-api":25}],63:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37830,7 +36302,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":101,"vue":72,"vue-hot-reload-api":46}],85:[function(require,module,exports){
+},{"../../stores/file":80,"vue":51,"vue-hot-reload-api":25}],64:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37958,7 +36430,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":100,"../../stores/file":101,"../modals/sharefile.vue":86,"../sidebar/index.vue":91,"./file.vue":83,"./header.vue":84,"vue":72,"vue-hot-reload-api":46}],86:[function(require,module,exports){
+},{"../../stores/account":79,"../../stores/file":80,"../modals/sharefile.vue":65,"../sidebar/index.vue":70,"./file.vue":62,"./header.vue":63,"vue":51,"vue-hot-reload-api":25}],65:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -38003,7 +36475,7 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"vue":72,"vue-hot-reload-api":46}],87:[function(require,module,exports){
+},{"vue":51,"vue-hot-reload-api":25}],66:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38065,7 +36537,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":104,"./search.vue":88,"./user-profile.vue":89,"vue":72,"vue-hot-reload-api":46}],88:[function(require,module,exports){
+},{"../../stores/user.js":83,"./search.vue":67,"./user-profile.vue":68,"vue":51,"vue-hot-reload-api":25}],67:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38091,7 +36563,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":72,"vue-hot-reload-api":46}],89:[function(require,module,exports){
+},{"vue":51,"vue-hot-reload-api":25}],68:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38138,7 +36610,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":72,"vue-hot-reload-api":46}],90:[function(require,module,exports){
+},{"vue":51,"vue-hot-reload-api":25}],69:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38234,7 +36706,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":101,"vue":72,"vue-hot-reload-api":46}],91:[function(require,module,exports){
+},{"../../stores/file":80,"vue":51,"vue-hot-reload-api":25}],70:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38284,7 +36756,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"sidebar\" data-scrollbar=\"true\" @click.stop=\"\">\n    <div v-show=\"file\">\n        <file-info :file.sync=\"file\" :account.sync=\"currentAccount\"></file-info>\n    </div>\n    <div v-show=\"!file\">\n        <quota :account.sync=\"currentAccount\"></quota>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"sidebar\" @click.stop=\"\">\n    <div v-show=\"file\">\n        <file-info :file.sync=\"file\" :account.sync=\"currentAccount\"></file-info>\n    </div>\n    <div v-show=\"!file\">\n        <quota :account.sync=\"currentAccount\"></quota>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -38296,7 +36768,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":100,"./fileinfo.vue":90,"./quota.vue":92,"vue":72,"vue-hot-reload-api":46}],92:[function(require,module,exports){
+},{"../../stores/account":79,"./fileinfo.vue":69,"./quota.vue":71,"vue":51,"vue-hot-reload-api":25}],71:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38373,7 +36845,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":100,"vue":72,"vue-hot-reload-api":46}],93:[function(require,module,exports){
+},{"../../stores/account":79,"vue":51,"vue-hot-reload-api":25}],72:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38438,7 +36910,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":94,"../../stores/account":100,"../../stores/file":101,"../../stores/user":104,"vue":72,"vue-hot-reload-api":46}],94:[function(require,module,exports){
+},{"../../config":73,"../../stores/account":79,"../../stores/file":80,"../../stores/user":83,"vue":51,"vue-hot-reload-api":25}],73:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38450,7 +36922,7 @@ exports.default = {
     logo: "images/logo-white.png"
 };
 
-},{}],95:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -38505,7 +36977,7 @@ _vue2.default.http.interceptors.push({
     }
 });
 
-},{"../services/ls":99,"nprogress":13,"vue":72,"vue-resource":60}],96:[function(require,module,exports){
+},{"../services/ls":78,"nprogress":13,"vue":51,"vue-resource":39}],75:[function(require,module,exports){
 "use strict";
 
 jQuery(document).ready(function ($) {
@@ -38526,7 +36998,7 @@ jQuery(document).ready(function ($) {
     });
 });
 
-},{}],97:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38593,7 +37065,7 @@ function configRouter(router) {
     });
 }
 
-},{"./components/account/connect.vue":78,"./components/account/create.vue":79,"./components/auth/login-form.vue":80,"./components/auth/signup-form.vue":81,"./components/dashboard/index.vue":82,"./components/explorer/index.vue":85}],98:[function(require,module,exports){
+},{"./components/account/connect.vue":57,"./components/account/create.vue":58,"./components/auth/login-form.vue":59,"./components/auth/signup-form.vue":60,"./components/dashboard/index.vue":61,"./components/explorer/index.vue":64}],77:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38658,7 +37130,7 @@ exports.default = {
     }
 };
 
-},{"vue":72}],99:[function(require,module,exports){
+},{"vue":51}],78:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38687,7 +37159,7 @@ exports.default = {
     }
 };
 
-},{"local-storage":9}],100:[function(require,module,exports){
+},{"local-storage":9}],79:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38861,7 +37333,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":98,"../stubs/account":105,"lodash":12,"nprogress":13,"vue":72}],101:[function(require,module,exports){
+},{"../services/http":77,"../stubs/account":84,"lodash":12,"nprogress":13,"vue":51}],80:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39132,7 +37604,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":98,"../stubs/file":106,"lodash":12,"nprogress":13,"vue":72}],102:[function(require,module,exports){
+},{"../services/http":77,"../stubs/file":85,"lodash":12,"nprogress":13,"vue":51}],81:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39241,7 +37713,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":98,"../stubs/provider":107,"lodash":12,"nprogress":13,"vue":72}],103:[function(require,module,exports){
+},{"../services/http":77,"../stubs/provider":86,"lodash":12,"nprogress":13,"vue":51}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39329,7 +37801,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":98,"./user":104}],104:[function(require,module,exports){
+},{"../services/http":77,"./user":83}],83:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39479,7 +37951,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":98,"../stubs/user":108,"nprogress":13}],105:[function(require,module,exports){
+},{"../services/http":77,"../stubs/user":87,"nprogress":13}],84:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39496,7 +37968,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],106:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39517,7 +37989,7 @@ exports.default = {
     owners: null
 };
 
-},{}],107:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39534,7 +38006,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],108:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39549,4 +38021,4 @@ exports.default = {
     updated_at: null
 };
 
-},{}]},{},[75]);
+},{}]},{},[54]);
