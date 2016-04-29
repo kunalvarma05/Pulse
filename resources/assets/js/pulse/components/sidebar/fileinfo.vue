@@ -35,7 +35,6 @@
 
 <script>
 
-    import Vue from 'vue';
     import fileStore from '../../stores/file';
 
     export default {
@@ -97,8 +96,19 @@
              * Rename the selected file
              */
              renameFile() {
+                const file = this.selectedFile;
                 //Rename the file
-                fileStore.rename(this.currentAccount.id, this.selectedFile.id, this.selectedFile.title);
+                fileStore.rename(this.currentAccount.id, this.selectedFile.id, this.selectedFile.title,
+                    newFile => {
+                        //Replace the file in the store with the new renamed file
+                        const fileIndex = this.state.fileStore.files.indexOf(file);
+                        //Replace the old file with new renamed file
+                        //since other properties would've changed
+                        this.state.fileStore.files.$set(fileIndex, newFile);
+                        //Select the file
+                        this.state.fileStore.selected = newFile;
+                    }
+                );
             }
 
         }

@@ -12,12 +12,16 @@
         </div>
 
         <nav class="nav nav-inline explorer-header-links" v-show="selectedFile">
-            <a class="nav-link"><i class="fa fa-copy"></i> Copy</a>
+            <a class="nav-link" @click.stop="copyFile()"><i class="fa fa-copy"></i> Copy</a>
             <a class="nav-link"><i class="fa fa-arrows"></i> Move</a>
             <a class="nav-link" v-show="!selectedFile.isFolder" @click.stop="downloadFile()"><i class="fa fa-download"></i> Download</a>
             <a class="nav-link" v-show="!selectedFile.isFolder" @click.stop="shareFile()"><i class="fa fa-share"></i> Share</a>
             <a class="nav-link" @click.stop="deleteFile()"><i class="fa fa-trash"></i> Delete</a>
         </nav>
+        <nav class="nav nav-inline explorer-header-links">
+            <a class="nav-link" v-show="fileToBeCopied" @click.stop="pasteFile()"><i class="fa fa-paste"></i> Paste</a>
+        </nav>
+
 
     </div>
 </template>
@@ -35,8 +39,7 @@
                 state: {
                     fileStore : fileStore.state,
                 },
-                title: '',
-                selectedFile: ''
+                title: ''
             };
         },
 
@@ -51,11 +54,27 @@
             },
 
             /**
+             * fileToBeCopied
+             * @return {Object}
+             */
+             fileToBeCopied() {
+                return this.state.fileStore.fileToCopy;
+            },
+
+            /**
              * Current Account
              * @return {Object}
              */
              currentAccount() {
                 return this.account;
+            },
+
+            /**
+             * Current Location
+             * @return {Object}
+             */
+             currentLocation() {
+                return this.state.fileStore.currentLocation;
             },
 
             /**
@@ -114,13 +133,13 @@
                         //Update the current explorer path
                         this.state.fileStore.path = breadcrumbs;
                     }
-                );
+                    );
             },
 
             /**
              * Delete File
              */
-            deleteFile() {
+             deleteFile() {
                 const item = this.selectedFile.isFolder ? "Folder" : "File";
                 const image = this.selectedFile.thumbnailUrl ? this.selectedFile.thumbnailUrl : null;
 
@@ -150,14 +169,14 @@
                                 html: true
                             });
                         }
-                    );
+                        );
                 });
-            },
+},
 
             /**
              * Download File
              */
-            downloadFile() {
+             downloadFile() {
                 //Only if it's a file
                 if(!this.selectedFile.isFolder) {
                     fileStore.download(this.currentAccount.id, this.selectedFile.id,
@@ -179,14 +198,14 @@
                                 win.focus();
                             });
                         }
-                    );
+                        );
                 }
             },
 
             /**
              * Share File
              */
-            shareFile() {
+             shareFile() {
                 //Only if it's a file
                 if(!this.selectedFile.isFolder) {
                     fileStore.getShareLink(this.currentAccount.id, this.selectedFile.id,
@@ -194,9 +213,36 @@
                             //Dispatch the File Share Event to the Parent
                             this.$dispatch('file:share', { file: this.selectedFile, link: link });
                         }
-                    );
+                        );
                 }
-            }
+            },
+
+            /**
+             * Copy File
+             */
+             copyFile() {
+                //Set the File to Copy
+                this.state.fileStore.fileToCopy = this.selectedFile;
+            },
+
+            /**
+             * Paste File
+             */
+             pasteFile() {
+                //Get the File to Be Copied
+                const file = this.fileToBeCopied;
+                let location = this.currentLocation;
+
+                //If a folder is selected
+                if(this.selectedFile && this.selectedFile.isFolder) {
+                    //Set the location as the folder
+                    //To copy/paste the file inside the folder
+                    location = this.selectedFile.id;
+                }
+
+                //Copy the File
+                fileStore.copy(this.currentAccount.id, file.id, location);
+            },
 
         }
     }

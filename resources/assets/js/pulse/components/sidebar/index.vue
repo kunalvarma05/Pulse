@@ -7,6 +7,8 @@
         <div v-show='!file'>
             <quota :account.sync='currentAccount'></quota>
         </div>
+
+        <clipboard></clipboard>
     </div>
 
 </template>
@@ -17,12 +19,13 @@
 
     import fileInfo from './fileinfo.vue';
     import quota from './quota.vue';
+    import clipboard from './clipboard.vue';
 
     export default {
 
-        props: [ 'file', 'account' ],
+        props: [ 'file', 'account'],
 
-        components: { fileInfo, quota },
+        components: { fileInfo, quota, clipboard },
 
         data() {
             return {
@@ -40,8 +43,7 @@
              */
              currentAccount() {
                 return this.account;
-            }
-
+            },
         }
 
     }

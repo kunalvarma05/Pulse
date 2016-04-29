@@ -52,6 +52,14 @@
                 return this.state.fileStore.selected;
             },
 
+            /**
+             * Current Location
+             * @return {Object}
+             */
+             currentLocation() {
+                return this.state.fileStore.currentLocation;
+            },
+
         },
 
         methods: {

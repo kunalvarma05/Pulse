@@ -9,7 +9,9 @@ export default {
     state: {
         path: [],
         selected: false,
-        files: false
+        files: false,
+        fileToCopy: false,
+        currentLocation: null
     },
 
     /**
@@ -20,6 +22,7 @@ export default {
      init(selectedFile, path) {
         this.selected = selectedFile;
         this.path = path;
+        this.state.currentLocation = path;
     },
 
     /**
@@ -42,6 +45,49 @@ export default {
         this.state.selected = file;
 
         return this.selected;
+    },
+
+    /**
+     * The Current Location.
+     *
+     * @return {Object}
+     */
+     get currentLocation() {
+        return this.state.currentLocation;
+    },
+
+    /**
+     * Set the Current Location.
+     *
+     * @param  {Object} file
+     *
+     * @return {Object}
+     */
+     set currentLocation(file) {
+        this.state.currentLocation = file;
+
+        return this.currentLocation;
+    },
+    /**
+     * The fileToCopy file.
+     *
+     * @return {Object}
+     */
+     get fileToCopy() {
+        return this.state.fileToCopy;
+    },
+
+    /**
+     * Set the fileToCopy file.
+     *
+     * @param  {Object} file
+     *
+     * @return {Object}
+     */
+     set fileToCopy(file) {
+        this.state.fileToCopy = file;
+
+        return this.fileToCopy;
     },
 
     /**
@@ -99,6 +145,7 @@ export default {
             const data = response.data;
             const files = data.data;
 
+            this.state.currentLocation = path;
             this.state.files = files;
 
             if (successCb) {
@@ -123,16 +170,10 @@ export default {
 
         return http.patch(url, data, response => {
             const data = response.data;
-            const file = data.data;
-
-            this.selected = file;
-
-            //Replace the file in the store with the new renamed file
-            const fileIndex = this.files.indexOf(this.selected);
-            this.files.$set(fileIndex, newFile);
+            const newFile = data.data;
 
             if (successCb) {
-                successCb(file);
+                successCb(newFile);
             }
         }, errorCb);
 
@@ -229,6 +270,46 @@ export default {
                 }
             }
         );
+    },
+
+    /**
+     * Copy File
+     */
+     copy(account, file, location = null, successCb = null, errorCb = null) {
+        NProgress.start();
+        let url = "accounts/" + account + "/manager/copy";
+        let data = { file };
+
+        if(location !== null) {
+            data.location = location;
+        }
+
+        return http.post(url, data, response => {
+            const data = response.data;
+            const file = data.data;
+
+            //Reset fileToCopy
+            this.fileToCopy = false;
+
+            //If the currentLocation is where the file was copied
+            if(this.currentLocation === location)
+            {
+                //If File List if empty, initialize it
+                if(!this.files) {
+                    this.files = [];
+                }
+
+                //Add File to the List
+                this.files.unshift(file);
+
+                //Select the File
+                this.selected = file;
+            }
+
+            if (successCb) {
+                successCb(file);
+            }
+        }, errorCb);
     },
 
 };

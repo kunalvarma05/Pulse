@@ -35423,7 +35423,7 @@ require('./pulse/pulse.js');
 require('./pulse/app.js');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bootstrap.js":53,"./pulse/app.js":55,"./pulse/pulse.js":75,"jquery":8,"sweetalert":23,"tether":24}],55:[function(require,module,exports){
+},{"./bootstrap.js":53,"./pulse/app.js":55,"./pulse/pulse.js":76,"jquery":8,"sweetalert":23,"tether":24}],55:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -35468,7 +35468,7 @@ var router = new VueRouter({
 //Kickoff!
 router.start(app, 'body');
 
-},{"./app.vue":56,"./config/resource":74,"./routes.js":76,"./services/ls":78,"nprogress":13,"vue":51,"vue-router":50}],56:[function(require,module,exports){
+},{"./app.vue":56,"./config/resource":75,"./routes.js":77,"./services/ls":79,"nprogress":13,"vue":51,"vue-router":50}],56:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35552,7 +35552,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./services/ls":78,"./stores/shared.js":82,"./stores/user.js":83,"vue":51,"vue-hot-reload-api":25}],57:[function(require,module,exports){
+},{"./services/ls":79,"./stores/shared.js":83,"./stores/user.js":84,"vue":51,"vue-hot-reload-api":25}],57:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.connect-account {\n  padding-top: 20px;\n}\n")
 'use strict';
 
@@ -35627,7 +35627,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":73,"../../stores/provider":81,"../../stores/user":83,"vue":51,"vue-hot-reload-api":25,"vueify-insert-css":52}],58:[function(require,module,exports){
+},{"../../config":74,"../../stores/provider":82,"../../stores/user":84,"vue":51,"vue-hot-reload-api":25,"vueify-insert-css":52}],58:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.create-account-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -35713,7 +35713,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account.js":79,"vue":51,"vue-hot-reload-api":25,"vueify-insert-css":52}],59:[function(require,module,exports){
+},{"../../stores/account.js":80,"vue":51,"vue-hot-reload-api":25,"vueify-insert-css":52}],59:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.login-container {\n    margin-top: 10%;\n    max-width: 300px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -35779,7 +35779,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":83,"vue":51,"vue-hot-reload-api":25,"vueify-insert-css":52}],60:[function(require,module,exports){
+},{"../../stores/user.js":84,"vue":51,"vue-hot-reload-api":25,"vueify-insert-css":52}],60:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.signup-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -35874,7 +35874,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":83,"vue":51,"vue-hot-reload-api":25,"vueify-insert-css":52}],61:[function(require,module,exports){
+},{"../../stores/user.js":84,"vue":51,"vue-hot-reload-api":25,"vueify-insert-css":52}],61:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35979,7 +35979,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/shared.js":82,"../../stores/user.js":83,"../navbar/index.vue":66,"../sidemenu/index.vue":72,"vue":51,"vue-hot-reload-api":25}],62:[function(require,module,exports){
+},{"../../stores/shared.js":83,"../../stores/user.js":84,"../navbar/index.vue":66,"../sidemenu/index.vue":73,"vue":51,"vue-hot-reload-api":25}],62:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36023,6 +36023,15 @@ exports.default = {
          */
         selectedFile: function selectedFile() {
             return this.state.fileStore.selected;
+        },
+
+
+        /**
+         * Current Location
+         * @return {Object}
+         */
+        currentLocation: function currentLocation() {
+            return this.state.fileStore.currentLocation;
         }
     },
 
@@ -36095,7 +36104,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":80,"vue":51,"vue-hot-reload-api":25}],63:[function(require,module,exports){
+},{"../../stores/file":81,"vue":51,"vue-hot-reload-api":25}],63:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36117,8 +36126,7 @@ exports.default = {
             state: {
                 fileStore: _file2.default.state
             },
-            title: '',
-            selectedFile: ''
+            title: ''
         };
     },
 
@@ -36136,11 +36144,29 @@ exports.default = {
 
 
         /**
+         * fileToBeCopied
+         * @return {Object}
+         */
+        fileToBeCopied: function fileToBeCopied() {
+            return this.state.fileStore.fileToCopy;
+        },
+
+
+        /**
          * Current Account
          * @return {Object}
          */
         currentAccount: function currentAccount() {
             return this.account;
+        },
+
+
+        /**
+         * Current Location
+         * @return {Object}
+         */
+        currentLocation: function currentLocation() {
+            return this.state.fileStore.currentLocation;
         },
 
 
@@ -36286,11 +36312,40 @@ exports.default = {
                     _this4.$dispatch('file:share', { file: _this4.selectedFile, link: link });
                 });
             }
+        },
+
+
+        /**
+         * Copy File
+         */
+        copyFile: function copyFile() {
+            //Set the File to Copy
+            this.state.fileStore.fileToCopy = this.selectedFile;
+        },
+
+
+        /**
+         * Paste File
+         */
+        pasteFile: function pasteFile() {
+            //Get the File to Be Copied
+            var file = this.fileToBeCopied;
+            var location = this.currentLocation;
+
+            //If a folder is selected
+            if (this.selectedFile && this.selectedFile.isFolder) {
+                //Set the location as the folder
+                //To copy/paste the file inside the folder
+                location = this.selectedFile.id;
+            }
+
+            //Copy the File
+            _file2.default.copy(this.currentAccount.id, file.id, location);
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"downloadFile()\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"shareFile()\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\" @click.stop=\"deleteFile()\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\" @click.stop=\"copyFile()\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"downloadFile()\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"shareFile()\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\" @click.stop=\"deleteFile()\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n    <nav class=\"nav nav-inline explorer-header-links\">\n        <a class=\"nav-link\" v-show=\"fileToBeCopied\" @click.stop=\"pasteFile()\"><i class=\"fa fa-paste\"></i> Paste</a>\n    </nav>\n\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36302,7 +36357,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":80,"vue":51,"vue-hot-reload-api":25}],64:[function(require,module,exports){
+},{"../../stores/file":81,"vue":51,"vue-hot-reload-api":25}],64:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36430,7 +36485,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":79,"../../stores/file":80,"../modals/sharefile.vue":65,"../sidebar/index.vue":70,"./file.vue":62,"./header.vue":63,"vue":51,"vue-hot-reload-api":25}],65:[function(require,module,exports){
+},{"../../stores/account":80,"../../stores/file":81,"../modals/sharefile.vue":65,"../sidebar/index.vue":71,"./file.vue":62,"./header.vue":63,"vue":51,"vue-hot-reload-api":25}],65:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -36537,7 +36592,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":83,"./search.vue":67,"./user-profile.vue":68,"vue":51,"vue-hot-reload-api":25}],67:[function(require,module,exports){
+},{"../../stores/user.js":84,"./search.vue":67,"./user-profile.vue":68,"vue":51,"vue-hot-reload-api":25}],67:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36617,9 +36672,66 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _vue = require('vue');
+var _file = require('../../stores/file');
 
-var _vue2 = _interopRequireDefault(_vue);
+var _file2 = _interopRequireDefault(_file);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    props: ['account'],
+
+    data: function data() {
+        return {
+            state: {
+                fileStore: _file2.default.state
+            }
+        };
+    },
+
+
+    computed: {
+
+        /**
+         * Current Account
+         * @return {Object}
+         */
+
+        currentAccount: function currentAccount() {
+            return this.account;
+        },
+
+
+        /**
+         * fileToBeCopied
+         * @return {Object}
+         */
+        fileToBeCopied: function fileToBeCopied() {
+            return this.state.fileStore.fileToCopy;
+        }
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-show=\"fileToBeCopied\">\n        <div class=\"sidebar-header animated slideInRight\">\n            File Clipboard\n        </div>\n\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeCopied.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\sidebar\\clipboard.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../stores/file":81,"vue":51,"vue-hot-reload-api":25}],70:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _file = require('../../stores/file');
 
@@ -36687,8 +36799,19 @@ exports.default = {
          */
 
         renameFile: function renameFile() {
+            var _this = this;
+
+            var file = this.selectedFile;
             //Rename the file
-            _file2.default.rename(this.currentAccount.id, this.selectedFile.id, this.selectedFile.title);
+            _file2.default.rename(this.currentAccount.id, this.selectedFile.id, this.selectedFile.title, function (newFile) {
+                //Replace the file in the store with the new renamed file
+                var fileIndex = _this.state.fileStore.files.indexOf(file);
+                //Replace the old file with new renamed file
+                //since other properties would've changed
+                _this.state.fileStore.files.$set(fileIndex, newFile);
+                //Select the file
+                _this.state.fileStore.selected = newFile;
+            });
         }
     }
 
@@ -36706,7 +36829,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":80,"vue":51,"vue-hot-reload-api":25}],70:[function(require,module,exports){
+},{"../../stores/file":81,"vue":51,"vue-hot-reload-api":25}],71:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36725,13 +36848,17 @@ var _quota = require('./quota.vue');
 
 var _quota2 = _interopRequireDefault(_quota);
 
+var _clipboard = require('./clipboard.vue');
+
+var _clipboard2 = _interopRequireDefault(_clipboard);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
 
     props: ['file', 'account'],
 
-    components: { fileInfo: _fileinfo2.default, quota: _quota2.default },
+    components: { fileInfo: _fileinfo2.default, quota: _quota2.default, clipboard: _clipboard2.default },
 
     data: function data() {
         return {
@@ -36756,7 +36883,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"sidebar\" @click.stop=\"\">\n    <div v-show=\"file\">\n        <file-info :file.sync=\"file\" :account.sync=\"currentAccount\"></file-info>\n    </div>\n    <div v-show=\"!file\">\n        <quota :account.sync=\"currentAccount\"></quota>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"sidebar\" @click.stop=\"\">\n    <div v-show=\"file\">\n        <file-info :file.sync=\"file\" :account.sync=\"currentAccount\"></file-info>\n    </div>\n    <div v-show=\"!file\">\n        <quota :account.sync=\"currentAccount\"></quota>\n    </div>\n\n    <clipboard></clipboard>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36768,7 +36895,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":79,"./fileinfo.vue":69,"./quota.vue":71,"vue":51,"vue-hot-reload-api":25}],71:[function(require,module,exports){
+},{"../../stores/account":80,"./clipboard.vue":69,"./fileinfo.vue":70,"./quota.vue":72,"vue":51,"vue-hot-reload-api":25}],72:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36845,7 +36972,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":79,"vue":51,"vue-hot-reload-api":25}],72:[function(require,module,exports){
+},{"../../stores/account":80,"vue":51,"vue-hot-reload-api":25}],73:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36910,7 +37037,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":73,"../../stores/account":79,"../../stores/file":80,"../../stores/user":83,"vue":51,"vue-hot-reload-api":25}],73:[function(require,module,exports){
+},{"../../config":74,"../../stores/account":80,"../../stores/file":81,"../../stores/user":84,"vue":51,"vue-hot-reload-api":25}],74:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36922,7 +37049,7 @@ exports.default = {
     logo: "images/logo-white.png"
 };
 
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -36977,7 +37104,7 @@ _vue2.default.http.interceptors.push({
     }
 });
 
-},{"../services/ls":78,"nprogress":13,"vue":51,"vue-resource":39}],75:[function(require,module,exports){
+},{"../services/ls":79,"nprogress":13,"vue":51,"vue-resource":39}],76:[function(require,module,exports){
 "use strict";
 
 jQuery(document).ready(function ($) {
@@ -36994,7 +37121,7 @@ jQuery(document).ready(function ($) {
     });
 });
 
-},{}],76:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37061,7 +37188,7 @@ function configRouter(router) {
     });
 }
 
-},{"./components/account/connect.vue":57,"./components/account/create.vue":58,"./components/auth/login-form.vue":59,"./components/auth/signup-form.vue":60,"./components/dashboard/index.vue":61,"./components/explorer/index.vue":64}],77:[function(require,module,exports){
+},{"./components/account/connect.vue":57,"./components/account/create.vue":58,"./components/auth/login-form.vue":59,"./components/auth/signup-form.vue":60,"./components/dashboard/index.vue":61,"./components/explorer/index.vue":64}],78:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37126,7 +37253,7 @@ exports.default = {
     }
 };
 
-},{"vue":51}],78:[function(require,module,exports){
+},{"vue":51}],79:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37155,7 +37282,7 @@ exports.default = {
     }
 };
 
-},{"local-storage":9}],79:[function(require,module,exports){
+},{"local-storage":9}],80:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37329,7 +37456,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":77,"../stubs/account":84,"lodash":12,"nprogress":13,"vue":51}],80:[function(require,module,exports){
+},{"../services/http":78,"../stubs/account":85,"lodash":12,"nprogress":13,"vue":51}],81:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37360,7 +37487,9 @@ exports.default = {
     state: {
         path: [],
         selected: false,
-        files: false
+        files: false,
+        fileToCopy: false,
+        currentLocation: null
     },
 
     /**
@@ -37371,6 +37500,7 @@ exports.default = {
     init: function init(selectedFile, path) {
         this.selected = selectedFile;
         this.path = path;
+        this.state.currentLocation = path;
     },
 
 
@@ -37394,6 +37524,49 @@ exports.default = {
         this.state.selected = file;
 
         return this.selected;
+    },
+
+    /**
+     * The Current Location.
+     *
+     * @return {Object}
+     */
+    get currentLocation() {
+        return this.state.currentLocation;
+    },
+
+    /**
+     * Set the Current Location.
+     *
+     * @param  {Object} file
+     *
+     * @return {Object}
+     */
+    set currentLocation(file) {
+        this.state.currentLocation = file;
+
+        return this.currentLocation;
+    },
+    /**
+     * The fileToCopy file.
+     *
+     * @return {Object}
+     */
+    get fileToCopy() {
+        return this.state.fileToCopy;
+    },
+
+    /**
+     * Set the fileToCopy file.
+     *
+     * @param  {Object} file
+     *
+     * @return {Object}
+     */
+    set fileToCopy(file) {
+        this.state.fileToCopy = file;
+
+        return this.fileToCopy;
     },
 
     /**
@@ -37458,6 +37631,7 @@ exports.default = {
             var data = response.data;
             var files = data.data;
 
+            _this.state.currentLocation = path;
             _this.state.files = files;
 
             if (successCb) {
@@ -37477,8 +37651,6 @@ exports.default = {
      * @return {Promise}
      */
     rename: function rename(account, file, title) {
-        var _this2 = this;
-
         var successCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
         var errorCb = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
 
@@ -37488,16 +37660,10 @@ exports.default = {
 
         return _http2.default.patch(url, data, function (response) {
             var data = response.data;
-            var file = data.data;
-
-            _this2.selected = file;
-
-            //Replace the file in the store with the new renamed file
-            var fileIndex = _this2.files.indexOf(_this2.selected);
-            _this2.files.$set(fileIndex, newFile);
+            var newFile = data.data;
 
             if (successCb) {
-                successCb(file);
+                successCb(newFile);
             }
         }, errorCb);
     },
@@ -37512,7 +37678,7 @@ exports.default = {
      * @return {Promise}
      */
     delete: function _delete(account, file) {
-        var _this3 = this;
+        var _this2 = this;
 
         var successCb = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
         var errorCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
@@ -37523,7 +37689,7 @@ exports.default = {
 
         return _http2.default.delete(url, data, function (response) {
             //Remove file from the store
-            _this3.files.$remove(_this3.selected);
+            _this2.files.$remove(_this2.selected);
 
             if (successCb) {
                 successCb();
@@ -37597,10 +37763,57 @@ exports.default = {
                 errorCb(error);
             }
         });
+    },
+
+
+    /**
+     * Copy File
+     */
+    copy: function copy(account, file) {
+        var location = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+        var _this3 = this;
+
+        var successCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+        var errorCb = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+
+        _nprogress2.default.start();
+        var url = "accounts/" + account + "/manager/copy";
+        var data = { file: file };
+
+        if (location !== null) {
+            data.location = location;
+        }
+
+        return _http2.default.post(url, data, function (response) {
+            var data = response.data;
+            var file = data.data;
+
+            //Reset fileToCopy
+            _this3.fileToCopy = false;
+
+            //If the currentLocation is where the file was copied
+            if (_this3.currentLocation === location) {
+                //If File List if empty, initialize it
+                if (!_this3.files) {
+                    _this3.files = [];
+                }
+
+                //Add File to the List
+                _this3.files.unshift(file);
+
+                //Select the File
+                _this3.selected = file;
+            }
+
+            if (successCb) {
+                successCb(file);
+            }
+        }, errorCb);
     }
 };
 
-},{"../services/http":77,"../stubs/file":85,"lodash":12,"nprogress":13,"vue":51}],81:[function(require,module,exports){
+},{"../services/http":78,"../stubs/file":86,"lodash":12,"nprogress":13,"vue":51}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37709,7 +37922,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":77,"../stubs/provider":86,"lodash":12,"nprogress":13,"vue":51}],82:[function(require,module,exports){
+},{"../services/http":78,"../stubs/provider":87,"lodash":12,"nprogress":13,"vue":51}],83:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37797,7 +38010,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":77,"./user":83}],83:[function(require,module,exports){
+},{"../services/http":78,"./user":84}],84:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37947,7 +38160,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":77,"../stubs/user":87,"nprogress":13}],84:[function(require,module,exports){
+},{"../services/http":78,"../stubs/user":88,"nprogress":13}],85:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37964,7 +38177,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],85:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37985,7 +38198,7 @@ exports.default = {
     owners: null
 };
 
-},{}],86:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38002,7 +38215,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],87:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
