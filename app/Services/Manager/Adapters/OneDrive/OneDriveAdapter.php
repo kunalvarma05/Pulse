@@ -146,24 +146,22 @@ class OneDriveAdapter extends AbstractAdapter
 
         //Copy Location not specified
         if ($location === "/" || is_null($location)) {
-            //Use the original file's parent folder
-            if (isset($file->parentReference)) {
-                $location = $file->parentReference->id;
-            } else {
-                //Use the drive root
-                $driveRoot = $this->getService()->getDriveRoot();
-                $location = $driveRoot->id;
-            }
+            //Use the drive root
+            $driveRoot = $this->getService()->getDriveRoot();
+            $location = $driveRoot->id;
         }
 
         //File Copy Name
         $random = str_random(6);
         $ext = pathinfo($file->name, PATHINFO_EXTENSION);
+
         $name = isset($data['title']) ? $data['title'] : "({$random}) Copy of {$file->name}";
+
+        $newName = empty($ext) ? $name : "{$name}.{$ext}";
 
         //If the title misses an extension,
         //we'll use the original file's extension
-        $name = (!pathinfo($name, PATHINFO_EXTENSION)) ? "{$name}.{$ext}" : $name;
+        $name = (!pathinfo($name, PATHINFO_EXTENSION)) ? $newName : $name;
 
         try {
             //Copy the File
