@@ -15,7 +15,7 @@
             <a class="nav-link"><i class="fa fa-copy"></i> Copy</a>
             <a class="nav-link"><i class="fa fa-arrows"></i> Move</a>
             <a class="nav-link" v-show="!selectedFile.isFolder" @click.stop="downloadFile()"><i class="fa fa-download"></i> Download</a>
-            <a class="nav-link"><i class="fa fa-share"></i> Share</a>
+            <a class="nav-link" v-show="!selectedFile.isFolder" @click.stop="shareFile()"><i class="fa fa-share"></i> Share</a>
             <a class="nav-link" @click.stop="deleteFile()"><i class="fa fa-trash"></i> Delete</a>
         </nav>
 
@@ -168,6 +168,39 @@
                                 type: 'success',
                                 confirmButtonColor: "#2b90d9",
                                 confirmButtonText: "Download",
+                                showLoaderOnConfirm: true,
+                                allowOutsideClick: true,
+                                html: true,
+                            },
+                            () => {
+                                const file = this.selectedFile;
+
+                                var win = window.open(link, '_blank');
+                                win.focus();
+                            });
+                        }
+                    );
+                }
+            },
+
+            /**
+             * Share File
+             */
+            shareFile() {
+                //Only if it's a file
+                if(!this.selectedFile.isFolder) {
+                    fileStore.getShareLink(this.currentAccount.id, this.selectedFile.id,
+                        link => {
+                            let text = "The file <b>" + this.selectedFile.title + "</b> is ready for sharing!";
+                            let linkBox = "<input type='text' onfocus='this.select();' onmouseup='return false;' value='" + link + "' class='form-control' style='display: block !important;'>";
+
+                            let htmlLink = text + linkBox;
+                            swal({
+                                title: "Link to File",
+                                text: htmlLink,
+                                type: 'success',
+                                confirmButtonColor: "#2b90d9",
+                                confirmButtonText: "Open Link",
                                 showLoaderOnConfirm: true,
                                 allowOutsideClick: true,
                                 html: true,

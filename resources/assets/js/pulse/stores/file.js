@@ -197,4 +197,38 @@ export default {
 
     },
 
+    /**
+     * Get Sharing Link
+     * @param  {int} account   Account ID
+     * @param  {string} file      File ID
+     * @param  {?Function} successCb
+     * @param  {?Function} errorCb
+     * @return {Promise}
+     */
+    getShareLink(account, file, successCb = null, errorCb = null) {
+        NProgress.start();
+        let url = "accounts/" + account + "/manager/share-link";
+        let data = { file };
+
+        return http.get(url, data,
+            response => {
+                const data = response.data;
+                const link = data.link;
+
+                if (successCb) {
+                    successCb(link);
+                }
+            },
+
+            response => {
+                const data = response.data;
+                const error = data.error;
+
+                if (errorCb) {
+                    errorCb(error);
+                }
+            }
+        );
+    },
+
 };
