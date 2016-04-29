@@ -14,7 +14,7 @@
         <nav class="nav nav-inline explorer-header-links" v-show="selectedFile">
             <a class="nav-link"><i class="fa fa-copy"></i> Copy</a>
             <a class="nav-link"><i class="fa fa-arrows"></i> Move</a>
-            <a class="nav-link"><i class="fa fa-download"></i> Download</a>
+            <a class="nav-link" v-show="!selectedFile.isFolder" @click.stop="downloadFile()"><i class="fa fa-download"></i> Download</a>
             <a class="nav-link"><i class="fa fa-share"></i> Share</a>
             <a class="nav-link" @click.stop="deleteFile()"><i class="fa fa-trash"></i> Delete</a>
         </nav>
@@ -117,6 +117,9 @@
                 );
             },
 
+            /**
+             * Delete File
+             */
             deleteFile() {
                 const item = this.selectedFile.isFolder ? "Folder" : "File";
                 const image = this.selectedFile.thumbnailUrl ? this.selectedFile.thumbnailUrl : null;
@@ -149,6 +152,35 @@
                         }
                     );
                 });
+            },
+
+            /**
+             * Download File
+             */
+            downloadFile() {
+                //Only if it's a file
+                if(!this.selectedFile.isFolder) {
+                    fileStore.download(this.currentAccount.id, this.selectedFile.id,
+                        link => {
+                            swal({
+                                title: "File Ready for Download",
+                                text: "The file <b>" + this.selectedFile.title + "</b> is ready for download!",
+                                type: 'success',
+                                confirmButtonColor: "#2b90d9",
+                                confirmButtonText: "Download",
+                                showLoaderOnConfirm: true,
+                                allowOutsideClick: true,
+                                html: true,
+                            },
+                            () => {
+                                const file = this.selectedFile;
+
+                                var win = window.open(link, '_blank');
+                                win.focus();
+                            });
+                        }
+                    );
+                }
             }
 
         }

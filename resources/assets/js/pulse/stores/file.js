@@ -162,4 +162,39 @@ export default {
 
     },
 
+    /**
+     * Download File
+     * @param  {int} account   Account ID
+     * @param  {string} file   Selected File ID
+     * @param  {?Function} successCb
+     * @param  {?Function} errorCb
+     * @return {Promise}
+     */
+     download(account, file, successCb = null, errorCb = null) {
+        NProgress.start();
+        let url = "accounts/" + account + "/manager/download";
+        let data = { file };
+
+        return http.get(url, data,
+            response => {
+                const data = response.data;
+                const link = data.link;
+
+                if (successCb) {
+                    successCb(link);
+                }
+            },
+
+            response => {
+                const data = response.data;
+                const error = data.error;
+
+                if (errorCb) {
+                    errorCb(error);
+                }
+            }
+        );
+
+    },
+
 };

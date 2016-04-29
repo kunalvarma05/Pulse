@@ -37733,6 +37733,11 @@ exports.default = {
                 _this.state.fileStore.path = breadcrumbs;
             });
         },
+
+
+        /**
+         * Delete File
+         */
         deleteFile: function deleteFile() {
             var _this2 = this;
 
@@ -37764,11 +37769,40 @@ exports.default = {
                     });
                 });
             });
+        },
+
+
+        /**
+         * Download File
+         */
+        downloadFile: function downloadFile() {
+            var _this3 = this;
+
+            //Only if it's a file
+            if (!this.selectedFile.isFolder) {
+                _file2.default.download(this.currentAccount.id, this.selectedFile.id, function (link) {
+                    swal({
+                        title: "File Ready for Download",
+                        text: "The file <b>" + _this3.selectedFile.title + "</b> is ready for download!",
+                        type: 'success',
+                        confirmButtonColor: "#2b90d9",
+                        confirmButtonText: "Download",
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: true,
+                        html: true
+                    }, function () {
+                        var file = _this3.selectedFile;
+
+                        var win = window.open(link, '_blank');
+                        win.focus();
+                    });
+                });
+            }
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\" @click.stop=\"deleteFile()\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"downloadFile()\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\" @click.stop=\"deleteFile()\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -38955,6 +38989,40 @@ exports.default = {
                 successCb();
             }
         }, errorCb);
+    },
+
+
+    /**
+     * Download File
+     * @param  {int} account   Account ID
+     * @param  {string} file   Selected File ID
+     * @param  {?Function} successCb
+     * @param  {?Function} errorCb
+     * @return {Promise}
+     */
+    download: function download(account, file) {
+        var successCb = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+        var errorCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+
+        _nprogress2.default.start();
+        var url = "accounts/" + account + "/manager/download";
+        var data = { file: file };
+
+        return _http2.default.get(url, data, function (response) {
+            var data = response.data;
+            var link = data.link;
+
+            if (successCb) {
+                successCb(link);
+            }
+        }, function (response) {
+            var data = response.data;
+            var error = data.error;
+
+            if (errorCb) {
+                errorCb(error);
+            }
+        });
     }
 };
 
