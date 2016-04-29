@@ -119,16 +119,18 @@
 
             deleteFile() {
                 const item = this.selectedFile.isFolder ? "Folder" : "File";
+                const image = this.selectedFile.thumbnailUrl ? this.selectedFile.thumbnailUrl : null;
 
                 swal({
                     title: "Are you sure?",
                     text: "Are you sure you wanna delete this <b>" + item + "</b>?",
-                    type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#d9534f",
                     confirmButtonText: "Yes, delete it!",
                     closeOnConfirm: false,
-                    html: true
+                    showLoaderOnConfirm: true,
+                    html: true,
+                    imageUrl: image
                 },
                 () => {
                     const file = this.selectedFile;
