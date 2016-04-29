@@ -16,7 +16,7 @@
             <a class="nav-link"><i class="fa fa-arrows"></i> Move</a>
             <a class="nav-link"><i class="fa fa-download"></i> Download</a>
             <a class="nav-link"><i class="fa fa-share"></i> Share</a>
-            <a class="nav-link"><i class="fa fa-trash"></i> Delete</a>
+            <a class="nav-link" @click.stop="deleteFile()"><i class="fa fa-trash"></i> Delete</a>
         </nav>
 
     </div>
@@ -114,8 +114,40 @@
                         //Update the current explorer path
                         this.state.fileStore.path = breadcrumbs;
                     }
-                    );
+                );
             },
+
+            deleteFile() {
+                const item = this.selectedFile.isFolder ? "Folder" : "File";
+
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure you wanna delete this <b>" + item + "</b>?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d9534f",
+                    confirmButtonText: "Yes, delete it!",
+                    closeOnConfirm: false,
+                    html: true
+                },
+                () => {
+                    const file = this.selectedFile;
+
+                    fileStore.delete(this.currentAccount.id, this.selectedFile.id,
+                        () => {
+                            //File Deleted
+                            swal({
+                                title: item + " Deleted!",
+                                type: 'success',
+                                text: 'The ' + item + '<b> ' + file.title + ' </b> was deleted!',
+                                allowOutsideClick: true,
+                                timer: 2000,
+                                html: true
+                            });
+                        }
+                    );
+                });
+            }
 
         }
     }

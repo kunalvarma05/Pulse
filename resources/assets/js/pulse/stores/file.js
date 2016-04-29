@@ -127,10 +127,39 @@ export default {
 
             this.selected = file;
 
+            //Replace the file in the store with the new renamed file
+            const fileIndex = this.files.indexOf(this.selected);
+            this.files.$set(fileIndex, newFile);
+
             if (successCb) {
                 successCb(file);
             }
         }, errorCb);
 
     },
+
+    /**
+     * Delete File
+     * @param  {int} account   Account ID
+     * @param  {string} file   Selected File ID
+     * @param  {?Function} successCb
+     * @param  {?Function} errorCb
+     * @return {Promise}
+     */
+     delete(account, file, successCb = null, errorCb = null) {
+        NProgress.start();
+        let url = "accounts/" + account + "/manager/delete";
+        let data = { file };
+
+        return http.delete(url, data, response => {
+            //Remove file from the store
+            this.files.$remove(this.selected);
+
+            if (successCb) {
+                successCb();
+            }
+        }, errorCb);
+
+    },
+
 };

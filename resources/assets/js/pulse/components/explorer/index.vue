@@ -1,5 +1,5 @@
 <template>
-    <div class="explorer" :class="{ 'has-sidebar': true }" id="explorer">
+    <div class="explorer" :class="{ 'has-sidebar': true }" id="explorer" @click.stop="deSelectFile()">
 
         <explorer-header :file.sync='selectedFile' :account.sync='currentAccount'></explorer-header>
 
@@ -92,6 +92,16 @@
             }
 
         },
+
+        methods: {
+
+            /**
+             * Fire DeSelect File Event
+             */
+            deSelectFile() {
+                this.$broadcast('explorer:deSelectFile');
+            }
+        }
 
     }
 </script>

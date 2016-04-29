@@ -97,16 +97,8 @@
              * Rename the selected file
              */
              renameFile() {
-                //File Index
-                const fileIndex = this.state.fileStore.files.indexOf(this.selectedFile);
-
                 //Rename the file
-                fileStore.rename(this.currentAccount.id, this.selectedFile.id, this.selectedFile.title,
-                    newFile => {
-                        //Replace the selected file
-                        this.state.fileStore.files.$set(fileIndex, newFile);
-                    }
-                );
+                fileStore.rename(this.currentAccount.id, this.selectedFile.id, this.selectedFile.title);
             }
 
         }
