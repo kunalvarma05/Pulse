@@ -145,6 +145,19 @@ class Manager implements ManagerInterface
     }
 
     /**
+     * Get Share Link
+     * @param  string $file File
+     * @param  array  $data Additional Data
+     * @return string       Share Link
+     */
+    public function getShareLink($file, array $data = array())
+    {
+        return $this
+        ->getAdapter()
+        ->getShareLink($file, $data);
+    }
+
+    /**
      * Upload File
      * @param  string $file     File path
      * @param  string          $location Location to upload the file to

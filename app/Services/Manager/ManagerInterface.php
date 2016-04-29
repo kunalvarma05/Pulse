@@ -70,6 +70,14 @@ interface ManagerInterface
     public function getDownloadLink($file, array $data = array());
 
     /**
+     * Get Share Link
+     * @param  string $file File
+     * @param  array  $data Additional Data
+     * @return string       Share Link
+     */
+    public function getShareLink($file, array $data = array());
+
+    /**
      * Upload File
      * @param  string $file     File path
      * @param  string          $location Location to upload the file to

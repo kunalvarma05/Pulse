@@ -277,6 +277,25 @@ class OneDriveAdapter extends AbstractAdapter
     }
 
     /**
+     * Get Share Link
+     * @param  string $file File
+     * @param  array  $data Additional Data
+     * @return string       Share Link
+     */
+    public function getShareLink($file, array $data = array())
+    {
+        //Create Sharing Link
+        $createShareLink = $this->getService()->createShareLink($file);
+
+        //Sharing link was created
+        if($createShareLink && isset($createShareLink->link) && isset($createShareLink->link->webUrl)) {
+            return $createShareLink->link->webUrl;
+        }
+
+        return false;
+    }
+
+    /**
      * Upload File
      * @param  string $file     File path
      * @param  string          $location Location to upload the file to

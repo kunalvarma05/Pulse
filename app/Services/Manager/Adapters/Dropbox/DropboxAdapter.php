@@ -257,6 +257,29 @@ class DropboxAdapter extends AbstractAdapter
     }
 
     /**
+     * Get Share Link
+     * @param  string $file File
+     * @param  array  $data Additional Data
+     * @return string       Share Link
+     */
+    public function getShareLink($file, array $data = array())
+    {
+        try {
+            //Get Share Link
+            $shareLink = $this->getService()->createShareableLink($file);
+
+            if ($shareLink) {
+                return $shareLink;
+            }
+        } catch (Exception $e) {
+            // @todo
+            dd($e);
+        }
+
+        return false;
+    }
+
+    /**
      * Upload File
      * @param  string $file     File path
      * @param  string          $location Location to upload the file to

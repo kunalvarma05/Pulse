@@ -20,6 +20,7 @@ use Pulse\Bus\Commands\Manager\GetFileInfoCommand;
 use Pulse\Bus\Commands\Manager\CreateFolderCommand;
 use Pulse\Bus\Commands\Manager\TransferFileCommand;
 use Pulse\Bus\Commands\Manager\GetDownloadLinkCommand;
+use Pulse\Bus\Commands\Manager\GetShareLinkCommand;
 
 class ManagerController extends BaseController
 {
@@ -314,6 +315,38 @@ class ManagerController extends BaseController
 
         //Return Response
         return $this->response->array(['link' => $downloadLink]);
+    }
+
+    /**
+     * Get Share Link
+     * @param  Request $request
+     * @param  int  $account_id Account ID
+     * @return Response
+     */
+    public function getShareLink(Request $request, $account_id)
+    {
+        if (!$request->has('file')) {
+            return response()->json(['error' => 'no_file_specified', 'message' => "No file was specified!"], 200);
+        }
+
+        //Current User
+        $user = Auth::user();
+        //Account
+        $account = $user->accounts()->findOrFail($account_id);
+
+        //Get Share Link
+        $shareLink = dispatch(new GetShareLinkCommand(
+            $account,
+            $request->get('file')
+            ));
+
+        //Share link unavailable
+        if (!$shareLink) {
+            return response()->json(['error' => 'share_link_unavailable', 'message' => "Sharing link unavailable!"], 200);
+        }
+
+        //Return Response
+        return $this->response->array(['link' => $shareLink]);
     }
 
     /**

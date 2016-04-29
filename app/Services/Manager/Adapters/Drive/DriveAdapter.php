@@ -11,6 +11,7 @@ use Google_Service_Drive_About;
 use Google_Http_MediaFileUpload;
 use Google_Service_Drive_FileList;
 use Google_Service_Drive_DriveFile;
+use Google_Service_Drive_Permission;
 use Google_Service_Drive_ParentReference;
 use Pulse\Services\Manager\ManagerInterface;
 use Pulse\Services\Manager\File\FileInterface;
@@ -432,6 +433,37 @@ class DriveAdapter extends AbstractAdapter
         } else {
             // The file doesn't have any content stored on Drive.
             return null;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Get Share Link
+     * @param  string $file File
+     * @param  array  $data Additional Data
+     * @return string       Share Link
+     */
+    public function getShareLink($file, array $data = array())
+    {
+        $newPermission = new Google_Service_Drive_Permission();
+        $newPermission->setType("anyone");
+        $newPermission->setRole("reader");
+
+        try {
+            //Apply the permission to the given file
+            $permission = $this->getService()->permissions->insert($file, $newPermission);
+            //Get the File Info
+            $fileInfo = $this->getFileInfo($file);
+            //Get the Link
+            $shareLink = $fileInfo->getURL();
+
+            return $shareLink;
+
+        } catch (Exception $e) {
+            // @todo
+            dd($e);
         }
 
         return false;
