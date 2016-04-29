@@ -20,7 +20,7 @@ class ProviderTransformer extends TransformerAbstract
     {
         return [
             "id" => (int) $provider->id,
-            "title" => $provider->title,
+            "name" => $provider->name,
             "description" => $provider->description,
             "link" => $provider->link,
             "alias" => $provider->alias,

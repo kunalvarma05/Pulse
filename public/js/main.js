@@ -35611,7 +35611,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"connect-account container\">\n  <h2 class=\"page-header\">Connect Account</h2>\n  <div class=\"connect-account-items\">\n    <div v-for=\"provider in state.providers\" class=\"col-md-6 col-sm-6 connect-account-item\">\n      <div class=\"card\">\n        <div class=\"card-block text-xs-center\">\n          <p class=\"card-text\">\n            <img v-bind:src=\"'/images/providers/' + provider.alias + '.png'\" alt=\"dropbox\" class=\"connect-account-image\">\n          </p>\n          <h4 class=\"card-title\">\n            {{provider.title}}\n          </h4>\n        </div>\n        <div class=\"card-footer\">\n          <a href=\"#\" @click=\"connect(provider.alias)\" class=\"btn btn-primary btn-block\">Connect</a>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"connect-account container\">\n  <h2 class=\"page-header\">Connect Account</h2>\n  <div class=\"connect-account-items\">\n    <div v-for=\"provider in state.providers\" class=\"col-md-6 col-sm-6 connect-account-item\">\n      <div class=\"card\">\n        <div class=\"card-block connect-account-item-inner\">\n          <div class=\"card-text clearfix\">\n            <div class=\"col-lg-4 col-md-4\">\n              <img v-bind:src=\"'/images/providers/' + provider.alias + '.png'\" alt=\"dropbox\" class=\"connect-account-image\">\n            </div>\n            <div class=\"col-lg-8 col-md-8\">\n              <h4 class=\"card-title connect-account-title\">\n                {{provider.name}}\n              </h4>\n              <div class=\"connect-account-description\">\n                {{provider.description}}\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"card-footer\">\n          <a href=\"#\" @click=\"connect(provider.alias)\" class=\"btn btn-primary btn-block\">Connect</a>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36991,10 +36991,6 @@ jQuery(document).ready(function ($) {
     $("html").tooltip({
         selector: "[data-toggle-tooltip=explorer]",
         placement: 'bottom'
-    });
-
-    $("[data-scrollbar=true]").each(function (index, el) {
-        Ps.initialize(el);
     });
 });
 

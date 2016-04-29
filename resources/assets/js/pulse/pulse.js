@@ -11,8 +11,4 @@ jQuery(document).ready(function($) {
             placement: 'bottom'
         });
 
-        $("[data-scrollbar=true]").each(function(index, el) {
-            Ps.initialize(el);
-        });
-
 });
