@@ -20,6 +20,10 @@ export default {
         return this.request('put', url, data, successCb, errorCb);
     },
 
+    patch(url, data, successCb = null, errorCb = null) {
+        return this.request('patch', url, data, successCb, errorCb);
+    },
+
     delete(url, data = {}, successCb = null, errorCb = null) {
         return this.request('delete', url, data, successCb, errorCb);
     },
