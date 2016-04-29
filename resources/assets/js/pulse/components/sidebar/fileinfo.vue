@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar-header animated slideInRight">
-        {{ file.title }}
+        <input type="text" class="form-control input-sm" placeholder="Title" v-model='fileTitle' @keydown.enter.stop="renameFile">
     </div>
 
     <div class="sidebar-body">
@@ -34,12 +34,82 @@
 </template>
 
 <script>
+
+    import Vue from 'vue';
+    import fileStore from '../../stores/file';
+
     export default {
-        props: [ 'file' ],
+
+        props: [ 'file', 'account' ],
 
         data() {
             return {
+                state: {
+                    fileStore: fileStore.state
+                }
             };
         },
+
+        computed: {
+
+            /**
+             * Current Account
+             * @return {Object}
+             */
+             currentAccount() {
+                return this.account;
+            },
+
+            /**
+             * Selected File
+             * @return {Object}
+             */
+             selectedFile: {
+                get() {
+                    return this.file;
+                },
+
+                set(file) {
+                    this.file = file;
+                }
+            },
+
+            /**
+             * Selected File Title
+             * @return {string}
+             */
+             fileTitle: {
+
+                get() {
+                    return this.file.title;
+                },
+
+                set(title) {
+                    this.file.title = title;
+                }
+            }
+
+        },
+
+        methods: {
+
+            /**
+             * Rename the selected file
+             */
+             renameFile() {
+                //File Index
+                const fileIndex = this.state.fileStore.files.indexOf(this.selectedFile);
+
+                //Rename the file
+                fileStore.rename(this.currentAccount.id, this.selectedFile.id, this.selectedFile.title,
+                    newFile => {
+                        //Replace the selected file
+                        this.state.fileStore.files.$set(fileIndex, newFile);
+                    }
+                );
+            }
+
+        }
+
     }
 </script>

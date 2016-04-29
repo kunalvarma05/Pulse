@@ -36526,12 +36526,11 @@ exports.default = {
                 //Update the current explorer path
                 _this.state.fileStore.path = breadcrumbs;
             });
-        },
-        renameFile: function renameFile(selectedFile) {}
+        }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\" @click.stop=\"renameFile(selectedFile)\"><i class=\"fa fa-edit\"></i> Rename</a>\n        <a class=\"nav-link\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36790,15 +36789,93 @@ if (module.hot) {(function () {  module.hot.accept()
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _file = require('../../stores/file');
+
+var _file2 = _interopRequireDefault(_file);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 exports.default = {
-    props: ['file'],
+
+    props: ['file', 'account'],
 
     data: function data() {
-        return {};
+        return {
+            state: {
+                fileStore: _file2.default.state
+            }
+        };
+    },
+
+
+    computed: {
+
+        /**
+         * Current Account
+         * @return {Object}
+         */
+
+        currentAccount: function currentAccount() {
+            return this.account;
+        },
+
+
+        /**
+         * Selected File
+         * @return {Object}
+         */
+        selectedFile: {
+            get: function get() {
+                return this.file;
+            },
+            set: function set(file) {
+                this.file = file;
+            }
+        },
+
+        /**
+         * Selected File Title
+         * @return {string}
+         */
+        fileTitle: {
+            get: function get() {
+                return this.file.title;
+            },
+            set: function set(title) {
+                this.file.title = title;
+            }
+        }
+
+    },
+
+    methods: {
+
+        /**
+         * Rename the selected file
+         */
+
+        renameFile: function renameFile() {
+            var _this = this;
+
+            //File Index
+            var fileIndex = this.state.fileStore.files.indexOf(this.selectedFile);
+
+            //Rename the file
+            _file2.default.rename(this.currentAccount.id, this.selectedFile.id, this.selectedFile.title, function (newFile) {
+                //Replace the selected file
+                _this.state.fileStore.files.$set(fileIndex, newFile);
+            });
+        }
     }
+
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar-header animated slideInRight\">\n    {{ file.title }}\n</div>\n\n<div class=\"sidebar-body\">\n    <div class=\"sidebar-items\">\n        <div class=\"sidebar-item\">\n            <div class=\"sidebar-item-body has-details\">\n                <div class=\"item-detail\" v-show=\"!file.isFolder\">\n                    <span class=\"item-detail-title\">Type</span>\n                    <span class=\"item-detail-value\">{{ file.mimeType }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Size</span>\n                    <span class=\"item-detail-value\">{{ file.size }}</span>\n                </div>\n                <div class=\"item-detail\" v-show=\"file.owners\">\n                    <span class=\"item-detail-title\">Owner</span>\n                    <span class=\"item-detail-value\">{{ file.owners }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Path</span>\n                    <span class=\"item-detail-value\">{{ file.path }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Modified</span>\n                    <span class=\"item-detail-value\">{{ file.modified }}</span>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar-header animated slideInRight\">\n    <input type=\"text\" class=\"form-control input-sm\" placeholder=\"Title\" v-model=\"fileTitle\" @keydown.enter.stop=\"renameFile\">\n</div>\n\n<div class=\"sidebar-body\">\n    <div class=\"sidebar-items\">\n        <div class=\"sidebar-item\">\n            <div class=\"sidebar-item-body has-details\">\n                <div class=\"item-detail\" v-show=\"!file.isFolder\">\n                    <span class=\"item-detail-title\">Type</span>\n                    <span class=\"item-detail-value\">{{ file.mimeType }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Size</span>\n                    <span class=\"item-detail-value\">{{ file.size }}</span>\n                </div>\n                <div class=\"item-detail\" v-show=\"file.owners\">\n                    <span class=\"item-detail-title\">Owner</span>\n                    <span class=\"item-detail-value\">{{ file.owners }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Path</span>\n                    <span class=\"item-detail-value\">{{ file.path }}</span>\n                </div>\n                <div class=\"item-detail\">\n                    <span class=\"item-detail-title\">Modified</span>\n                    <span class=\"item-detail-value\">{{ file.modified }}</span>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36810,7 +36887,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":64,"vue-hot-reload-api":38}],82:[function(require,module,exports){
+},{"../../stores/file":92,"vue":64,"vue-hot-reload-api":38}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36860,7 +36937,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"sidebar\" data-scrollbar=\"true\" @click.stop=\"\">\n    <div v-show=\"file\">\n        <file-info :file.sync=\"file\"></file-info>\n    </div>\n    <div v-show=\"!file\">\n        <quota :account.sync=\"currentAccount\"></quota>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"sidebar\" data-scrollbar=\"true\" @click.stop=\"\">\n    <div v-show=\"file\">\n        <file-info :file.sync=\"file\" :account.sync=\"currentAccount\"></file-info>\n    </div>\n    <div v-show=\"!file\">\n        <quota :account.sync=\"currentAccount\"></quota>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -37210,6 +37287,12 @@ exports.default = {
         var errorCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
 
         return this.request('put', url, data, successCb, errorCb);
+    },
+    patch: function patch(url, data) {
+        var successCb = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+        var errorCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+
+        return this.request('patch', url, data, successCb, errorCb);
     },
     delete: function _delete(url) {
         var data = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
@@ -37564,6 +37647,38 @@ exports.default = {
 
             if (successCb) {
                 successCb(files);
+            }
+        }, errorCb);
+    },
+
+
+    /**
+     * Rename File
+     * @param  {int} account   Account ID
+     * @param  {string} file      Selected File ID
+     * @param  {string} title     New File Title
+     * @param  {?Function} successCb
+     * @param  {?Function} errorCb
+     * @return {Promise}
+     */
+    rename: function rename(account, file, title) {
+        var _this2 = this;
+
+        var successCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+        var errorCb = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+
+        _nprogress2.default.start();
+        var url = "accounts/" + account + "/manager/rename";
+        var data = { file: file, title: title };
+
+        return _http2.default.patch(url, data, function (response) {
+            var data = response.data;
+            var file = data.data;
+
+            _this2.selected = file;
+
+            if (successCb) {
+                successCb(file);
             }
         }, errorCb);
     }

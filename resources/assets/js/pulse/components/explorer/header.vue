@@ -3,7 +3,7 @@
         <div class="explorer-header-title">
 
             <div v-if="path.length" :class="'explorer-header-breadcrumb'">
-                <a v-for="path in state.fileStore.path" @click="browseTo(account_id, path, $index)"> {{path.title}} </a>
+                <a v-for="path in state.fileStore.path" @click="browseTo(path, $index)"> {{path.title}} </a>
             </div>
             <span v-else>
                 {{title}}
@@ -89,16 +89,15 @@
 
             /**
              * Browse to Path
-             * @param  {Object} account      Current Account
              * @param  {Object} selectedFile Selected File
              * @param  {int} index           Path Element Index
              */
-             browseTo: (account, selectedFile, index) => {
+             browseTo(selectedFile, index) {
                 //Breadcrumbs
                 let breadcrumbs = [];
 
                 //Browse the specified path
-                fileStore.browse(account, selectedFile.id,
+                fileStore.browse(this.account_id, selectedFile.id,
                     (files) => {
 
                         //Reset the selected file
@@ -108,7 +107,7 @@
                         //Keep elements upto the index of the
                         //current path and discard the rest
                         for (var i = 0; i <= index; i++) {
-                            let crumb = this.state.fileStore.state.path[i];
+                            let crumb = this.path[i];
                             breadcrumbs.push(crumb);
                         };
 
@@ -117,6 +116,7 @@
                     }
                     );
             },
+
         }
     }
 </script>

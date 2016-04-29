@@ -2,7 +2,7 @@
 
     <div class="sidebar" data-scrollbar='true' @click.stop="">
         <div v-show='file'>
-            <file-info :file.sync='file'></file-info>
+            <file-info :file.sync='file' :account.sync='currentAccount'></file-info>
         </div>
         <div v-show='!file'>
             <quota :account.sync='currentAccount'></quota>

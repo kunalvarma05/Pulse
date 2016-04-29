@@ -106,4 +106,31 @@ export default {
             }
         }, errorCb);
     },
+
+    /**
+     * Rename File
+     * @param  {int} account   Account ID
+     * @param  {string} file      Selected File ID
+     * @param  {string} title     New File Title
+     * @param  {?Function} successCb
+     * @param  {?Function} errorCb
+     * @return {Promise}
+     */
+     rename(account, file, title, successCb = null, errorCb = null) {
+        NProgress.start();
+        let url = "accounts/" + account + "/manager/rename";
+        let data = { file, title };
+
+        return http.patch(url, data, response => {
+            const data = response.data;
+            const file = data.data;
+
+            this.selected = file;
+
+            if (successCb) {
+                successCb(file);
+            }
+        }, errorCb);
+
+    },
 };
