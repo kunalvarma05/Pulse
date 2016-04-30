@@ -36184,9 +36184,8 @@ exports.default = {
          * @return {string}
          */
         title: function title() {
-            //If no file is selected, use the name of the current account
             var title = this.currentAccount ? this.currentAccount.name : "File Explorer";
-            return this.selectedFile ? this.selectedFile.title : title;
+            return title;
         },
 
 
@@ -36202,11 +36201,20 @@ exports.default = {
     methods: {
 
         /**
+         * Browse to Account Root
+         */
+
+        browseRoot: function browseRoot() {
+            //Browse Files
+            _file2.default.browse(this.account_id);
+        },
+
+
+        /**
          * Browse to Path
          * @param  {Object} selectedFile Selected File
          * @param  {int} index           Path Element Index
          */
-
         browseTo: function browseTo(selectedFile, index) {
             var _this = this;
 
@@ -36345,7 +36353,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\" @click.stop=\"copyFile()\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"downloadFile()\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"shareFile()\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\" @click.stop=\"deleteFile()\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n    <nav class=\"nav nav-inline explorer-header-links\">\n        <a class=\"nav-link\" v-show=\"fileToBeCopied\" @click.stop=\"pasteFile()\"><i class=\"fa fa-paste\"></i> Paste</a>\n    </nav>\n\n\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n        <a @click=\"browseRoot()\" class=\"explorer-header-icon\">\n            <i class=\"fa fa-home\"></i>\n        </a>\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\" @click.stop=\"copyFile()\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"downloadFile()\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"shareFile()\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\" @click.stop=\"deleteFile()\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n    <nav class=\"nav nav-inline explorer-header-links\">\n        <a class=\"nav-link\" v-show=\"fileToBeCopied\" @click.stop=\"pasteFile()\"><i class=\"fa fa-paste\"></i> Paste</a>\n    </nav>\n\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

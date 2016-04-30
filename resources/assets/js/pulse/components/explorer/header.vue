@@ -1,7 +1,9 @@
 <template>
     <div class="explorer-header clearfix">
         <div class="explorer-header-title">
-
+            <a @click="browseRoot()" class="explorer-header-icon">
+                <i class="fa fa-home"></i>
+            </a>
             <div v-if="path.length" :class="'explorer-header-breadcrumb'">
                 <a v-for="path in state.fileStore.path" @click="browseTo(path, $index)"> {{path.title}} </a>
             </div>
@@ -90,9 +92,8 @@
              * @return {string}
              */
              title() {
-                //If no file is selected, use the name of the current account
                 const title = this.currentAccount ? this.currentAccount.name : "File Explorer";
-                return (this.selectedFile) ? this.selectedFile.title : title;
+                return title;
             },
 
             /**
@@ -105,6 +106,14 @@
         },
 
         methods: {
+
+            /**
+             * Browse to Account Root
+             */
+            browseRoot() {
+                //Browse Files
+                fileStore.browse(this.account_id);
+            },
 
             /**
              * Browse to Path

@@ -7608,16 +7608,23 @@ body.stop-scrolling {
   font-weight: bold;
   float: left; }
 
-.explorer-header-breadcrumb a {
-  color: #818a91;
-  text-decoration: none; }
+.explorer-header-icon {
+  text-decoration: none !important;
+  float: left;
+  border-right: solid 1px rgba(0, 0, 0, 0.08);
+  padding-right: 15px;
+  margin-right: 15px; }
 
-.explorer-header-breadcrumb a:after {
-  content: " > ";
-  color: #b7bdc1; }
-
-.explorer-header-breadcrumb a:last-child:after {
-  content: ""; }
+.explorer-header-breadcrumb {
+  float: left; }
+  .explorer-header-breadcrumb a {
+    color: #818a91;
+    text-decoration: none; }
+  .explorer-header-breadcrumb a:after {
+    content: " > ";
+    color: #b7bdc1; }
+  .explorer-header-breadcrumb a:last-child:after {
+    content: ""; }
 
 .explorer-header-links {
   float: right; }
