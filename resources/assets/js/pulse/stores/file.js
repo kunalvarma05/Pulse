@@ -11,6 +11,7 @@ export default {
         selected: false,
         files: false,
         fileToCopy: false,
+        fileToMove: false,
         currentLocation: null
     },
 
@@ -68,6 +69,7 @@ export default {
 
         return this.currentLocation;
     },
+
     /**
      * The fileToCopy file.
      *
@@ -88,6 +90,28 @@ export default {
         this.state.fileToCopy = file;
 
         return this.fileToCopy;
+    },
+
+    /**
+     * The fileToMove file.
+     *
+     * @return {Object}
+     */
+     get fileToMove() {
+        return this.state.fileToMove;
+    },
+
+    /**
+     * Set the fileToMove file.
+     *
+     * @param  {Object} file
+     *
+     * @return {Object}
+     */
+     set fileToMove(file) {
+        this.state.fileToMove = file;
+
+        return this.fileToMove;
     },
 
     /**
@@ -292,6 +316,46 @@ export default {
             this.fileToCopy = false;
 
             //If the currentLocation is where the file was copied
+            if(this.currentLocation === location)
+            {
+                //If File List if empty, initialize it
+                if(!this.files) {
+                    this.files = [];
+                }
+
+                //Add File to the List
+                this.files.unshift(file);
+
+                //Select the File
+                this.selected = file;
+            }
+
+            if (successCb) {
+                successCb(file);
+            }
+        }, errorCb);
+    },
+
+    /**
+     * Move File
+     */
+     move(account, file, location, successCb = null, errorCb = null) {
+        NProgress.start();
+        let url = "accounts/" + account + "/manager/move";
+        let data = { file };
+
+        if(location !== null) {
+            data.location = location;
+        }
+
+        return http.patch(url, data, response => {
+            const data = response.data;
+            const file = data.data;
+
+            //Reset fileToMove
+            this.fileToMove = false;
+
+            //If the currentLocation is where the file was moved
             if(this.currentLocation === location)
             {
                 //If File List if empty, initialize it

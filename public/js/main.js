@@ -36153,6 +36153,15 @@ exports.default = {
 
 
         /**
+         * fileToBeMoved
+         * @return {Object}
+         */
+        fileToBeMoved: function fileToBeMoved() {
+            return this.state.fileStore.fileToMove;
+        },
+
+
+        /**
          * Current Account
          * @return {Object}
          */
@@ -36205,8 +36214,12 @@ exports.default = {
          */
 
         browseRoot: function browseRoot() {
+            var _this = this;
+
             //Browse Files
-            _file2.default.browse(this.account_id);
+            _file2.default.browse(this.account_id, null, function (files) {
+                _this.state.fileStore.path = [];
+            });
         },
 
 
@@ -36216,7 +36229,7 @@ exports.default = {
          * @param  {int} index           Path Element Index
          */
         browseTo: function browseTo(selectedFile, index) {
-            var _this = this;
+            var _this2 = this;
 
             //Breadcrumbs
             var breadcrumbs = [];
@@ -36225,18 +36238,18 @@ exports.default = {
             _file2.default.browse(this.account_id, selectedFile.id, function (files) {
 
                 //Reset the selected file
-                _this.state.fileStore.selectedFile = false;
+                _this2.state.fileStore.selectedFile = false;
 
                 //Build breadcrumbs.
                 //Keep elements upto the index of the
                 //current path and discard the rest
                 for (var i = 0; i <= index; i++) {
-                    var crumb = _this.path[i];
+                    var crumb = _this2.path[i];
                     breadcrumbs.push(crumb);
                 };
 
                 //Update the current explorer path
-                _this.state.fileStore.path = breadcrumbs;
+                _this2.state.fileStore.path = breadcrumbs;
             });
         },
 
@@ -36245,7 +36258,7 @@ exports.default = {
          * Delete File
          */
         deleteFile: function deleteFile() {
-            var _this2 = this;
+            var _this3 = this;
 
             var item = this.selectedFile.isFolder ? "Folder" : "File";
             var image = this.selectedFile.thumbnailUrl ? this.selectedFile.thumbnailUrl : null;
@@ -36261,9 +36274,9 @@ exports.default = {
                 html: true,
                 imageUrl: image
             }, function () {
-                var file = _this2.selectedFile;
+                var file = _this3.selectedFile;
 
-                _file2.default.delete(_this2.currentAccount.id, _this2.selectedFile.id, function () {
+                _file2.default.delete(_this3.currentAccount.id, _this3.selectedFile.id, function () {
                     //File Deleted
                     swal({
                         title: item + " Deleted!",
@@ -36282,14 +36295,14 @@ exports.default = {
          * Download File
          */
         downloadFile: function downloadFile() {
-            var _this3 = this;
+            var _this4 = this;
 
             //Only if it's a file
             if (!this.selectedFile.isFolder) {
                 _file2.default.download(this.currentAccount.id, this.selectedFile.id, function (link) {
                     swal({
                         title: "File Ready for Download",
-                        text: "The file <b>" + _this3.selectedFile.title + "</b> is ready for download!",
+                        text: "The file <b>" + _this4.selectedFile.title + "</b> is ready for download!",
                         type: 'success',
                         confirmButtonColor: "#2b90d9",
                         confirmButtonText: "Download",
@@ -36297,7 +36310,7 @@ exports.default = {
                         allowOutsideClick: true,
                         html: true
                     }, function () {
-                        var file = _this3.selectedFile;
+                        var file = _this4.selectedFile;
 
                         var win = window.open(link, '_blank');
                         win.focus();
@@ -36311,13 +36324,13 @@ exports.default = {
          * Share File
          */
         shareFile: function shareFile() {
-            var _this4 = this;
+            var _this5 = this;
 
             //Only if it's a file
             if (!this.selectedFile.isFolder) {
                 _file2.default.getShareLink(this.currentAccount.id, this.selectedFile.id, function (link) {
                     //Dispatch the File Share Event to the Parent
-                    _this4.$dispatch('file:share', { file: _this4.selectedFile, link: link });
+                    _this5.$dispatch('file:share', { file: _this5.selectedFile, link: link });
                 });
             }
         },
@@ -36333,9 +36346,29 @@ exports.default = {
 
 
         /**
+         * Move File
+         */
+        moveFile: function moveFile() {
+            //Set the File to Move
+            this.state.fileStore.fileToMove = this.selectedFile;
+        },
+        pasteFile: function pasteFile() {
+            if (this.fileToBeMoved) {
+                return this.pasteMovedFile();
+            }
+
+            if (this.fileToBeCopied) {
+                return this.pasteCopiedFile();
+            }
+        },
+
+
+        /**
          * Paste File
          */
-        pasteFile: function pasteFile() {
+        pasteCopiedFile: function pasteCopiedFile() {
+            //Reset the file to be moved
+            this.state.fileStore.fileToMove = false;
             //Get the File to Be Copied
             var file = this.fileToBeCopied;
             var location = this.currentLocation;
@@ -36348,12 +36381,40 @@ exports.default = {
             }
 
             //Copy the File
-            _file2.default.copy(this.currentAccount.id, file.id, location);
+            return _file2.default.copy(this.currentAccount.id, file.id, location);
+        },
+
+
+        /**
+         * Paste Moved File
+         */
+        pasteMovedFile: function pasteMovedFile() {
+            var _this6 = this;
+
+            //Reset the file to be copied
+            this.state.fileStore.fileToCopy = false;
+            //Get the File to Be Moved
+            var file = this.fileToBeMoved;
+            var location = this.currentLocation;
+
+            //If a folder is selected
+            if (this.selectedFile && this.selectedFile.isFolder) {
+                //Set the location as the folder
+                //To cut/paste the file inside the folder
+                location = this.selectedFile.id;
+            }
+
+            //Move the File
+            return _file2.default.move(this.currentAccount.id, file.id, location, function (newFile) {
+                if (_this6.state.fileStore.files.length) {
+                    _this6.state.fileStore.files.$remove(file);
+                }
+            });
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n        <a @click=\"browseRoot()\" class=\"explorer-header-icon\">\n            <i class=\"fa fa-home\"></i>\n        </a>\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\" @click.stop=\"copyFile()\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"downloadFile()\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"shareFile()\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\" @click.stop=\"deleteFile()\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n    <nav class=\"nav nav-inline explorer-header-links\">\n        <a class=\"nav-link\" v-show=\"fileToBeCopied\" @click.stop=\"pasteFile()\"><i class=\"fa fa-paste\"></i> Paste</a>\n    </nav>\n\n\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n        <a @click=\"browseRoot()\" class=\"explorer-header-icon\">\n            <i class=\"fa fa-home\"></i>\n        </a>\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\" @click.stop=\"copyFile()\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\" @click.stop=\"moveFile()\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"downloadFile()\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"shareFile()\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\" @click.stop=\"deleteFile()\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n    <nav class=\"nav nav-inline explorer-header-links\">\n        <a class=\"nav-link\" v-show=\"fileToBeCopied || fileToBeMoved\" @click.stop=\"pasteFile()\"><i class=\"fa fa-paste\"></i> Paste</a>\n    </nav>\n\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36758,12 +36819,21 @@ exports.default = {
          */
         fileToBeCopied: function fileToBeCopied() {
             return this.state.fileStore.fileToCopy;
+        },
+
+
+        /**
+         * fileToBeMoved
+         * @return {Object}
+         */
+        fileToBeMoved: function fileToBeMoved() {
+            return this.state.fileStore.fileToMove;
         }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-show=\"fileToBeCopied\">\n        <div class=\"sidebar-header animated slideInRight\">\n            File Clipboard\n        </div>\n\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeCopied.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-show=\"fileToBeCopied\">\n    <div class=\"sidebar-header animated slideInRight\">\n        Copy File Clipboard\n    </div>\n\n    <div class=\"sidebar-body\">\n        <div class=\"sidebar-items\">\n            <div class=\"sidebar-item\">\n                <div class=\"sidebar-item-body has-details\">\n                    <div class=\"item-detail\">\n                        <span class=\"item-detail-title\">Title</span>\n                        <span class=\"item-detail-value\">{{ fileToBeCopied.title }}</span>\n                    </div>\n                    <div class=\"item-detail\" v-show=\"!fileToBeCopied.isFolder\">\n                        <span class=\"item-detail-title\">Type</span>\n                        <span class=\"item-detail-value\">{{ fileToBeCopied.mimeType }}</span>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n\n<div v-show=\"fileToBeMoved\">\n    <div class=\"sidebar-header animated slideInRight\">\n        Move File Clipboard\n    </div>\n    <div class=\"sidebar-body\">\n        <div class=\"sidebar-items\">\n            <div class=\"sidebar-item\">\n                <div class=\"sidebar-item-body has-details\">\n                    <div class=\"item-detail\">\n                        <span class=\"item-detail-title\">Title</span>\n                        <span class=\"item-detail-value\">{{ fileToBeMoved.title }}</span>\n                    </div>\n                    <div class=\"item-detail\" v-show=\"!fileToBeMoved.isFolder\">\n                        <span class=\"item-detail-title\">Type</span>\n                        <span class=\"item-detail-value\">{{ fileToBeMoved.mimeType }}</span>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -37538,6 +37608,7 @@ exports.default = {
         selected: false,
         files: false,
         fileToCopy: false,
+        fileToMove: false,
         currentLocation: null
     },
 
@@ -37596,6 +37667,7 @@ exports.default = {
 
         return this.currentLocation;
     },
+
     /**
      * The fileToCopy file.
      *
@@ -37616,6 +37688,28 @@ exports.default = {
         this.state.fileToCopy = file;
 
         return this.fileToCopy;
+    },
+
+    /**
+     * The fileToMove file.
+     *
+     * @return {Object}
+     */
+    get fileToMove() {
+        return this.state.fileToMove;
+    },
+
+    /**
+     * Set the fileToMove file.
+     *
+     * @param  {Object} file
+     *
+     * @return {Object}
+     */
+    set fileToMove(file) {
+        this.state.fileToMove = file;
+
+        return this.fileToMove;
     },
 
     /**
@@ -37863,12 +37957,57 @@ exports.default = {
 
 
     /**
+     * Move File
+     */
+    move: function move(account, file, location) {
+        var _this4 = this;
+
+        var successCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+        var errorCb = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+
+        _nprogress2.default.start();
+        var url = "accounts/" + account + "/manager/move";
+        var data = { file: file };
+
+        if (location !== null) {
+            data.location = location;
+        }
+
+        return _http2.default.patch(url, data, function (response) {
+            var data = response.data;
+            var file = data.data;
+
+            //Reset fileToMove
+            _this4.fileToMove = false;
+
+            //If the currentLocation is where the file was moved
+            if (_this4.currentLocation === location) {
+                //If File List if empty, initialize it
+                if (!_this4.files) {
+                    _this4.files = [];
+                }
+
+                //Add File to the List
+                _this4.files.unshift(file);
+
+                //Select the File
+                _this4.selected = file;
+            }
+
+            if (successCb) {
+                successCb(file);
+            }
+        }, errorCb);
+    },
+
+
+    /**
      * Create Folder
      */
     createFolder: function createFolder(account, title) {
         var location = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
 
-        var _this4 = this;
+        var _this5 = this;
 
         var successCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
         var errorCb = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
@@ -37886,17 +38025,17 @@ exports.default = {
             var folder = data.data;
 
             //If the currentLocation is where the folder was created
-            if (_this4.currentLocation === location) {
+            if (_this5.currentLocation === location) {
                 //If File List if empty, initialize it
-                if (!_this4.files) {
-                    _this4.files = [];
+                if (!_this5.files) {
+                    _this5.files = [];
                 }
 
                 //Add Folder to the List
-                _this4.files.unshift(folder);
+                _this5.files.unshift(folder);
 
                 //Select the Folder
-                _this4.selected = folder;
+                _this5.selected = folder;
             }
 
             if (successCb) {

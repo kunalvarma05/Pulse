@@ -15,13 +15,13 @@
 
         <nav class="nav nav-inline explorer-header-links" v-show="selectedFile">
             <a class="nav-link" @click.stop="copyFile()"><i class="fa fa-copy"></i> Copy</a>
-            <a class="nav-link"><i class="fa fa-arrows"></i> Move</a>
+            <a class="nav-link" @click.stop="moveFile()"><i class="fa fa-arrows"></i> Move</a>
             <a class="nav-link" v-show="!selectedFile.isFolder" @click.stop="downloadFile()"><i class="fa fa-download"></i> Download</a>
             <a class="nav-link" v-show="!selectedFile.isFolder" @click.stop="shareFile()"><i class="fa fa-share"></i> Share</a>
             <a class="nav-link" @click.stop="deleteFile()"><i class="fa fa-trash"></i> Delete</a>
         </nav>
         <nav class="nav nav-inline explorer-header-links">
-            <a class="nav-link" v-show="fileToBeCopied" @click.stop="pasteFile()"><i class="fa fa-paste"></i> Paste</a>
+            <a class="nav-link" v-show="fileToBeCopied || fileToBeMoved" @click.stop="pasteFile()"><i class="fa fa-paste"></i> Paste</a>
         </nav>
 
 
@@ -61,6 +61,14 @@
              */
              fileToBeCopied() {
                 return this.state.fileStore.fileToCopy;
+            },
+
+            /**
+             * fileToBeMoved
+             * @return {Object}
+             */
+             fileToBeMoved() {
+                return this.state.fileStore.fileToMove;
             },
 
             /**
@@ -112,7 +120,11 @@
              */
              browseRoot() {
                 //Browse Files
-                fileStore.browse(this.account_id);
+                fileStore.browse(this.account_id, null,
+                    files => {
+                        this.state.fileStore.path = [];
+                    }
+                );
             },
 
             /**
@@ -235,9 +247,29 @@
             },
 
             /**
+             * Move File
+             */
+             moveFile() {
+                //Set the File to Move
+                this.state.fileStore.fileToMove = this.selectedFile;
+            },
+
+            pasteFile() {
+                if(this.fileToBeMoved) {
+                    return this.pasteMovedFile();
+                }
+
+                if(this.fileToBeCopied) {
+                    return this.pasteCopiedFile();
+                }
+            },
+
+            /**
              * Paste File
              */
-             pasteFile() {
+             pasteCopiedFile() {
+                //Reset the file to be moved
+                this.state.fileStore.fileToMove = false;
                 //Get the File to Be Copied
                 const file = this.fileToBeCopied;
                 let location = this.currentLocation;
@@ -250,7 +282,34 @@
                 }
 
                 //Copy the File
-                fileStore.copy(this.currentAccount.id, file.id, location);
+                return fileStore.copy(this.currentAccount.id, file.id, location);
+            },
+
+            /**
+             * Paste Moved File
+             */
+             pasteMovedFile() {
+                //Reset the file to be copied
+                this.state.fileStore.fileToCopy = false;
+                //Get the File to Be Moved
+                const file = this.fileToBeMoved;
+                let location = this.currentLocation;
+
+                //If a folder is selected
+                if(this.selectedFile && this.selectedFile.isFolder) {
+                    //Set the location as the folder
+                    //To cut/paste the file inside the folder
+                    location = this.selectedFile.id;
+                }
+
+                //Move the File
+                return fileStore.move(this.currentAccount.id, file.id, location,
+                    newFile => {
+                        if(this.state.fileStore.files.length) {
+                            this.state.fileStore.files.$remove(file);
+                        }
+                    }
+                );
             },
 
         }
