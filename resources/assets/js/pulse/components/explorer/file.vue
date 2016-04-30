@@ -1,7 +1,7 @@
 <template>
 
     <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
-        <div @click.stop="selectFile(account_id, file)" @dblclick.stop="browseFolder(account_id, file)" data-toggle-tooltip="tooltip" :title="file.title" class="card explorer-item" :class=" { 'selected': file === selectedFile } ">
+        <div @click.stop="selectFile(account_id, file)" @dblclick.stop="browseFolder(account_id, file)" data-toggle-tooltip="explorer" :title="file.title" class="card explorer-item" :class=" { 'selected': file === selectedFile } ">
 
             <div class="explorer-item-thumbnail card-img-top" :style="{ backgroundImage: file.thumbnailUrl ? 'url(' + file.thumbnailUrl + ')' : '' }">
                 <i class="fa explorer-item-icon" :class="file.icon" :style="{ opacity: file.thumbnailUrl ? 0 : 1 }"></i>

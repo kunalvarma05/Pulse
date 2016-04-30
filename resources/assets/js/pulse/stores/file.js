@@ -312,4 +312,41 @@ export default {
         }, errorCb);
     },
 
+    /**
+     * Create Folder
+     */
+     createFolder(account, title, location = null, successCb = null, errorCb = null) {
+        NProgress.start();
+        let url = "accounts/" + account + "/manager/create-folder";
+        let data = { title };
+
+        if(location !== null) {
+            data.location = location;
+        }
+
+        return http.post(url, data, response => {
+            const data = response.data;
+            const folder = data.data;
+
+            //If the currentLocation is where the folder was created
+            if(this.currentLocation === location)
+            {
+                //If File List if empty, initialize it
+                if(!this.files) {
+                    this.files = [];
+                }
+
+                //Add Folder to the List
+                this.files.unshift(folder);
+
+                //Select the Folder
+                this.selected = folder;
+            }
+
+            if (successCb) {
+                successCb(folder);
+            }
+        }, errorCb);
+    },
+
 };

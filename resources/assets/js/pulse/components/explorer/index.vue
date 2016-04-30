@@ -1,23 +1,42 @@
 <template>
-    <div class="explorer" :class="{ 'has-sidebar': true }" id="explorer" @click.stop="deSelectFile()">
+    <div class="explorer" :class="{ 'has-sidebar': true }" id="explorer">
 
-        <explorer-header :file.sync='selectedFile' :account.sync='currentAccount'></explorer-header>
+        <div class="explorer-wrapper" @click.stop="deSelectFile()">
+            <explorer-header :file.sync='selectedFile' :account.sync='currentAccount'></explorer-header>
 
-        <div class="explorer-content">
-            <div class="container-fluid">
-                <div class="row explorer-items">
+            <div class="explorer-content">
+                <div class="container-fluid">
+                    <div class="row explorer-items">
 
-                    <explorer-file v-for="fileItem in state.fileStore.files" :file='fileItem' :index='$index'></explorer-file>
+                        <explorer-file v-for="fileItem in state.fileStore.files" :file='fileItem' :index='$index'></explorer-file>
 
-                    <h4 class="text-center" v-show='!state.fileStore.files' align="center">No files to show!</h4>
+                        <h4 class="text-center" v-show='!state.fileStore.files' align="center">No files to show!</h4>
 
+                    </div>
                 </div>
             </div>
+
+            <sidebar :file.sync='selectedFile' :account.sync='currentAccount'></sidebar>
+
+            <share-file-modal></share-file-modal>
         </div>
 
-        <sidebar :file.sync='selectedFile' :account.sync='currentAccount'></sidebar>
+        <div class="dropup explorer-new-item">
+            <a class="btn explorer-new-item-button btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-plus"></i>
+            </a>
 
-        <share-file-modal></share-file-modal>
+            <div class="dropdown-menu dropdown-menu-right explorer-new-item-menu">
+                <a class="dropdown-item">
+                    <i class="fa fa-cloud-upload"></i> Upload
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" @click.stop="createFolder()">
+                    <i class="fa fa-folder"></i> Create Folder
+                </a>
+            </div>
+
+        </div>
     </div>
 </template>
 
@@ -90,6 +109,14 @@
              */
              currentAccount() {
                 return this.state.accountStore.current;
+            },
+
+            /**
+             * Current Location
+             * @return string
+             */
+             currentLocation() {
+                return this.state.fileStore.currentLocation;
             }
 
         },
@@ -99,9 +126,44 @@
             /**
              * Fire DeSelect File Event
              */
-            deSelectFile() {
+             deSelectFile() {
                 this.$broadcast('explorer:deSelectFile');
-            }
+            },
+
+            /**
+             * Create Folder
+             */
+             createFolder() {
+                swal({
+                    title: "Create Folder",
+                    type: "input",
+                    confirmButtonColor: "#2b90d9",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    animation: "slide-from-top",
+                    inputPlaceholder: "New Folder Title..."
+                },
+                title => {
+
+                    if (title === false) return false;
+
+                    if (title === "") {
+                        swal.showInputError("Folder name cannot be blank!");
+                        return false
+                    }
+
+                    //Create Folder
+                    fileStore.createFolder(this.currentAccount.id, title, this.currentLocation,
+                        folder => {
+                            swal("Folder Created!", "The folder, " + title + " was created!", "success");
+                        }
+                    );
+
+                });
+
+            },
+
         },
 
         events: {

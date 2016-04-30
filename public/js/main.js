@@ -36092,7 +36092,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-lg-2 col-md-4 col-sm-6 col-xs-12\">\n    <div @click.stop=\"selectFile(account_id, file)\" @dblclick.stop=\"browseFolder(account_id, file)\" data-toggle-tooltip=\"tooltip\" :title=\"file.title\" class=\"card explorer-item\" :class=\" { 'selected': file === selectedFile } \">\n\n        <div class=\"explorer-item-thumbnail card-img-top\" :style=\"{ backgroundImage: file.thumbnailUrl ? 'url(' + file.thumbnailUrl + ')' : '' }\">\n            <i class=\"fa explorer-item-icon\" :class=\"file.icon\" :style=\"{ opacity: file.thumbnailUrl ? 0 : 1 }\"></i>\n        </div>\n\n        <div class=\"card-block explorer-item-body\">\n            <div class=\"card-title explorer-item-title\">\n                {{file.title}}\n            </div>\n        </div>\n\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-lg-2 col-md-4 col-sm-6 col-xs-12\">\n    <div @click.stop=\"selectFile(account_id, file)\" @dblclick.stop=\"browseFolder(account_id, file)\" data-toggle-tooltip=\"explorer\" :title=\"file.title\" class=\"card explorer-item\" :class=\" { 'selected': file === selectedFile } \">\n\n        <div class=\"explorer-item-thumbnail card-img-top\" :style=\"{ backgroundImage: file.thumbnailUrl ? 'url(' + file.thumbnailUrl + ')' : '' }\">\n            <i class=\"fa explorer-item-icon\" :class=\"file.icon\" :style=\"{ opacity: file.thumbnailUrl ? 0 : 1 }\"></i>\n        </div>\n\n        <div class=\"card-block explorer-item-body\">\n            <div class=\"card-title explorer-item-title\">\n                {{file.title}}\n            </div>\n        </div>\n\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -36458,6 +36458,15 @@ exports.default = {
          */
         currentAccount: function currentAccount() {
             return this.state.accountStore.current;
+        },
+
+
+        /**
+         * Current Location
+         * @return string
+         */
+        currentLocation: function currentLocation() {
+            return this.state.fileStore.currentLocation;
         }
     },
 
@@ -36469,6 +36478,38 @@ exports.default = {
 
         deSelectFile: function deSelectFile() {
             this.$broadcast('explorer:deSelectFile');
+        },
+
+
+        /**
+         * Create Folder
+         */
+        createFolder: function createFolder() {
+            var _this2 = this;
+
+            swal({
+                title: "Create Folder",
+                type: "input",
+                confirmButtonColor: "#2b90d9",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                animation: "slide-from-top",
+                inputPlaceholder: "New Folder Title..."
+            }, function (title) {
+
+                if (title === false) return false;
+
+                if (title === "") {
+                    swal.showInputError("Folder name cannot be blank!");
+                    return false;
+                }
+
+                //Create Folder
+                _file2.default.createFolder(_this2.currentAccount.id, title, _this2.currentLocation, function (folder) {
+                    swal("Folder Created!", "The folder, " + title + " was created!", "success");
+                });
+            });
         }
     },
 
@@ -36481,7 +36522,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': true }\" id=\"explorer\" @click.stop=\"deSelectFile()\">\n\n    <explorer-header :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></explorer-header>\n\n    <div class=\"explorer-content\">\n        <div class=\"container-fluid\">\n            <div class=\"row explorer-items\">\n\n                <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                <h4 class=\"text-center\" v-show=\"!state.fileStore.files\" align=\"center\">No files to show!</h4>\n\n            </div>\n        </div>\n    </div>\n\n    <sidebar :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></sidebar>\n\n    <share-file-modal></share-file-modal>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': true }\" id=\"explorer\">\n\n    <div class=\"explorer-wrapper\" @click.stop=\"deSelectFile()\">\n        <explorer-header :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></explorer-header>\n\n        <div class=\"explorer-content\">\n            <div class=\"container-fluid\">\n                <div class=\"row explorer-items\">\n\n                    <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                    <h4 class=\"text-center\" v-show=\"!state.fileStore.files\" align=\"center\">No files to show!</h4>\n\n                </div>\n            </div>\n        </div>\n\n        <sidebar :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></sidebar>\n\n        <share-file-modal></share-file-modal>\n    </div>\n\n    <div class=\"dropup explorer-new-item\">\n        <a class=\"btn explorer-new-item-button btn-primary\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n            <i class=\"fa fa-plus\"></i>\n        </a>\n\n        <div class=\"dropdown-menu dropdown-menu-right explorer-new-item-menu\">\n            <a class=\"dropdown-item\">\n                <i class=\"fa fa-cloud-upload\"></i> Upload\n            </a>\n            <div class=\"dropdown-divider\"></div>\n            <a class=\"dropdown-item\" @click.stop=\"createFolder()\">\n                <i class=\"fa fa-folder\"></i> Create Folder\n            </a>\n        </div>\n\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -37816,6 +37857,50 @@ exports.default = {
 
             if (successCb) {
                 successCb(file);
+            }
+        }, errorCb);
+    },
+
+
+    /**
+     * Create Folder
+     */
+    createFolder: function createFolder(account, title) {
+        var location = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+        var _this4 = this;
+
+        var successCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+        var errorCb = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+
+        _nprogress2.default.start();
+        var url = "accounts/" + account + "/manager/create-folder";
+        var data = { title: title };
+
+        if (location !== null) {
+            data.location = location;
+        }
+
+        return _http2.default.post(url, data, function (response) {
+            var data = response.data;
+            var folder = data.data;
+
+            //If the currentLocation is where the folder was created
+            if (_this4.currentLocation === location) {
+                //If File List if empty, initialize it
+                if (!_this4.files) {
+                    _this4.files = [];
+                }
+
+                //Add Folder to the List
+                _this4.files.unshift(folder);
+
+                //Select the Folder
+                _this4.selected = folder;
+            }
+
+            if (successCb) {
+                successCb(folder);
             }
         }, errorCb);
     }

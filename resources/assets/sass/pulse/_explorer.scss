@@ -4,6 +4,26 @@
         margin-right: $sidebar-width;
     }
 }
+.explorer-new-item {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}
+
+.explorer-new-item-button {
+    border-radius: 50%;
+    padding: 15px 21px;
+    position: relative;
+    z-index: 500;
+}
+
+.explorer-new-item-menu {
+    min-width: 200px;
+    bottom: 50% !important;
+    right: 70%;
+    z-index: 450;
+    padding: 10px 0;
+}
 
 .explorer-header {
     border-bottom: solid 1px $explorer-header-border-color;

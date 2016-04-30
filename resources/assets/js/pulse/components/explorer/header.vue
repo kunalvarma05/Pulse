@@ -110,7 +110,7 @@
             /**
              * Browse to Account Root
              */
-            browseRoot() {
+             browseRoot() {
                 //Browse Files
                 fileStore.browse(this.account_id);
             },
