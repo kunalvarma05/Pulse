@@ -10,6 +10,9 @@
 </template>
 
 <script>
+
+    import fileStore from '../../stores/file';
+
     export default {
 
         props: ['account'],
@@ -17,15 +20,28 @@
         data() {
             return {
                 state: {
+                    fileStore: fileStore.state,
                     visible: true
                 }
             };
+        },
+
+        computed: {
+
         },
 
         methods: {
             close() {
                 this.state.visible = false;
             }
+        },
+
+        events: {
+
+            "file:queued"(data) {
+                this.state.visible = true
+            }
+
         }
 
     }

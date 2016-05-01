@@ -38379,6 +38379,13 @@ if (module.hot) {(function () {  module.hot.accept()
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _file = require('../../stores/file');
+
+var _file2 = _interopRequireDefault(_file);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 exports.default = {
 
     props: ['account'],
@@ -38386,15 +38393,24 @@ exports.default = {
     data: function data() {
         return {
             state: {
+                fileStore: _file2.default.state,
                 visible: true
             }
         };
     },
 
 
+    computed: {},
+
     methods: {
         close: function close() {
             this.state.visible = false;
+        }
+    },
+
+    events: {
+        "file:queued": function fileQueued(data) {
+            this.state.visible = true;
         }
     }
 
@@ -38412,7 +38428,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":52,"vue-hot-reload-api":26}],67:[function(require,module,exports){
+},{"../../stores/file":84,"vue":52,"vue-hot-reload-api":26}],67:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -38468,6 +38484,10 @@ var _ls = require('../../services/ls');
 
 var _ls2 = _interopRequireDefault(_ls);
 
+var _file = require('../../stores/file');
+
+var _file2 = _interopRequireDefault(_file);
+
 var _fileUploadQueue = require('./file-upload-queue.vue');
 
 var _fileUploadQueue2 = _interopRequireDefault(_fileUploadQueue);
@@ -38483,76 +38503,11 @@ exports.default = {
     data: function data() {
         return {
             state: {
-                queue: []
+                fileStore: _file2.default.state
             },
             fileUploadModal: false,
             dropzone: false
         };
-    },
-    ready: function ready() {
-        var _this = this;
-
-        this.fileUploadModal = jQuery('#upload-file-modal').modal({ show: false, backdrop: 'static' });
-
-        var url = "/api/accounts/" + this.currentAccount.id + "/manager/upload";
-        var token = _ls2.default.get('token');
-
-        // Dropzone
-        Dropzone.autoDiscover = false;
-
-        //Upload Area
-        var fileUploadArea = jQuery("#file-upload-area");
-        var originalTitle = fileUploadArea.text();
-        var fileQueue = jQuery(".file-upload-queue");
-
-        this.dropzone = new Dropzone("#file-upload-area", {
-            url: url,
-            autoProcessQueue: true,
-            createImageThumbnails: false,
-            parallelUploads: 5,
-            clickable: true,
-            previewTemplate: document.getElementById('file-upload-preview-template').innerHTML,
-            previewsContainer: ".file-upload-queue",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
-        });
-
-        this.dropzone.on("success", function (file, data) {
-            var filePreview = jQuery(file.previewElement);
-            var progress = filePreview.find(".progress-bar");
-            progress.addClass("progress-bar-success");
-            progress.removeClass("active");
-        });
-
-        this.dropzone.on("addedfile", function (file) {
-            _this.state.queue.push(file);
-        });
-
-        jQuery(document).on({
-            dragover: function dragover(event) {
-                _this.fileUploadModal.modal('show');
-                fileUploadArea.find("#file-upload-title").text("Drag your files here...");
-            },
-            dragleave: function dragleave(event) {
-                fileUploadArea.find("#file-upload-title").text(originalTitle);
-            }
-        });
-
-        fileUploadArea.on({
-            dragover: function dragover(event) {
-                fileUploadArea.addClass('active');
-                fileUploadArea.find("#file-upload-title").text("Drop files...");
-            },
-            dragleave: function dragleave(event) {
-                fileUploadArea.removeClass('active');
-                fileUploadArea.find("#file-upload-title").text(originalTitle);
-            },
-            drop: function drop(event) {
-                fileUploadArea.removeClass('active');
-                fileUploadArea.find("#file-upload-title").text(originalTitle);
-            }
-        });
     },
 
 
@@ -38567,7 +38522,10 @@ exports.default = {
             return this.account;
         },
         queueHasFiles: function queueHasFiles() {
-            return this.state.queue.length;
+            return this.fileQueue.length;
+        },
+        fileQueue: function fileQueue() {
+            return this.state.fileStore.queue;
         }
     },
 
@@ -38577,8 +38535,108 @@ exports.default = {
         "file:upload": function fileUpload(data) {
             this.fileUploadModal.modal('show');
         }
-    }
+    },
 
+    ready: function ready() {
+        var _this = this;
+
+        //File Upload Modal
+        this.fileUploadModal = jQuery('#upload-file-modal').modal({ show: false, backdrop: 'static' });
+
+        var url = "/api/accounts/" + this.currentAccount.id + "/manager/upload";
+        var token = _ls2.default.get('token');
+
+        // Dropzone
+        Dropzone.autoDiscover = false;
+
+        //Upload Area
+        var fileUploadArea = jQuery("#file-upload-area");
+        var originalTitle = fileUploadArea.text();
+        var fileQueue = jQuery(".file-upload-queue");
+
+        //Dropzone
+        this.dropzone = new Dropzone("#file-upload-area", {
+            url: url,
+            autoProcessQueue: true,
+            createImageThumbnails: false,
+            parallelUploads: 5,
+            clickable: true,
+            previewTemplate: document.getElementById('file-upload-preview-template').innerHTML,
+            previewsContainer: ".file-upload-queue",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        //File Drag and Drop Events
+        jQuery(document).on({
+            //When a file is being dragged to the document
+            dragover: function dragover(event) {
+                _this.fileUploadModal.modal('show');
+                fileUploadArea.find("#file-upload-title").text("Drag your files here...");
+            },
+            //When a file is dragged out of the document
+            dragleave: function dragleave(event) {
+                fileUploadArea.find("#file-upload-title").text(originalTitle);
+            }
+        });
+
+        //File Upload Area Events
+        fileUploadArea.on({
+            //When a file is dragged over the area
+            dragover: function dragover(event) {
+                fileUploadArea.addClass('active');
+                fileUploadArea.find("#file-upload-title").text("Drop files...");
+            },
+            //When the file leaves the area
+            dragleave: function dragleave(event) {
+                fileUploadArea.removeClass('active');
+                fileUploadArea.find("#file-upload-title").text(originalTitle);
+            },
+            //When the file is dropped
+            drop: function drop(event) {
+                fileUploadArea.removeClass('active');
+                fileUploadArea.find("#file-upload-title").text(originalTitle);
+            }
+        });
+
+        /**
+         * When a file is added to be uploaded
+         */
+        this.dropzone.on("addedfile", function (file) {
+            _this.state.fileStore.queue.push(file);
+            _this.$broadcast("file:queued", { file: file });
+        });
+
+        this.dropzone.on("error", function (file, errorMessage) {
+            _this.state.fileStore.queue.$remove(file);
+            _this.$broadcast("file:removed", { file: file });
+
+            //File Rejected
+            swal({
+                title: "Cannot upload file!",
+                type: 'error',
+                text: '<div class="alert alert-danger">' + errorMessage + '</div>',
+                allowOutsideClick: true,
+                timer: 5000,
+                html: true
+            });
+        });
+
+        /**
+         * File Uploaded Successfully
+         */
+        this.dropzone.on("success", function (file, data) {
+            var filePreview = jQuery(file.previewElement);
+            var progress = filePreview.find(".progress-bar");
+            progress.addClass("progress-bar-success");
+            progress.removeClass("active");
+
+            _this.dropzone.removeFile(file);
+            _this.state.fileStore.queue.$remove(file);
+            _this.$broadcast("file:uploaded", { file: file });
+        });
+    }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal fade\" id=\"upload-file-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"uploadFileModalLabel\" aria-hidden=\"true\" @click.stop=\"\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                    <span aria-hidden=\"true\">×</span>\n                </button>\n                <h4 class=\"text-overflow-ellipsis modal-title\" id=\"uploadFileModalLabel\">Upload File to: {{currentAccount.name}}</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"container\">\n                    <div id=\"file-upload-area\" class=\"file-upload-area\">\n                        <h4 class=\"text-lg-center\" id=\"file-upload-title\">Click to upload files...</h4>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n    </div>\n    <div id=\"file-upload-preview-template\" class=\"hidden\">\n        <div class=\"file-preview\">\n            <div class=\"file-info clearfix\">\n                <span class=\"pull-left fa fa-file file-icon\"></span>\n                <div class=\"pull-left file-name text-overflow-ellipsis\" data-dz-name=\"\"></div>\n                <div class=\"pull-right file-size\" data-dz-size=\"\"></div>\n            </div>\n            <div class=\"progress progress-sm\">\n                <div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" data-dz-uploadprogress=\"\"></div>\n            </div>\n            <span class=\"label label-danger\" data-dz-errormessage=\"\"></span>\n        </div>\n    </div>\n</div>\n\n<div v-show=\"queueHasFiles\">\n    <file-upload-queue :account.sync=\"currentAccount\"></file-upload-queue>\n</div>\n"
@@ -38593,7 +38651,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../services/ls":82,"./file-upload-queue.vue":66,"vue":52,"vue-hot-reload-api":26}],69:[function(require,module,exports){
+},{"../../services/ls":82,"../../stores/file":84,"./file-upload-queue.vue":66,"vue":52,"vue-hot-reload-api":26}],69:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39562,7 +39620,8 @@ exports.default = {
         files: false,
         fileToCopy: false,
         fileToMove: false,
-        currentLocation: null
+        currentLocation: null,
+        queue: []
     },
 
     /**
@@ -39707,6 +39766,28 @@ exports.default = {
         this.state.files = files;
 
         return this.files;
+    },
+
+    /**
+     * The queue
+     *
+     * @return {Object}
+     */
+    get queue() {
+        return this.state.queue;
+    },
+
+    /**
+     * Set the queue
+     *
+     * @param  {Array} queue
+     *
+     * @return {Object}
+     */
+    set queue(queue) {
+        this.state.queue = queue;
+
+        return this.queue;
     },
 
     /**

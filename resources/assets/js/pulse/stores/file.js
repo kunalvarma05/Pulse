@@ -12,7 +12,8 @@ export default {
         files: false,
         fileToCopy: false,
         fileToMove: false,
-        currentLocation: null
+        currentLocation: null,
+        queue: []
     },
 
     /**
@@ -156,6 +157,28 @@ export default {
         this.state.files = files;
 
         return this.files;
+    },
+
+    /**
+     * The queue
+     *
+     * @return {Object}
+     */
+     get queue() {
+        return this.state.queue;
+    },
+
+    /**
+     * Set the queue
+     *
+     * @param  {Array} queue
+     *
+     * @return {Object}
+     */
+     set queue(queue) {
+        this.state.queue = queue;
+
+        return this.queue;
     },
 
     /**

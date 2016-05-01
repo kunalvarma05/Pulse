@@ -43,6 +43,9 @@
 <script>
 
     import ls from '../../services/ls';
+
+    import fileStore from '../../stores/file';
+
     import fileUploadQueue from './file-upload-queue.vue';
 
     export default {
@@ -54,77 +57,11 @@
         data() {
             return {
                 state: {
-                    queue: []
+                    fileStore: fileStore.state
                 },
                 fileUploadModal: false,
                 dropzone: false,
             };
-        },
-
-        ready() {
-            this.fileUploadModal = jQuery('#upload-file-modal').modal({ show: false, backdrop: 'static' });
-
-            const url = "/api/accounts/" + this.currentAccount.id + "/manager/upload";
-            const token = ls.get('token');
-
-            // Dropzone
-            Dropzone.autoDiscover = false;
-
-            //Upload Area
-            const fileUploadArea = jQuery("#file-upload-area");
-            const originalTitle = fileUploadArea.text();
-            const fileQueue = jQuery(".file-upload-queue");
-
-
-            this.dropzone = new Dropzone("#file-upload-area", {
-                url: url,
-                autoProcessQueue: true,
-                createImageThumbnails: false,
-                parallelUploads: 5,
-                clickable: true,
-                previewTemplate: document.getElementById('file-upload-preview-template').innerHTML,
-                previewsContainer: ".file-upload-queue",
-                headers: {
-                    "Authorization": "Bearer " + token
-                }
-            });
-
-            this.dropzone.on("success", (file, data) => {
-                let filePreview = jQuery(file.previewElement);
-                let progress = filePreview.find(".progress-bar");
-                progress.addClass("progress-bar-success");
-                progress.removeClass("active");
-            });
-
-            this.dropzone.on("addedfile", file => {
-                this.state.queue.push(file);
-            });
-
-            jQuery(document).on({
-                dragover: event => {
-                    this.fileUploadModal.modal('show');
-                    fileUploadArea.find("#file-upload-title").text("Drag your files here...");
-                },
-                dragleave: event => {
-                    fileUploadArea.find("#file-upload-title").text(originalTitle);
-                }
-            });
-
-            fileUploadArea.on({
-                dragover: event => {
-                    fileUploadArea.addClass('active');
-                    fileUploadArea.find("#file-upload-title").text("Drop files...");
-                },
-                dragleave: event => {
-                    fileUploadArea.removeClass('active');
-                    fileUploadArea.find("#file-upload-title").text(originalTitle);
-                },
-                drop: event => {
-                    fileUploadArea.removeClass('active');
-                    fileUploadArea.find("#file-upload-title").text(originalTitle);
-                }
-            });
-
         },
 
         computed: {
@@ -138,7 +75,11 @@
             },
 
             queueHasFiles() {
-                return this.state.queue.length;
+                return this.fileQueue.length;
+            },
+
+            fileQueue() {
+                return this.state.fileStore.queue;
             }
 
         },
@@ -153,7 +94,106 @@
                 this.fileUploadModal.modal('show');
             }
 
-        }
+        },
+
+        ready() {
+            //File Upload Modal
+            this.fileUploadModal = jQuery('#upload-file-modal').modal({ show: false, backdrop: 'static' });
+
+            const url = "/api/accounts/" + this.currentAccount.id + "/manager/upload";
+            const token = ls.get('token');
+
+            // Dropzone
+            Dropzone.autoDiscover = false;
+
+            //Upload Area
+            const fileUploadArea = jQuery("#file-upload-area");
+            const originalTitle = fileUploadArea.text();
+            const fileQueue = jQuery(".file-upload-queue");
+
+            //Dropzone
+            this.dropzone = new Dropzone("#file-upload-area", {
+                url: url,
+                autoProcessQueue: true,
+                createImageThumbnails: false,
+                parallelUploads: 5,
+                clickable: true,
+                previewTemplate: document.getElementById('file-upload-preview-template').innerHTML,
+                previewsContainer: ".file-upload-queue",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            });
+
+            //File Drag and Drop Events
+            jQuery(document).on({
+                //When a file is being dragged to the document
+                dragover: event => {
+                    this.fileUploadModal.modal('show');
+                    fileUploadArea.find("#file-upload-title").text("Drag your files here...");
+                },
+                //When a file is dragged out of the document
+                dragleave: event => {
+                    fileUploadArea.find("#file-upload-title").text(originalTitle);
+                }
+            });
+
+            //File Upload Area Events
+            fileUploadArea.on({
+                //When a file is dragged over the area
+                dragover: event => {
+                    fileUploadArea.addClass('active');
+                    fileUploadArea.find("#file-upload-title").text("Drop files...");
+                },
+                //When the file leaves the area
+                dragleave: event => {
+                    fileUploadArea.removeClass('active');
+                    fileUploadArea.find("#file-upload-title").text(originalTitle);
+                },
+                //When the file is dropped
+                drop: event => {
+                    fileUploadArea.removeClass('active');
+                    fileUploadArea.find("#file-upload-title").text(originalTitle);
+                }
+            });
+
+            /**
+             * When a file is added to be uploaded
+             */
+            this.dropzone.on("addedfile", file => {
+                this.state.fileStore.queue.push(file);
+                this.$broadcast("file:queued", { file: file });
+            });
+
+            this.dropzone.on("error", (file, errorMessage) => {
+                this.state.fileStore.queue.$remove(file);
+                this.$broadcast("file:removed", { file: file });
+
+                //File Rejected
+                swal({
+                    title: "Cannot upload file!",
+                    type: 'error',
+                    text: '<div class="alert alert-danger">' + errorMessage + '</div>',
+                    allowOutsideClick: true,
+                    timer: 5000,
+                    html: true
+                });
+            });
+
+            /**
+             * File Uploaded Successfully
+             */
+            this.dropzone.on("success", (file, data) => {
+                let filePreview = jQuery(file.previewElement);
+                let progress = filePreview.find(".progress-bar");
+                progress.addClass("progress-bar-success");
+                progress.removeClass("active");
+
+                this.dropzone.removeFile(file);
+                this.state.fileStore.queue.$remove(file);
+                this.$broadcast("file:uploaded", { file: file });
+            });
+        },
 
     }
 </script>
