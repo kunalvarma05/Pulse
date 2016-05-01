@@ -1385,6 +1385,11 @@
       "from": "dot-case@>=1.1.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/dot-case/-/dot-case-1.1.2.tgz"
     },
+    "dropzone": {
+      "version": "4.3.0",
+      "from": "dropzone@latest",
+      "resolved": "https://registry.npmjs.org/dropzone/-/dropzone-4.3.0.tgz"
+    },
     "duplexer2": {
       "version": "0.0.2",
       "from": "duplexer2@0.0.2",

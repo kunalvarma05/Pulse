@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.2",
+    "dropzone": "^4.3.0",
     "font-awesome": "^4.5.0",
     "jquery": "^2.2.2",
     "laravel-elixir": "^5.0.0",
