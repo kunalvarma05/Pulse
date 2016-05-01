@@ -1,19 +1,27 @@
 body {
-    overflow: auto;
+  overflow: auto;
 }
 
 a, a:hover{
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .open > .dropdown-menu {
-    @extend .animated;
-    @extend .zoomIn;
-    animation-duration: 0.1s;
+  @extend .animated;
+  @extend .zoomIn;
+  animation-duration: 0.1s;
 }
 
 .text-overflow-ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hidden {
+  display: none;
+}
+
+.force-hidden {
+  display: none !important;
 }

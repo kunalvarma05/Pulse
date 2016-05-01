@@ -19,6 +19,8 @@
             <sidebar :file.sync='selectedFile' :account.sync='currentAccount'></sidebar>
 
             <share-file-modal></share-file-modal>
+
+            <upload-file-modal :account.sync="currentAccount"></upload-file-modal>
         </div>
 
         <div class="dropup explorer-new-item">
@@ -27,7 +29,7 @@
             </a>
 
             <div class="dropdown-menu dropdown-menu-right explorer-new-item-menu">
-                <a class="dropdown-item">
+                <a class="dropdown-item" @click.stop="uploadFile">
                     <i class="fa fa-cloud-upload"></i> Upload
                 </a>
                 <div class="dropdown-divider"></div>
@@ -49,11 +51,12 @@
     import explorerFile from './file.vue';
     import sidebar from '../sidebar/index.vue';
     import shareFileModal from '../modals/sharefile.vue';
+    import uploadFileModal from '../modals/uploadfile.vue';
 
 
     export default {
 
-        components: { explorerHeader, explorerFile, sidebar, shareFileModal },
+        components: { explorerHeader, explorerFile, sidebar, shareFileModal, uploadFileModal },
 
         data() {
             return {
@@ -163,6 +166,11 @@
                 });
 
             },
+
+            uploadFile() {
+                //Broadcast
+                this.$broadcast('file:upload', { account: this.currentAccount, location: this.currentLocation });
+            }
 
         },
 
