@@ -38115,6 +38115,7 @@ exports.default = {
          * Copy File
          */
         copyFile: function copyFile() {
+            this.state.fileStore.fileToMove = false;
             //Set the File to Copy
             this.state.fileStore.fileToCopy = this.selectedFile;
         },
@@ -38124,6 +38125,7 @@ exports.default = {
          * Move File
          */
         moveFile: function moveFile() {
+            this.state.fileStore.fileToCopy = false;
             //Set the File to Move
             this.state.fileStore.fileToMove = this.selectedFile;
         },
@@ -38893,11 +38895,18 @@ exports.default = {
         fileToBeMoved: function fileToBeMoved() {
             return this.state.fileStore.fileToMove;
         }
+    },
+
+    methods: {
+        clearClipboard: function clearClipboard() {
+            this.state.fileStore.fileToMove = false;
+            this.state.fileStore.fileToCopy = false;
+        }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-show=\"fileToBeCopied\">\n    <div class=\"sidebar-header animated slideInRight\">\n        Copy File Clipboard\n    </div>\n\n    <div class=\"sidebar-body\">\n        <div class=\"sidebar-items\">\n            <div class=\"sidebar-item\">\n                <div class=\"sidebar-item-body has-details\">\n                    <div class=\"item-detail\">\n                        <span class=\"item-detail-title\">Title</span>\n                        <span class=\"item-detail-value\">{{ fileToBeCopied.title }}</span>\n                    </div>\n                    <div class=\"item-detail\" v-show=\"!fileToBeCopied.isFolder\">\n                        <span class=\"item-detail-title\">Type</span>\n                        <span class=\"item-detail-value\">{{ fileToBeCopied.mimeType }}</span>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n\n<div v-show=\"fileToBeMoved\">\n    <div class=\"sidebar-header animated slideInRight\">\n        Move File Clipboard\n    </div>\n    <div class=\"sidebar-body\">\n        <div class=\"sidebar-items\">\n            <div class=\"sidebar-item\">\n                <div class=\"sidebar-item-body has-details\">\n                    <div class=\"item-detail\">\n                        <span class=\"item-detail-title\">Title</span>\n                        <span class=\"item-detail-value\">{{ fileToBeMoved.title }}</span>\n                    </div>\n                    <div class=\"item-detail\" v-show=\"!fileToBeMoved.isFolder\">\n                        <span class=\"item-detail-title\">Type</span>\n                        <span class=\"item-detail-value\">{{ fileToBeMoved.mimeType }}</span>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-show=\"fileToBeCopied || fileToBeMoved\">\n        <div class=\"sidebar-header animated slideInRight\">\n            Clipboard\n            <a @click.stop=\"clearClipboard()\">Clear</a>\n        </div>\n        <div v-show=\"fileToBeCopied\">\n            <div class=\"sidebar-body\">\n                <div class=\"sidebar-items\">\n                    <div class=\"sidebar-item\">\n                        <div class=\"sidebar-item-body has-details\">\n                            <div class=\"item-detail\">\n                                <span class=\"item-detail-title\">Title</span>\n                                <span class=\"item-detail-value\">{{ fileToBeCopied.title }}</span>\n                            </div>\n                            <div class=\"item-detail\" v-show=\"!fileToBeCopied.isFolder\">\n                                <span class=\"item-detail-title\">Type</span>\n                                <span class=\"item-detail-value\">{{ fileToBeCopied.mimeType }}</span>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <div v-show=\"fileToBeMoved\">\n            <div class=\"sidebar-body\">\n                <div class=\"sidebar-items\">\n                    <div class=\"sidebar-item\">\n                        <div class=\"sidebar-item-body has-details\">\n                            <div class=\"item-detail\">\n                                <span class=\"item-detail-title\">Title</span>\n                                <span class=\"item-detail-value\">{{ fileToBeMoved.title }}</span>\n                            </div>\n                            <div class=\"item-detail\" v-show=\"!fileToBeMoved.isFolder\">\n                                <span class=\"item-detail-title\">Type</span>\n                                <span class=\"item-detail-value\">{{ fileToBeMoved.mimeType }}</span>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

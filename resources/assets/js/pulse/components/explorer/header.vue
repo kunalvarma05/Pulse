@@ -241,6 +241,7 @@
              * Copy File
              */
              copyFile() {
+                this.state.fileStore.fileToMove = false;
                 //Set the File to Copy
                 this.state.fileStore.fileToCopy = this.selectedFile;
             },
@@ -249,6 +250,7 @@
              * Move File
              */
              moveFile() {
+                this.state.fileStore.fileToCopy = false;
                 //Set the File to Move
                 this.state.fileStore.fileToMove = this.selectedFile;
             },
