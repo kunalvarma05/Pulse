@@ -10,7 +10,14 @@
 
                         <explorer-file v-for="fileItem in state.fileStore.files" :file='fileItem' :index='$index'></explorer-file>
 
-                        <h4 class="text-center" v-show='!state.fileStore.files' align="center">No files to show!</h4>
+                        <div class="empty-state text-center" v-show='!state.fileStore.files'>
+                            <h1>
+                                <span class="fa fa-file-word-o first"></span>
+                                <span class="fa fa-folder leader"></span>
+                                <span class="fa fa-file-zip-o last"></span>
+                            </h1>
+                            <h4>No files to show!</h4>
+                        </div>
 
                     </div>
                 </div>
@@ -162,9 +169,7 @@
                             swal("Folder Created!", "The folder, " + title + " was created!", "success");
                         }
                     );
-
                 });
-
             },
 
             uploadFile() {
@@ -185,7 +190,9 @@
                 //If the last file was uploaded to the current account
                 if(this.currentAccount.id === this.state.fileStore.lastUploadAccount.id) {
                     const file = data.file;
-                    this.state.fileStore.files.unshift(file);
+                    if(this.state.fileStore.files.length) {
+                        this.state.fileStore.files.unshift(file);
+                    }
                     this.state.fileStore.selected = file;
                 }
                 //Broadcast to all childrens

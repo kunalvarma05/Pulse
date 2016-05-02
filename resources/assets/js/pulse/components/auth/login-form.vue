@@ -1,5 +1,8 @@
 <template>
     <div class="container login-container">
+        <a v-link="appUrl" class="logo">
+            <img :src="appLogo" alt="logo">
+        </a>
         <form @submit.prevent="login" :class="{ 'has-danger': failed }">
             <h2 class="page-header">Log in</h2>
             <div class="form-group">
@@ -15,11 +18,15 @@
 </template>
 
 <script>
+    import config from '../../config';
     import userStore from "../../stores/user.js";
+
     export default {
 
         data() {
             return {
+                appLogo: config.url + config.logo,
+                appUrl: config.url,
                 email: '',
                 password: '',
                 failed: false

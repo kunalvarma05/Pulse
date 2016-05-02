@@ -37491,6 +37491,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _config = require('../../config');
+
+var _config2 = _interopRequireDefault(_config);
+
 var _user = require('../../stores/user.js');
 
 var _user2 = _interopRequireDefault(_user);
@@ -37500,6 +37504,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
     data: function data() {
         return {
+            appLogo: _config2.default.url + _config2.default.logo,
+            appUrl: _config2.default.url,
             email: '',
             password: '',
             failed: false
@@ -37533,7 +37539,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container login-container\">\n    <form @submit.prevent=\"login\" :class=\"{ 'has-danger': failed }\">\n        <h2 class=\"page-header\">Log in</h2>\n        <div class=\"form-group\">\n            <input class=\"form-control form-control-danger\" v-model=\"email\" type=\"email\" placeholder=\"Email Address\" autofocus=\"\" required=\"\">\n        </div>\n        <div class=\"form-group\">\n            <input class=\"form-control form-control-danger\" v-model=\"password\" type=\"password\" placeholder=\"Password\" required=\"\">\n        </div>\n        <button type=\"submit\" class=\"btn btn-primary btn-block\">Log In</button>\n        <div class=\"login-text-help\" v-show=\"failed\">Invalid Email or Password</div>\n    </form>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container login-container\">\n    <a v-link=\"appUrl\" class=\"logo\">\n        <img :src=\"appLogo\" alt=\"logo\">\n    </a>\n    <form @submit.prevent=\"login\" :class=\"{ 'has-danger': failed }\">\n        <h2 class=\"page-header\">Log in</h2>\n        <div class=\"form-group\">\n            <input class=\"form-control form-control-danger\" v-model=\"email\" type=\"email\" placeholder=\"Email Address\" autofocus=\"\" required=\"\">\n        </div>\n        <div class=\"form-group\">\n            <input class=\"form-control form-control-danger\" v-model=\"password\" type=\"password\" placeholder=\"Password\" required=\"\">\n        </div>\n        <button type=\"submit\" class=\"btn btn-primary btn-block\">Log In</button>\n        <div class=\"login-text-help\" v-show=\"failed\">Invalid Email or Password</div>\n    </form>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -37549,7 +37555,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":87,"vue":52,"vue-hot-reload-api":26,"vueify-insert-css":53}],61:[function(require,module,exports){
+},{"../../config":77,"../../stores/user.js":87,"vue":52,"vue-hot-reload-api":26,"vueify-insert-css":53}],61:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.signup-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -38360,7 +38366,9 @@ exports.default = {
             //If the last file was uploaded to the current account
             if (this.currentAccount.id === this.state.fileStore.lastUploadAccount.id) {
                 var file = data.file;
-                this.state.fileStore.files.unshift(file);
+                if (this.state.fileStore.files.length) {
+                    this.state.fileStore.files.unshift(file);
+                }
                 this.state.fileStore.selected = file;
             }
             //Broadcast to all childrens
@@ -38384,7 +38392,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': true }\" id=\"explorer\">\n\n    <div class=\"explorer-wrapper\" @click.stop=\"deSelectFile()\">\n        <explorer-header :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></explorer-header>\n\n        <div class=\"explorer-content\">\n            <div class=\"container-fluid\">\n                <div class=\"row explorer-items\">\n\n                    <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                    <h4 class=\"text-center\" v-show=\"!state.fileStore.files\" align=\"center\">No files to show!</h4>\n\n                </div>\n            </div>\n        </div>\n\n        <sidebar :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></sidebar>\n\n        <share-file-modal></share-file-modal>\n\n        <upload-file-modal :account.sync=\"currentAccount\"></upload-file-modal>\n    </div>\n\n    <div class=\"dropup explorer-new-item\">\n        <a class=\"btn explorer-new-item-button btn-primary\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n            <i class=\"fa fa-plus\"></i>\n        </a>\n\n        <div class=\"dropdown-menu dropdown-menu-right explorer-new-item-menu\">\n            <a class=\"dropdown-item\" @click.stop=\"uploadFile\">\n                <i class=\"fa fa-cloud-upload\"></i> Upload\n            </a>\n            <div class=\"dropdown-divider\"></div>\n            <a class=\"dropdown-item\" @click.stop=\"createFolder()\">\n                <i class=\"fa fa-folder\"></i> Create Folder\n            </a>\n        </div>\n\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': true }\" id=\"explorer\">\n\n    <div class=\"explorer-wrapper\" @click.stop=\"deSelectFile()\">\n        <explorer-header :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></explorer-header>\n\n        <div class=\"explorer-content\">\n            <div class=\"container-fluid\">\n                <div class=\"row explorer-items\">\n\n                    <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                    <div class=\"empty-state text-center\" v-show=\"!state.fileStore.files\">\n                        <h1>\n                            <span class=\"fa fa-file-word-o first\"></span>\n                            <span class=\"fa fa-folder leader\"></span>\n                            <span class=\"fa fa-file-zip-o last\"></span>\n                        </h1>\n                        <h4>No files to show!</h4>\n                    </div>\n\n                </div>\n            </div>\n        </div>\n\n        <sidebar :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></sidebar>\n\n        <share-file-modal></share-file-modal>\n\n        <upload-file-modal :account.sync=\"currentAccount\"></upload-file-modal>\n    </div>\n\n    <div class=\"dropup explorer-new-item\">\n        <a class=\"btn explorer-new-item-button btn-primary\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n            <i class=\"fa fa-plus\"></i>\n        </a>\n\n        <div class=\"dropdown-menu dropdown-menu-right explorer-new-item-menu\">\n            <a class=\"dropdown-item\" @click.stop=\"uploadFile\">\n                <i class=\"fa fa-cloud-upload\"></i> Upload\n            </a>\n            <div class=\"dropdown-divider\"></div>\n            <a class=\"dropdown-item\" @click.stop=\"createFolder()\">\n                <i class=\"fa fa-folder\"></i> Create Folder\n            </a>\n        </div>\n\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
