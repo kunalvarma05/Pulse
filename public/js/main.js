@@ -2578,9 +2578,9 @@
 
     /*
     This is a list of all available events you can register on a dropzone object.
-    
+
     You can register an event handler like this:
-    
+
         dropzone.on("dragEnter", function() { });
      */
 
@@ -4128,7 +4128,7 @@
 
 
   /*
-  
+
   Bugfix for iOS 6 and 7
   Source: http://stackoverflow.com/questions/11929099/html5-canvas-drawimage-ratio-bug-ios
   based on the work of https://github.com/stomita/ios-imagefile-megapixel
@@ -38039,8 +38039,7 @@ exports.default = {
                 showCancelButton: true,
                 confirmButtonColor: "#d9534f",
                 confirmButtonText: "Yes, delete it!",
-                closeOnConfirm: false,
-                showLoaderOnConfirm: true,
+                closeOnConfirm: true,
                 html: true,
                 imageUrl: image
             }, function () {
@@ -38356,6 +38355,30 @@ exports.default = {
         "file:share": function fileShare(data) {
             //Broadcast to all childrens
             this.$broadcast('file:share', { file: data.file, link: data.link });
+        },
+        "file:uploaded": function fileUploaded(data) {
+            //If the last file was uploaded to the current account
+            if (this.currentAccount.id === this.state.fileStore.lastUploadAccount.id) {
+                var file = data.file;
+                this.state.fileStore.files.unshift(file);
+                this.state.fileStore.selected = file;
+            }
+            //Broadcast to all childrens
+            this.$broadcast('file:uploaded', data);
+        },
+        "file:queued": function fileQueued(data) {
+            //Set the last upload account
+            this.state.fileStore.lastUploadAccount = this.currentAccount;
+            //Broadcast to all childrens
+            this.$broadcast('file:queued', data);
+        },
+        "file:canceled": function fileCanceled(data) {
+            //Broadcast to all childrens
+            this.$broadcast('file:canceled', data);
+        },
+        "file:removed": function fileRemoved(data) {
+            //Broadcast to all childrens
+            this.$broadcast('file:removed', data);
         }
     }
 
@@ -38526,6 +38549,9 @@ exports.default = {
         },
         fileQueue: function fileQueue() {
             return this.state.fileStore.queue;
+        },
+        uploadUrl: function uploadUrl() {
+            return "/api/accounts/" + this.currentAccount.id + "/manager/upload";
         }
     },
 
@@ -38534,6 +38560,7 @@ exports.default = {
     events: {
         "file:upload": function fileUpload(data) {
             this.fileUploadModal.modal('show');
+            this.dropzone.options.url = this.uploadUrl;
         }
     },
 
@@ -38543,7 +38570,7 @@ exports.default = {
         //File Upload Modal
         this.fileUploadModal = jQuery('#upload-file-modal').modal({ show: false, backdrop: 'static' });
 
-        var url = "/api/accounts/" + this.currentAccount.id + "/manager/upload";
+        var url = this.uploadUrl;
         var token = _ls2.default.get('token');
 
         // Dropzone
@@ -38605,18 +38632,25 @@ exports.default = {
          */
         this.dropzone.on("addedfile", function (file) {
             _this.state.fileStore.queue.push(file);
-            _this.$broadcast("file:queued", { file: file });
+            _this.$dispatch("file:queued", { file: file });
         });
 
         /**
          * When a file is added to be canceled
          */
         this.dropzone.on("canceled", function (file) {
-            _this.$broadcast("file:canceled", { file: file });
+            _this.$dispatch("file:canceled", { file: file });
         });
 
         this.dropzone.on("error", function (file, errorMessage) {
-            _this.$broadcast("file:removed", { file: file });
+            var that = _this;
+            setTimeout(function () {
+                console.log(that.dropzone.files);
+                that.dropzone.removeFile(file);
+                that.state.fileStore.queue.$remove(file);
+            }, 5000);
+
+            _this.$dispatch("file:removed", { file: file });
 
             //File Rejected
             swal({
@@ -38637,20 +38671,20 @@ exports.default = {
             var progress = filePreview.find(".progress-bar");
             progress.addClass("progress-bar-success");
             progress.removeClass("active");
-            _this.$broadcast("file:uploaded", { file: file });
-        });
 
-        this.dropzone.on("complete", function (file) {
             var that = _this;
             setTimeout(function () {
+                console.log(that.dropzone.files);
                 that.dropzone.removeFile(file);
                 that.state.fileStore.queue.$remove(file);
             }, 5000);
+
+            _this.$dispatch("file:uploaded", { file: data.data });
         });
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal fade\" id=\"upload-file-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"uploadFileModalLabel\" aria-hidden=\"true\" @click.stop=\"\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                    <span aria-hidden=\"true\">×</span>\n                </button>\n                <h4 class=\"text-overflow-ellipsis modal-title\" id=\"uploadFileModalLabel\">Upload File to: {{currentAccount.name}}</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"container\">\n                    <div id=\"file-upload-area\" class=\"file-upload-area\">\n                        <h4 class=\"text-lg-center\" id=\"file-upload-title\">Click to upload files...</h4>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n    </div>\n    <div id=\"file-upload-preview-template\" class=\"hidden\">\n        <div class=\"file-preview\">\n            <div class=\"file-details\">\n                <div class=\"file-info clearfix\">\n                    <span class=\"pull-left fa fa-file file-icon\"></span>\n                    <div class=\"pull-left file-name text-overflow-ellipsis\" data-dz-name=\"\"></div>\n                    <div class=\"pull-right file-size\" data-dz-size=\"\"></div>\n                </div>\n                <div class=\"progress progress-sm\">\n                    <div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" data-dz-uploadprogress=\"\"></div>\n                </div>\n            </div>\n            <a class=\"remove-file\" data-dz-remove=\"\">\n                <i class=\"fa fa-remove\"></i>\n            </a>\n            <span class=\"label label-danger\" data-dz-errormessage=\"\"></span>\n        </div>\n    </div>\n</div>\n\n<div v-show=\"queueHasFiles\">\n    <file-upload-queue :account.sync=\"currentAccount\"></file-upload-queue>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal fade\" id=\"upload-file-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"uploadFileModalLabel\" aria-hidden=\"true\" @click.stop=\"\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                    <span aria-hidden=\"true\">×</span>\n                </button>\n                <h4 class=\"text-overflow-ellipsis modal-title\" id=\"uploadFileModalLabel\">Upload File to: {{currentAccount.name}}</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"container\">\n                    <div id=\"file-upload-area\" class=\"file-upload-area\">\n                        <h4 class=\"text-lg-center\" id=\"file-upload-title\">Click to upload files...</h4>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n    </div>\n    <div id=\"file-upload-preview-template\" class=\"hidden\">\n        <div class=\"file-preview\">\n            <div class=\"file-details\">\n                <div class=\"file-info clearfix\">\n                    <span class=\"pull-left fa fa-file file-icon\"></span>\n                    <div class=\"pull-left file-name text-overflow-ellipsis\" data-dz-name=\"\"></div>\n                    <div class=\"pull-right file-size\" data-dz-size=\"\"></div>\n                </div>\n                <div class=\"progress progress-sm\">\n                    <div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" data-dz-uploadprogress=\"\"></div>\n                </div>\n            </div>\n            <span class=\"label label-danger\" data-dz-errormessage=\"\"></span>\n        </div>\n    </div>\n</div>\n\n<div v-show=\"queueHasFiles\">\n    <file-upload-queue :account.sync=\"currentAccount\"></file-upload-queue>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -39632,7 +39666,8 @@ exports.default = {
         fileToCopy: false,
         fileToMove: false,
         currentLocation: null,
-        queue: []
+        queue: [],
+        lastUploadAccount: false
     },
 
     /**
@@ -39667,6 +39702,28 @@ exports.default = {
         this.state.selected = file;
 
         return this.selected;
+    },
+
+    /**
+     * The lastUploadAccount account.
+     *
+     * @return {Object}
+     */
+    get lastUploadAccount() {
+        return this.state.lastUploadAccount;
+    },
+
+    /**
+     * Set the lastUploadAccount account.
+     *
+     * @param  {Object} account
+     *
+     * @return {Object}
+     */
+    set lastUploadAccount(account) {
+        this.state.lastUploadAccount = account;
+
+        return this.lastUploadAccount;
     },
 
     /**

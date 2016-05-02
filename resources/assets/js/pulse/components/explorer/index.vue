@@ -175,10 +175,40 @@
         },
 
         events: {
+
             "file:share"(data) {
                 //Broadcast to all childrens
                 this.$broadcast('file:share', { file: data.file, link: data.link });
-            }
+            },
+
+            "file:uploaded"(data) {
+                //If the last file was uploaded to the current account
+                if(this.currentAccount.id === this.state.fileStore.lastUploadAccount.id) {
+                    const file = data.file;
+                    this.state.fileStore.files.unshift(file);
+                    this.state.fileStore.selected = file;
+                }
+                //Broadcast to all childrens
+                this.$broadcast('file:uploaded', data);
+            },
+
+            "file:queued"(data) {
+                //Set the last upload account
+                this.state.fileStore.lastUploadAccount = this.currentAccount;
+                //Broadcast to all childrens
+                this.$broadcast('file:queued', data);
+            },
+
+            "file:canceled"(data) {
+                //Broadcast to all childrens
+                this.$broadcast('file:canceled', data);
+            },
+
+            "file:removed"(data) {
+                //Broadcast to all childrens
+                this.$broadcast('file:removed', data);
+            },
+
         }
 
     }

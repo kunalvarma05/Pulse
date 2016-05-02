@@ -13,7 +13,8 @@ export default {
         fileToCopy: false,
         fileToMove: false,
         currentLocation: null,
-        queue: []
+        queue: [],
+        lastUploadAccount: false
     },
 
     /**
@@ -47,6 +48,28 @@ export default {
         this.state.selected = file;
 
         return this.selected;
+    },
+
+    /**
+     * The lastUploadAccount account.
+     *
+     * @return {Object}
+     */
+     get lastUploadAccount() {
+        return this.state.lastUploadAccount;
+    },
+
+    /**
+     * Set the lastUploadAccount account.
+     *
+     * @param  {Object} account
+     *
+     * @return {Object}
+     */
+     set lastUploadAccount(account) {
+        this.state.lastUploadAccount = account;
+
+        return this.lastUploadAccount;
     },
 
     /**

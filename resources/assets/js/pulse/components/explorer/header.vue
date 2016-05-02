@@ -170,8 +170,7 @@
                     showCancelButton: true,
                     confirmButtonColor: "#d9534f",
                     confirmButtonText: "Yes, delete it!",
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true,
+                    closeOnConfirm: true,
                     html: true,
                     imageUrl: image
                 },

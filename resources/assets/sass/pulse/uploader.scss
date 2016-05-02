@@ -60,15 +60,15 @@
             display: none;
         }
 
-        &:hover {
-            .file-details {
-                opacity: 0.3;
-            }
-            .remove-file {
-                z-index: 100;
-                display: block;
-            }
-        }
+        // &:hover {
+        //     .file-details {
+        //         opacity: 0.3;
+        //     }
+        //     .remove-file {
+        //         z-index: 100;
+        //         display: block;
+        //     }
+        // }
     }
     .file-info {
         padding-bottom: 10px;

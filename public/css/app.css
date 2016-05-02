@@ -7618,11 +7618,6 @@ body.stop-scrolling {
     top: 50%;
     margin-top: -14px;
     display: none; }
-  .file-upload-queue .file-preview:hover .file-details {
-    opacity: 0.3; }
-  .file-upload-queue .file-preview:hover .remove-file {
-    z-index: 100;
-    display: block; }
 
 .file-upload-queue .file-info {
   padding-bottom: 10px; }

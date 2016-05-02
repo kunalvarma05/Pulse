@@ -32,9 +32,6 @@
                         <div class="progress-bar progress-bar-striped active" role="progressbar" data-dz-uploadprogress></div>
                     </div>
                 </div>
-                <a class="remove-file" data-dz-remove>
-                    <i class="fa fa-remove"></i>
-                </a>
                 <span class="label label-danger" data-dz-errormessage></span>
             </div>
         </div>
@@ -65,7 +62,7 @@
                     fileStore: fileStore.state
                 },
                 fileUploadModal: false,
-                dropzone: false,
+                dropzone: false
             };
         },
 
@@ -85,6 +82,10 @@
 
             fileQueue() {
                 return this.state.fileStore.queue;
+            },
+
+            uploadUrl() {
+                return "/api/accounts/" + this.currentAccount.id + "/manager/upload";
             }
 
         },
@@ -97,6 +98,7 @@
 
             "file:upload"(data) {
                 this.fileUploadModal.modal('show');
+                this.dropzone.options.url = this.uploadUrl;
             }
 
         },
@@ -105,7 +107,7 @@
             //File Upload Modal
             this.fileUploadModal = jQuery('#upload-file-modal').modal({ show: false, backdrop: 'static' });
 
-            const url = "/api/accounts/" + this.currentAccount.id + "/manager/upload";
+            const url = this.uploadUrl;
             const token = ls.get('token');
 
             // Dropzone
@@ -167,18 +169,25 @@
              */
              this.dropzone.on("addedfile", file => {
                 this.state.fileStore.queue.push(file);
-                this.$broadcast("file:queued", { file: file });
+                this.$dispatch("file:queued", { file: file });
             });
 
             /**
              * When a file is added to be canceled
              */
              this.dropzone.on("canceled", file => {
-                this.$broadcast("file:canceled", { file: file });
+                this.$dispatch("file:canceled", { file: file });
             });
 
              this.dropzone.on("error", (file, errorMessage) => {
-                this.$broadcast("file:removed", { file: file });
+                const that = this;
+                setTimeout(() => {
+                    console.log(that.dropzone.files);
+                    that.dropzone.removeFile(file);
+                    that.state.fileStore.queue.$remove(file);
+                }, 5000);
+
+                this.$dispatch("file:removed", { file: file });
 
                 //File Rejected
                 swal({
@@ -199,15 +208,15 @@
                 let progress = filePreview.find(".progress-bar");
                 progress.addClass("progress-bar-success");
                 progress.removeClass("active");
-                this.$broadcast("file:uploaded", { file: file });
-            });
 
-             this.dropzone.on("complete", file => {
                 const that = this;
                 setTimeout(() => {
+                    console.log(that.dropzone.files);
                     that.dropzone.removeFile(file);
                     that.state.fileStore.queue.$remove(file);
                 }, 5000);
+
+                this.$dispatch("file:uploaded", { file: data.data });
             });
          },
 

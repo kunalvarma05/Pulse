@@ -363,7 +363,6 @@ class ManagerController extends BaseController
 
         //File
         $file = $request->file('file');
-        return $file;
 
         //Invalid File
         if (!$file->isValid()) {
