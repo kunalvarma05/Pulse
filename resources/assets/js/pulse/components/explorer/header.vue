@@ -31,6 +31,7 @@
 <script>
 
     import fileStore from '../../stores/file';
+    import sharedStore from '../../stores/shared';
 
     export default {
 
@@ -40,6 +41,7 @@
             return {
                 state: {
                     fileStore : fileStore.state,
+                    sharedStore : sharedStore.state,
                 },
                 title: ''
             };
@@ -124,7 +126,7 @@
                     files => {
                         this.state.fileStore.path = [];
                     }
-                );
+                    );
             },
 
             /**
@@ -153,6 +155,9 @@
 
                         //Update the current explorer path
                         this.state.fileStore.path = breadcrumbs;
+                    },
+                    (error) => {
+                        this.state.sharedStore.errors.unshift(error);
                     }
                     );
             },
@@ -188,10 +193,13 @@
                                 timer: 2000,
                                 html: true
                             });
+                        },
+                        (error) => {
+                            this.state.sharedStore.errors.unshift(error);
                         }
-                        );
+                    );
                 });
-},
+            },
 
             /**
              * Download File
@@ -217,8 +225,11 @@
                                 var win = window.open(link, '_blank');
                                 win.focus();
                             });
+                        },
+                        (error) => {
+                            this.state.sharedStore.errors.unshift(error);
                         }
-                        );
+                    );
                 }
             },
 
@@ -232,8 +243,11 @@
                         link => {
                             //Dispatch the File Share Event to the Parent
                             this.$dispatch('file:share', { file: this.selectedFile, link: link });
+                        },
+                        (error) => {
+                            this.state.sharedStore.errors.unshift(error);
                         }
-                        );
+                    );
                 }
             },
 
@@ -283,7 +297,10 @@
                 }
 
                 //Copy the File
-                return fileStore.copy(this.currentAccount.id, file.id, location);
+                return fileStore.copy(this.currentAccount.id, file.id, location, false,
+                    (error) => {
+                        this.state.sharedStore.errors.unshift(error);
+                    });
             },
 
             /**
@@ -309,6 +326,8 @@
                         if(this.state.fileStore.files.length) {
                             this.state.fileStore.files.$remove(file);
                         }
+                    }, (error) => {
+                        this.state.sharedStore.errors.unshift(error);
                     }
                 );
             },

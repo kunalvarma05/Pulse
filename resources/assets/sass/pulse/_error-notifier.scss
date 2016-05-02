@@ -1,0 +1,21 @@
+.error-notifier {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 300px;
+    z-index: 1200;
+
+    .error-notification {
+        color: #fff;
+        padding: 15px;
+        background: $brand-danger;
+        border: none;
+        border-radius: 4px;
+        box-shadow: 0px 3px 8px rgba(0,0,0,0.4);
+        font-weight: bold;
+        font-size: 0.875rem;
+        text-align: center;
+        @extend .animated;
+        @extend .fadeInUp;
+    }
+}

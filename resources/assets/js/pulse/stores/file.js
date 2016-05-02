@@ -221,7 +221,13 @@ export default {
             if (successCb) {
                 successCb(files);
             }
-        }, errorCb);
+        }, response => {
+            const error = response.data.message;
+
+            if(errorCb) {
+                errorCb(error);
+            }
+        });
     },
 
     /**
@@ -245,7 +251,13 @@ export default {
             if (successCb) {
                 successCb(newFile);
             }
-        }, errorCb);
+        }, response => {
+            const error = response.data.message;
+
+            if(errorCb) {
+                errorCb(error);
+            }
+        });
 
     },
 
@@ -269,7 +281,13 @@ export default {
             if (successCb) {
                 successCb();
             }
-        }, errorCb);
+        }, response => {
+            const error = response.data.message;
+
+            if(errorCb) {
+                errorCb(error);
+            }
+        });
 
     },
 
@@ -379,7 +397,13 @@ export default {
             if (successCb) {
                 successCb(file);
             }
-        }, errorCb);
+        }, response => {
+            const error = response.data.message;
+
+            if(errorCb) {
+                errorCb(error);
+            }
+        });
     },
 
     /**
@@ -419,7 +443,13 @@ export default {
             if (successCb) {
                 successCb(file);
             }
-        }, errorCb);
+        }, response => {
+            const error = response.data.message;
+
+            if(errorCb) {
+                errorCb(error);
+            }
+        });
     },
 
     /**
@@ -456,7 +486,13 @@ export default {
             if (successCb) {
                 successCb(folder);
             }
-        }, errorCb);
+        }, response => {
+            const error = response.data.message;
+
+            if(errorCb) {
+                errorCb(error);
+            }
+        });
     },
 
 };

@@ -22,11 +22,8 @@ Vue.http.interceptors.push({
     response(r) {
         NProgress.done();
 
-        if (r.status === 400 || r.status === 401) {
-            if (r.request.method !== 'POST') {
-                //Something seems fishy
-                //app.logout();
-            }
+        if (r.status === 401) {
+            app.logout();
         }
 
         if (r.headers && r.headers.Authorization) {

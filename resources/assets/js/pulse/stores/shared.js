@@ -8,6 +8,7 @@ export default {
      */
      state: {
         currentUser: userStore.current,
+        errors: []
     },
 
     /**
@@ -28,6 +29,24 @@ export default {
      */
      get currentUser() {
         return this.state.currentUser;
+    },
+
+    /**
+     * Set Errors
+     * @param  {array} errors
+     * @return {array}
+     */
+     set errors(errors) {
+        this.state.errors = errors;
+        return this.errors;
+    },
+
+    /**
+     * Get Errors
+     * @return {array}
+     */
+     get errors() {
+        return this.errors;
     },
 
     /**

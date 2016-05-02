@@ -1,5 +1,6 @@
 <template>
     <router-view></router-view>
+    <error-notifier></error-notifier>
 </template>
 
 <script>
@@ -9,8 +10,12 @@
     //User Store
     import userStore from './stores/user.js';
 
+    //Errors
+    import errorNotifier from './components/errors/index.vue';
+
+
     export default {
-        components: {},
+        components: { errorNotifier },
         replace: false,
         data() {
             return {
