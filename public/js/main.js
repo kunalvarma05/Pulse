@@ -38608,8 +38608,14 @@ exports.default = {
             _this.$broadcast("file:queued", { file: file });
         });
 
+        /**
+         * When a file is added to be canceled
+         */
+        this.dropzone.on("canceled", function (file) {
+            _this.$broadcast("file:canceled", { file: file });
+        });
+
         this.dropzone.on("error", function (file, errorMessage) {
-            _this.state.fileStore.queue.$remove(file);
             _this.$broadcast("file:removed", { file: file });
 
             //File Rejected
@@ -38631,15 +38637,20 @@ exports.default = {
             var progress = filePreview.find(".progress-bar");
             progress.addClass("progress-bar-success");
             progress.removeClass("active");
-
-            _this.dropzone.removeFile(file);
-            _this.state.fileStore.queue.$remove(file);
             _this.$broadcast("file:uploaded", { file: file });
+        });
+
+        this.dropzone.on("complete", function (file) {
+            var that = _this;
+            setTimeout(function () {
+                that.dropzone.removeFile(file);
+                that.state.fileStore.queue.$remove(file);
+            }, 5000);
         });
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal fade\" id=\"upload-file-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"uploadFileModalLabel\" aria-hidden=\"true\" @click.stop=\"\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                    <span aria-hidden=\"true\">×</span>\n                </button>\n                <h4 class=\"text-overflow-ellipsis modal-title\" id=\"uploadFileModalLabel\">Upload File to: {{currentAccount.name}}</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"container\">\n                    <div id=\"file-upload-area\" class=\"file-upload-area\">\n                        <h4 class=\"text-lg-center\" id=\"file-upload-title\">Click to upload files...</h4>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n    </div>\n    <div id=\"file-upload-preview-template\" class=\"hidden\">\n        <div class=\"file-preview\">\n            <div class=\"file-info clearfix\">\n                <span class=\"pull-left fa fa-file file-icon\"></span>\n                <div class=\"pull-left file-name text-overflow-ellipsis\" data-dz-name=\"\"></div>\n                <div class=\"pull-right file-size\" data-dz-size=\"\"></div>\n            </div>\n            <div class=\"progress progress-sm\">\n                <div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" data-dz-uploadprogress=\"\"></div>\n            </div>\n            <span class=\"label label-danger\" data-dz-errormessage=\"\"></span>\n        </div>\n    </div>\n</div>\n\n<div v-show=\"queueHasFiles\">\n    <file-upload-queue :account.sync=\"currentAccount\"></file-upload-queue>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal fade\" id=\"upload-file-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"uploadFileModalLabel\" aria-hidden=\"true\" @click.stop=\"\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                    <span aria-hidden=\"true\">×</span>\n                </button>\n                <h4 class=\"text-overflow-ellipsis modal-title\" id=\"uploadFileModalLabel\">Upload File to: {{currentAccount.name}}</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"container\">\n                    <div id=\"file-upload-area\" class=\"file-upload-area\">\n                        <h4 class=\"text-lg-center\" id=\"file-upload-title\">Click to upload files...</h4>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n    </div>\n    <div id=\"file-upload-preview-template\" class=\"hidden\">\n        <div class=\"file-preview\">\n            <div class=\"file-details\">\n                <div class=\"file-info clearfix\">\n                    <span class=\"pull-left fa fa-file file-icon\"></span>\n                    <div class=\"pull-left file-name text-overflow-ellipsis\" data-dz-name=\"\"></div>\n                    <div class=\"pull-right file-size\" data-dz-size=\"\"></div>\n                </div>\n                <div class=\"progress progress-sm\">\n                    <div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" data-dz-uploadprogress=\"\"></div>\n                </div>\n            </div>\n            <a class=\"remove-file\" data-dz-remove=\"\">\n                <i class=\"fa fa-remove\"></i>\n            </a>\n            <span class=\"label label-danger\" data-dz-errormessage=\"\"></span>\n        </div>\n    </div>\n</div>\n\n<div v-show=\"queueHasFiles\">\n    <file-upload-queue :account.sync=\"currentAccount\"></file-upload-queue>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

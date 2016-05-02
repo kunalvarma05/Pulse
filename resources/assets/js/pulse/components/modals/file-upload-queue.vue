@@ -39,7 +39,7 @@
         events: {
 
             "file:queued"(data) {
-                this.state.visible = true
+                this.state.visible = true;
             }
 
         }

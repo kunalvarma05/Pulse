@@ -22,14 +22,19 @@
         </div>
         <div id="file-upload-preview-template" class="hidden">
             <div class="file-preview">
-                <div class="file-info clearfix">
-                    <span class="pull-left fa fa-file file-icon"></span>
-                    <div class="pull-left file-name text-overflow-ellipsis" data-dz-name></div>
-                    <div class="pull-right file-size" data-dz-size></div>
+                <div class="file-details">
+                    <div class="file-info clearfix">
+                        <span class="pull-left fa fa-file file-icon"></span>
+                        <div class="pull-left file-name text-overflow-ellipsis" data-dz-name></div>
+                        <div class="pull-right file-size" data-dz-size></div>
+                    </div>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" data-dz-uploadprogress></div>
+                    </div>
                 </div>
-                <div class="progress progress-sm">
-                    <div class="progress-bar progress-bar-striped active" role="progressbar" data-dz-uploadprogress></div>
-                </div>
+                <a class="remove-file" data-dz-remove>
+                    <i class="fa fa-remove"></i>
+                </a>
                 <span class="label label-danger" data-dz-errormessage></span>
             </div>
         </div>
@@ -160,13 +165,19 @@
             /**
              * When a file is added to be uploaded
              */
-            this.dropzone.on("addedfile", file => {
+             this.dropzone.on("addedfile", file => {
                 this.state.fileStore.queue.push(file);
                 this.$broadcast("file:queued", { file: file });
             });
 
-            this.dropzone.on("error", (file, errorMessage) => {
-                this.state.fileStore.queue.$remove(file);
+            /**
+             * When a file is added to be canceled
+             */
+             this.dropzone.on("canceled", file => {
+                this.$broadcast("file:canceled", { file: file });
+            });
+
+             this.dropzone.on("error", (file, errorMessage) => {
                 this.$broadcast("file:removed", { file: file });
 
                 //File Rejected
@@ -183,17 +194,22 @@
             /**
              * File Uploaded Successfully
              */
-            this.dropzone.on("success", (file, data) => {
+             this.dropzone.on("success", (file, data) => {
                 let filePreview = jQuery(file.previewElement);
                 let progress = filePreview.find(".progress-bar");
                 progress.addClass("progress-bar-success");
                 progress.removeClass("active");
-
-                this.dropzone.removeFile(file);
-                this.state.fileStore.queue.$remove(file);
                 this.$broadcast("file:uploaded", { file: file });
             });
-        },
 
-    }
-</script>
+             this.dropzone.on("complete", file => {
+                const that = this;
+                setTimeout(() => {
+                    that.dropzone.removeFile(file);
+                    that.state.fileStore.queue.$remove(file);
+                }, 5000);
+            });
+         },
+
+     }
+ </script>
