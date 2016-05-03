@@ -64,7 +64,7 @@ class ManagerController extends BaseController
     public function getFileInfo(Request $request, $account_id)
     {
         if (!$request->has('file')) {
-            return $this->response->error("No file was specified!", 400);
+            return response()->json(['message' => "No file was specified!"], 400);
         }
 
         //Current User
@@ -81,7 +81,7 @@ class ManagerController extends BaseController
 
         //File not found
         if (!$fileInfo) {
-            return $this->response->error("File not found!", 400);
+            return response()->json(['message' => "File not found!"], 400);
         }
 
         //Return Response
@@ -104,7 +104,7 @@ class ManagerController extends BaseController
 
         //Files not found
         if (!$files) {
-            return $this->response->error("No files found!", 400);
+            return response()->json(['message' => "No files found!"], 200);
         }
 
         //Array to Collection
@@ -122,7 +122,7 @@ class ManagerController extends BaseController
     public function performCopy(Request $request, $account_id)
     {
         if (!$request->has('file')) {
-            return $this->response->error("No file was specified!", 400);
+            return response()->json(['message' => "No file was specified!"], 400);
         }
 
         //Current User
@@ -141,7 +141,7 @@ class ManagerController extends BaseController
 
         //Files not copied
         if (!$fileCopy) {
-            return $this->response->error("Cannot copy file!", 400);
+            return response()->json(['message' => "Cannot copy file!"], 400);
         }
 
         //Return Response
@@ -157,7 +157,7 @@ class ManagerController extends BaseController
     public function performMove(Request $request, $account_id)
     {
         if (!$request->has('file') || !$request->has('location')) {
-            return $this->response->error("File or location was not specified!", 400);
+            return response()->json(['message' => "File or location was not specified!"], 400);
         }
 
         //Current User
@@ -175,7 +175,7 @@ class ManagerController extends BaseController
 
         //Files not moved
         if (!$fileMove) {
-            return $this->response->error("Cannot move file!", 400);
+            return response()->json(['message' => "Cannot move file!"], 400);
         }
 
         //Return Response
@@ -191,7 +191,7 @@ class ManagerController extends BaseController
     public function performRename(Request $request, $account_id)
     {
         if (!$request->has('file') || !$request->has('title')) {
-            return $this->response->error("File or title was not specified!", 400);
+            return response()->json(['message' => "File or title was not specified!"], 400);
         }
 
         //Current User
@@ -209,7 +209,7 @@ class ManagerController extends BaseController
 
         //Files not renamed
         if (!$fileRename) {
-            return $this->response->error("Cannot rename file!", 400);
+            return response()->json(['message' => "Cannot rename file!"], 400);
         }
 
         //Return Response
@@ -225,7 +225,7 @@ class ManagerController extends BaseController
     public function performDelete(Request $request, $account_id)
     {
         if (!$request->has('file')) {
-            return $this->response->error("No file was specified!", 400);
+            return response()->json(['message' => "No file was specified!"], 400);
         }
 
         //Current User
@@ -244,7 +244,7 @@ class ManagerController extends BaseController
 
         //Files not deleted
         if (!$fileDelete) {
-            return $this->response->error("Cannot delete file!", 400);
+            return response()->json(['message' => "Cannot delete file!"], 400);
         }
 
         //Return Response
@@ -260,7 +260,7 @@ class ManagerController extends BaseController
     public function createFolder(Request $request, $account_id)
     {
         if (!$request->has('title')) {
-            return $this->response->error("No title was specified!", 400);
+            return response()->json(['message' => "No title was specified!"], 400);
         }
 
         //Current User
@@ -278,7 +278,7 @@ class ManagerController extends BaseController
 
         //Folder not created
         if (!$folder) {
-            return $this->response->error("Cannot create folder!", 400);
+            return response()->json(['message' => "Cannot create folder!"], 400);
         }
 
         //Return Response
@@ -294,7 +294,7 @@ class ManagerController extends BaseController
     public function getDownloadLink(Request $request, $account_id)
     {
         if (!$request->has('file')) {
-            return $this->response->error("No file was specified!", 400);
+            return response()->json(['message' => "No file was specified!"], 400);
         }
 
         //Current User
@@ -310,7 +310,7 @@ class ManagerController extends BaseController
 
         //Download link unavailable
         if (!$downloadLink) {
-            return $this->response->error("Download link unavailable!", 400);
+            return response()->json(['message' => "Download link unavailable!"], 400);
         }
 
         //Return Response
@@ -326,7 +326,7 @@ class ManagerController extends BaseController
     public function getShareLink(Request $request, $account_id)
     {
         if (!$request->has('file')) {
-            return $this->response->error("No file was specified!", 400);
+            return response()->json(['message' => "No file was specified!"], 400);
         }
 
         //Current User
@@ -342,7 +342,7 @@ class ManagerController extends BaseController
 
         //Share link unavailable
         if (!$shareLink) {
-            return $this->response->error("Sharing link unavailable!", 400);
+            return response()->json(['message' => "Sharing link unavailable!"], 400);
         }
 
         //Return Response
@@ -358,7 +358,7 @@ class ManagerController extends BaseController
     public function uploadFile(Request $request, $account_id)
     {
         if (!$request->hasFile('file')) {
-            return $this->response->error("No file was specified!", 400);
+            return response()->json(['message' => "No file was specified!"], 400);
         }
 
         //File
@@ -366,7 +366,7 @@ class ManagerController extends BaseController
 
         //Invalid File
         if (!$file->isValid()) {
-            return $this->response->error("Please upload a valid file!", 400);
+            return response()->json(['message' => "Please upload a valid file!"], 400);
         }
 
         //Current User
@@ -396,7 +396,7 @@ class ManagerController extends BaseController
 
         //Files not uploaded
         if (!$uploadedFile) {
-            return $this->response->error("File not uploaded!", 400);
+            return response()->json(['message' => "File not uploaded!"], 400);
         }
 
         //Return Response
@@ -412,7 +412,7 @@ class ManagerController extends BaseController
     public function transferFile(Request $request, $account_id)
     {
         if (!$request->has('file') || !$request->has('account')) {
-            return $this->response->error("File or account was not specified!", 400);
+            return response()->json(['message' => "File or account was not specified!"], 400);
         }
 
         //File
@@ -439,7 +439,7 @@ class ManagerController extends BaseController
 
         //Files not transfered
         if (!$transferedFile) {
-            return $this->response->error("File not transfered!", 400);
+            return response()->json(['message' => "File not transfered!"], 400);
         }
 
         //Return Response
