@@ -37491,7 +37491,7 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"../../stores/account.js":84,"vue":52,"vue-hot-reload-api":26,"vueify-insert-css":53}],60:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\n.login-container {\n    margin-top: 10%;\n    max-width: 300px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
+var __vueify_style__ = require("vueify-insert-css").insert("\nbody, html{\n    height: 100%;\n    padding-bottom: 0 !important;\n}\n.login-page {\n    height: 100%;\n    background: #282c37;\n    padding-top: 13%;\n}\n\n.login-container {\n    max-width: 300px;\n    background: #fff;\n    border-radius: 4px;\n    padding: 15px;\n    text-align: center;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n    margin-top: 20px;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37511,7 +37511,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
     data: function data() {
         return {
-            appLogo: _config2.default.url + _config2.default.logo,
+            appLogo: _config2.default.url + _config2.default.logo_dark,
             appUrl: _config2.default.url,
             email: '',
             password: '',
@@ -37546,14 +37546,14 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container login-container\">\n    <a v-link=\"appUrl\" class=\"logo\">\n        <img :src=\"appLogo\" alt=\"logo\">\n    </a>\n    <form @submit.prevent=\"login\" :class=\"{ 'has-danger': failed }\">\n        <h2 class=\"page-header\">Log in</h2>\n        <div class=\"form-group\">\n            <input class=\"form-control form-control-danger\" v-model=\"email\" type=\"email\" placeholder=\"Email Address\" autofocus=\"\" required=\"\">\n        </div>\n        <div class=\"form-group\">\n            <input class=\"form-control form-control-danger\" v-model=\"password\" type=\"password\" placeholder=\"Password\" required=\"\">\n        </div>\n        <button type=\"submit\" class=\"btn btn-primary btn-block\">Log In</button>\n        <div class=\"login-text-help\" v-show=\"failed\">Invalid Email or Password</div>\n    </form>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"login-page\">\n    <div class=\"container login-container\">\n        <a v-link=\"appUrl\" class=\"logo\">\n            <img :src=\"appLogo\" alt=\"logo\">\n        </a>\n        <form @submit.prevent=\"login\" :class=\"{ 'has-danger': failed }\">\n            <h2 class=\"page-header\">Log in</h2>\n            <div class=\"form-group\">\n                <input class=\"form-control form-control-danger\" v-model=\"email\" type=\"email\" placeholder=\"Email Address\" autofocus=\"\" required=\"\">\n            </div>\n            <div class=\"form-group\">\n                <input class=\"form-control form-control-danger\" v-model=\"password\" type=\"password\" placeholder=\"Password\" required=\"\">\n            </div>\n            <button type=\"submit\" class=\"btn btn-primary btn-block\">Log In</button>\n            <div class=\"login-text-help\" v-show=\"failed\">Invalid Email or Password</div>\n        </form>\n        <a href=\"#\">Forgot Password?</a>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\auth\\login-form.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\n.login-container {\n    margin-top: 10%;\n    max-width: 300px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n"] = false
+    require("vueify-insert-css").cache["\nbody, html{\n    height: 100%;\n    padding-bottom: 0 !important;\n}\n.login-page {\n    height: 100%;\n    background: #282c37;\n    padding-top: 13%;\n}\n\n.login-container {\n    max-width: 300px;\n    background: #fff;\n    border-radius: 4px;\n    padding: 15px;\n    text-align: center;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n    margin-top: 20px;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -37927,7 +37927,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-lg-2 col-md-4 col-sm-6 col-xs-12\">\n    <div @click.stop=\"selectFile(account_id, file)\" @dblclick.stop=\"browseFolder(account_id, file)\" data-toggle-tooltip=\"explorer\" :title=\"file.title\" class=\"card explorer-item\" :class=\" { 'selected': file === selectedFile } \">\n\n        <div class=\"explorer-item-thumbnail card-img-top\" :style=\"{ backgroundImage: file.thumbnailUrl ? 'url(' + file.thumbnailUrl + ')' : '' }\">\n            <i class=\"fa explorer-item-icon\" :class=\"file.icon\" :style=\"{ opacity: file.thumbnailUrl ? 0 : 1 }\"></i>\n        </div>\n\n        <div class=\"card-block explorer-item-body\">\n            <div class=\"card-title explorer-item-title\">\n                {{file.title}}\n            </div>\n        </div>\n\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12\">\n    <div @click.stop=\"selectFile(account_id, file)\" @dblclick.stop=\"browseFolder(account_id, file)\" data-toggle-tooltip=\"explorer\" :title=\"file.title\" class=\"card explorer-item\" :class=\" { 'selected': file === selectedFile } \">\n\n        <div class=\"explorer-item-thumbnail card-img-top\" :style=\"{ backgroundImage: file.thumbnailUrl ? 'url(' + file.thumbnailUrl + ')' : '' }\">\n            <i class=\"fa explorer-item-icon\" :class=\"file.icon\" :style=\"{ opacity: file.thumbnailUrl ? 0 : 1 }\"></i>\n        </div>\n\n        <div class=\"card-block explorer-item-body\">\n            <div class=\"card-title explorer-item-title\">\n                {{file.title}}\n            </div>\n        </div>\n\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -38984,7 +38984,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-show=\"fileToBeCopied || fileToBeMoved\">\n        <div class=\"sidebar-header animated slideInRight\">\n            Clipboard\n            <a @click.stop=\"clearClipboard()\">Clear</a>\n        </div>\n        <div v-show=\"fileToBeCopied\">\n            <div class=\"sidebar-body\">\n                <div class=\"sidebar-items\">\n                    <div class=\"sidebar-item\">\n                        <div class=\"sidebar-item-body has-details\">\n                            <div class=\"item-detail\">\n                                <span class=\"item-detail-title\">Title</span>\n                                <span class=\"item-detail-value\">{{ fileToBeCopied.title }}</span>\n                            </div>\n                            <div class=\"item-detail\" v-show=\"!fileToBeCopied.isFolder\">\n                                <span class=\"item-detail-title\">Type</span>\n                                <span class=\"item-detail-value\">{{ fileToBeCopied.mimeType }}</span>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <div v-show=\"fileToBeMoved\">\n            <div class=\"sidebar-body\">\n                <div class=\"sidebar-items\">\n                    <div class=\"sidebar-item\">\n                        <div class=\"sidebar-item-body has-details\">\n                            <div class=\"item-detail\">\n                                <span class=\"item-detail-title\">Title</span>\n                                <span class=\"item-detail-value\">{{ fileToBeMoved.title }}</span>\n                            </div>\n                            <div class=\"item-detail\" v-show=\"!fileToBeMoved.isFolder\">\n                                <span class=\"item-detail-title\">Type</span>\n                                <span class=\"item-detail-value\">{{ fileToBeMoved.mimeType }}</span>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-show=\"fileToBeCopied || fileToBeMoved\">\n    <div class=\"sidebar-header animated slideInRight\">\n        Clipboard\n        <a @click.stop=\"clearClipboard()\">Clear</a>\n    </div>\n    <div v-show=\"fileToBeCopied\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeCopied.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-show=\"fileToBeMoved\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeMoved.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -39316,7 +39316,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
     title: "Pulse",
     url: "/",
-    logo: "images/logo-white.png"
+    logo: "images/logo-white.png",
+    logo_dark: "images/logo-dark.png"
 };
 
 },{}],79:[function(require,module,exports){
