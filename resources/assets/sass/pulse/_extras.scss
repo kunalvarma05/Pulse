@@ -1,5 +1,11 @@
+html {
+  height: 100%;
+}
+
 body {
   overflow: auto;
+  height: 100%;
+  padding-bottom: 0 !important;
 }
 
 a, a:hover{

@@ -37491,7 +37491,6 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"../../stores/account.js":84,"vue":52,"vue-hot-reload-api":26,"vueify-insert-css":53}],60:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\nbody, html{\n    height: 100%;\n    padding-bottom: 0 !important;\n}\n.login-page {\n    height: 100%;\n    background: #282c37;\n    padding-top: 13%;\n}\n\n.login-container {\n    max-width: 300px;\n    background: #fff;\n    border-radius: 4px;\n    padding: 15px;\n    text-align: center;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n    margin-top: 20px;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37511,7 +37510,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
     data: function data() {
         return {
-            appLogo: _config2.default.url + _config2.default.logo_dark,
+            appLogo: _config2.default.url + _config2.default.logo,
             appUrl: _config2.default.url,
             email: '',
             password: '',
@@ -37546,29 +37545,28 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"login-page\">\n    <div class=\"container login-container\">\n        <a v-link=\"appUrl\" class=\"logo\">\n            <img :src=\"appLogo\" alt=\"logo\">\n        </a>\n        <form @submit.prevent=\"login\" :class=\"{ 'has-danger': failed }\">\n            <h2 class=\"page-header\">Log in</h2>\n            <div class=\"form-group\">\n                <input class=\"form-control form-control-danger\" v-model=\"email\" type=\"email\" placeholder=\"Email Address\" autofocus=\"\" required=\"\">\n            </div>\n            <div class=\"form-group\">\n                <input class=\"form-control form-control-danger\" v-model=\"password\" type=\"password\" placeholder=\"Password\" required=\"\">\n            </div>\n            <button type=\"submit\" class=\"btn btn-primary btn-block\">Log In</button>\n            <div class=\"login-text-help\" v-show=\"failed\">Invalid Email or Password</div>\n        </form>\n        <a href=\"#\">Forgot Password?</a>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"auth-page\">\n    <div class=\"container auth-container\">\n        <a v-link=\"appUrl\" class=\"auth-logo\">\n            <img :src=\"appLogo\" alt=\"logo\">\n            <span class=\"title\">Log in</span>\n        </a>\n        <div class=\"auth-form\">\n            <form @submit.prevent=\"login\" :class=\"{ 'has-danger': failed }\">\n                <div class=\"form-group\">\n                    <input class=\"form-control form-control-danger\" v-model=\"email\" type=\"email\" placeholder=\"Email Address\" autofocus=\"\" required=\"\">\n                </div>\n                <div class=\"form-group\">\n                    <input class=\"form-control form-control-danger\" v-model=\"password\" type=\"password\" placeholder=\"Password\" required=\"\">\n                </div>\n                <button type=\"submit\" class=\"btn btn-primary btn-block\">Log In</button>\n                <div class=\"auth-error\" v-show=\"failed\">Invalid Email or Password</div>\n            </form>\n        </div>\n        <div class=\"auth-footer\">\n            <a v-link=\"{name: 'signup'}\"> <i class=\"fa fa-chevron-left\"></i> Sign Up</a>\n            <a class=\"pull-right\" href=\"#\">Forgot Password? <i class=\"fa fa-chevron-right\"></i></a>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\auth\\login-form.vue"
-  module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\nbody, html{\n    height: 100%;\n    padding-bottom: 0 !important;\n}\n.login-page {\n    height: 100%;\n    background: #282c37;\n    padding-top: 13%;\n}\n\n.login-container {\n    max-width: 300px;\n    background: #fff;\n    border-radius: 4px;\n    padding: 15px;\n    text-align: center;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n    margin-top: 20px;\n}\n\n.login-text-help {\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n"] = false
-    document.head.removeChild(__vueify_style__)
-  })
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":78,"../../stores/user.js":88,"vue":52,"vue-hot-reload-api":26,"vueify-insert-css":53}],61:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\n.signup-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
+},{"../../config":78,"../../stores/user.js":88,"vue":52,"vue-hot-reload-api":26}],61:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _config = require('../../config');
+
+var _config2 = _interopRequireDefault(_config);
 
 var _user = require('../../stores/user.js');
 
@@ -37579,6 +37577,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
     data: function data() {
         return {
+            appLogo: _config2.default.url + _config2.default.logo,
+            appUrl: _config2.default.url,
             email: '',
             name: '',
             username: '',
@@ -37641,23 +37641,19 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container signup-container\">\n    <form @submit.prevent=\"signup\" :class=\"{ 'has-danger': errors }\">\n        <h2 class=\"page-header\">Sign Up</h2>\n        <div class=\"form-group\">\n            <label>Name</label>\n            <input class=\"form-control form-control-danger\" v-model=\"name\" type=\"text\" placeholder=\"Name\" autofocus=\"autofocus\" required=\"\">\n            <div class=\"form-error\" v-show=\"nameError\">{{ nameError }}</div>\n        </div>\n        <div class=\"form-group\">\n            <label>Email Address</label>\n            <input class=\"form-control form-control-danger\" v-model=\"email\" type=\"email\" placeholder=\"Email Address\" required=\"\">\n            <div class=\"form-error\" v-show=\"emailError\">{{ emailError }}</div>\n        </div>\n        <div class=\"form-group\">\n            <label>Username</label>\n            <input class=\"form-control form-control-danger\" v-model=\"username\" type=\"text\" placeholder=\"Username\" required=\"\">\n            <div class=\"form-error\" v-show=\"usernameError\">{{ usernameError }}</div>\n        </div>\n        <div class=\"form-group\">\n            <div class=\"row\">\n                <div class=\"col-lg-6\">\n                    <label>Password</label>\n                    <input class=\"form-control form-control-danger\" v-model=\"password\" type=\"password\" placeholder=\"Password\" required=\"\">\n                </div>\n                <div class=\"col-lg-6\">\n                    <label>Confirm Password</label>\n                    <input class=\"form-control form-control-danger\" v-model=\"password_confirmation\" type=\"password\" placeholder=\"Confirm Password\" required=\"\">\n                </div>\n            </div>\n            <div class=\"form-error\" v-show=\"passwordError\">{{ passwordError }}</div>\n        </div>\n        <button type=\"submit\" class=\"btn btn-primary btn-block\">Sign Up</button>\n    </form>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"auth-page is-long\">\n    <div class=\"container auth-container-wide\">\n        <a v-link=\"appUrl\" class=\"auth-logo\">\n            <img :src=\"appLogo\" alt=\"logo\">\n            <span class=\"title\">Sign Up</span>\n        </a>\n        <div class=\"auth-form\">\n            <form @submit.prevent=\"signup\">\n                <div class=\"form-group\" :class=\"{ 'has-danger': nameError }\">\n                    <label>Name</label>\n                    <input class=\"form-control form-control-danger\" v-model=\"name\" type=\"text\" placeholder=\"Name\" autofocus=\"autofocus\" required=\"\">\n                    <div class=\"auth-error\" v-show=\"nameError\">{{ nameError }}</div>\n                </div>\n                <div class=\"form-group\" :class=\"{ 'has-danger': emailError }\">\n                    <label>Email Address</label>\n                    <input class=\"form-control form-control-danger\" v-model=\"email\" type=\"email\" placeholder=\"Email Address\" required=\"\">\n                    <div class=\"auth-error\" v-show=\"emailError\">{{ emailError }}</div>\n                </div>\n                <div class=\"form-group\" :class=\"{ 'has-danger': usernameError }\">\n                    <label>Username</label>\n                    <input class=\"form-control form-control-danger\" v-model=\"username\" type=\"text\" placeholder=\"Username\" required=\"\">\n                    <div class=\"auth-error\" v-show=\"usernameError\">{{ usernameError }}</div>\n                </div>\n                <div class=\"form-group\" :class=\"{ 'has-danger': passwordError }\">\n                    <div class=\"row\">\n                        <div class=\"col-lg-6\">\n                            <label>Password</label>\n                            <input class=\"form-control form-control-danger\" v-model=\"password\" type=\"password\" placeholder=\"Password\" required=\"\">\n                        </div>\n                        <div class=\"col-lg-6\">\n                            <label>Confirm Password</label>\n                            <input class=\"form-control form-control-danger\" v-model=\"password_confirmation\" type=\"password\" placeholder=\"Password\" required=\"\">\n                        </div>\n                    </div>\n                    <div class=\"auth-error\" v-show=\"passwordError\">{{ passwordError }}</div>\n                </div>\n                <button type=\"submit\" class=\"btn btn-primary btn-block\">Sign Up</button>\n            </form>\n        </div>\n        <div class=\"auth-footer\">\n            <a href=\"#\"> <i class=\"fa fa-chevron-left\"></i> Home</a>\n            <a v-link=\"{name: 'login'}\" class=\"pull-right\"> Log in <i class=\"fa fa-chevron-right\"></i></a>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\auth\\signup-form.vue"
-  module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\n.signup-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n"] = false
-    document.head.removeChild(__vueify_style__)
-  })
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":88,"vue":52,"vue-hot-reload-api":26,"vueify-insert-css":53}],62:[function(require,module,exports){
+},{"../../config":78,"../../stores/user.js":88,"vue":52,"vue-hot-reload-api":26}],62:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

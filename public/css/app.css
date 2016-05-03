@@ -7254,6 +7254,60 @@ body.stop-scrolling {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
 
+.auth-page {
+  height: 100%;
+  background: #282c37;
+  padding-top: 10%; }
+  .auth-page.is-long {
+    padding-top: 5%; }
+
+.auth-container, .auth-container-wide {
+  max-width: 300px; }
+
+.auth-container-wide {
+  max-width: 400px; }
+
+.auth-logo {
+  display: block;
+  margin-bottom: 20px; }
+  .auth-logo img {
+    width: 60px;
+    height: auto; }
+  .auth-logo .title {
+    float: right;
+    color: #cfd6e6;
+    margin-top: 10px;
+    display: block;
+    font-weight: lighter;
+    font-size: 2rem; }
+
+.auth-form {
+  background: #fff;
+  border-radius: 4px;
+  padding: 15px; }
+
+.auth-form-header {
+  margin-bottom: 1rem;
+  border-bottom: solid 1px #dedede;
+  padding-bottom: 1rem;
+  text-align: center; }
+
+.auth-footer {
+  margin-top: 10px; }
+  .auth-footer a, .auth-footer .fa {
+    font-size: 0.875rem;
+    color: #a2a9bc; }
+
+.auth-error {
+  font-size: 0.9rem;
+  padding: 5px 10px;
+  border-radius: 3px;
+  display: block;
+  color: #fff;
+  background: #d9534f;
+  margin-top: 10px;
+  text-align: center; }
+
 .navbar-main {
   min-height: 55px;
   left: 60px;
@@ -7732,8 +7786,13 @@ body.stop-scrolling {
     font-size: 0.875rem;
     text-align: center; }
 
+html {
+  height: 100%; }
+
 body {
-  overflow: auto; }
+  overflow: auto;
+  height: 100%;
+  padding-bottom: 0 !important; }
 
 a, a:hover {
   cursor: pointer; }
