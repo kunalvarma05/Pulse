@@ -37214,13 +37214,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 //Debug ON
 _vue2.default.config.debug = true;
-//Use Vue-Resource
-
-//Routes
-require('./config/resource');
 
 //Main App Instance
+
+//Routes
 var app = require('./app.vue');
+
+//Use Vue-Resource
+require('./config/resource');
 
 //Router
 var VueRouter = require('vue-router');
@@ -39485,6 +39486,8 @@ var _nprogress2 = _interopRequireDefault(_nprogress);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var app = require('../app.vue');
+
 var VueResource = require('vue-resource');
 
 _vue2.default.use(VueResource);
@@ -39505,7 +39508,7 @@ _vue2.default.http.interceptors.push({
         _nprogress2.default.done();
 
         if (r.status === 401) {
-            app.logout();
+            app.$broadcast('user:loggedout');
         }
 
         if (r.headers && r.headers.Authorization) {
@@ -39520,7 +39523,7 @@ _vue2.default.http.interceptors.push({
     }
 });
 
-},{"../services/ls":85,"nprogress":14,"vue":52,"vue-resource":40}],82:[function(require,module,exports){
+},{"../app.vue":57,"../services/ls":85,"nprogress":14,"vue":52,"vue-resource":40}],82:[function(require,module,exports){
 "use strict";
 
 jQuery(document).ready(function ($) {

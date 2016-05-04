@@ -2,6 +2,8 @@ import Vue from 'vue';
 import ls from '../services/ls';
 import NProgress from 'nprogress';
 
+const app = require('../app.vue');
+
 var VueResource = require('vue-resource');
 
 Vue.use(VueResource);
@@ -23,7 +25,7 @@ Vue.http.interceptors.push({
         NProgress.done();
 
         if (r.status === 401) {
-            app.logout();
+            app.$broadcast('user:loggedout');
         }
 
         if (r.headers && r.headers.Authorization) {

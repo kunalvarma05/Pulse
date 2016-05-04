@@ -6,11 +6,12 @@ import { configRouter } from './routes.js';
 
 //Debug ON
 Vue.config.debug = true;
-//Use Vue-Resource
-require('./config/resource');
 
 //Main App Instance
 const app = require('./app.vue');
+
+//Use Vue-Resource
+require('./config/resource');
 
 //Router
 var VueRouter = require('vue-router');
