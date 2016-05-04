@@ -14,6 +14,7 @@
         </div>
 
         <nav class="nav nav-inline explorer-header-links" v-show="selectedFile">
+            <a class="nav-link" v-show="!selectedFile.isFolder" @click.stop="transferFile()"><i class="fa fa-exchange"></i> Transfer</a>
             <a class="nav-link" @click.stop="copyFile()"><i class="fa fa-copy"></i> Copy</a>
             <a class="nav-link" @click.stop="moveFile()"><i class="fa fa-arrows"></i> Move</a>
             <a class="nav-link" v-show="!selectedFile.isFolder" @click.stop="downloadFile()"><i class="fa fa-download"></i> Download</a>
@@ -22,6 +23,7 @@
         </nav>
         <nav class="nav nav-inline explorer-header-links">
             <a class="nav-link" v-show="fileToBeCopied || fileToBeMoved" @click.stop="pasteFile()"><i class="fa fa-paste"></i> Paste</a>
+            <a class="nav-link" v-show="canBeTransfered" @click.stop="startFileTransfer()"><i class="fa fa-angle-double-down"></i> Transfer here</a>
         </nav>
 
 
@@ -71,6 +73,22 @@
              */
              fileToBeMoved() {
                 return this.state.fileStore.fileToMove;
+            },
+
+            /**
+             * fileToBeTransfered
+             * @return {Object}
+             */
+             fileToBeTransfered() {
+                return this.state.fileStore.fileToTransfer;
+            },
+
+            /**
+             * Can file be transfered at the current account
+             * @return {boolean}
+             */
+            canBeTransfered() {
+                return (this.fileToBeTransfered) && (this.currentAccount.id !== this.state.fileStore.transferFromAccount.id);
             },
 
             /**
@@ -197,9 +215,9 @@
                         (error) => {
                             this.state.sharedStore.errors.unshift(error);
                         }
-                    );
+                        );
                 });
-            },
+},
 
             /**
              * Download File
@@ -229,9 +247,9 @@
                         (error) => {
                             this.state.sharedStore.errors.unshift(error);
                         }
-                    );
-                }
-            },
+                        );
+}
+},
 
             /**
              * Share File
@@ -247,7 +265,7 @@
                         (error) => {
                             this.state.sharedStore.errors.unshift(error);
                         }
-                    );
+                        );
                 }
             },
 
@@ -256,6 +274,7 @@
              */
              copyFile() {
                 this.state.fileStore.fileToMove = false;
+                this.state.fileStore.fileToTransfer = false;
                 //Set the File to Copy
                 this.state.fileStore.fileToCopy = this.selectedFile;
             },
@@ -265,8 +284,21 @@
              */
              moveFile() {
                 this.state.fileStore.fileToCopy = false;
+                this.state.fileStore.fileToTransfer = false;
                 //Set the File to Move
                 this.state.fileStore.fileToMove = this.selectedFile;
+            },
+
+            /**
+             * Transfer File
+             */
+             transferFile() {
+                this.state.fileStore.fileToMove = false;
+                this.state.fileStore.fileToCopy = false;
+                //Set the File to Transfer
+                this.state.fileStore.fileToTransfer = this.selectedFile;
+                //Set the account to Transfer From
+                this.state.fileStore.transferFromAccount = this.currentAccount;
             },
 
             pasteFile() {
@@ -329,7 +361,33 @@
                     }, (error) => {
                         this.state.sharedStore.errors.unshift(error);
                     }
-                );
+                    );
+            },
+
+            /**
+             * Start File Transfer
+             */
+             startFileTransfer() {
+                //Reset the file to be moved and copied
+                this.state.fileStore.fileToMove = false;
+                this.state.fileStore.fileToCopy = false;
+
+                //Get the File to Be Transfered
+                const file = this.fileToBeTransfered;
+                let location = this.currentLocation;
+
+                //If a folder is selected
+                if(this.selectedFile && this.selectedFile.isFolder) {
+                    //Set the location as the folder
+                    //To transfer the file inside the folder
+                    location = this.selectedFile.id;
+                }
+
+                //Transfer the File
+                return fileStore.transfer(this.currentAccount.id, file.id, location, false,
+                    (error) => {
+                        this.state.sharedStore.errors.unshift(error);
+                    });
             },
 
         }

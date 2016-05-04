@@ -1,5 +1,5 @@
 <template>
-    <div v-show="fileToBeCopied || fileToBeMoved">
+    <div v-show="fileToBeCopied || fileToBeMoved || fileToBeTransfered">
         <div class="sidebar-header animated slideInRight">
             Clipboard
             <a @click.stop="clearClipboard()">Clear</a>
@@ -41,6 +41,26 @@
                 </div>
             </div>
         </div>
+
+        <div v-show='fileToBeTransfered'>
+            <div class="sidebar-body">
+                <div class="sidebar-items">
+                    <div class="sidebar-item">
+                        <div class="sidebar-item-body has-details">
+                            <div class="item-detail">
+                                <span class="item-detail-title">Title</span>
+                                <span class="item-detail-value">{{ fileToBeTransfered.title }}</span>
+                            </div>
+                            <div class="item-detail" v-show='!fileToBeTransfered.isFolder'>
+                                <span class="item-detail-title">Type</span>
+                                <span class="item-detail-value">{{ fileToBeTransfered.mimeType }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -86,12 +106,21 @@
                 return this.state.fileStore.fileToMove;
             },
 
+            /**
+             * fileToBeTransfered
+             * @return {Object}
+             */
+             fileToBeTransfered() {
+                return this.state.fileStore.fileToTransfer;
+            },
+
         },
 
         methods: {
             clearClipboard() {
                 this.state.fileStore.fileToMove = false;
                 this.state.fileStore.fileToCopy = false;
+                this.state.fileStore.fileToTransfer = false;
             }
         }
 

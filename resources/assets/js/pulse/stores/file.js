@@ -11,6 +11,8 @@ export default {
         selected: false,
         files: [],
         fileToCopy: false,
+        fileToTransfer: false,
+        transferFromAccount: false,
         fileToMove: false,
         currentLocation: null,
         queue: [],
@@ -76,6 +78,28 @@ export default {
     },
 
     /**
+     * The transferFromAccount account.
+     *
+     * @return {Object}
+     */
+     get transferFromAccount() {
+        return this.state.transferFromAccount;
+    },
+
+    /**
+     * Set the transferFromAccount account.
+     *
+     * @param  {Object} account
+     *
+     * @return {Object}
+     */
+     set transferFromAccount(account) {
+        this.state.transferFromAccount = account;
+
+        return this.transferFromAccount;
+    },
+
+    /**
      * The Current Location.
      *
      * @return {Object}
@@ -117,6 +141,28 @@ export default {
         this.state.fileToCopy = file;
 
         return this.fileToCopy;
+    },
+
+    /**
+     * The fileToTransfer file.
+     *
+     * @return {Object}
+     */
+     get fileToTransfer() {
+        return this.state.fileToTransfer;
+    },
+
+    /**
+     * Set the fileToTransfer file.
+     *
+     * @param  {Object} file
+     *
+     * @return {Object}
+     */
+     set fileToTransfer(file) {
+        this.state.fileToTransfer = file;
+
+        return this.fileToTransfer;
     },
 
     /**
@@ -488,6 +534,53 @@ export default {
 
             if (successCb) {
                 successCb(folder);
+            }
+        }, response => {
+            const error = response.data.message;
+
+            if(errorCb) {
+                errorCb(error);
+            }
+        });
+    },
+
+    /**
+     * Transfer File
+     */
+     transfer(account, file, location = null, successCb = null, errorCb = null) {
+        NProgress.start();
+        let from_account = this.transferFromAccount.id;
+        let url = "accounts/" + from_account + "/manager/transfer";
+        let data = { file, account };
+
+        if(location !== null) {
+            data.location = location;
+        }
+
+        return http.post(url, data, response => {
+            const data = response.data;
+            const file = data.data;
+
+            //Reset fileToTransfer
+            this.fileToTransfer = false;
+
+            //If the currentLocation is where the file was transfered
+            if(this.currentLocation === location)
+            {
+                //If File List if empty, initialize it
+                if(!this.files) {
+                    this.files = [];
+                }
+
+                //Add File to the List
+                this.files.unshift(file);
+
+                //Select the File
+                this.selected = file;
+            }
+
+            if (successCb) {
+                successCb(file);
             }
         }, response => {
             const error = response.data.message;

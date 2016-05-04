@@ -37193,7 +37193,7 @@ require('./pulse/pulse.js');
 require('./pulse/app.js');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bootstrap.js":54,"./pulse/app.js":56,"./pulse/pulse.js":83,"dropzone":8,"jquery":9,"sweetalert":24,"tether":25}],56:[function(require,module,exports){
+},{"./bootstrap.js":54,"./pulse/app.js":56,"./pulse/pulse.js":82,"dropzone":8,"jquery":9,"sweetalert":24,"tether":25}],56:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -37239,7 +37239,7 @@ var router = new VueRouter({
 //Kickoff!
 router.start(app, 'body');
 
-},{"./app.vue":57,"./config/resource":82,"./routes.js":84,"./services/ls":86,"nprogress":14,"vue":52,"vue-router":51}],57:[function(require,module,exports){
+},{"./app.vue":57,"./config/resource":81,"./routes.js":83,"./services/ls":85,"nprogress":14,"vue":52,"vue-router":51}],57:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37330,7 +37330,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./components/errors/index.vue":65,"./services/ls":86,"./stores/shared.js":90,"./stores/user.js":91,"vue":52,"vue-hot-reload-api":26}],58:[function(require,module,exports){
+},{"./components/errors/index.vue":65,"./services/ls":85,"./stores/shared.js":89,"./stores/user.js":90,"vue":52,"vue-hot-reload-api":26}],58:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.connect-account {\n  padding-top: 20px;\n}\n")
 'use strict';
 
@@ -37405,7 +37405,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":81,"../../stores/provider":89,"../../stores/user":91,"vue":52,"vue-hot-reload-api":26,"vueify-insert-css":53}],59:[function(require,module,exports){
+},{"../../config":80,"../../stores/provider":88,"../../stores/user":90,"vue":52,"vue-hot-reload-api":26,"vueify-insert-css":53}],59:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.create-account-container {\n    margin-top: 10%;\n    max-width: 400px;\n}\n\n.page-header {\n    margin-bottom: 1rem;\n    border-bottom: solid 1px #dedede;\n    padding-bottom: 1rem;\n}\n\n.form-error {\n    font-size: 0.9rem;\n    padding: 5px 10px;\n    border-radius: 3px;\n    display: block;\n    color: #fff;\n    background: #d9534f;\n    margin-top: 10px;\n    text-align: center;\n}\n\n")
 'use strict';
 
@@ -37491,7 +37491,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account.js":87,"vue":52,"vue-hot-reload-api":26,"vueify-insert-css":53}],60:[function(require,module,exports){
+},{"../../stores/account.js":86,"vue":52,"vue-hot-reload-api":26,"vueify-insert-css":53}],60:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37564,7 +37564,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":81,"../../stores/user.js":91,"vue":52,"vue-hot-reload-api":26}],61:[function(require,module,exports){
+},{"../../config":80,"../../stores/user.js":90,"vue":52,"vue-hot-reload-api":26}],61:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37631,7 +37631,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":81,"../../stores/user.js":91,"vue":52,"vue-hot-reload-api":26}],62:[function(require,module,exports){
+},{"../../config":80,"../../stores/user.js":90,"vue":52,"vue-hot-reload-api":26}],62:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37710,7 +37710,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":81,"../../stores/user.js":91,"vue":52,"vue-hot-reload-api":26}],63:[function(require,module,exports){
+},{"../../config":80,"../../stores/user.js":90,"vue":52,"vue-hot-reload-api":26}],63:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37806,7 +37806,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":81,"../../stores/user.js":91,"vue":52,"vue-hot-reload-api":26}],64:[function(require,module,exports){
+},{"../../config":80,"../../stores/user.js":90,"vue":52,"vue-hot-reload-api":26}],64:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37911,7 +37911,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/shared.js":90,"../../stores/user.js":91,"../navbar/index.vue":72,"../sidemenu/index.vue":80,"vue":52,"vue-hot-reload-api":26}],65:[function(require,module,exports){
+},{"../../stores/shared.js":89,"../../stores/user.js":90,"../navbar/index.vue":72,"../sidemenu/index.vue":79,"vue":52,"vue-hot-reload-api":26}],65:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37963,7 +37963,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/shared.js":90,"vue":52,"vue-hot-reload-api":26}],66:[function(require,module,exports){
+},{"../../stores/shared.js":89,"vue":52,"vue-hot-reload-api":26}],66:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38088,7 +38088,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":88,"vue":52,"vue-hot-reload-api":26}],67:[function(require,module,exports){
+},{"../../stores/file":87,"vue":52,"vue-hot-reload-api":26}],67:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38147,6 +38147,24 @@ exports.default = {
          */
         fileToBeMoved: function fileToBeMoved() {
             return this.state.fileStore.fileToMove;
+        },
+
+
+        /**
+         * fileToBeTransfered
+         * @return {Object}
+         */
+        fileToBeTransfered: function fileToBeTransfered() {
+            return this.state.fileStore.fileToTransfer;
+        },
+
+
+        /**
+         * Can file be transfered at the current account
+         * @return {boolean}
+         */
+        canBeTransfered: function canBeTransfered() {
+            return this.fileToBeTransfered && this.currentAccount.id !== this.state.fileStore.transferFromAccount.id;
         },
 
 
@@ -38337,6 +38355,7 @@ exports.default = {
          */
         copyFile: function copyFile() {
             this.state.fileStore.fileToMove = false;
+            this.state.fileStore.fileToTransfer = false;
             //Set the File to Copy
             this.state.fileStore.fileToCopy = this.selectedFile;
         },
@@ -38347,8 +38366,22 @@ exports.default = {
          */
         moveFile: function moveFile() {
             this.state.fileStore.fileToCopy = false;
+            this.state.fileStore.fileToTransfer = false;
             //Set the File to Move
             this.state.fileStore.fileToMove = this.selectedFile;
+        },
+
+
+        /**
+         * Transfer File
+         */
+        transferFile: function transferFile() {
+            this.state.fileStore.fileToMove = false;
+            this.state.fileStore.fileToCopy = false;
+            //Set the File to Transfer
+            this.state.fileStore.fileToTransfer = this.selectedFile;
+            //Set the account to Transfer From
+            this.state.fileStore.transferFromAccount = this.currentAccount;
         },
         pasteFile: function pasteFile() {
             if (this.fileToBeMoved) {
@@ -38414,11 +38447,39 @@ exports.default = {
             }, function (error) {
                 _this7.state.sharedStore.errors.unshift(error);
             });
+        },
+
+
+        /**
+         * Start File Transfer
+         */
+        startFileTransfer: function startFileTransfer() {
+            var _this8 = this;
+
+            //Reset the file to be moved and copied
+            this.state.fileStore.fileToMove = false;
+            this.state.fileStore.fileToCopy = false;
+
+            //Get the File to Be Transfered
+            var file = this.fileToBeTransfered;
+            var location = this.currentLocation;
+
+            //If a folder is selected
+            if (this.selectedFile && this.selectedFile.isFolder) {
+                //Set the location as the folder
+                //To transfer the file inside the folder
+                location = this.selectedFile.id;
+            }
+
+            //Transfer the File
+            return _file2.default.transfer(this.currentAccount.id, file.id, location, false, function (error) {
+                _this8.state.sharedStore.errors.unshift(error);
+            });
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n        <a @click=\"browseRoot()\" class=\"explorer-header-icon\">\n            <i class=\"fa fa-home\"></i>\n        </a>\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\" @click.stop=\"copyFile()\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\" @click.stop=\"moveFile()\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"downloadFile()\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"shareFile()\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\" @click.stop=\"deleteFile()\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n    <nav class=\"nav nav-inline explorer-header-links\">\n        <a class=\"nav-link\" v-show=\"fileToBeCopied || fileToBeMoved\" @click.stop=\"pasteFile()\"><i class=\"fa fa-paste\"></i> Paste</a>\n    </nav>\n\n\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n        <a @click=\"browseRoot()\" class=\"explorer-header-icon\">\n            <i class=\"fa fa-home\"></i>\n        </a>\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"transferFile()\"><i class=\"fa fa-exchange\"></i> Transfer</a>\n        <a class=\"nav-link\" @click.stop=\"copyFile()\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\" @click.stop=\"moveFile()\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"downloadFile()\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"shareFile()\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\" @click.stop=\"deleteFile()\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n    <nav class=\"nav nav-inline explorer-header-links\">\n        <a class=\"nav-link\" v-show=\"fileToBeCopied || fileToBeMoved\" @click.stop=\"pasteFile()\"><i class=\"fa fa-paste\"></i> Paste</a>\n        <a class=\"nav-link\" v-show=\"canBeTransfered\" @click.stop=\"startFileTransfer()\"><i class=\"fa fa-angle-double-down\"></i> Transfer here</a>\n    </nav>\n\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -38430,7 +38491,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":88,"../../stores/shared":90,"vue":52,"vue-hot-reload-api":26}],68:[function(require,module,exports){
+},{"../../stores/file":87,"../../stores/shared":89,"vue":52,"vue-hot-reload-api":26}],68:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38643,7 +38704,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":87,"../../stores/file":88,"../modals/sharefile.vue":70,"../modals/uploadfile.vue":71,"../sidebar/index.vue":78,"./file.vue":66,"./header.vue":67,"vue":52,"vue-hot-reload-api":26}],69:[function(require,module,exports){
+},{"../../stores/account":86,"../../stores/file":87,"../modals/sharefile.vue":70,"../modals/uploadfile.vue":71,"../sidebar/index.vue":77,"./file.vue":66,"./header.vue":67,"vue":52,"vue-hot-reload-api":26}],69:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38698,7 +38759,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":88,"vue":52,"vue-hot-reload-api":26}],70:[function(require,module,exports){
+},{"../../stores/file":87,"vue":52,"vue-hot-reload-api":26}],70:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -38943,7 +39004,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../services/ls":86,"../../stores/file":88,"./file-upload-queue.vue":69,"vue":52,"vue-hot-reload-api":26}],72:[function(require,module,exports){
+},{"../../services/ls":85,"../../stores/file":87,"./file-upload-queue.vue":69,"vue":52,"vue-hot-reload-api":26}],72:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39005,7 +39066,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/user.js":91,"./search.vue":73,"./user-profile.vue":74,"vue":52,"vue-hot-reload-api":26}],73:[function(require,module,exports){
+},{"../../stores/user.js":90,"./search.vue":73,"./user-profile.vue":74,"vue":52,"vue-hot-reload-api":26}],73:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39131,6 +39192,15 @@ exports.default = {
          */
         fileToBeMoved: function fileToBeMoved() {
             return this.state.fileStore.fileToMove;
+        },
+
+
+        /**
+         * fileToBeTransfered
+         * @return {Object}
+         */
+        fileToBeTransfered: function fileToBeTransfered() {
+            return this.state.fileStore.fileToTransfer;
         }
     },
 
@@ -39138,12 +39208,13 @@ exports.default = {
         clearClipboard: function clearClipboard() {
             this.state.fileStore.fileToMove = false;
             this.state.fileStore.fileToCopy = false;
+            this.state.fileStore.fileToTransfer = false;
         }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-show=\"fileToBeCopied || fileToBeMoved\">\n    <div class=\"sidebar-header animated slideInRight\">\n        Clipboard\n        <a @click.stop=\"clearClipboard()\">Clear</a>\n    </div>\n    <div v-show=\"fileToBeCopied\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeCopied.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-show=\"fileToBeMoved\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeMoved.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-show=\"fileToBeCopied || fileToBeMoved || fileToBeTransfered\">\n    <div class=\"sidebar-header animated slideInRight\">\n        Clipboard\n        <a @click.stop=\"clearClipboard()\">Clear</a>\n    </div>\n    <div v-show=\"fileToBeCopied\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeCopied.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-show=\"fileToBeMoved\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeMoved.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-show=\"fileToBeTransfered\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeTransfered.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeTransfered.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeTransfered.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -39155,33 +39226,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":88,"vue":52,"vue-hot-reload-api":26}],76:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    data: function data() {
-        return {
-            'showForm': false
-        };
-    }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"sidebar-header animated slideInRight\">\n    New Transfers\n</div>\n\n<div v-show=\"form\" class=\"form\">\n</div>\n\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "x:\\www\\pulse\\resources\\assets\\js\\pulse\\components\\sidebar\\create-transfer.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":52,"vue-hot-reload-api":26}],77:[function(require,module,exports){
+},{"../../stores/file":87,"vue":52,"vue-hot-reload-api":26}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39284,16 +39329,12 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/file":88,"vue":52,"vue-hot-reload-api":26}],78:[function(require,module,exports){
+},{"../../stores/file":87,"vue":52,"vue-hot-reload-api":26}],77:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _file = require('../../stores/file');
-
-var _file2 = _interopRequireDefault(_file);
 
 var _account = require('../../stores/account');
 
@@ -39311,22 +39352,17 @@ var _clipboard = require('./clipboard.vue');
 
 var _clipboard2 = _interopRequireDefault(_clipboard);
 
-var _createTransfer = require('./create-transfer.vue');
-
-var _createTransfer2 = _interopRequireDefault(_createTransfer);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
 
     props: ['file', 'account'],
 
-    components: { fileInfo: _fileinfo2.default, quota: _quota2.default, clipboard: _clipboard2.default, createTransfer: _createTransfer2.default },
+    components: { fileInfo: _fileinfo2.default, quota: _quota2.default, clipboard: _clipboard2.default },
 
     data: function data() {
         return {
             state: {
-                fileStore: _file2.default.state,
                 accountStore: _account2.default.state
             }
         };
@@ -39347,7 +39383,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"sidebar\" @click.stop=\"\">\n    <div v-show=\"file\">\n        <file-info :file.sync=\"file\" :account.sync=\"currentAccount\"></file-info>\n    </div>\n    <div v-show=\"!file\">\n        <quota :account.sync=\"currentAccount\"></quota>\n    </div>\n\n    <clipboard></clipboard>\n    <div v-show=\"file\">\n        <create-transfer :account.sync=\"currentAccount\"></create-transfer>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"sidebar\" @click.stop=\"\">\n    <div v-show=\"file\">\n        <file-info :file.sync=\"file\" :account.sync=\"currentAccount\"></file-info>\n    </div>\n    <div v-show=\"!file\">\n        <quota :account.sync=\"currentAccount\"></quota>\n    </div>\n\n    <clipboard></clipboard>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -39359,7 +39395,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":87,"../../stores/file":88,"./clipboard.vue":75,"./create-transfer.vue":76,"./fileinfo.vue":77,"./quota.vue":79,"vue":52,"vue-hot-reload-api":26}],79:[function(require,module,exports){
+},{"../../stores/account":86,"./clipboard.vue":75,"./fileinfo.vue":76,"./quota.vue":78,"vue":52,"vue-hot-reload-api":26}],78:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39436,7 +39472,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":87,"vue":52,"vue-hot-reload-api":26}],80:[function(require,module,exports){
+},{"../../stores/account":86,"vue":52,"vue-hot-reload-api":26}],79:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39501,7 +39537,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../config":81,"../../stores/account":87,"../../stores/file":88,"../../stores/user":91,"vue":52,"vue-hot-reload-api":26}],81:[function(require,module,exports){
+},{"../../config":80,"../../stores/account":86,"../../stores/file":87,"../../stores/user":90,"vue":52,"vue-hot-reload-api":26}],80:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39514,7 +39550,7 @@ exports.default = {
     logo_dark: "images/logo-dark.png"
 };
 
-},{}],82:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -39568,7 +39604,7 @@ _vue2.default.http.interceptors.push({
     }
 });
 
-},{"../app.vue":57,"../services/ls":86,"nprogress":14,"vue":52,"vue-resource":40}],83:[function(require,module,exports){
+},{"../app.vue":57,"../services/ls":85,"nprogress":14,"vue":52,"vue-resource":40}],82:[function(require,module,exports){
 "use strict";
 
 jQuery(document).ready(function ($) {
@@ -39585,7 +39621,7 @@ jQuery(document).ready(function ($) {
     });
 });
 
-},{}],84:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39662,7 +39698,7 @@ function configRouter(router) {
     });
 }
 
-},{"./components/account/connect.vue":58,"./components/account/create.vue":59,"./components/auth/forgot-password-form.vue":60,"./components/auth/login-form.vue":61,"./components/auth/reset-password-form.vue":62,"./components/auth/signup-form.vue":63,"./components/dashboard/index.vue":64,"./components/explorer/index.vue":68}],85:[function(require,module,exports){
+},{"./components/account/connect.vue":58,"./components/account/create.vue":59,"./components/auth/forgot-password-form.vue":60,"./components/auth/login-form.vue":61,"./components/auth/reset-password-form.vue":62,"./components/auth/signup-form.vue":63,"./components/dashboard/index.vue":64,"./components/explorer/index.vue":68}],84:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39727,7 +39763,7 @@ exports.default = {
     }
 };
 
-},{"vue":52}],86:[function(require,module,exports){
+},{"vue":52}],85:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39756,7 +39792,7 @@ exports.default = {
     }
 };
 
-},{"local-storage":10}],87:[function(require,module,exports){
+},{"local-storage":10}],86:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39930,7 +39966,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":85,"../stubs/account":92,"lodash":13,"nprogress":14,"vue":52}],88:[function(require,module,exports){
+},{"../services/http":84,"../stubs/account":91,"lodash":13,"nprogress":14,"vue":52}],87:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39963,6 +39999,8 @@ exports.default = {
         selected: false,
         files: [],
         fileToCopy: false,
+        fileToTransfer: false,
+        transferFromAccount: false,
         fileToMove: false,
         currentLocation: null,
         queue: [],
@@ -40029,6 +40067,28 @@ exports.default = {
     },
 
     /**
+     * The transferFromAccount account.
+     *
+     * @return {Object}
+     */
+    get transferFromAccount() {
+        return this.state.transferFromAccount;
+    },
+
+    /**
+     * Set the transferFromAccount account.
+     *
+     * @param  {Object} account
+     *
+     * @return {Object}
+     */
+    set transferFromAccount(account) {
+        this.state.transferFromAccount = account;
+
+        return this.transferFromAccount;
+    },
+
+    /**
      * The Current Location.
      *
      * @return {Object}
@@ -40070,6 +40130,28 @@ exports.default = {
         this.state.fileToCopy = file;
 
         return this.fileToCopy;
+    },
+
+    /**
+     * The fileToTransfer file.
+     *
+     * @return {Object}
+     */
+    get fileToTransfer() {
+        return this.state.fileToTransfer;
+    },
+
+    /**
+     * Set the fileToTransfer file.
+     *
+     * @param  {Object} file
+     *
+     * @return {Object}
+     */
+    set fileToTransfer(file) {
+        this.state.fileToTransfer = file;
+
+        return this.fileToTransfer;
     },
 
     /**
@@ -40482,10 +40564,64 @@ exports.default = {
                 errorCb(error);
             }
         });
+    },
+
+
+    /**
+     * Transfer File
+     */
+    transfer: function transfer(account, file) {
+        var location = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+        var _this6 = this;
+
+        var successCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+        var errorCb = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+
+        _nprogress2.default.start();
+        var from_account = this.transferFromAccount.id;
+        var url = "accounts/" + from_account + "/manager/transfer";
+        var data = { file: file, account: account };
+
+        if (location !== null) {
+            data.location = location;
+        }
+
+        return _http2.default.post(url, data, function (response) {
+            var data = response.data;
+            var file = data.data;
+
+            //Reset fileToTransfer
+            _this6.fileToTransfer = false;
+
+            //If the currentLocation is where the file was transfered
+            if (_this6.currentLocation === location) {
+                //If File List if empty, initialize it
+                if (!_this6.files) {
+                    _this6.files = [];
+                }
+
+                //Add File to the List
+                _this6.files.unshift(file);
+
+                //Select the File
+                _this6.selected = file;
+            }
+
+            if (successCb) {
+                successCb(file);
+            }
+        }, function (response) {
+            var error = response.data.message;
+
+            if (errorCb) {
+                errorCb(error);
+            }
+        });
     }
 };
 
-},{"../services/http":85,"../stubs/file":93,"lodash":13,"nprogress":14,"vue":52}],89:[function(require,module,exports){
+},{"../services/http":84,"../stubs/file":92,"lodash":13,"nprogress":14,"vue":52}],88:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40594,7 +40730,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":85,"../stubs/provider":94,"lodash":13,"nprogress":14,"vue":52}],90:[function(require,module,exports){
+},{"../services/http":84,"../stubs/provider":93,"lodash":13,"nprogress":14,"vue":52}],89:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40701,7 +40837,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":85,"./user":91}],91:[function(require,module,exports){
+},{"../services/http":84,"./user":90}],90:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40893,7 +41029,7 @@ exports.default = {
     }
 };
 
-},{"../services/http":85,"../stubs/user":95,"nprogress":14}],92:[function(require,module,exports){
+},{"../services/http":84,"../stubs/user":94,"nprogress":14}],91:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40910,7 +41046,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],93:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40931,7 +41067,7 @@ exports.default = {
     owners: null
 };
 
-},{}],94:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40948,7 +41084,7 @@ exports.default = {
     updated_at: null
 };
 
-},{}],95:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
