@@ -104,7 +104,7 @@ class ManagerController extends BaseController
 
         //Files not found
         if (!$files) {
-            return response()->json(['message' => "No files found!"], 200);
+            return response()->json(['data' => [], 'message' => "No files found!"], 200);
         }
 
         //Array to Collection

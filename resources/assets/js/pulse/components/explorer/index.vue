@@ -10,7 +10,7 @@
 
                         <explorer-file v-for="fileItem in state.fileStore.files" :file='fileItem' :index='$index'></explorer-file>
 
-                        <div class="empty-state text-center" v-show='!state.fileStore.files'>
+                        <div class="empty-state text-center" v-show='!hasFiles'>
                             <h1>
                                 <span class="fa fa-file-word-o first"></span>
                                 <span class="fa fa-folder leader"></span>
@@ -106,6 +106,14 @@
             },
 
             /**
+             * Explorer/Folder Has Files or Not
+             * @return boolean
+             */
+             hasFiles() {
+                return this.state.fileStore.files.length;
+            },
+
+            /**
              * Selected File
              * @return {Object}
              */
@@ -190,9 +198,10 @@
                 //If the last file was uploaded to the current account
                 if(this.currentAccount.id === this.state.fileStore.lastUploadAccount.id) {
                     const file = data.file;
-                    if(this.state.fileStore.files.length) {
-                        this.state.fileStore.files.unshift(file);
-                    }
+
+                    //Add file to the list
+                    this.state.fileStore.files.unshift(file);
+
                     this.state.fileStore.selected = file;
                 }
                 //Broadcast to all childrens

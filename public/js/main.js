@@ -38513,6 +38513,15 @@ exports.default = {
 
 
         /**
+         * Explorer/Folder Has Files or Not
+         * @return boolean
+         */
+        hasFiles: function hasFiles() {
+            return this.state.fileStore.files.length;
+        },
+
+
+        /**
          * Selected File
          * @return {Object}
          */
@@ -38595,9 +38604,10 @@ exports.default = {
             //If the last file was uploaded to the current account
             if (this.currentAccount.id === this.state.fileStore.lastUploadAccount.id) {
                 var file = data.file;
-                if (this.state.fileStore.files.length) {
-                    this.state.fileStore.files.unshift(file);
-                }
+
+                //Add file to the list
+                this.state.fileStore.files.unshift(file);
+
                 this.state.fileStore.selected = file;
             }
             //Broadcast to all childrens
@@ -38621,7 +38631,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': true }\" id=\"explorer\">\n\n    <div class=\"explorer-wrapper\" @click.stop=\"deSelectFile()\">\n        <explorer-header :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></explorer-header>\n\n        <div class=\"explorer-content\">\n            <div class=\"container-fluid\">\n                <div class=\"row explorer-items\">\n\n                    <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                    <div class=\"empty-state text-center\" v-show=\"!state.fileStore.files\">\n                        <h1>\n                            <span class=\"fa fa-file-word-o first\"></span>\n                            <span class=\"fa fa-folder leader\"></span>\n                            <span class=\"fa fa-file-zip-o last\"></span>\n                        </h1>\n                        <h4>No files to show!</h4>\n                    </div>\n\n                </div>\n            </div>\n        </div>\n\n        <sidebar :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></sidebar>\n\n        <share-file-modal></share-file-modal>\n\n        <upload-file-modal :account.sync=\"currentAccount\"></upload-file-modal>\n    </div>\n\n    <div class=\"dropup explorer-new-item\">\n        <a class=\"btn explorer-new-item-button btn-primary\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n            <i class=\"fa fa-plus\"></i>\n        </a>\n\n        <div class=\"dropdown-menu dropdown-menu-right explorer-new-item-menu\">\n            <a class=\"dropdown-item\" @click.stop=\"uploadFile\">\n                <i class=\"fa fa-cloud-upload\"></i> Upload\n            </a>\n            <div class=\"dropdown-divider\"></div>\n            <a class=\"dropdown-item\" @click.stop=\"createFolder()\">\n                <i class=\"fa fa-folder\"></i> Create Folder\n            </a>\n        </div>\n\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer\" :class=\"{ 'has-sidebar': true }\" id=\"explorer\">\n\n    <div class=\"explorer-wrapper\" @click.stop=\"deSelectFile()\">\n        <explorer-header :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></explorer-header>\n\n        <div class=\"explorer-content\">\n            <div class=\"container-fluid\">\n                <div class=\"row explorer-items\">\n\n                    <explorer-file v-for=\"fileItem in state.fileStore.files\" :file=\"fileItem\" :index=\"$index\"></explorer-file>\n\n                    <div class=\"empty-state text-center\" v-show=\"!hasFiles\">\n                        <h1>\n                            <span class=\"fa fa-file-word-o first\"></span>\n                            <span class=\"fa fa-folder leader\"></span>\n                            <span class=\"fa fa-file-zip-o last\"></span>\n                        </h1>\n                        <h4>No files to show!</h4>\n                    </div>\n\n                </div>\n            </div>\n        </div>\n\n        <sidebar :file.sync=\"selectedFile\" :account.sync=\"currentAccount\"></sidebar>\n\n        <share-file-modal></share-file-modal>\n\n        <upload-file-modal :account.sync=\"currentAccount\"></upload-file-modal>\n    </div>\n\n    <div class=\"dropup explorer-new-item\">\n        <a class=\"btn explorer-new-item-button btn-primary\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n            <i class=\"fa fa-plus\"></i>\n        </a>\n\n        <div class=\"dropdown-menu dropdown-menu-right explorer-new-item-menu\">\n            <a class=\"dropdown-item\" @click.stop=\"uploadFile\">\n                <i class=\"fa fa-cloud-upload\"></i> Upload\n            </a>\n            <div class=\"dropdown-divider\"></div>\n            <a class=\"dropdown-item\" @click.stop=\"createFolder()\">\n                <i class=\"fa fa-folder\"></i> Create Folder\n            </a>\n        </div>\n\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -39916,7 +39926,7 @@ exports.default = {
     state: {
         path: [],
         selected: false,
-        files: false,
+        files: [],
         fileToCopy: false,
         fileToMove: false,
         currentLocation: null,
@@ -39930,6 +39940,7 @@ exports.default = {
      * @param {Object}          selectedFile The selected file.
      */
     init: function init(selectedFile, path) {
+        this.files = [];
         this.selected = selectedFile;
         this.path = path;
         this.state.currentLocation = path;
@@ -40133,7 +40144,7 @@ exports.default = {
             var files = data.data;
 
             _this.state.currentLocation = path;
-            _this.state.files = files;
+            _this.state.files = files.length ? files : [];
 
             if (successCb) {
                 successCb(files);

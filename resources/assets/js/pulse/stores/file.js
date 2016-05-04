@@ -9,7 +9,7 @@ export default {
     state: {
         path: [],
         selected: false,
-        files: false,
+        files: [],
         fileToCopy: false,
         fileToMove: false,
         currentLocation: null,
@@ -23,6 +23,7 @@ export default {
      * @param {Object}          selectedFile The selected file.
      */
      init(selectedFile, path) {
+        this.files = [];
         this.selected = selectedFile;
         this.path = path;
         this.state.currentLocation = path;
@@ -218,7 +219,7 @@ export default {
             const files = data.data;
 
             this.state.currentLocation = path;
-            this.state.files = files;
+            this.state.files = files.length ? files : [];
 
             if (successCb) {
                 successCb(files);
