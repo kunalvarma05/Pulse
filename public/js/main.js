@@ -39930,6 +39930,8 @@ exports.default = {
         this.selected = selectedFile;
         this.path = path;
         this.state.currentLocation = path;
+        this.fileToCopy = false;
+        this.fileToMove = false;
     },
 
 
