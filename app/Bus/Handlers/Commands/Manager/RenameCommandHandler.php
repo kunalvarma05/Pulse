@@ -4,7 +4,6 @@ namespace Pulse\Bus\Handlers\Commands\Manager;
 use Pulse\Services\Manager\ManagerFactory;
 use Pulse\Bus\Commands\Manager\RenameCommand;
 use Pulse\Services\Authorization\AuthFactory;
-use Pulse\Bus\Commands\Action\RecordActionCommand;
 
 class RenameCommandHandler
 {
@@ -34,16 +33,6 @@ class RenameCommandHandler
         $data = $command->data;
 
         //Rename File
-        $renamedFile = $manager->rename($file, $title);
-
-        if($renamedFile) {
-            $activity = dispatch(new RecordActionCommand($file, $command->user, $command->account));
-
-            if($activity) {
-                return $renamedFile;
-            }
-        }
-
-        return false;
+        return $manager->rename($file, $title);
     }
 }
