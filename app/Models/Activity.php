@@ -5,6 +5,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
+
+    const COMPLETED = 'completed';
+
+    const PENDING = 'pending';
+
+    const IN_PROGRESS = 'in_progress';
+
     /**
      * Table
      */
