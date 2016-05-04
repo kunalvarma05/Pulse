@@ -20,6 +20,9 @@ Route::get('/', array('uses' => "HomeController@index"));
 //Handle OAuth Callbacks
 Route::get('auth/callback/{provider}', array('uses' => "HomeController@authCallback"));
 
+//Password Reset
+Route::get('password/reset/{token}', array('uses' => "HomeController@passwordReset", 'as' => 'password-reset'));
+
 /**
  * *****************************************************
  * Include all the Routes

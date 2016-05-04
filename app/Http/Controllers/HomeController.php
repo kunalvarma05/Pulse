@@ -28,7 +28,13 @@ class HomeController extends Controller
 
         return redirect($url);
 
+    }
 
+    public function passwordReset(Request $request, $token) {
+        $params = ['token' => $token];
+        $url = Helpers::url("/#!/reset-password", $params);
+
+        return redirect($url);
     }
 
 }

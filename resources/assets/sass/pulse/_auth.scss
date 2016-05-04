@@ -8,12 +8,12 @@
 }
 
 .auth-container {
-    max-width: 300px;
+    max-width: 400px;
 }
 
 .auth-container-wide {
     @extend .auth-container;
-    max-width: 400px;
+    max-width: 450px;
 }
 
 .auth-logo {
@@ -63,4 +63,14 @@
     background: #d9534f;
     margin-top: 10px;
     text-align: center;
+}
+
+.auth-success {
+    padding: 10px 15px;
+    border-radius: 4px;
+    text-align: center;
+    color: #fff;
+    background-color: #5cb85c;
+    font-size: 0.9rem;
+    display: block;
 }

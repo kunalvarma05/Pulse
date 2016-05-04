@@ -1,6 +1,9 @@
 <?php
 namespace Pulse\Api\Controllers;
 
+use DB;
+use Message;
+use Password;
 use Pulse\Models\User;
 use Dingo\Api\Facade\API;
 use Illuminate\Http\Request;
@@ -64,4 +67,56 @@ class AuthController extends BaseController
         //Return the Response
         return response()->json(compact('token'));
     }
+
+    public function forgotPassword(Request $request)
+    {
+        $this->validate($request, ['email' => 'required|email']);
+        $response = Password::broker()->sendResetLink($request->only('email'), function ($message) {
+            $message->subject("Pulse | Reset Password");
+        });
+
+        switch ($response) {
+            case Password::RESET_LINK_SENT:
+            return response()->json(['message' => "Password reset link send!"]);
+
+            case Password::INVALID_USER:
+            default:
+            return $this->response->error("Could not send password reset link.");
+        }
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $this->validate($request, ['token' => 'required', 'password' => 'required|min:6|confirmed']);
+
+        $credentials = $request->only(
+            'password', 'password_confirmation', 'token'
+        );
+
+        $resetPasswordRecord = DB::table('password_resets')->where('token', '=', $credentials['token'])->select('email')->first();
+
+        if($resetPasswordRecord) {
+            $credentials['email'] = $resetPasswordRecord->email;
+        }
+
+        $token = "";
+
+        $response = Password::broker()->reset($credentials, function ($user, $password) use (&$token) {
+            $user->forceFill([
+                'password' => $password,
+                'remember_token' => str_random(60),
+            ])->save();
+
+            $token = JWTAuth::fromUser($user);
+        });
+
+        switch ($response) {
+            case Password::PASSWORD_RESET:
+                return response()->json(compact('token'));
+
+            default:
+                return $this->response->error("Could not reset password.", 400);
+        }
+    }
+
 }

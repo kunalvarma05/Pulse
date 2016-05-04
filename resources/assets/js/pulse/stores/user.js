@@ -59,6 +59,40 @@ export default {
     },
 
     /**
+     * Send Password Reset Link
+     *
+     * @param  {String}     email
+     * @param  {?Function}  successCb
+     * @param  {?Function}  errorCb
+     */
+     forgotPassword(email, successCb = null, errorCb = null) {
+        NProgress.start();
+        http.post('users/forgot-password', { email }, response => {
+            if (successCb) {
+                successCb(response);
+            }
+        }, errorCb);
+    },
+
+    /**
+     * Reset Password
+     *
+     * @param  {String}     token
+     * @param  {String}     password
+     * @param  {String}     password_confirmation
+     * @param  {?Function}  successCb
+     * @param  {?Function}  errorCb
+     */
+     resetPassword(token, password, password_confirmation, successCb = null, errorCb = null) {
+        NProgress.start();
+        http.post('users/reset-password', { token, password, password_confirmation }, response => {
+            if (successCb) {
+                successCb(response);
+            }
+        }, errorCb);
+    },
+
+    /**
      * Show User Profile
      *
      * @param  {int}        id

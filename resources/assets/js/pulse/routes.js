@@ -12,6 +12,16 @@ export function configRouter(router) {
             guest: true,
             component: require('./components/auth/signup-form.vue'),
         },
+        '/forgot-password': {
+            name: 'forgot-password',
+            guest: true,
+            component: require('./components/auth/forgot-password-form.vue'),
+        },
+        '/reset-password': {
+            name: 'reset-password',
+            guest: true,
+            component: require('./components/auth/reset-password-form.vue'),
+        },
         '/dashboard': {
             name: 'dashboard',
             auth: true,

@@ -23,6 +23,12 @@ $api->version('v1', function ($api) {
             //Create User
             $api->post('create', ['as' => 'api.users.create', 'uses' => 'AuthController@createUser']);
 
+            //Forgot Password
+            $api->post('forgot-password', ['as' => 'api.users.forgot-password', 'uses' => 'AuthController@forgotPassword']);
+
+            //Reset Password
+            $api->post('reset-password', ['as' => 'api.users.reset-password', 'uses' => 'AuthController@resetPassword']);
+
             //Requires Authentication
             $api->group(['middleware' => ['jwt.auth']], function ($api) {
                 //Initialize

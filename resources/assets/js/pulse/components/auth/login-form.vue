@@ -19,7 +19,7 @@
             </div>
             <div class="auth-footer">
                 <a v-link="{name: 'signup'}"> <i class="fa fa-chevron-left"></i> Sign Up</a>
-                <a class="pull-right" href="#">Forgot Password? <i class="fa fa-chevron-right"></i></a>
+                <a v-link="{name: 'forgot-password'}" class="pull-right">Forgot Password? <i class="fa fa-chevron-right"></i></a>
             </div>
         </div>
     </div>
