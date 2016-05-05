@@ -4,7 +4,7 @@
         <div v-show='file'>
             <file-info :file.sync='file' :account.sync='currentAccount'></file-info>
         </div>
-        <div v-show='!file'>
+        <div v-show='!file && !fileToBeCopied && !fileToBeMoved && !fileToBeTransfered'>
             <quota :account.sync='currentAccount'></quota>
         </div>
 
@@ -45,6 +45,30 @@
              */
              currentAccount() {
                 return this.account;
+            },
+
+            /**
+             * fileToBeCopied
+             * @return {Object}
+             */
+             fileToBeCopied() {
+                return this.state.fileStore.fileToCopy;
+            },
+
+            /**
+             * fileToBeMoved
+             * @return {Object}
+             */
+             fileToBeMoved() {
+                return this.state.fileStore.fileToMove;
+            },
+
+            /**
+             * fileToBeTransfered
+             * @return {Object}
+             */
+             fileToBeTransfered() {
+                return this.state.fileStore.fileToTransfer;
             },
         }
 

@@ -70,9 +70,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="sidebar-item-actions clearfix">
-                            <a @click.stop="startFileTransfer()" v-show="transferToAccount && transferToLocation">Start</a>
-                            <a @click.stop="scheduleFileTransfer()" v-show="!state.fileStore.scheduling" class="pull-right">Schedule</a>
+                        <div class="sidebar-item-actions clearfix" v-show="transferToAccount">
+                            <a @click.stop="startFileTransfer()">Start</a>
+                            <a @click.stop="state.fileStore.scheduling=false" v-show="!state.fileStore.scheduling" class="pull-right">Schedule</a>
                             <a @click.stop="state.fileStore.scheduling=false" v-show="state.fileStore.scheduling" class="cancel">Cancel</a>
                         </div>
                     </div>
@@ -185,19 +185,12 @@
                     this.startScheduledTransfer();
                 } else {
                     //Scheduled Transfer the File
-                    return fileStore.scheduledTransfer(this.transferToAccount.id, file.id, location, false,
+                    return fileStore.transfer(this.transferToAccount.id, file.id, location, false,
                         (error) => {
                             this.state.sharedStore.errors.unshift(error);
                         }
-                        );
+                    );
                 }
-            },
-
-            /**
-             * Schedule File Transfer
-             */
-             scheduleFileTransfer() {
-                this.state.fileStore.scheduling = true;
             },
 
             startScheduledTransfer() {

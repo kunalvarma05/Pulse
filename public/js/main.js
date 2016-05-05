@@ -53127,6 +53127,10 @@ var _file = require('../../stores/file');
 
 var _file2 = _interopRequireDefault(_file);
 
+var _shared = require('../../stores/shared');
+
+var _shared2 = _interopRequireDefault(_shared);
+
 var _account = require('../../stores/account');
 
 var _account2 = _interopRequireDefault(_account);
@@ -53161,6 +53165,7 @@ exports.default = {
         return {
             state: {
                 fileStore: _file2.default.state,
+                sharedStore: _shared2.default.state,
                 accountStore: _account2.default.state
             },
             title: "File Explorer"
@@ -53182,7 +53187,9 @@ exports.default = {
             });
 
             //Browse Files
-            _file2.default.browse(this.account_id);
+            _file2.default.browse(this.account_id, null, null, function (error) {
+                _this.state.sharedStore.errors.unshift(error);
+            });
         }
     },
 
@@ -53329,7 +53336,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../stores/account":89,"../../stores/file":90,"../modals/sharefile.vue":73,"../modals/uploadfile.vue":74,"../sidebar/index.vue":80,"./file.vue":69,"./header.vue":70,"vue":55,"vue-hot-reload-api":29}],72:[function(require,module,exports){
+},{"../../stores/account":89,"../../stores/file":90,"../../stores/shared":92,"../modals/sharefile.vue":73,"../modals/uploadfile.vue":74,"../sidebar/index.vue":80,"./file.vue":69,"./header.vue":70,"vue":55,"vue-hot-reload-api":29}],72:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53885,18 +53892,10 @@ exports.default = {
                 this.startScheduledTransfer();
             } else {
                 //Scheduled Transfer the File
-                return _file2.default.scheduledTransfer(this.transferToAccount.id, file.id, location, false, function (error) {
+                return _file2.default.transfer(this.transferToAccount.id, file.id, location, false, function (error) {
                     _this.state.sharedStore.errors.unshift(error);
                 });
             }
-        },
-
-
-        /**
-         * Schedule File Transfer
-         */
-        scheduleFileTransfer: function scheduleFileTransfer() {
-            this.state.fileStore.scheduling = true;
         },
         startScheduledTransfer: function startScheduledTransfer() {
             swal({
@@ -53912,7 +53911,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-show=\"fileToBeCopied || fileToBeMoved || fileToBeTransfered\">\n    <div class=\"sidebar-header animated slideInRight\">\n        Clipboard\n        <a @click.stop=\"clearClipboard()\">Clear</a>\n    </div>\n    <div v-show=\"fileToBeCopied\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeCopied.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-show=\"fileToBeMoved\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeMoved.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-show=\"fileToBeTransfered\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">File</span>\n                            <span class=\"item-detail-value\">{{ fileToBeTransfered.title }}</span>\n                        </div>\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Transfer From</span>\n                            <span class=\"item-detail-value\">{{ transferFromAccount.name }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"transferToAccount\">\n                            <span class=\"item-detail-title\">Transfer To</span>\n                            <span class=\"item-detail-value\">{{ transferToAccount.name }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"transferToLocation\">\n                            <span class=\"item-detail-title\">Location</span>\n                            <span class=\"item-detail-value\">{{ transferToLocation }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"state.fileStore.scheduling\">\n                            <span class=\"item-detail-title\">Schedule At</span>\n                            <div class=\"form-group\">\n                                <input type=\"time\" placeholder=\"Schedule At\" class=\"form-control input-sm\" v-model=\"state.fileStore.scheduled_at\">\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"sidebar-item-actions clearfix\">\n                        <a @click.stop=\"startFileTransfer()\" v-show=\"transferToAccount &amp;&amp; transferToLocation\">Start</a>\n                        <a @click.stop=\"scheduleFileTransfer()\" v-show=\"!state.fileStore.scheduling\" class=\"pull-right\">Schedule</a>\n                        <a @click.stop=\"state.fileStore.scheduling=false\" v-show=\"state.fileStore.scheduling\" class=\"cancel\">Cancel</a>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-show=\"fileToBeCopied || fileToBeMoved || fileToBeTransfered\">\n    <div class=\"sidebar-header animated slideInRight\">\n        Clipboard\n        <a @click.stop=\"clearClipboard()\">Clear</a>\n    </div>\n    <div v-show=\"fileToBeCopied\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeCopied.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-show=\"fileToBeMoved\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeMoved.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-show=\"fileToBeTransfered\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">File</span>\n                            <span class=\"item-detail-value\">{{ fileToBeTransfered.title }}</span>\n                        </div>\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Transfer From</span>\n                            <span class=\"item-detail-value\">{{ transferFromAccount.name }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"transferToAccount\">\n                            <span class=\"item-detail-title\">Transfer To</span>\n                            <span class=\"item-detail-value\">{{ transferToAccount.name }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"transferToLocation\">\n                            <span class=\"item-detail-title\">Location</span>\n                            <span class=\"item-detail-value\">{{ transferToLocation }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"state.fileStore.scheduling\">\n                            <span class=\"item-detail-title\">Schedule At</span>\n                            <div class=\"form-group\">\n                                <input type=\"time\" placeholder=\"Schedule At\" class=\"form-control input-sm\" v-model=\"state.fileStore.scheduled_at\">\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"sidebar-item-actions clearfix\" v-show=\"transferToAccount\">\n                        <a @click.stop=\"startFileTransfer()\">Start</a>\n                        <a @click.stop=\"state.fileStore.scheduling=false\" v-show=\"!state.fileStore.scheduling\" class=\"pull-right\">Schedule</a>\n                        <a @click.stop=\"state.fileStore.scheduling=false\" v-show=\"state.fileStore.scheduling\" class=\"cancel\">Cancel</a>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -54081,12 +54080,39 @@ exports.default = {
 
         currentAccount: function currentAccount() {
             return this.account;
+        },
+
+
+        /**
+         * fileToBeCopied
+         * @return {Object}
+         */
+        fileToBeCopied: function fileToBeCopied() {
+            return this.state.fileStore.fileToCopy;
+        },
+
+
+        /**
+         * fileToBeMoved
+         * @return {Object}
+         */
+        fileToBeMoved: function fileToBeMoved() {
+            return this.state.fileStore.fileToMove;
+        },
+
+
+        /**
+         * fileToBeTransfered
+         * @return {Object}
+         */
+        fileToBeTransfered: function fileToBeTransfered() {
+            return this.state.fileStore.fileToTransfer;
         }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"sidebar\" @click.stop=\"\">\n    <div v-show=\"file\">\n        <file-info :file.sync=\"file\" :account.sync=\"currentAccount\"></file-info>\n    </div>\n    <div v-show=\"!file\">\n        <quota :account.sync=\"currentAccount\"></quota>\n    </div>\n\n    <clipboard></clipboard>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"sidebar\" @click.stop=\"\">\n    <div v-show=\"file\">\n        <file-info :file.sync=\"file\" :account.sync=\"currentAccount\"></file-info>\n    </div>\n    <div v-show=\"!file &amp;&amp; !fileToBeCopied &amp;&amp; !fileToBeMoved &amp;&amp; !fileToBeTransfered\">\n        <quota :account.sync=\"currentAccount\"></quota>\n    </div>\n\n    <clipboard></clipboard>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -55018,7 +55044,8 @@ exports.default = {
                 successCb(files);
             }
         }, function (response) {
-            var error = response.data.message;
+            var data = response.data;
+            var error = data.message ? data.message : "Something went wrong!";
 
             if (errorCb) {
                 errorCb(error);

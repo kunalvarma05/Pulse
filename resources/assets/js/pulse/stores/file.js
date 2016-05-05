@@ -319,7 +319,8 @@ export default {
                 successCb(files);
             }
         }, response => {
-            const error = response.data.message;
+            const data = response.data;
+            const error = data.message ? data.message : "Something went wrong!";
 
             if(errorCb) {
                 errorCb(error);
