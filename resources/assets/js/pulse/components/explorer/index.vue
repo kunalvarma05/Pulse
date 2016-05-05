@@ -52,6 +52,7 @@
 <script>
 
     import fileStore from '../../stores/file';
+    import sharedStore from '../../stores/shared';
     import accountStore from '../../stores/account';
 
     import explorerHeader from './header.vue';
@@ -69,6 +70,7 @@
             return {
                 state: {
                     fileStore : fileStore.state,
+                    sharedStore : sharedStore.state,
                     accountStore : accountStore.state,
                 },
                 title: "File Explorer"
@@ -91,7 +93,11 @@
                     );
 
                 //Browse Files
-                fileStore.browse(this.account_id);
+                fileStore.browse(this.account_id, null, null,
+                    (error) => {
+                        this.state.sharedStore.errors.unshift(error);
+                    }
+                );
             }
         },
 
