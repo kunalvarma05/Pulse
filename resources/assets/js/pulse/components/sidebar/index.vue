@@ -15,6 +15,7 @@
 
 <script>
 
+    import fileStore from '../../stores/file';
     import accountStore from '../../stores/account';
 
     import fileInfo from './fileinfo.vue';
@@ -31,6 +32,7 @@
             return {
                 state: {
                     accountStore: accountStore.state,
+                    fileStore: fileStore.state,
                 }
             };
         },

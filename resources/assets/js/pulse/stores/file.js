@@ -13,10 +13,14 @@ export default {
         fileToCopy: false,
         fileToTransfer: false,
         transferFromAccount: false,
+        transferToAccount: false,
+        transferToLocation: false,
         fileToMove: false,
         currentLocation: null,
         queue: [],
-        lastUploadAccount: false
+        lastUploadAccount: false,
+        scheduling: false,
+        scheduled_at: false
     },
 
     /**
@@ -97,6 +101,50 @@ export default {
         this.state.transferFromAccount = account;
 
         return this.transferFromAccount;
+    },
+
+    /**
+     * The transferToAccount account.
+     *
+     * @return {Object}
+     */
+     get transferToAccount() {
+        return this.state.transferToAccount;
+    },
+
+    /**
+     * Set the transferToAccount account.
+     *
+     * @param  {Object} account
+     *
+     * @return {Object}
+     */
+     set transferToAccount(account) {
+        this.state.transferToAccount = account;
+
+        return this.transferToAccount;
+    },
+
+    /**
+     * The transferToLocation account.
+     *
+     * @return {Object}
+     */
+     get transferToLocation() {
+        return this.state.transferToLocation;
+    },
+
+    /**
+     * Set the transferToLocation account.
+     *
+     * @param  {Object} account
+     *
+     * @return {Object}
+     */
+     set transferToLocation(account) {
+        this.state.transferToLocation = account;
+
+        return this.transferToLocation;
     },
 
     /**

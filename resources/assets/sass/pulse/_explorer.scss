@@ -46,11 +46,15 @@
 }
 
 .explorer-new-item-menu {
-    min-width: 200px;
+    min-width: 250px;
     bottom: 50% !important;
     right: 70%;
     z-index: 450;
     padding: 10px 0;
+
+    .fa {
+        margin-right: 10px;
+    }
 }
 
 .explorer-header {

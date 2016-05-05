@@ -23,7 +23,7 @@
         </nav>
         <nav class="nav nav-inline explorer-header-links">
             <a class="nav-link" v-show="fileToBeCopied || fileToBeMoved" @click.stop="pasteFile()"><i class="fa fa-paste"></i> Paste</a>
-            <a class="nav-link" v-show="canBeTransfered" @click.stop="startFileTransfer()"><i class="fa fa-angle-double-down"></i> Transfer here</a>
+            <a class="nav-link" v-show="canBeTransfered" @click.stop="selectTransferLocation()"><i class="fa fa-angle-double-down"></i> Transfer here</a>
         </nav>
 
 
@@ -87,8 +87,8 @@
              * Can file be transfered at the current account
              * @return {boolean}
              */
-            canBeTransfered() {
-                return (this.fileToBeTransfered) && (this.currentAccount.id !== this.state.fileStore.transferFromAccount.id);
+             canBeTransfered() {
+                return (this.fileToBeTransfered) && (!this.state.fileStore.scheduling) && (this.currentAccount.id !== this.state.fileStore.transferFromAccount.id);
             },
 
             /**
@@ -364,17 +364,9 @@
                     );
             },
 
-            /**
-             * Start File Transfer
-             */
-             startFileTransfer() {
-                //Reset the file to be moved and copied
-                this.state.fileStore.fileToMove = false;
-                this.state.fileStore.fileToCopy = false;
-
-                //Get the File to Be Transfered
-                const file = this.fileToBeTransfered;
+            selectTransferLocation() {
                 let location = this.currentLocation;
+                this.state.fileStore.transferToAccount = this.currentAccount;
 
                 //If a folder is selected
                 if(this.selectedFile && this.selectedFile.isFolder) {
@@ -383,12 +375,8 @@
                     location = this.selectedFile.id;
                 }
 
-                //Transfer the File
-                return fileStore.transfer(this.currentAccount.id, file.id, location, false,
-                    (error) => {
-                        this.state.sharedStore.errors.unshift(error);
-                    });
-            },
+                this.state.fileStore.transferToLocation = location;
+            }
 
         }
     }
