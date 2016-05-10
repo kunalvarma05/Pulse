@@ -46,23 +46,4 @@ class Transfer extends Model
     {
         return $this->belongsTo('Pulse\Models\Account', 'to_account_id');
     }
-
-    /**
-     * The Scheduled Transfer
-     *
-     * @return Pulse\Models\ScheduledTransfer
-     */
-    public function scheduledTransfer()
-    {
-        return $this->hasOne('Pulse\Models\ScheduledTransfer', 'transfer_id');
-    }
-
-    /**
-     * The Activities, the Transfer is a part of
-     * @return Pulse\Models\Activity
-     */
-    public function activities()
-    {
-        return $this->morphMany('Pulse\Models\Pulse\Models\Activity', 'transaction');
-    }
 }

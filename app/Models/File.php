@@ -28,16 +28,6 @@ class File extends Model
     }
 
     /**
-     * The Actions performed on the file
-     *
-     * @return Pulse\Models\Action
-     */
-    public function actions()
-    {
-        return $this->hasMany('Pulse\Models\Action');
-    }
-
-    /**
      * The Transfers performed on the file
      *
      * @return Pulse\Models\Transfer
