@@ -2,6 +2,11 @@ export function configRouter(router) {
 
     //Routes
     router.map({
+        '/': {
+            name: 'index',
+            guest: true,
+            component: require('./components/splash.vue'),
+        },
         '/login': {
             name: 'login',
             guest: true,
