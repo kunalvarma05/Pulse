@@ -172,10 +172,10 @@
 
             scheduleTransfer() {
                 this.state.fileStore.scheduling = true;
-                const min = moment().add(30, 'minutes').format('LLL');
-                const max = moment().add(30, 'days').format('LLL');
+                const min = moment().add(1, 'minutes');
+                const max = moment().add(30, 'days');
                 const element = document.getElementById('scheduled_at');
-                picker = rome(element, { min: min, max: max, inputFormat: "Do MMM, YYYY, hh:mm A" });
+                picker = rome(element, { min: min, max: max, inputFormat: "Do MMM, YYYY, hh:mm A", timeInterval: 60 });
             },
 
             /**

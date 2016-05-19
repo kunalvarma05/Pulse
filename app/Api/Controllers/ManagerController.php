@@ -475,13 +475,15 @@ class ManagerController extends BaseController
         //New Account
         $newAccount = $user->accounts()->findOrFail($newAccountID);
 
+        $scheduled_at = $request->get('scheduled_at');
+
         //Schedule Transfer
         $scheduleTransfer = dispatch(new ScheduleTransferCommand(
             $user,
             $account,
             $newAccount,
             $file,
-            $request->get('scheduled_at'),
+            $scheduled_at,
             $request->get('location')
             ));
 

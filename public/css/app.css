@@ -7588,7 +7588,8 @@ body.stop-scrolling {
   padding: 15px;
   background: #f9fafb;
   border-left: solid 1px #dae1e7;
-  overflow: hidden; }
+  overflow-x: hidden;
+  overflow-y: auto; }
 
 .sidebar-header {
   font-size: 0.9em;

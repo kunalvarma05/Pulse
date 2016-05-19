@@ -658,17 +658,17 @@ export default {
             const message = data.data;
 
             //Reset fileToTransfer
-            this.fileToTransfer = false;
+            this.state.fileToTransfer = false;
             //Reset transferToLocation
-            this.transferToLocation = false;
+            this.state.transferToLocation = false;
             //Reset transferToAccount
-            this.transferToAccount = false;
+            this.state.transferToAccount = false;
             //Reset transferFromAccount
-            this.transferFromAccount = false;
+            this.state.transferFromAccount = false;
             //Reset scheduling
-            this.scheduling = false;
+            this.state.scheduling = false;
             //Reset scheduled_at
-            this.scheduled_at = '';
+            this.state.scheduled_at = '';
 
             if (successCb) {
                 successCb(message);

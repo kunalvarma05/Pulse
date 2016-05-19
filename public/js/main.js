@@ -44812,10 +44812,10 @@ exports.default = {
         },
         scheduleTransfer: function scheduleTransfer() {
             this.state.fileStore.scheduling = true;
-            var min = moment().add(30, 'minutes').format('LLL');
-            var max = moment().add(30, 'days').format('LLL');
+            var min = moment().add(1, 'minutes');
+            var max = moment().add(30, 'days');
             var element = document.getElementById('scheduled_at');
-            picker = rome(element, { min: min, max: max, inputFormat: "Do MMM, YYYY, hh:mm A" });
+            picker = rome(element, { min: min, max: max, inputFormat: "Do MMM, YYYY, hh:mm A", timeInterval: 60 });
         },
 
 
@@ -44843,8 +44843,6 @@ exports.default = {
             }
         },
         startScheduledTransfer: function startScheduledTransfer() {
-            var _this2 = this;
-
             //Get the File to Be Transfered
             var file = this.fileToBeTransfered;
             var location = this.transferToLocation ? this.transferToLocation : null;
@@ -44856,9 +44854,7 @@ exports.default = {
                     title: "Transfer Scheduled!",
                     type: 'success',
                     allowOutsideClick: true,
-                    text: 'The ' + '<b> ' + _this2.fileToBeTransfered.title + '</b> will be transfered to <b>' + _this2.transferToAccount.name + '</b> from <b>' + _this2.transferFromAccount.name + '</b> on <b>' + _this2.state.fileStore.scheduled_at + '</b>',
-                    timer: 5000,
-                    html: true
+                    timer: 5000
                 });
             });
         }
@@ -46397,17 +46393,17 @@ exports.default = {
             var message = data.data;
 
             //Reset fileToTransfer
-            _this7.fileToTransfer = false;
+            _this7.state.fileToTransfer = false;
             //Reset transferToLocation
-            _this7.transferToLocation = false;
+            _this7.state.transferToLocation = false;
             //Reset transferToAccount
-            _this7.transferToAccount = false;
+            _this7.state.transferToAccount = false;
             //Reset transferFromAccount
-            _this7.transferFromAccount = false;
+            _this7.state.transferFromAccount = false;
             //Reset scheduling
-            _this7.scheduling = false;
+            _this7.state.scheduling = false;
             //Reset scheduled_at
-            _this7.scheduled_at = '';
+            _this7.state.scheduled_at = '';
 
             if (successCb) {
                 successCb(message);
