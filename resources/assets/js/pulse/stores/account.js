@@ -68,7 +68,7 @@ export default {
      */
      list(successCb = null, errorCb = null) {
         NProgress.start();
-        http.get('accounts', {}, response => {
+        http.get('accounts', { with: 'provider' }, response => {
             const data = response.data;
             const accounts = data.data;
 

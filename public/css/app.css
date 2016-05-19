@@ -7565,7 +7565,10 @@ body.stop-scrolling {
   .sidemenu-user-account img {
     width: 30px;
     height: 30px;
-    border-radius: 50%; }
+    border-radius: 50%;
+    background: #1d2028;
+    padding: 6px;
+    object-fit: cover; }
 
 .sidemenu-add-button {
   color: #fff;

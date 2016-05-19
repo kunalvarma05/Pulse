@@ -45585,7 +45585,7 @@ exports.default = {
         var errorCb = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
         _nprogress2.default.start();
-        _http2.default.get('accounts', {}, function (response) {
+        _http2.default.get('accounts', { with: 'provider' }, function (response) {
             var data = response.data;
             var accounts = data.data;
 

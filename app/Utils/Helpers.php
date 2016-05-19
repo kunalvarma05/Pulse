@@ -28,9 +28,9 @@ class Helpers
         return $url;
     }
 
-    public static function defaultAccountPicture()
+    public static function defaultAccountPicture($provider_alias)
     {
-        return asset("images/user.png");
+        return static::defaultProviderPicture($provider_alias);
     }
 
     public static function defaultProviderPicture($provider_alias)

@@ -23,7 +23,7 @@ class AccountTransformer extends TransformerAbstract
             "id" => (int) $account->id,
             "uid" => (string) $account->uid,
             "name" => $account->name,
-            "picture" => is_null($account->picture) ? Helpers::defaultAccountPicture() : $account->picture,
+            "picture" => is_null($account->picture) ? Helpers::defaultAccountPicture($account->provider->alias) : $account->picture,
             "provider_id" => (int) $account->provider_id,
             "user_id" => (int) $account->user_id,
             "created_at" => $account->created_at ? $account->created_at->diffForHumans() : "",
