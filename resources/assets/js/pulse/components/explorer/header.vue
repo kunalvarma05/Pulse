@@ -19,6 +19,8 @@
             <a class="nav-link" @click.stop="moveFile()"><i class="fa fa-arrows"></i> Move</a>
             <a class="nav-link" v-show="!selectedFile.isFolder" @click.stop="downloadFile()"><i class="fa fa-download"></i> Download</a>
             <a class="nav-link" v-show="!selectedFile.isFolder" @click.stop="shareFile()"><i class="fa fa-share"></i> Share</a>
+            <a class="nav-link" v-show="!selectedFile.isFolder" @click.stop="encryptFile()"><i class="fa fa-lock"></i> Encrypt</a>
+            <a class="nav-link" v-show="!selectedFile.isFolder" @click.stop="decryptFile()"><i class="fa fa-unlock"></i> Decrypt</a>
             <a class="nav-link" @click.stop="deleteFile()"><i class="fa fa-trash"></i> Delete</a>
         </nav>
         <nav class="nav nav-inline explorer-header-links">
@@ -225,11 +227,12 @@
              downloadFile() {
                 //Only if it's a file
                 if(!this.selectedFile.isFolder) {
+                    const title = this.selectedFile.title;
                     fileStore.download(this.currentAccount.id, this.selectedFile.id,
                         link => {
                             swal({
                                 title: "File Ready for Download",
-                                text: "The file <b>" + this.selectedFile.title + "</b> is ready for download!",
+                                text: "The file <b>" + title + "</b> is ready for download!",
                                 type: 'success',
                                 confirmButtonColor: "#2b90d9",
                                 confirmButtonText: "Download",
@@ -248,8 +251,60 @@
                             this.state.sharedStore.errors.unshift(error);
                         }
                         );
-}
-},
+                }
+            },
+
+            /**
+             * Encrypt File
+             */
+             encryptFile() {
+                //Only if it's a file
+                if(!this.selectedFile.isFolder) {
+                    const title = this.selectedFile.title;
+                    const location = this.currentLocation;
+                    fileStore.encrypt(this.currentAccount.id, this.selectedFile.id, location,
+                        link => {
+                            swal({
+                                title: "File Encrypted",
+                                text: "The file <b>" + title + "</b> has been encrypted!",
+                                type: 'success',
+                                allowOutsideClick: true,
+                                html: true,
+                            });
+                        },
+                        (error) => {
+                            this.state.sharedStore.errors.unshift(error);
+                        }
+                    );
+                }
+            },
+
+            /**
+             * Decrypt File
+             */
+             decryptFile() {
+                //Only if it's a file
+                if(!this.selectedFile.isFolder) {
+                    const title = this.selectedFile.title;
+                    const location = this.currentLocation;
+                    fileStore.decrypt(this.currentAccount.id, this.selectedFile.id, location,
+                        link => {
+                            swal({
+                                title: "File Decrypted",
+                                text: "The file <b>" + title + "</b> has been decrypted!",
+                                type: 'success',
+                                allowOutsideClick: true,
+                                html: true,
+                            });
+                        },
+                        (error) => {
+                            this.state.sharedStore.errors.unshift(error);
+                        }
+                    );
+                }
+            },
+
+
 
             /**
              * Share File

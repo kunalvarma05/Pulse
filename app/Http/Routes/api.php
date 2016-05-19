@@ -92,7 +92,11 @@ $api->version('v1', function ($api) {
                 $api->post('transfer ', ['as' => 'api.accounts.manager.transfer', 'uses' => 'ManagerController@transferFile']);
                 //Schedule Transfer File
                 $api->post('schedule-transfer ', ['as' => 'api.accounts.manager.schedule-transfer', 'uses' => 'ManagerController@scheduleTransfer']);
+                //Encrypt File
+                $api->post('encrypt ', ['as' => 'api.accounts.manager.encrypt', 'uses' => 'ManagerController@encryptFile']);
+                //Decrypt File
+                $api->post('decrypt ', ['as' => 'api.accounts.manager.decrypt', 'uses' => 'ManagerController@decryptFile']);
             });
-        });
-    });
+});
+});
 });

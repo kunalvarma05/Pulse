@@ -215,4 +215,33 @@ class Manager implements ManagerInterface
         ->getAdapter()
         ->downloadFile($file, $downloadUrl, $data);
     }
+
+    /**
+     * Encrypt File
+     * @param  string $file     File Path
+     * @param  string $location File Location
+     * @param  array  $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function encrypt($file, $location = null, array $data = array())
+    {
+        return $this
+        ->getAdapter()
+        ->encrypt($file, $location, $data);
+    }
+
+    /**
+     * Decrypt File
+     * @param  string $file     File Path
+     * @param  string $location File Location
+     * @param  array  $data     Additional Data
+     * @return Pulse\Services\Manager\File\FileInterface
+     */
+    public function decrypt($file, $location = null, array $data = array())
+    {
+        return $this
+        ->getAdapter()
+        ->decrypt($file, $location, $data);
+    }
+
 }

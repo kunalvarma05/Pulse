@@ -496,4 +496,94 @@ class ManagerController extends BaseController
         return response()->json(['message' => 'Transfer Scheduled!']);
     }
 
+    /**
+     * Encrypt File
+     * @param  Request $request
+     * @param  int  $account_id Account ID
+     * @return Response
+     */
+    public function encryptFile(Request $request, $account_id)
+    {
+        if (!$request->has('file')) {
+            return response()->json(['message' => "No file was specified!"], 400);
+        }
+
+        //Current User
+        $user = Auth::user();
+        //Account
+        $account = $user->accounts()->findOrFail($account_id);
+
+        //Provider
+        $provider = $account->provider;
+
+        //Authorization
+        $authFactory = AuthFactory::create($provider->alias);
+        $access_token = $authFactory->refreshAccessToken($account->access_token);
+
+        //Manager
+        $manager = ManagerFactory::create($provider->alias, $access_token);
+
+        //Data
+        $data = [];
+
+        $file = $request->get('file');
+        $location = $request->get('location');
+
+        //Encrypt File
+        $encryptFile = $manager->encrypt($file, $location, $data);
+
+        //Cannot Encrypt File
+        if (!$encryptFile) {
+            return response()->json(['message' => "Cannot encrypt file!"], 400);
+        }
+
+        //Return Response
+        return $this->response->item($encryptFile, new FileListTransformer);
+    }
+
+    /**
+     * Decrypt File
+     * @param  Request $request
+     * @param  int  $account_id Account ID
+     * @return Response
+     */
+    public function decryptFile(Request $request, $account_id)
+    {
+        if (!$request->has('file')) {
+            return response()->json(['message' => "No file was specified!"], 400);
+        }
+
+        //Current User
+        $user = Auth::user();
+        //Account
+        $account = $user->accounts()->findOrFail($account_id);
+
+        //Provider
+        $provider = $account->provider;
+
+        //Authorization
+        $authFactory = AuthFactory::create($provider->alias);
+        $access_token = $authFactory->refreshAccessToken($account->access_token);
+
+        //Manager
+        $manager = ManagerFactory::create($provider->alias, $access_token);
+
+        //Data
+        $data = [];
+
+        $file = $request->get('file');
+        $location = $request->get('location');
+
+        //Decrypt File
+        $decryptFile = $manager->decrypt($file, $location, $data);
+
+        //Cannot Decrypt File
+        if (!$decryptFile) {
+            return response()->json(['message' => "Cannot decrypt file!"], 400);
+        }
+
+        //Return Response
+        return $this->response->item($decryptFile, new FileListTransformer);
+    }
+
 }

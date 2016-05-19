@@ -43886,25 +43886,82 @@ exports.default = {
 
             //Only if it's a file
             if (!this.selectedFile.isFolder) {
-                _file2.default.download(this.currentAccount.id, this.selectedFile.id, function (link) {
-                    swal({
-                        title: "File Ready for Download",
-                        text: "The file <b>" + _this4.selectedFile.title + "</b> is ready for download!",
-                        type: 'success',
-                        confirmButtonColor: "#2b90d9",
-                        confirmButtonText: "Download",
-                        showLoaderOnConfirm: true,
-                        allowOutsideClick: true,
-                        html: true
-                    }, function () {
-                        var file = _this4.selectedFile;
+                (function () {
+                    var title = _this4.selectedFile.title;
+                    _file2.default.download(_this4.currentAccount.id, _this4.selectedFile.id, function (link) {
+                        swal({
+                            title: "File Ready for Download",
+                            text: "The file <b>" + title + "</b> is ready for download!",
+                            type: 'success',
+                            confirmButtonColor: "#2b90d9",
+                            confirmButtonText: "Download",
+                            showLoaderOnConfirm: true,
+                            allowOutsideClick: true,
+                            html: true
+                        }, function () {
+                            var file = _this4.selectedFile;
 
-                        var win = window.open(link, '_blank');
-                        win.focus();
+                            var win = window.open(link, '_blank');
+                            win.focus();
+                        });
+                    }, function (error) {
+                        _this4.state.sharedStore.errors.unshift(error);
                     });
-                }, function (error) {
-                    _this4.state.sharedStore.errors.unshift(error);
-                });
+                })();
+            }
+        },
+
+
+        /**
+         * Encrypt File
+         */
+        encryptFile: function encryptFile() {
+            var _this5 = this;
+
+            //Only if it's a file
+            if (!this.selectedFile.isFolder) {
+                (function () {
+                    var title = _this5.selectedFile.title;
+                    var location = _this5.currentLocation;
+                    _file2.default.encrypt(_this5.currentAccount.id, _this5.selectedFile.id, location, function (link) {
+                        swal({
+                            title: "File Encrypted",
+                            text: "The file <b>" + title + "</b> has been encrypted!",
+                            type: 'success',
+                            allowOutsideClick: true,
+                            html: true
+                        });
+                    }, function (error) {
+                        _this5.state.sharedStore.errors.unshift(error);
+                    });
+                })();
+            }
+        },
+
+
+        /**
+         * Decrypt File
+         */
+        decryptFile: function decryptFile() {
+            var _this6 = this;
+
+            //Only if it's a file
+            if (!this.selectedFile.isFolder) {
+                (function () {
+                    var title = _this6.selectedFile.title;
+                    var location = _this6.currentLocation;
+                    _file2.default.decrypt(_this6.currentAccount.id, _this6.selectedFile.id, location, function (link) {
+                        swal({
+                            title: "File Decrypted",
+                            text: "The file <b>" + title + "</b> has been decrypted!",
+                            type: 'success',
+                            allowOutsideClick: true,
+                            html: true
+                        });
+                    }, function (error) {
+                        _this6.state.sharedStore.errors.unshift(error);
+                    });
+                })();
             }
         },
 
@@ -43913,15 +43970,15 @@ exports.default = {
          * Share File
          */
         shareFile: function shareFile() {
-            var _this5 = this;
+            var _this7 = this;
 
             //Only if it's a file
             if (!this.selectedFile.isFolder) {
                 _file2.default.getShareLink(this.currentAccount.id, this.selectedFile.id, function (link) {
                     //Dispatch the File Share Event to the Parent
-                    _this5.$dispatch('file:share', { file: _this5.selectedFile, link: link });
+                    _this7.$dispatch('file:share', { file: _this7.selectedFile, link: link });
                 }, function (error) {
-                    _this5.state.sharedStore.errors.unshift(error);
+                    _this7.state.sharedStore.errors.unshift(error);
                 });
             }
         },
@@ -43975,7 +44032,7 @@ exports.default = {
          * Paste File
          */
         pasteCopiedFile: function pasteCopiedFile() {
-            var _this6 = this;
+            var _this8 = this;
 
             //Reset the file to be moved
             this.state.fileStore.fileToMove = false;
@@ -43992,7 +44049,7 @@ exports.default = {
 
             //Copy the File
             return _file2.default.copy(this.currentAccount.id, file.id, location, false, function (error) {
-                _this6.state.sharedStore.errors.unshift(error);
+                _this8.state.sharedStore.errors.unshift(error);
             });
         },
 
@@ -44001,7 +44058,7 @@ exports.default = {
          * Paste Moved File
          */
         pasteMovedFile: function pasteMovedFile() {
-            var _this7 = this;
+            var _this9 = this;
 
             //Reset the file to be copied
             this.state.fileStore.fileToCopy = false;
@@ -44018,11 +44075,11 @@ exports.default = {
 
             //Move the File
             return _file2.default.move(this.currentAccount.id, file.id, location, function (newFile) {
-                if (_this7.state.fileStore.files.length) {
-                    _this7.state.fileStore.files.$remove(file);
+                if (_this9.state.fileStore.files.length) {
+                    _this9.state.fileStore.files.$remove(file);
                 }
             }, function (error) {
-                _this7.state.sharedStore.errors.unshift(error);
+                _this9.state.sharedStore.errors.unshift(error);
             });
         },
         selectTransferLocation: function selectTransferLocation() {
@@ -44041,7 +44098,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n        <a @click=\"browseRoot()\" class=\"explorer-header-icon\">\n            <i class=\"fa fa-home\"></i>\n        </a>\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"transferFile()\"><i class=\"fa fa-exchange\"></i> Transfer</a>\n        <a class=\"nav-link\" @click.stop=\"copyFile()\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\" @click.stop=\"moveFile()\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"downloadFile()\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"shareFile()\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\" @click.stop=\"deleteFile()\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n    <nav class=\"nav nav-inline explorer-header-links\">\n        <a class=\"nav-link\" v-show=\"fileToBeCopied || fileToBeMoved\" @click.stop=\"pasteFile()\"><i class=\"fa fa-paste\"></i> Paste</a>\n        <a class=\"nav-link\" v-show=\"canBeTransfered\" @click.stop=\"selectTransferLocation()\"><i class=\"fa fa-angle-double-down\"></i> Transfer here</a>\n    </nav>\n\n\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"explorer-header clearfix\">\n    <div class=\"explorer-header-title\">\n        <a @click=\"browseRoot()\" class=\"explorer-header-icon\">\n            <i class=\"fa fa-home\"></i>\n        </a>\n        <div v-if=\"path.length\" :class=\"'explorer-header-breadcrumb'\">\n            <a v-for=\"path in state.fileStore.path\" @click=\"browseTo(path, $index)\"> {{path.title}} </a>\n        </div>\n        <span v-else=\"\">\n            {{title}}\n        </span>\n\n    </div>\n\n    <nav class=\"nav nav-inline explorer-header-links\" v-show=\"selectedFile\">\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"transferFile()\"><i class=\"fa fa-exchange\"></i> Transfer</a>\n        <a class=\"nav-link\" @click.stop=\"copyFile()\"><i class=\"fa fa-copy\"></i> Copy</a>\n        <a class=\"nav-link\" @click.stop=\"moveFile()\"><i class=\"fa fa-arrows\"></i> Move</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"downloadFile()\"><i class=\"fa fa-download\"></i> Download</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"shareFile()\"><i class=\"fa fa-share\"></i> Share</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"encryptFile()\"><i class=\"fa fa-lock\"></i> Encrypt</a>\n        <a class=\"nav-link\" v-show=\"!selectedFile.isFolder\" @click.stop=\"decryptFile()\"><i class=\"fa fa-unlock\"></i> Decrypt</a>\n        <a class=\"nav-link\" @click.stop=\"deleteFile()\"><i class=\"fa fa-trash\"></i> Delete</a>\n    </nav>\n    <nav class=\"nav nav-inline explorer-header-links\">\n        <a class=\"nav-link\" v-show=\"fileToBeCopied || fileToBeMoved\" @click.stop=\"pasteFile()\"><i class=\"fa fa-paste\"></i> Paste</a>\n        <a class=\"nav-link\" v-show=\"canBeTransfered\" @click.stop=\"selectTransferLocation()\"><i class=\"fa fa-angle-double-down\"></i> Transfer here</a>\n    </nav>\n\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -46410,6 +46467,114 @@ exports.default = {
             }
         }, function (response) {
             var error = response.data.message;
+
+            if (errorCb) {
+                errorCb(error);
+            }
+        });
+    },
+
+
+    /**
+     * Encrypt File
+     * @param  {int} account   Account ID
+     * @param  {string} file   Selected File ID
+     * @param  {?Function} successCb
+     * @param  {?Function} errorCb
+     * @return {Promise}
+     */
+    encrypt: function encrypt(account, file) {
+        var location = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+        var _this8 = this;
+
+        var successCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+        var errorCb = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+
+        _nprogress2.default.start();
+        var url = "accounts/" + account + "/manager/encrypt";
+        var data = { file: file, location: location };
+
+        return _http2.default.post(url, data, function (response) {
+            var data = response.data;
+            var file = data.data;
+
+            //If the currentLocation is where the file was transfered
+            if (_this8.currentLocation === location) {
+                //If File List if empty, initialize it
+                if (!_this8.files) {
+                    _this8.files = [];
+                }
+
+                //Add File to the List
+                _this8.files.unshift(file);
+
+                //Select the File
+                _this8.selected = file;
+            }
+
+            if (successCb) {
+                successCb(file);
+            }
+        }, function (response) {
+            var data = response.data;
+            var error = data.error;
+
+            if (errorCb) {
+                errorCb(error);
+            }
+        });
+    },
+
+
+    /**
+     * Decrypt File
+     * @param  {int} account   Account ID
+     * @param  {string} file   Selected File ID
+     * @param  {?Function} successCb
+     * @param  {?Function} errorCb
+     * @return {Promise}
+     */
+    decrypt: function decrypt(account, file) {
+        var location = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+        var _this9 = this;
+
+        var successCb = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+        var errorCb = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+
+        _nprogress2.default.start();
+        var url = "accounts/" + account + "/manager/decrypt";
+        var data = { file: file, location: location };
+        var oldFile = file;
+
+        return _http2.default.post(url, data, function (response) {
+            var data = response.data;
+            var file = data.data;
+
+            //If the currentLocation is where the file was transfered
+            if (_this9.currentLocation === location) {
+                //If File List if empty, initialize it
+                if (!_this9.files) {
+                    _this9.files = [];
+                }
+
+                //Add File to the List
+                _this9.files.unshift(file);
+
+                //Remove the encrypted file from the list
+                _this9.files.$remove(oldFile);
+
+                //Select the File
+                _this9.selected = file;
+            }
+
+            if (successCb) {
+                successCb(file);
+            }
+        }, function (response) {
+            var data = response.data;
+            var error = data.error;
 
             if (errorCb) {
                 errorCb(error);

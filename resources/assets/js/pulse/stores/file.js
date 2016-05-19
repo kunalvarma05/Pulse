@@ -682,4 +682,108 @@ export default {
         });
     },
 
+    /**
+     * Encrypt File
+     * @param  {int} account   Account ID
+     * @param  {string} file   Selected File ID
+     * @param  {?Function} successCb
+     * @param  {?Function} errorCb
+     * @return {Promise}
+     */
+     encrypt(account, file, location = null, successCb = null, errorCb = null) {
+        NProgress.start();
+        let url = "accounts/" + account + "/manager/encrypt";
+        let data = { file, location };
+
+        return http.post(url, data,
+            response => {
+                const data = response.data;
+                const file = data.data;
+
+                //If the currentLocation is where the file was transfered
+                if(this.currentLocation === location)
+                {
+                    //If File List if empty, initialize it
+                    if(!this.files) {
+                        this.files = [];
+                    }
+
+                    //Add File to the List
+                    this.files.unshift(file);
+
+                    //Select the File
+                    this.selected = file;
+                }
+
+                if (successCb) {
+                    successCb(file);
+                }
+            },
+
+            response => {
+                const data = response.data;
+                const error = data.error;
+
+                if (errorCb) {
+                    errorCb(error);
+                }
+            }
+        );
+
+    },
+
+    /**
+     * Decrypt File
+     * @param  {int} account   Account ID
+     * @param  {string} file   Selected File ID
+     * @param  {?Function} successCb
+     * @param  {?Function} errorCb
+     * @return {Promise}
+     */
+     decrypt(account, file, location = null, successCb = null, errorCb = null) {
+        NProgress.start();
+        let url = "accounts/" + account + "/manager/decrypt";
+        let data = { file, location };
+        let oldFile = file;
+
+        return http.post(url, data,
+            response => {
+                const data = response.data;
+                const file = data.data;
+
+                //If the currentLocation is where the file was transfered
+                if(this.currentLocation === location)
+                {
+                    //If File List if empty, initialize it
+                    if(!this.files) {
+                        this.files = [];
+                    }
+
+                    //Add File to the List
+                    this.files.unshift(file);
+
+                    //Remove the encrypted file from the list
+                    this.files.$remove(oldFile);
+
+                    //Select the File
+                    this.selected = file;
+                }
+
+                if (successCb) {
+                    successCb(file);
+                }
+            },
+
+            response => {
+                const data = response.data;
+                const error = data.error;
+
+                if (errorCb) {
+                    errorCb(error);
+                }
+            }
+        );
+
+    },
+
 };
