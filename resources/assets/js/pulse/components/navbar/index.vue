@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-fixed-top navbar-light navbar-main">
 
-        <search></search>
+        <!-- <search></search> -->
 
         <button class="navbar-toggler hidden-sm-up pull-right" type="button" data-toggle="collapse" data-target="#navbarCollapsibleContent">
             <i class="fa fa-user"></i>

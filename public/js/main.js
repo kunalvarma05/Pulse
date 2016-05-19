@@ -44680,7 +44680,7 @@ exports.default = {
 
 //User Store
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"navbar navbar-fixed-top navbar-light navbar-main\">\n\n    <search></search>\n\n    <button class=\"navbar-toggler hidden-sm-up pull-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarCollapsibleContent\">\n        <i class=\"fa fa-user\"></i>\n    </button>\n    <div class=\"collapse navbar-toggleable-xs\" id=\"navbarCollapsibleContent\">\n        <ul class=\"nav navbar-nav navbar-info-nav\">\n\n            <user-profile :user.sync=\"currentUser\"></user-profile>\n\n        </ul>\n    </div>\n</nav>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav class=\"navbar navbar-fixed-top navbar-light navbar-main\">\n\n    <!-- <search></search> -->\n\n    <button class=\"navbar-toggler hidden-sm-up pull-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarCollapsibleContent\">\n        <i class=\"fa fa-user\"></i>\n    </button>\n    <div class=\"collapse navbar-toggleable-xs\" id=\"navbarCollapsibleContent\">\n        <ul class=\"nav navbar-nav navbar-info-nav\">\n\n            <user-profile :user.sync=\"currentUser\"></user-profile>\n\n        </ul>\n    </div>\n</nav>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
