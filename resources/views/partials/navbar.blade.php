@@ -22,9 +22,6 @@
                     Kunal Varma <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Profile</a>
-                    <a class="dropdown-item" href="#">Settings</a>
-                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Log out</a>
                 </div>
             </li>
