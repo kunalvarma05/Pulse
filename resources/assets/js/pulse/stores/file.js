@@ -20,7 +20,7 @@ export default {
         queue: [],
         lastUploadAccount: false,
         scheduling: false,
-        scheduled_at: false
+        scheduled_at: ''
     },
 
     /**
@@ -630,6 +630,48 @@ export default {
 
             if (successCb) {
                 successCb(file);
+            }
+        }, response => {
+            const error = response.data.message;
+
+            if(errorCb) {
+                errorCb(error);
+            }
+        });
+    },
+
+    /**
+     * Schedule Transfer
+     */
+     scheduleTransfer(account, file, scheduled_at, location = null, successCb = null, errorCb = null) {
+        NProgress.start();
+        let from_account = this.transferFromAccount.id;
+        let url = "accounts/" + from_account + "/manager/schedule-transfer";
+        let data = { file, account, scheduled_at };
+
+        if(location !== null) {
+            data.location = location;
+        }
+
+        return http.post(url, data, response => {
+            const data = response.data;
+            const message = data.data;
+
+            //Reset fileToTransfer
+            this.fileToTransfer = false;
+            //Reset transferToLocation
+            this.transferToLocation = false;
+            //Reset transferToAccount
+            this.transferToAccount = false;
+            //Reset transferFromAccount
+            this.transferFromAccount = false;
+            //Reset scheduling
+            this.scheduling = false;
+            //Reset scheduled_at
+            this.scheduled_at = '';
+
+            if (successCb) {
+                successCb(message);
             }
         }, response => {
             const error = response.data.message;

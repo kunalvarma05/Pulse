@@ -13,7 +13,7 @@ class AddLocationColumnToTransfersTable extends Migration
     public function up()
     {
         Schema::table('transfers', function (Blueprint $table) {
-            $table->string('location')->after('account_id')->nullable();
+            $table->string('location')->after('to_account_id')->nullable();
         });
     }
 

@@ -42764,12 +42764,13 @@ global.Tether = require('tether');
 global.sweetalert = require('sweetalert');
 global.Dropzone = require('dropzone');
 global.rome = require('rome');
+global.moment = require('moment');
 require('./bootstrap.js');
 require('./pulse/pulse.js');
 require('./pulse/app.js');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./bootstrap.js":103,"./pulse/app.js":105,"./pulse/pulse.js":132,"dropzone":17,"jquery":18,"rome":50,"sweetalert":72,"tether":73}],105:[function(require,module,exports){
+},{"./bootstrap.js":103,"./pulse/app.js":105,"./pulse/pulse.js":132,"dropzone":17,"jquery":18,"moment":23,"rome":50,"sweetalert":72,"tether":73}],105:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -44720,6 +44721,8 @@ var _file2 = _interopRequireDefault(_file);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var picker = null;
+
 exports.default = {
 
     props: ['account'],
@@ -44809,9 +44812,10 @@ exports.default = {
         },
         scheduleTransfer: function scheduleTransfer() {
             this.state.fileStore.scheduling = true;
-            setTimeout(function () {
-                var picker = rome(document.getElementById('scheduled_at'));
-            }, 1);
+            var min = moment().add(30, 'minutes').format('LLL');
+            var max = moment().add(30, 'days').format('LLL');
+            var element = document.getElementById('scheduled_at');
+            picker = rome(element, { min: min, max: max, inputFormat: "Do MMM, YYYY, hh:mm A" });
         },
 
 
@@ -44828,7 +44832,6 @@ exports.default = {
             //Get the File to Be Transfered
             var file = this.fileToBeTransfered;
             var location = this.transferToLocation;
-            var scheduled_at = this.state.fileStore.scheduled_at;
 
             if (this.state.fileStore.scheduling) {
                 this.startScheduledTransfer();
@@ -44840,20 +44843,30 @@ exports.default = {
             }
         },
         startScheduledTransfer: function startScheduledTransfer() {
-            swal({
-                title: "Transfer Scheduled!",
-                type: 'success',
-                allowOutsideClick: true,
-                text: 'The ' + '<b> ' + this.fileToBeTransfered.title + '</b> will be transfered to <b>' + this.transferToAccount.name + '</b> from <b>' + this.transferFromAccount.name + '</b> on <b>' + this.state.fileStore.scheduled_at + '</b>',
-                timer: 5000,
-                html: true
+            var _this2 = this;
+
+            //Get the File to Be Transfered
+            var file = this.fileToBeTransfered;
+            var location = this.transferToLocation ? this.transferToLocation : null;
+            var scheduled_at = picker.getDateString("YYYY-MM-DD HH:mm:ss");
+
+            _file2.default.scheduleTransfer(this.transferToAccount.id, file.id, scheduled_at, location, function () {
+
+                swal({
+                    title: "Transfer Scheduled!",
+                    type: 'success',
+                    allowOutsideClick: true,
+                    text: 'The ' + '<b> ' + _this2.fileToBeTransfered.title + '</b> will be transfered to <b>' + _this2.transferToAccount.name + '</b> from <b>' + _this2.transferFromAccount.name + '</b> on <b>' + _this2.state.fileStore.scheduled_at + '</b>',
+                    timer: 5000,
+                    html: true
+                });
             });
         }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-show=\"fileToBeCopied || fileToBeMoved || fileToBeTransfered\">\n    <div class=\"sidebar-header animated slideInRight\">\n        Clipboard\n        <a @click.stop=\"clearClipboard()\">Clear</a>\n    </div>\n    <div v-show=\"fileToBeCopied\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeCopied.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-show=\"fileToBeMoved\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeMoved.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-show=\"fileToBeTransfered\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">File</span>\n                            <span class=\"item-detail-value\">{{ fileToBeTransfered.title }}</span>\n                        </div>\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Transfer From</span>\n                            <span class=\"item-detail-value\">{{ transferFromAccount.name }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"transferToAccount\">\n                            <span class=\"item-detail-title\">Transfer To</span>\n                            <span class=\"item-detail-value\">{{ transferToAccount.name }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"transferToLocation\">\n                            <span class=\"item-detail-title\">Location</span>\n                            <span class=\"item-detail-value\">{{ transferToLocation }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"state.fileStore.scheduling\">\n                            <span class=\"item-detail-title\">Schedule At</span>\n                            <div class=\"form-group\">\n                                <input type=\"text\" id=\"scheduled_at\" placeholder=\"Schedule At\" class=\"form-control input-sm\">\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"sidebar-item-actions clearfix\" v-show=\"transferToAccount\">\n                        <a @click.stop=\"startFileTransfer()\">Start</a>\n                        <a @click.stop=\"scheduleTransfer()\" v-show=\"!state.fileStore.scheduling\" class=\"pull-right\">Schedule</a>\n                        <a @click.stop=\"state.fileStore.scheduling=false\" v-show=\"state.fileStore.scheduling\" class=\"cancel\">Cancel</a>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-show=\"fileToBeCopied || fileToBeMoved || fileToBeTransfered\">\n    <div class=\"sidebar-header animated slideInRight\">\n        Clipboard\n        <a @click.stop=\"clearClipboard()\">Clear</a>\n    </div>\n    <div v-show=\"fileToBeCopied\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeCopied.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeCopied.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-show=\"fileToBeMoved\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Title</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.title }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"!fileToBeMoved.isFolder\">\n                            <span class=\"item-detail-title\">Type</span>\n                            <span class=\"item-detail-value\">{{ fileToBeMoved.mimeType }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div v-show=\"fileToBeTransfered\">\n        <div class=\"sidebar-body\">\n            <div class=\"sidebar-items\">\n                <div class=\"sidebar-item\">\n                    <div class=\"sidebar-item-body has-details\">\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">File</span>\n                            <span class=\"item-detail-value\">{{ fileToBeTransfered.title }}</span>\n                        </div>\n                        <div class=\"item-detail\">\n                            <span class=\"item-detail-title\">Transfer From</span>\n                            <span class=\"item-detail-value\">{{ transferFromAccount.name }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"transferToAccount\">\n                            <span class=\"item-detail-title\">Transfer To</span>\n                            <span class=\"item-detail-value\">{{ transferToAccount.name }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"transferToLocation\">\n                            <span class=\"item-detail-title\">Location</span>\n                            <span class=\"item-detail-value\">{{ transferToLocation }}</span>\n                        </div>\n                        <div class=\"item-detail\" v-show=\"state.fileStore.scheduling\">\n                            <span class=\"item-detail-title\">Schedule At</span>\n                            <div class=\"form-group\">\n                                <!-- <div id=\"scheduled_at\"></div> -->\n                                <input type=\"text\" id=\"scheduled_at\" placeholder=\"Schedule At\" class=\"form-control input-sm\">\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"sidebar-item-actions clearfix\" v-show=\"transferToAccount\">\n                        <a @click.stop=\"startFileTransfer()\">Start</a>\n                        <a @click.stop=\"scheduleTransfer()\" v-show=\"!state.fileStore.scheduling\" class=\"pull-right\">Schedule</a>\n                        <a @click.stop=\"state.fileStore.scheduling=false\" v-show=\"state.fileStore.scheduling\" class=\"cancel\">Cancel</a>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -46373,7 +46386,7 @@ exports.default = {
         _nprogress2.default.start();
         var from_account = this.transferFromAccount.id;
         var url = "accounts/" + from_account + "/manager/schedule-transfer";
-        var data = { file: file, account: account };
+        var data = { file: file, account: account, scheduled_at: scheduled_at };
 
         if (location !== null) {
             data.location = location;
@@ -46381,27 +46394,23 @@ exports.default = {
 
         return _http2.default.post(url, data, function (response) {
             var data = response.data;
-            var file = data.data;
+            var message = data.data;
 
             //Reset fileToTransfer
             _this7.fileToTransfer = false;
-
-            //If the currentLocation is where the file was transfered
-            if (_this7.currentLocation === location) {
-                //If File List if empty, initialize it
-                if (!_this7.files) {
-                    _this7.files = [];
-                }
-
-                //Add File to the List
-                _this7.files.unshift(file);
-
-                //Select the File
-                _this7.selected = file;
-            }
+            //Reset transferToLocation
+            _this7.transferToLocation = false;
+            //Reset transferToAccount
+            _this7.transferToAccount = false;
+            //Reset transferFromAccount
+            _this7.transferFromAccount = false;
+            //Reset scheduling
+            _this7.scheduling = false;
+            //Reset scheduled_at
+            _this7.scheduled_at = '';
 
             if (successCb) {
-                successCb(file);
+                successCb(message);
             }
         }, function (response) {
             var error = response.data.message;

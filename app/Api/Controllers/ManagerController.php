@@ -3,6 +3,7 @@ namespace Pulse\Api\Controllers;
 
 use Auth;
 use Pulse\Models\Account;
+use Pulse\Models\Transfer;
 use Illuminate\Http\Request;
 use Pulse\Services\Manager\ManagerFactory;
 use Pulse\Bus\Commands\Manager\CopyCommand;
@@ -19,8 +20,9 @@ use Pulse\Bus\Commands\Manager\UploadFileCommand;
 use Pulse\Bus\Commands\Manager\GetFileInfoCommand;
 use Pulse\Bus\Commands\Manager\CreateFolderCommand;
 use Pulse\Bus\Commands\Manager\TransferFileCommand;
-use Pulse\Bus\Commands\Manager\GetDownloadLinkCommand;
 use Pulse\Bus\Commands\Manager\GetShareLinkCommand;
+use Pulse\Bus\Commands\Manager\GetDownloadLinkCommand;
+use Pulse\Bus\Commands\Manager\ScheduleTransferCommand;
 
 class ManagerController extends BaseController
 {
@@ -445,4 +447,51 @@ class ManagerController extends BaseController
         //Return Response
         return $this->response->item($transferedFile, new FileListTransformer);
     }
+
+    /**
+     * Scheule a File Transfer across Providers
+     * @param  Request $request
+     * @param  int  $account_id Account ID
+     * @return Response
+     */
+    public function scheduleTransfer(Request $request, $account_id)
+    {
+
+        if (!$request->has('file') || !$request->has('account') || !$request->has('scheduled_at')) {
+            return response()->json(['message' => "File, schedule time or account was not specified!"], 400);
+        }
+
+        //File
+        $file = $request->get('file');
+        //Scheduled At
+        $scheduled_at = $request->get('scheduled_at');
+        //New Account ID
+        $newAccountID = $request->get('account');
+
+        //Current User
+        $user = Auth::user();
+        //Account
+        $account = $user->accounts()->findOrFail($account_id);
+        //New Account
+        $newAccount = $user->accounts()->findOrFail($newAccountID);
+
+        //Schedule Transfer
+        $scheduleTransfer = dispatch(new ScheduleTransferCommand(
+            $user,
+            $account,
+            $newAccount,
+            $file,
+            $request->get('scheduled_at'),
+            $request->get('location')
+            ));
+
+        //Transfer not scheduled
+        if (!$scheduleTransfer) {
+            return response()->json(['message' => "Cannot schedule transfer!"], 400);
+        }
+
+        //Return Response
+        return response()->json(['message' => 'Transfer Scheduled!']);
+    }
+
 }

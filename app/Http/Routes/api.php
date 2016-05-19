@@ -90,6 +90,8 @@ $api->version('v1', function ($api) {
                 $api->post('upload ', ['as' => 'api.accounts.manager.upload', 'uses' => 'ManagerController@uploadFile']);
                 //Transfer File
                 $api->post('transfer ', ['as' => 'api.accounts.manager.transfer', 'uses' => 'ManagerController@transferFile']);
+                //Schedule Transfer File
+                $api->post('schedule-transfer ', ['as' => 'api.accounts.manager.schedule-transfer', 'uses' => 'ManagerController@scheduleTransfer']);
             });
         });
     });

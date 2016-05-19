@@ -15,7 +15,7 @@ class Transfer extends Model
      *
      * @var array
      */
-    protected $fillable = ['type', 'file_id', 'from_account_id', 'to_account_id', 'scheduled_at'];
+    protected $fillable = ['type', 'file_id', 'from_account_id', 'to_account_id', 'scheduled_at', 'location'];
 
     /**
      * The File being transferred

@@ -66,13 +66,14 @@
                             <div class="item-detail" v-show="state.fileStore.scheduling">
                                 <span class="item-detail-title">Schedule At</span>
                                 <div class="form-group">
-                                    <input type="time" placeholder="Schedule At" class="form-control input-sm" v-model="state.fileStore.scheduled_at">
+                                    <!-- <div id="scheduled_at"></div> -->
+                                    <input type="text" id="scheduled_at" placeholder="Schedule At" class="form-control input-sm">
                                 </div>
                             </div>
                         </div>
                         <div class="sidebar-item-actions clearfix" v-show="transferToAccount">
                             <a @click.stop="startFileTransfer()">Start</a>
-                            <a @click.stop="state.fileStore.scheduling=false" v-show="!state.fileStore.scheduling" class="pull-right">Schedule</a>
+                            <a @click.stop="scheduleTransfer()" v-show="!state.fileStore.scheduling" class="pull-right">Schedule</a>
                             <a @click.stop="state.fileStore.scheduling=false" v-show="state.fileStore.scheduling" class="cancel">Cancel</a>
                         </div>
                     </div>
@@ -86,6 +87,7 @@
 <script>
 
     import fileStore from '../../stores/file';
+    let picker = null;
 
     export default {
 
@@ -168,6 +170,14 @@
                 this.state.fileStore.transferToLocation = false;
             },
 
+            scheduleTransfer() {
+                this.state.fileStore.scheduling = true;
+                const min = moment().add(30, 'minutes').format('LLL');
+                const max = moment().add(30, 'days').format('LLL');
+                const element = document.getElementById('scheduled_at');
+                picker = rome(element, { min: min, max: max, inputFormat: "Do MMM, YYYY, hh:mm A" });
+            },
+
             /**
              * Start File Transfer
              */
@@ -179,7 +189,6 @@
                 //Get the File to Be Transfered
                 const file = this.fileToBeTransfered;
                 const location = this.transferToLocation;
-                const scheduled_at = this.state.fileStore.scheduled_at;
 
                 if(this.state.fileStore.scheduling) {
                     this.startScheduledTransfer();
@@ -189,19 +198,27 @@
                         (error) => {
                             this.state.sharedStore.errors.unshift(error);
                         }
-                    );
+                        );
                 }
             },
 
             startScheduledTransfer() {
-                swal({
-                    title: "Transfer Scheduled!",
-                    type: 'success',
-                    allowOutsideClick: true,
-                    text: 'The ' + '<b> ' + this.fileToBeTransfered.title + '</b> will be transfered to <b>' + this.transferToAccount.name + '</b> from <b>' + this.transferFromAccount.name + '</b> on <b>' + this.state.fileStore.scheduled_at + '</b>',
-                    timer: 5000,
-                    html: true
-                });
+                //Get the File to Be Transfered
+                const file = this.fileToBeTransfered;
+                const location = this.transferToLocation ? this.transferToLocation : null ;
+                const scheduled_at = picker.getDateString("YYYY-MM-DD HH:mm:ss");
+
+                fileStore.scheduleTransfer(
+                    this.transferToAccount.id, file.id, scheduled_at, location, () => {
+
+                        swal({
+                            title: "Transfer Scheduled!",
+                            type: 'success',
+                            allowOutsideClick: true,
+                            timer: 5000
+                        });
+
+                    });
             }
         }
 
