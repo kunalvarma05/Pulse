@@ -4,6 +4,9 @@
     background: $navbar-main-background;
     border-bottom: solid 1px $navbar-main-border-color;
     box-shadow: 0px 1px 2px lighten($navbar-main-border-color, 5%);
+    &.is-full {
+        left: 0;
+    }
 }
 
 .navbar-search-form {

@@ -50,6 +50,24 @@ export function configRouter(router) {
                 }
             }
         },
+        '/admin': {
+            name: 'admin',
+            auth: true,
+            component: require('./components/admin/index.vue'),
+
+            subRoutes: {
+                '/admin-stats' : {
+                    name: 'admin-stats',
+                    auth: true,
+                    component: require('./components/admin/stats.vue'),
+                },
+                '/users' : {
+                    name: 'manage-users',
+                    auth: true,
+                    component: require('./components/admin/users.vue'),
+                }
+            }
+        },
     });
 
     //BeforeEach Route Hook

@@ -33,6 +33,13 @@ $api->version('v1', function ($api) {
             $api->group(['middleware' => ['jwt.auth']], function ($api) {
                 //Initialize
                 $api->get('initialize', ['as' => 'api.users.initialize', 'middleware' => ['jwt.auth'], 'uses' => 'UsersController@initialize']);
+
+                //List
+                $api->get('list', ['as' => 'api.users.list', 'middleware' => ['jwt.auth'], 'uses' => 'UsersController@listUsers']);
+
+                //Stats
+                $api->get('stats', ['as' => 'api.users.stats', 'middleware' => ['jwt.auth'], 'uses' => 'UsersController@userStats']);
+
                 //Show User
                 $api->get('show/{id?}', ['as' => 'api.users.show', 'uses' => 'UsersController@show']);
 

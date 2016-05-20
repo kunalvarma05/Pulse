@@ -5,8 +5,7 @@
             {{currentUser.name}} <span class="caret"></span>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item">Profile</a>
-            <a class="dropdown-item">Settings</a>
+            <a class="dropdown-item" v-link="{ name: 'admin' }" v-show="currentUser.is_admin">Admin</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" @click="logout()">Log out</a>
         </div>
@@ -36,7 +35,7 @@
             /**
              * Log out
              */
-            logout() {
+             logout() {
                 //Logout
                 this.$dispatch('user:loggedout');
             }

@@ -24,6 +24,7 @@ class UserTransformer extends TransformerAbstract
             "id" => (int) $user->id,
             "name" => $user->name,
             "username" => $user->username,
+            "is_admin" => $user->is_admin,
             "picture" => is_null($user->picture) ? Helpers::defaultUserPicture() : $user->picture,
             "created_at" => $user->created_at ? $user->created_at->diffForHumans() : "",
             "updated_at" => $user->updated_at ? $user->updated_at->diffForHumans() : ""

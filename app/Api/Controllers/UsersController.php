@@ -23,6 +23,59 @@ class UsersController extends BaseController
         return $this->response->item($user, new UserTransformer);
     }
 
+    public function listUsers()
+    {
+        $users = User::where('is_admin', false)->orderBy('id', 'DESC')->get();
+
+        return $this->response->collection($users, new UserTransformer);
+    }
+
+    public function userStats()
+    {
+        //Carbon
+        $carbon = new \Carbon\Carbon;
+
+        //Including today, and the past 6 days
+        $range = $carbon->now()->subDays(6);
+
+        $dates = array();
+
+        for ($i=6;$i>=0;$i--) {
+            $day = $carbon->today()->subDays($i)->format("D");
+            $dates[$day] = 0;
+        }
+
+        $stats = \DB::table('users')
+        ->where('created_at', '>=', $range)
+        ->groupBy('date')
+        ->orderBy('date', 'ASC')
+        ->limit(7)
+        ->get(array(
+            \DB::raw('Date(created_at) as date'),
+            \DB::raw('COUNT(*) as value')
+            ));
+
+        $return = array();
+        $labels = array();
+        $counts = array();
+
+        foreach ($stats as $value) {
+            $day = $carbon->createFromFormat("Y-m-d", $value->date)->format('D');
+
+            $dates[$day] = $value->value;
+        }
+
+        foreach ($dates as $key => $value) {
+            $labels[] = $key;
+            $counts[] = $value;
+        }
+
+        $return['labels'] = $labels;
+        $return['counts'] = $counts;
+
+        return response()->json(['data' => $return]);
+    }
+
     /**
      * Show User
      * @param  Request $request
@@ -71,6 +124,6 @@ class UsersController extends BaseController
         dispatch(new DeleteUserCommand($user));
 
         //Response
-        return response()->json(['message' => "User Deleted"]);
+        return $this->response->item($user, new UserTransformer);
     }
 }

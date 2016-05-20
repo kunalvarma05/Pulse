@@ -10,7 +10,8 @@ export default {
      * @type {Object}
      */
     state: {
-        current: stub,
+        current: false,
+        users: []
     },
 
     /**
@@ -30,6 +31,25 @@ export default {
      */
     get current() {
         return this.state.current;
+    },
+
+    /**
+     * Set all Users
+     * @param  {Object} users Users
+     * @return {Object}      Users
+     */
+    set users(users) {
+        this.state.users = users;
+        return this.users;
+    },
+
+    /**
+     * Get all Users
+     *
+     * @return {Object} Logged in User
+     */
+    get users() {
+        return this.state.users;
     },
 
     /**
@@ -93,6 +113,48 @@ export default {
     },
 
     /**
+     * User List
+     *
+     * @param  {?Function}  successCb
+     * @param  {?Function}  errorCb
+     */
+     getUsers(successCb = null, errorCb = null) {
+        NProgress.start();
+
+        http.get('users/list', {}, response => {
+            const data = response.data;
+            const users = data.data;
+
+            this.state.users = users;
+
+            if (successCb) {
+                successCb(users);
+            }
+        }, errorCb);
+    },
+
+    /**
+     * Stats
+     *
+     * @param  {?Function}  successCb
+     * @param  {?Function}  errorCb
+     */
+     getStats(successCb = null, errorCb = null) {
+        NProgress.start();
+
+        http.get('users/stats', {}, response => {
+            const data = response.data;
+            const stats = data.data;
+
+            this.stats = stats;
+
+            if (successCb) {
+                successCb(stats);
+            }
+        }, errorCb);
+    },
+
+    /**
      * Show User Profile
      *
      * @param  {int}        id
@@ -105,6 +167,30 @@ export default {
         http.post('users/show/' + id, {}, () => {
             if (successCb) {
                 successCb();
+            }
+        }, errorCb);
+    },
+
+    /**
+     * Delete User
+     *
+     * @param  {int}        id
+     * @param  {?Function}  successCb
+     * @param  {?Function}  errorCb
+     */
+     delete(id = null, successCb = null, errorCb = null) {
+        NProgress.start();
+
+        http.delete('users/delete/' + id, {}, response => {
+            const data = response.data;
+            const deletedUser = data.data;
+
+            this.state.users = this.state.users.filter(function(user) {
+                return user.id !== deletedUser.id;
+            });
+
+            if (successCb) {
+                successCb(deletedUser);
             }
         }, errorCb);
     },
