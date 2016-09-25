@@ -7557,8 +7557,12 @@ body.stop-scrolling {
   display: block; }
 
 .splash-page {
-  background: #282c37;
+  background: #fff;
   min-height: 100%; }
+
+.splash-main {
+  height: 640px;
+  overflow: hidden; }
 
 .splash-header {
   padding-top: 20px; }
@@ -7575,20 +7579,21 @@ body.stop-scrolling {
   height: 40px; }
 
 .splash-content {
-  margin-top: 80px; }
+  margin-top: 80px;
+  position: relative; }
 
 .splash-intro {
   text-align: center; }
   .splash-intro .headline {
     font-size: 3rem;
-    color: #fbfbfc;
+    color: #535b72;
     font-weight: lighter; }
   .splash-intro .tagline {
     font-size: 1.4rem;
-    color: #858ea6; }
+    color: #a2a9bc; }
   .splash-intro .actions .btn {
     padding: 0.75rem 1.25rem;
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+    border: none;
     margin: 0 10px; }
   .splash-intro .actions .icon {
     margin-right: 5px;
@@ -7600,6 +7605,25 @@ body.stop-scrolling {
   .splash-hero img {
     display: block;
     margin: auto; }
+
+.splash-secondary {
+  background: #282c37;
+  padding: 50px 0;
+  text-align: center; }
+
+.punch-line {
+  font-size: 2.5em;
+  color: #687390;
+  font-weight: lighter;
+  margin-bottom: 20px; }
+
+.punch-btn {
+  padding: 12px 50px; }
+
+.provider-icon {
+  position: absolute;
+  height: 32px;
+  width: 32px; }
 
 .navbar-main {
   min-height: 55px;

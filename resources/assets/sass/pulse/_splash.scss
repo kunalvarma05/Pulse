@@ -1,7 +1,13 @@
 .splash-page {
-    background: $secondary;
+    background: #fff;
     min-height: 100%;
 }
+
+.splash-main {
+    height: 640px;
+    overflow: hidden;
+}
+
 .splash-header {
     padding-top: 20px;
 }
@@ -24,23 +30,24 @@
 
 .splash-content {
     margin-top: 80px;
+    position: relative;
 }
 
 .splash-intro {
     text-align: center;
     .headline {
         font-size: 3rem;
-        color: lighten($secondary, 80%);
+        color: lighten($secondary, 20%);
         font-weight: lighter;
     }
     .tagline {
         font-size: 1.4rem;
-        color: lighten($secondary, 40%);
+        color: lighten($secondary, 50%);
     }
     .actions {
         .btn {
             padding: $btn-padding-y-lg $btn-padding-x-lg;
-            box-shadow: 0px 2px 3px rgba(0,0,0,0.3);
+            border: none;
             margin: 0 10px;
         }
         .icon {
@@ -57,4 +64,27 @@
         display: block;
         margin: auto;
     }
+}
+
+.splash-secondary {
+    background: $secondary;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.punch-line {
+    font-size: 2.5em;
+    color: lighten($secondary, 30%);
+    font-weight: lighter;
+    margin-bottom: 20px;
+}
+
+.punch-btn {
+    padding: 12px 50px;
+}
+
+.provider-icon {
+    position: absolute;
+    height: 32px;
+    width: 32px;
 }
